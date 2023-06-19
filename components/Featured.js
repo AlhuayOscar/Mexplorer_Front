@@ -1,8 +1,8 @@
-import Center from "@/components/Center";
 import styled from "styled-components";
 import { useContext } from "react";
 import { CartContext } from "@/components/CartContext";
 import { Carousel } from "react-responsive-carousel";
+import Searchbar from "./Searchbar";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const videos = [
@@ -17,54 +17,39 @@ const videos = [
 const Bg = styled.div`
   background-color: #222;
   color: #fff;
+  position: relative;
 `;
-const Title = styled.h1`
-  margin: 0;
-  font-weight: normal;
-  font-size: 1.5rem;
-  @media screen and (min-width: 768px) {
-    font-size: 3rem;
-  }
-`;
-const Desc = styled.p`
-  color: #aaa;
-  font-size: 0.8rem;
-`;
-// const ColumnsWrapper = styled.div`
-//   display: grid;
-//   grid-template-columns: 1fr;
-//   gap: 40px;
-//   img {
-//     max-width: 100%;
-//     max-height: 200px;
-//     display: block;
-//     margin: 0 auto;
-//   }
-//   div:nth-child(1) {
-//     order: 2;
-//   }
-//   @media screen and (min-width: 768px) {
-//     grid-template-columns: 1.1fr 0.9fr;
-//     div:nth-child(1) {
-//       order: 0;
-//     }
-//     img {
-//       max-width: 100%;
-//     }
-//   }
-// `;
-const CarrouselWrapper = styled.h2`
+
+const Overlay = styled.div`
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 5%;
+  left: 2.5%;
+  width: 95%;
+  height: 90%;
   display: flex;
-  gap: 10px;
-  margin-top: 25px;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+`;
+
+const Title = styled.h1`
+  font-size: 48px;
+  margin-bottom: 22px;
+`;
+
+const Subtitle = styled.h2`
+  font-size: 18px;
+  margin-bottom: 22px;
 `;
 
 export default function Featured({ product }) {
   const { addProduct } = useContext(CartContext);
+
   function addFeaturedToCart() {
     addProduct(product._id);
   }
+
   return (
     <Bg>
       <Carousel infiniteLoop={true} autoPlay={true} showThumbs={false}>
@@ -77,6 +62,13 @@ export default function Featured({ product }) {
           </div>
         ))}
       </Carousel>
+      <Overlay>
+        <Title>Vive experiencias únicas en paisajes únicos</Title>
+        <Subtitle>
+          ¡El mejor lugar para disfrutar tus vacaciones en todo Cancún!
+        </Subtitle>
+        <Searchbar />
+      </Overlay>
     </Bg>
   );
 }
