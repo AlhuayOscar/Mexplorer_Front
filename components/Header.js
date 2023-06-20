@@ -22,7 +22,7 @@ const StyledImage = styled.img`
 const StyledIcon = styled.img`
   width: auto;
   height: 25px;
-  padding: 0px 5px;
+  padding: 0px 0px;
 
   @media screen and (max-width: 600px) {
     //deberia ser 768 el normal
@@ -117,11 +117,25 @@ export default function Header() {
               Sobre nosotros
             </NavLink>
           </StyledNav>
+          {/* Los iconos del nav: */}
+          <NavLink
+            href={
+              "https://www.tripadvisor.com.ar/Attraction_Review-g150801-d19928813-Reviews-Mexplorer_Adventures-Oaxaca_Southern_Mexico.html"
+            }
+            color="#00ABBD"
+          >
+            <StyledIcon src="/icons/trip.png" alt="Link a TripAdvisor" fill />
+          </NavLink>
+          <NavLink href={"https://www.instagram.com/nicolasgomezsb/"}>
+            <StyledIcon src="/icons/insta.png" alt="Link a Instagram" fill />
+          </NavLink>
+          <NavLink href={"https://www.facebook.com/mexplorerdmc"}>
+            <StyledIcon src="/icons/face.png" alt="Link a Facebook" fill />
+          </NavLink>
+          <NavLink href={"whatsapp://send?phone=+543487477269"}>
+            <StyledIcon src="/icons/what.png" alt="Link a México" fill />
+          </NavLink>
           <NavLink href={"/cart"} color="#fff">
-            <StyledIcon src="/icons/trip.png" alt="Logo de Facebook" fill />
-            <StyledIcon src="/icons/insta.png" alt="Logo de México" fill />
-            <StyledIcon src="/icons/face.png" alt="Logo de México" fill />
-            <StyledIcon src="/icons/what.png" alt="Logo de México" fill />
             <ShoppingCartIcon /> ({cartProducts.length})
           </NavLink>
           <NavButton onClick={() => setMobileNavActive((prev) => !prev)}>
