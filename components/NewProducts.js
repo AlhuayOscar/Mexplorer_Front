@@ -11,7 +11,11 @@ const Title = styled.h2`
 export default function NewProducts({products}) {
   return (
     <Center>
-      <Title>New Arrivals</Title>
+      <Title>Encuentra tu lugar en cancún</Title>
+      <ProductsGrid products={products} />
+      <Title>Crea recuerdos inolvidables</Title>
+      <ProductsGrid products={products} />
+      <Title>Toma un merecido descanso</Title>
       <ProductsGrid products={products} />
     </Center>
   );
