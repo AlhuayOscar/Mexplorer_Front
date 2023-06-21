@@ -1,5 +1,5 @@
 import {mongooseConnect} from "@/lib/mongoose";
-import {Product} from "@/models/Tour";
+import {Tour} from "@/models/Tour";
 import {Order} from "@/models/Order";
 const stripe = require('stripe')(process.env.STRIPE_SK);
 
@@ -11,24 +11,24 @@ export default async function handler(req,res) {
   const {
     name,email,city,
     postalCode,streetAddress,country,
-    cartProducts,
+    cartTours,
   } = req.body;
   await mongooseConnect();
-  const productsIds = cartProducts;
-  const uniqueIds = [...new Set(productsIds)];
-  const productsInfos = await Product.find({_id:uniqueIds});
+  const toursIds = cartTours;
+  const uniqueIds = [...new Set(toursIds)];
+  const toursInfos = await Tour.find({_id:uniqueIds});
 
   let line_items = [];
-  for (const productId of uniqueIds) {
-    const productInfo = productsInfos.find(p => p._id.toString() === productId);
-    const quantity = productsIds.filter(id => id === productId)?.length || 0;
-    if (quantity > 0 && productInfo) {
+  for (const tourId of uniqueIds) {
+    const tourInfo = toursInfos.find(p => p._id.toString() === tourId);
+    const quantity = toursIds.filter(id => id === tourId)?.length || 0;
+    if (quantity > 0 && tourInfo) {
       line_items.push({
         quantity,
         price_data: {
           currency: 'USD',
-          product_data: {name:productInfo.title},
-          unit_amount: quantity * productInfo.price * 100,
+          tour_data: {name:tourInfo.title},
+          unit_amount: quantity * tourInfo.price * 100,
         },
       });
     }
