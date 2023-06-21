@@ -2,7 +2,7 @@ import Header from "@/components/Header";
 import styled from "styled-components";
 import Center from "@/components/Center";
 import {mongooseConnect} from "@/lib/mongoose";
-import {Product} from "@/models/Product";
+import {Product} from "@/models/Tour";
 import ProductsGrid from "@/components/ProductsGrid";
 import Title from "@/components/Title";
 
