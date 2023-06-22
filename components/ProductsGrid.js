@@ -53,6 +53,7 @@ export default function ProductsGrid({ products }) {
     <StyledCarousel
       showThumbs={false}
       selectedItem={activeSlide}
+      showStatus={false} // Quita los números de navegacion
       onChange={handleSlideChange}
     >
       {renderProducts()}

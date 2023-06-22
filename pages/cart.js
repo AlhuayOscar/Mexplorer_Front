@@ -122,7 +122,7 @@ export default function CartPage() {
     const price = products.find((p) => p._id === productId)?.price || 0;
     total += price;
   }
-
+  total = total.toFixed(2); //Para redondear a 2 decimales
   if (isSuccess) {
     return (
       <>
