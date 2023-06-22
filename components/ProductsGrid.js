@@ -1,8 +1,15 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import ProductBox from "@/components/ProductBox";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+
+// Estilos globales para personalizar los botones redondos
+const CarouselGlobalStyles = createGlobalStyle`
+  .carousel .control-dots .dot {
+    background-color: ${(props) => props.theme.color} !important;
+  }
+`;
 
 const StyledCarousel = styled(Carousel)`
   .carousel .slide .legend {
@@ -50,13 +57,16 @@ export default function ProductsGrid({ products }) {
   };
 
   return (
-    <StyledCarousel
-      showThumbs={false}
-      selectedItem={activeSlide}
-      showStatus={false} // Quita los números de navegacion
-      onChange={handleSlideChange}
-    >
-      {renderProducts()}
-    </StyledCarousel>
+    <>
+      <CarouselGlobalStyles theme={{ color: "#EE2743" }} />
+      <StyledCarousel
+        showThumbs={false}
+        selectedItem={activeSlide}
+        showStatus={false} // Quita los números de navegacion
+        onChange={handleSlideChange}
+      >
+        {renderProducts()}
+      </StyledCarousel>
+    </>
   );
 }

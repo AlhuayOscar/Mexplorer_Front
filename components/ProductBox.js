@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { CartContext } from "@/components/CartContext";
 
 const ProductWrapper = styled.div`
-  border: 1px solid red;
+/* Por ahora no hay nada acá */
 `;
 
 const WhiteBox = styled(Link)`

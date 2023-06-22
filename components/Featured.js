@@ -53,6 +53,7 @@ export default function Featured({ product }) {
   return (
     <Bg>
       <Carousel
+        interval={2500}
         infiniteLoop={true}
         autoPlay={true}
         showThumbs={false}
