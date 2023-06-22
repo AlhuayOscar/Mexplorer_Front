@@ -52,7 +52,15 @@ export default function Featured({ product }) {
 
   return (
     <Bg>
-      <Carousel infiniteLoop={true} autoPlay={true} showThumbs={false}>
+      <Carousel
+        interval={2500}
+        infiniteLoop={true}
+        autoPlay={true}
+        showThumbs={false}
+        showStatus={false}
+        showArrows={false}
+        showIndicators={false}
+      >
         {videos.map((video) => (
           <div key={video.id}>
             <video autoPlay loop muted width="100%" height="100%">
