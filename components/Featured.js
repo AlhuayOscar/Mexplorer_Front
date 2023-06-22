@@ -59,6 +59,7 @@ export default function Featured({ product }) {
         showThumbs={false}
         showStatus={false}
         showArrows={false}
+        showIndicators={false}
       >
         {videos.map((video) => (
           <div key={video.id}>

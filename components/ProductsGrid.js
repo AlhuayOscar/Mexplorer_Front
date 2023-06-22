@@ -10,10 +10,24 @@ const CarouselGlobalStyles = createGlobalStyle`
     background-color: ${(props) => props.theme.color} !important;
   }
 `;
-
 const StyledCarousel = styled(Carousel)`
   .carousel .slide .legend {
     background: transparent;
+  }
+
+  .carousel .control-dots .dot {
+    background-color: ${(props) => props.theme.dotColor} !important;
+    box-shadow: none;
+    width: 16px;
+    height: 16px;
+    transition: 0.4s ease;
+  }
+
+  .carousel .control-dots .dot.selected {
+    background-color: ${(props) => props.theme.dotColor} !important;
+    box-shadow: none;
+    transform: scale(1.5);
+    transition: 0.4s ease;
   }
 `;
 
@@ -25,6 +39,7 @@ const StyledProductsGrid = styled.div`
   gap: 20px;
   opacity: ${(props) => (props.isActive ? "1" : "0.3")};
   filter: ${(props) => (props.isActive ? "none" : "blur(4px)")};
+  transition: 0.4s ease;
 `;
 
 const StyledProductBox = styled(ProductBox)`
