@@ -7,12 +7,16 @@ import { CartContext } from "@/components/CartContext";
 
 const ProductWrapper = styled(Link)`
 /* Por ahora no hay nada acá */
-  height: 28rem;
-  width: 23rem;
+  height: 25rem;
+  width: 20rem;
   border: 2px solid #47556955;
   box-shadow: 2px 2px 4px #47556955;
   text-decoration: none;
   color: #000;
+  @media screen and (min-width: 768px) {
+    height: 28rem;
+    width: 23rem;
+  }
 `;
 
 const WhiteBox = styled.div`
@@ -46,8 +50,8 @@ const Title = styled.div`
   background-color: #d4d4d4;
   left: 0;
   top: 2rem;
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: 300;
+  font-size: 1rem;
   color: #475569;
   text-decoration: none;
   margin: 0;
@@ -89,7 +93,7 @@ const TimeT = styled.div`
   font-size: 1rem;
   font-weight: 600;
   text-align: left;
-  /* @media screen and (min-width: 768px) {
+  padding: 5px 0;  /* @media screen and (min-width: 768px) {
     font-size: 1.2rem;
     font-weight: 600;
     text-align: left;
@@ -123,14 +127,13 @@ const Price = styled.div`
 `;
 
 const Description = styled.div`
-  font-size: 1rem;
-  font-weight: 400;
+  font-size: 0.8rem;
   text-align: left;
-  /* @media screen and (min-width: 768px) {
-    font-size: 0.6rem;
-    font-weight: 600;
-    text-align: left;
-  } */
+  height: 3.8rem;
+  @media screen and (min-width: 768px) {
+    font-size: 0.9rem;
+    height: 4.8rem;
+  }
 `;
 export default function ProductBox({ _id, title, description, price, images }) {
   const { addProduct } = useContext(CartContext);
@@ -145,7 +148,7 @@ export default function ProductBox({ _id, title, description, price, images }) {
       <ProductInfoBox>
         <TypeT>Todo en uno</TypeT>
         <TimeT>🕔 2 hrs</TimeT>
-        <Description>{description}</Description>
+        <Description>{description.length <= 200 ? description : description.substring(0, 200) + "..."}</Description>
         <Review>⭐⭐⭐⭐ <b>4</b> (30 opiniones)</Review>
         {/* <Price>${price}<Button block onClick={() => addProduct(_id)} primary outline>
           +

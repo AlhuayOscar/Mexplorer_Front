@@ -18,8 +18,8 @@ const StyledCarousel = styled(Carousel)`
   .carousel .control-dots .dot {
     background-color: ${(props) => props.theme.dotColor} !important;
     box-shadow: none;
-    width: 16px;
-    height: 16px;
+    width: 10px;
+    height: 10px;
     transition: 0.4s ease;
   }
 
@@ -35,15 +35,16 @@ const StyledProductsGrid = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 50px;
-  gap: 20px;
+  padding-bottom: 50px;
+  gap: 40px;
+  margin: 0;
   opacity: ${(props) => (props.isActive ? "1" : "0.3")};
   filter: ${(props) => (props.isActive ? "none" : "blur(4px)")};
   transition: 0.4s ease;
 `;
 
 const StyledProductBox = styled(ProductBox)`
-  flex: 1;
+  
 `;
 
 export default function ProductsGrid({ products }) {
@@ -105,6 +106,7 @@ export default function ProductsGrid({ products }) {
     <>
       <CarouselGlobalStyles theme={{ color: "#EE2743" }} />
       <StyledCarousel
+        showArrows={false}
         showThumbs={false}
         selectedItem={activeSlide}
         showStatus={false} // Quita los números de navegación

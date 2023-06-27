@@ -3,10 +3,14 @@ import Center from "@/components/Center";
 import ProductsGrid from "@/components/ProductsGrid";
 
 const Title = styled.h2`
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   margin: 30px 0 20px;
   font-weight: bold;
   text-align: center;
+  margin: 2rem 0;
+  @media screen and (min-width: 768px) {
+    font-size: 2.5rem;
+  }
 `;
 
 const RedTitle = styled(Title)`
