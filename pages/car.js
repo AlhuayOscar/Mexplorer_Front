@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Center from "@/components/Center";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Product } from "@/models/Product";
+// import { Car } from "@/models/Car"; Tenés que generar todo el background de este modelo
 import ProductsGrid from "@/components/ProductsGrid";
 import Title from "@/components/Title";
 
