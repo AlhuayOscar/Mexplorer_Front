@@ -6,14 +6,12 @@ import { Product } from "@/models/Product";
 import ProductsGrid from "@/components/ProductsGrid";
 import Title from "@/components/Title";
 
-
-
 export default function ProductsPage({ products }) {
   return (
     <>
       <Header />
       <Center>
-          <Title>Todos los tours</Title>
+        <Title>Autos de todos los modelos</Title>
         <ProductsGrid products={products} />
       </Center>
     </>
