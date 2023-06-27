@@ -70,6 +70,7 @@ const StyledNav = styled.nav`
 
 const NavLink = styled(Link)`
   background-color: #1a1a1a;
+  font-weight: 600;
   display: flex;
   color: ${(props) => props.color};
   text-decoration: none;
@@ -131,16 +132,16 @@ export default function Header() {
             <NavLink href={"/products"} color="#ED2286">
               Tours
             </NavLink>
-            <NavLink href={"/categories"} color="#EEB547">
+            <NavLink href={"/car"} color="#EEB547">
               Renta de Autos
             </NavLink>
-            <NavLink href={"/account"} color="#AC2484">
+            <NavLink href={"/"} color="#AC2484">
               Renta de Jetski
             </NavLink>
-            <NavLink href={"/account"} color="#84C441">
+            <NavLink href={"/"} color="#84C441">
               Promociones
             </NavLink>
-            <NavLink href={"/account"} color="#00ABBD">
+            <NavLink href={"/"} color="#00ABBD">
               Sobre nosotros
             </NavLink>
           </StyledNav>
