@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styled from "styled-components";
 import Center from "@/components/Center";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { CartContext } from "@/components/CartContext";
 import BarsIcon from "@/components/icons/Bars";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -9,8 +9,9 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 const StyledHeader = styled.header`
   background-color: #1a1a1a;
   position: relative;
-  z-index: 3; /* Ajusta el valor del z-index según sea necesario, en nuestro caso 3 porqué esta 1: Carrousel Video 2: Carrousel Buttons */
+  z-index: 3;
 `;
+
 const Logo = styled(Link)`
   color: #fff;
   text-decoration: none;
@@ -18,20 +19,22 @@ const Logo = styled(Link)`
   z-index: 3;
   ${(props) => props.hideLogo && `display: none;`}
 `;
+
 const StyledImage = styled.img`
   width: auto;
   height: 70px;
 `;
+
 const StyledIcon = styled.img`
   width: auto;
   height: 25px;
   padding: 0px 0px;
 
   @media screen and (max-width: 600px) {
-    //deberia ser 768 el normal
     display: none;
   }
 `;
+
 const Wrapper = styled.div`
   background-color: #1a1a1a;
   padding: 30px 0px;
@@ -39,6 +42,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
+
 const StyledNav = styled.nav`
   ${(props) =>
     props.mobileNavActive
@@ -56,13 +60,14 @@ const StyledNav = styled.nav`
   right: 0;
   padding: 100px 40px 20px;
   background-color: #1a1a1a;
+
   @media screen and (min-width: 980px) {
-    //deberia ser 768 el normal
     display: flex;
     position: static;
     padding: 0;
   }
 `;
+
 const NavLink = styled(Link)`
   background-color: #1a1a1a;
   display: flex;
@@ -71,10 +76,10 @@ const NavLink = styled(Link)`
   padding: 10px 0;
 
   @media screen and (min-width: 980px) {
-    //deberia ser 768 el normal
     padding: 0;
   }
 `;
+
 const NavButton = styled.button`
   background-color: transparent;
   width: 30px;
@@ -82,10 +87,10 @@ const NavButton = styled.button`
   border: 0;
   color: white;
   cursor: pointer;
-  position: fixed;
+  position: ${(props) => (props.isFixed ? "fixed" : "static")};
   z-index: 3;
-  top: 20px; /* Ajusta el valor según el diseño deseado */
-  right: 20px; /* Ajusta el valor según el diseño deseado */
+  top: 20px;
+  right: 20px;
 
   @media screen and (min-width: 980px) {
     display: none;
@@ -95,6 +100,23 @@ const NavButton = styled.button`
 export default function Header() {
   const { cartProducts } = useContext(CartContext);
   const [mobileNavActive, setMobileNavActive] = useState(false);
+  const [isNavButtonFixed, setIsNavButtonFixed] = useState(false);
+
+  const handleNavButtonClick = () => {
+    setMobileNavActive((prev) => !prev);
+    setIsNavButtonFixed(false);
+  };
+
+  const handleNavMenuClose = () => {
+    setMobileNavActive(false);
+    setIsNavButtonFixed(false);
+  };
+
+  useEffect(() => {
+    // Cierra el menú de navegación cuando se cambia de página
+    handleNavMenuClose();
+  }, []);
+
   return (
     <StyledHeader>
       <Center>
@@ -122,7 +144,6 @@ export default function Header() {
               Sobre nosotros
             </NavLink>
           </StyledNav>
-          {/* Los iconos del nav: */}
           <NavLink
             href={
               "https://www.tripadvisor.com.ar/Attraction_Review-g150801-d19928813-Reviews-Mexplorer_Adventures-Oaxaca_Southern_Mexico.html"
@@ -143,11 +164,12 @@ export default function Header() {
           <NavLink href={"/cart"} color="#fff">
             <ShoppingCartIcon /> ({cartProducts.length})
           </NavLink>
-          <NavButton onClick={() => setMobileNavActive((prev) => !prev)}>
+          <NavButton onClick={handleNavButtonClick} isFixed={isNavButtonFixed}>
             <BarsIcon />
           </NavButton>
         </Wrapper>
       </Center>
+      {mobileNavActive && <div onClick={handleNavMenuClose}></div>}
     </StyledHeader>
   );
 }
