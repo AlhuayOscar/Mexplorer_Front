@@ -10,6 +10,10 @@ const StyledFooter = styled.footer`
 const FooterContent = styled.div`
   display: flex;
   align-items: center;
+
+  @media (max-width: 968px) {
+    flex-direction: column;
+  }
 `;
 
 const FooterDescription = styled.div`
@@ -23,7 +27,11 @@ const Logo = styled.a`
 
 const StyledImage = styled.img`
   width: auto;
-  height: 370px;
+  max-height: 370px;
+  max-width: 100%;
+  @media (max-width: 968px) {
+    max-height: 200px;
+  }
 `;
 
 const FooterText = styled.div`

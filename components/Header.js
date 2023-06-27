@@ -132,7 +132,7 @@ export default function Header() {
           <NavLink href={"https://www.facebook.com/mexplorerdmc"}>
             <StyledIcon src="/icons/face.png" alt="Link a Facebook" fill />
           </NavLink>
-          <NavLink href={"whatsapp://send?phone=+543487477269"}>
+          <NavLink href={"whatsapp://send?phone=+54 9 379 466-3468"}>
             <StyledIcon src="/icons/what.png" alt="Link a México" fill />
           </NavLink>
           <NavLink href={"/cart"} color="#fff">

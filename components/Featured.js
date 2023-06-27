@@ -34,13 +34,35 @@ const Overlay = styled.div`
 `;
 
 const Title = styled.h1`
+  padding-inline: 20px;
+  text-align: center;
   font-size: 48px;
   margin-bottom: 22px;
+
+  @media screen and (max-width: 768px) {
+    font-size: 36px;
+  }
+  @media screen and (max-width: 528px) {
+    font-size: 24px;
+  }
+  @media screen and (max-width: 390px) {
+    font-size: 16px;
+  }
 `;
 
 const Subtitle = styled.h2`
   font-size: 18px;
   margin-bottom: 22px;
+
+  @media screen and (max-width: 768px) {
+    font-size: 16px;
+  }
+  @media screen and (max-width: 528px) {
+    font-size: 12px;
+  }
+  @media screen and (max-width: 390px) {
+    font-size: 10px;
+  }
 `;
 
 export default function Featured({ product }) {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import ProductBox from "@/components/ProductBox";
 import { Carousel } from "react-responsive-carousel";
@@ -48,19 +48,49 @@ const StyledProductBox = styled(ProductBox)`
 
 export default function ProductsGrid({ products }) {
   const [activeSlide, setActiveSlide] = useState(0);
+  const [windowWidth, setWindowWidth] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    // Verificar si window está definido antes de suscribirse al evento resize
+    if (typeof window !== "undefined") {
+      setWindowWidth(window.innerWidth);
+      window.addEventListener("resize", handleResize);
+    }
+
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("resize", handleResize);
+      }
+    };
+  }, []);
 
   const handleSlideChange = (index) => {
     setActiveSlide(index);
   };
 
+  const getNumberOfItemsToShow = () => {
+    if (windowWidth >= 1000) {
+      return 3;
+    } else if (windowWidth >= 786) {
+      return 2;
+    } else {
+      return 1;
+    }
+  };
+
   const renderProducts = () => {
     const slides = [];
 
-    for (let i = 0; i < products.length; i += 3) {
-      const chunk = products.slice(i, i + 3);
+    const itemsToShow = getNumberOfItemsToShow();
+    for (let i = 0; i < products.length; i += itemsToShow) {
+      const chunk = products.slice(i, i + itemsToShow);
 
       slides.push(
-        <StyledProductsGrid key={i} isActive={i / 3 === activeSlide}>
+        <StyledProductsGrid key={i} isActive={i / itemsToShow === activeSlide}>
           {chunk.map((product) => (
             <StyledProductBox key={product._id} {...product} />
           ))}
@@ -77,7 +107,7 @@ export default function ProductsGrid({ products }) {
       <StyledCarousel
         showThumbs={false}
         selectedItem={activeSlide}
-        showStatus={false} // Quita los números de navegacion
+        showStatus={false} // Quita los números de navegación
         onChange={handleSlideChange}
       >
         {renderProducts()}
