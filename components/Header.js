@@ -8,12 +8,15 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const StyledHeader = styled.header`
   background-color: #1a1a1a;
+  position: relative;
+  z-index: 3; /* Ajusta el valor del z-index según sea necesario, en nuestro caso 3 porqué esta 1: Carrousel Video 2: Carrousel Buttons */
 `;
 const Logo = styled(Link)`
   color: #fff;
   text-decoration: none;
   position: relative;
   z-index: 3;
+  ${(props) => props.hideLogo && `display: none;`}
 `;
 const StyledImage = styled.img`
   width: auto;
@@ -79,10 +82,12 @@ const NavButton = styled.button`
   border: 0;
   color: white;
   cursor: pointer;
-  position: relative;
+  position: fixed;
   z-index: 3;
+  top: 20px; /* Ajusta el valor según el diseño deseado */
+  right: 20px; /* Ajusta el valor según el diseño deseado */
+
   @media screen and (min-width: 980px) {
-    //deberia ser 768 el normal
     display: none;
   }
 `;
@@ -94,7 +99,7 @@ export default function Header() {
     <StyledHeader>
       <Center>
         <Wrapper>
-          <Logo href={"/"}>
+          <Logo href={"/"} hideLogo={mobileNavActive}>
             <StyledImage src="/mex_logo.png" alt="Logo de México" fill />
           </Logo>
           <StyledNav mobileNavActive={mobileNavActive}>
