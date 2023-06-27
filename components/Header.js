@@ -87,7 +87,7 @@ const NavButton = styled.button`
   border: 0;
   color: white;
   cursor: pointer;
-  position: ${(props) => (props.isFixed ? "fixed" : "static")};
+  position: ${(props) => (props.isFixed ? "sticky" : "static")};
   z-index: 3;
   top: 20px;
   right: 20px;
