@@ -2,6 +2,7 @@ import Center from "@/components/Center";
 import Header from "@/components/Header";
 import Input from "@/components/Input";
 import ProductsGrid from "@/components/ProductsGrid";
+import SearchProducts from "@/components/SearchProducts";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Product } from "@/models/Product";
 import { useRouter } from "next/router";
@@ -38,7 +39,7 @@ const ResultSearch = ({ products, name }) => {
                     onChange={ev => setPhrase(ev.target.value)}
                     type="text"
                     placeholder="Lugares para visitar..." />
-                <ProductsGrid products={products} />
+                <SearchProducts products={products} />
             </Center>
         </>
     );
