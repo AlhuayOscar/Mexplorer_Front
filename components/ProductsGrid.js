@@ -106,6 +106,7 @@ export default function ProductsGrid({ products }) {
     <>
       <CarouselGlobalStyles theme={{ color: "#EE2743" }} />
       <StyledCarousel
+        infiniteLoop={true}
         showArrows={false}
         showThumbs={false}
         selectedItem={activeSlide}

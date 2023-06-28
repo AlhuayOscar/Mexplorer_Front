@@ -9,13 +9,14 @@ const ProductWrapper = styled(Link)`
 /* Por ahora no hay nada acá */
   height: 25rem;
   width: 20rem;
-  border: 2px solid #47556955;
+  /* border: 2px solid #47556955; */
   box-shadow: 2px 2px 4px #47556955;
   text-decoration: none;
   color: #000;
   @media screen and (min-width: 768px) {
     height: 28rem;
     width: 23rem;
+    box-shadow: 2px 2px 4px #47556966;
   }
 `;
 
@@ -58,8 +59,8 @@ const Title = styled.div`
   position: absolute;
 `;
 
-const Promo = styled.div`
-  background-color: #dc2626;
+const PromoTitle = styled.div`
+  background-color: #ee2743;
   padding: 0.2rem 5rem;
   color: #1f2937;
   text-decoration: none;
@@ -114,17 +115,25 @@ const Review = styled.div`
 `;
 
 const Price = styled.div`
-  display: flex;
-  flex-direction: row;
-  font-size: 1rem;
-  font-weight: 400;
+  display: inline;
+  font-size: 1.2rem;
+  font-weight: 600;
   text-align: right;
   @media screen and (min-width: 768px) {
     font-size: 1.2rem;
     font-weight: 600;
-    text-align: left;
   }
 `;
+
+const Promo = styled.s`
+  color: #ee2743;
+  display: inline-block;
+  font-size: 1.2rem;
+  font-weight: 600;
+  @media screen and (min-width: 768px) {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }`;
 
 const Description = styled.div`
   font-size: 0.8rem;
@@ -143,16 +152,20 @@ export default function ProductBox({ _id, title, description, price, images }) {
       <WhiteBox>
         <img src={images?.[0]} alt="" />
         <Title>{title}</Title>
-        <Promo>¡Promo Exclusiva!</Promo>
+        <PromoTitle>¡Promo Exclusiva!</PromoTitle>
       </WhiteBox>
       <ProductInfoBox>
         <TypeT>Todo en uno</TypeT>
         <TimeT>🕔 2 hrs</TimeT>
-        <Description>{description.length <= 200 ? description : description.substring(0, 200) + "..."}</Description>
+        <Description>{description.length <= 190 ? description : description.substring(0, 190) + "..."}</Description>
         <Review>⭐⭐⭐⭐ <b>4</b> (30 opiniones)</Review>
-        {/* <Price>${price}<Button block onClick={() => addProduct(_id)} primary outline>
+        <div>
+          <Promo>$35</Promo>
+          <Price>${price}</Price>
+        </div>
+        <Button block onClick={() => addProduct(_id)} primary outline>
           +
-        </Button></Price> */}
+        </Button>
       </ProductInfoBox>
     </ProductWrapper>
   );
