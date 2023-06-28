@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { CartContext } from "@/components/CartContext";
 import { Carousel } from "react-responsive-carousel";
-import Searchbar from "./Searchbar";
+import Searchbar from "../pages/Searchbar";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const videos = [
@@ -66,6 +66,8 @@ const Subtitle = styled.h2`
 `;
 
 export default function Featured({ product }) {
+  const [searchValue, setSearchValue] = useState("");
+
   const { addProduct } = useContext(CartContext);
 
   function addFeaturedToCart() {
@@ -97,7 +99,7 @@ export default function Featured({ product }) {
         <Subtitle>
           ¡El mejor lugar para disfrutar tus vacaciones en todo Cancún!
         </Subtitle>
-        <Searchbar />
+        <Searchbar value={searchValue} setPhrase={setSearchValue} />
       </Overlay>
     </Bg>
   );
