@@ -17,8 +17,6 @@ export function CartContextProvider({ children }) {
       1
 
     }
-
-
   }, []);
   function addProduct(productId) {
     setCartProducts((prev) => [...prev, productId]);

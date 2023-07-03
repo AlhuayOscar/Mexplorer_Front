@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { CartContext } from "@/components/CartContext";
 import { Carousel } from "react-responsive-carousel";
-import Searchbar from "./Searchbar";
+import Searchbar from "../pages/Searchbar";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const videos = [
@@ -34,16 +34,40 @@ const Overlay = styled.div`
 `;
 
 const Title = styled.h1`
+  padding-inline: 20px;
+  text-align: center;
   font-size: 48px;
   margin-bottom: 22px;
+
+  @media screen and (max-width: 768px) {
+    font-size: 36px;
+  }
+  @media screen and (max-width: 528px) {
+    font-size: 24px;
+  }
+  @media screen and (max-width: 390px) {
+    font-size: 16px;
+  }
 `;
 
 const Subtitle = styled.h2`
   font-size: 18px;
   margin-bottom: 22px;
+
+  @media screen and (max-width: 768px) {
+    font-size: 16px;
+  }
+  @media screen and (max-width: 528px) {
+    font-size: 12px;
+  }
+  @media screen and (max-width: 390px) {
+    font-size: 10px;
+  }
 `;
 
 export default function Featured({ product }) {
+  const [searchValue, setSearchValue] = useState("");
+
   const { addProduct } = useContext(CartContext);
 
   function addFeaturedToCart() {
@@ -52,7 +76,15 @@ export default function Featured({ product }) {
 
   return (
     <Bg>
-      <Carousel infiniteLoop={true} autoPlay={true} showThumbs={false}>
+      <Carousel
+        interval={2500}
+        infiniteLoop={true}
+        autoPlay={true}
+        showThumbs={false}
+        showStatus={false}
+        showArrows={false}
+        showIndicators={false}
+      >
         {videos.map((video) => (
           <div key={video.id}>
             <video autoPlay loop muted width="100%" height="100%">
@@ -67,7 +99,7 @@ export default function Featured({ product }) {
         <Subtitle>
           ¡El mejor lugar para disfrutar tus vacaciones en todo Cancún!
         </Subtitle>
-        <Searchbar />
+        <Searchbar value={searchValue} setPhrase={setSearchValue} />
       </Overlay>
     </Bg>
   );
