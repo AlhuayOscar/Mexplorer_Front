@@ -1,7 +1,7 @@
 import Center from "@/components/Center";
 import Header from "@/components/Header";
 import Input from "@/components/Input";
-import ToursGrid from "@/components/ToursGrid";
+import PaginationControls from "@/components/Pagination";
 import SearchTours from "@/components/SearchTours";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Tour } from "@/models/Tour";
@@ -18,16 +18,30 @@ const SearchInput = styled(Input)`
 `;
 
 
-const ResultSearch = ({ tours, name }) => {
+const ResultSearch = ({ tours, name, totalPages }) => {
     const router = useRouter();
     const [phrase, setPhrase] = useState(name);
+    const [currentPage, setCurrentPage] = useState(1);
+
+
+    const handlePreviousPage = () => {
+        setCurrentPage((prevPage) => prevPage - 1);
+    };
+
+    const handleNextPage = () => {
+        setCurrentPage((prevPage) => prevPage + 1);
+    };
 
     useEffect(() => {
         router.push({
-            pathname: '/search/',
-            query: { name: phrase },
+            pathname: "/search/",
+            query: { name: phrase, page: currentPage },
         });
-    }, [phrase]);
+    }, [phrase, currentPage]);
+
+    useEffect(() => {
+        setCurrentPage(1); // página 1 al cambiar el nombre de búsqueda
+    }, [name]);
 
     return (
         <>
@@ -40,6 +54,14 @@ const ResultSearch = ({ tours, name }) => {
                     type="text"
                     placeholder="Lugares para visitar..." />
                 <SearchTours tours={tours} />
+                <PaginationControls
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPreviousPage={handlePreviousPage}
+                    onNextPage={handleNextPage}
+                    disablePreviousPage={currentPage === 1} // Desactiva el botón de página anterior cuando currentPage sea 1
+                    disableNextPage={currentPage === totalPages || totalPages === 0} // Desactivar el botón de página siguiente cuando currentPage sea igual a totalPages o totalPages sea 0
+                />
             </Center>
         </>
     );
@@ -48,7 +70,7 @@ const ResultSearch = ({ tours, name }) => {
 
 export async function getServerSideProps(context) {
     await mongooseConnect();
-    const { name, categories, sort, ...filters } = context.query;
+    const { name, categories, sort, page, pageSize, ...filters } = context.query;
     let [sortField, sortOrder] = (sort || '_id-desc').split('-');
 
     const toursQuery = {};
@@ -66,16 +88,27 @@ export async function getServerSideProps(context) {
             toursQuery['properties.' + filterName] = filters[filterName];
         });
     }
-    const results = await Tour.find(toursQuery,
-        null,
-        {
-            sort: { [sortField]: sortOrder === 'asc' ? 1 : -1 }
-        });
+    const limit = 3; // Establece el límite a 3 productos por página
+    const skip = (Number(page) - 1) * limit;
+    const resultsQuery = Tour.find(toursQuery, null, {
+        sort: { [sortField]: sortOrder === "asc" ? 1 : -1 },
+        skip,
+        limit,
+    });
+
+    const results = await resultsQuery.exec();
+
+    // Obtener el recuento total de paginas
+    const totalCount = await Tour.countDocuments(toursQuery);
+
+    const totalPages = Math.ceil(totalCount / limit); // Calcular el número total de páginas.
+
     return {
         props: {
             tours: JSON.parse(JSON.stringify(results)),
             name: name,
-        }
-    }
+            totalPages: totalPages, // Pasa el valor totalPages al componente
+        },
+    };
 }
 export default ResultSearch;
