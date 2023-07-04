@@ -31,7 +31,7 @@ const BigImageWrapper = styled.div`
   text-align: center;
 `;
 
-export default function ProductImages({images}) {
+export default function TourImages({images}) {
   const [activeImage,setActiveImage] = useState(images?.[0]);
   return (
     <>
