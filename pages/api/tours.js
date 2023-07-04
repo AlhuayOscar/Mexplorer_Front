@@ -1,29 +1,29 @@
 import { mongooseConnect } from "@/lib/mongoose";
-import { Product } from "@/models/Product";
+import { Tour } from "@/models/Tour";
 
 export default async function handle(req, res) {
     await mongooseConnect();
     const { categories, sort, phrase, ...filters } = req.query;
     let [sortField, sortOrder] = (sort || '_id-desc').split('-');
 
-    const productsQuery = {};
+    const toursQuery = {};
     if (categories) {
-        productsQuery.category = categories.split(',');
+        toursQuery.category = categories.split(',');
     }
     if (phrase) {
-        productsQuery['$or'] = [
+        toursQuery['$or'] = [
             { title: { $regex: phrase, $options: 'i' } },
             { description: { $regex: phrase, $options: 'i' } },
         ];
     }
     if (Object.keys(filters).length > 0) {
         Object.keys(filters).forEach(filterName => {
-            productsQuery['properties.' + filterName] = filters[filterName];
+            toursQuery['properties.' + filterName] = filters[filterName];
         });
     }
-    console.log(productsQuery);
-    res.json(await Product.find(
-        productsQuery,
+    console.log(toursQuery);
+    res.json(await Tour.find(
+        toursQuery,
         null,
         {
             sort: { [sortField]: sortOrder === 'asc' ? 1 : -1 }

@@ -99,7 +99,7 @@ const NavButton = styled.button`
 `;
 
 export default function Header() {
-  const { cartProducts } = useContext(CartContext);
+  const { cartTours } = useContext(CartContext);
   const [mobileNavActive, setMobileNavActive] = useState(false);
   const [isNavButtonFixed, setIsNavButtonFixed] = useState(false);
 
@@ -129,7 +129,7 @@ export default function Header() {
             <NavLink href={"/"} color="#00ABBD">
               Blog
             </NavLink>
-            <NavLink href={"/products"} color="#ED2286">
+            <NavLink href={"/tours"} color="#ED2286">
               Tours
             </NavLink>
             <NavLink href={"/car"} color="#EEB547">
@@ -163,7 +163,7 @@ export default function Header() {
             <StyledIcon src="/icons/what.png" alt="Link a México" fill />
           </NavLink>
           <NavLink href={"/cart"} color="#fff">
-            <ShoppingCartIcon /> ({cartProducts.length})
+            <ShoppingCartIcon /> ({cartTours.length})
           </NavLink>
           <NavButton onClick={handleNavButtonClick} isFixed={isNavButtonFixed}>
             <BarsIcon />

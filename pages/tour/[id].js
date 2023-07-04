@@ -2,10 +2,10 @@ import Center from "@/components/Center";
 import Header from "@/components/Header";
 import Title from "@/components/Title";
 import { mongooseConnect } from "@/lib/mongoose";
-import { Product } from "@/models/Product";
+import { Tour } from "@/models/Tour";
 import styled from "styled-components";
 import WhiteBox from "@/components/WhiteBox";
-import ProductImages from "@/components/ProductImages";
+import TourImages from "@/components/TourImages";
 import Button from "@/components/Button";
 import CartIcon from "@/components/icons/CartIcon";
 import { useContext } from "react";
@@ -30,25 +30,25 @@ const Price = styled.span`
   font-size: 1.4rem;
 `;
 
-export default function ProductPage({product}) {
-  const {addProduct} = useContext(CartContext);
+export default function TourPage({tour}) {
+  const {addTour} = useContext(CartContext);
   return (
     <>
       <Header />
       <Center>
         <ColWrapper>
           <WhiteBox>
-            <ProductImages images={product.images} />
+            <TourImages images={tour.images} />
           </WhiteBox>
           <div>
-            <Title>{product.title}</Title>
-            <p>{product.description}</p>
+            <Title>{tour.title}</Title>
+            <p>{tour.description}</p>
             <PriceRow>
               <div>
-                <Price>${product.price}</Price>
+                <Price>${tour.price}</Price>
               </div>
               <div>
-                <Button primary onClick={() => addProduct(product._id)}>
+                <Button primary onClick={() => addTour(tour._id)}>
                   <CartIcon />Añadir al carrito
                 </Button>
               </div>
@@ -63,10 +63,10 @@ export default function ProductPage({product}) {
 export async function getServerSideProps(context) {
   await mongooseConnect();
   const {id} = context.query;
-  const product = await Product.findById(id);
+  const tour = await Tour.findById(id);
   return {
     props: {
-      product: JSON.parse(JSON.stringify(product)),
+      tour: JSON.parse(JSON.stringify(tour)),
     }
   }
 }

@@ -1,10 +1,10 @@
 import Center from "@/components/Center";
 import Header from "@/components/Header";
 import Input from "@/components/Input";
-import ProductsGrid from "@/components/ProductsGrid";
-import SearchProducts from "@/components/SearchProducts";
+import ToursGrid from "@/components/ToursGrid";
+import SearchTours from "@/components/SearchTours";
 import { mongooseConnect } from "@/lib/mongoose";
-import { Product } from "@/models/Product";
+import { Tour } from "@/models/Tour";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -18,7 +18,7 @@ const SearchInput = styled(Input)`
 `;
 
 
-const ResultSearch = ({ products, name }) => {
+const ResultSearch = ({ tours, name }) => {
     const router = useRouter();
     const [phrase, setPhrase] = useState(name);
 
@@ -39,7 +39,7 @@ const ResultSearch = ({ products, name }) => {
                     onChange={ev => setPhrase(ev.target.value)}
                     type="text"
                     placeholder="Lugares para visitar..." />
-                <SearchProducts products={products} />
+                <SearchTours tours={tours} />
             </Center>
         </>
     );
@@ -51,29 +51,29 @@ export async function getServerSideProps(context) {
     const { name, categories, sort, ...filters } = context.query;
     let [sortField, sortOrder] = (sort || '_id-desc').split('-');
 
-    const productsQuery = {};
+    const toursQuery = {};
     if (categories) {
-        productsQuery.category = categories.split(',');
+        toursQuery.category = categories.split(',');
     }
     if (name) {
-        productsQuery['$or'] = [
+        toursQuery['$or'] = [
             { title: { $regex: name, $options: 'i' } },
             { description: { $regex: name, $options: 'i' } },
         ];
     }
     if (Object.keys(filters).length > 0) {
         Object.keys(filters).forEach(filterName => {
-            productsQuery['properties.' + filterName] = filters[filterName];
+            toursQuery['properties.' + filterName] = filters[filterName];
         });
     }
-    const results = await Product.find(productsQuery,
+    const results = await Tour.find(toursQuery,
         null,
         {
             sort: { [sortField]: sortOrder === 'asc' ? 1 : -1 }
         });
     return {
         props: {
-            products: JSON.parse(JSON.stringify(results)),
+            tours: JSON.parse(JSON.stringify(results)),
             name: name,
         }
     }
