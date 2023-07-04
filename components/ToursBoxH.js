@@ -162,4 +162,4 @@ function TourBoxH({ _id, name, description, price, images }) {
   )
 }
 
-export default TourBoxH
+export default TourBoxH;
