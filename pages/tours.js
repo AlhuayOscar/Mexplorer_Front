@@ -3,8 +3,8 @@ import styled from "styled-components";
 import Center from "@/components/Center";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Tour } from "@/models/Tour";
-import ToursGrid from "@/components/ToursGrid";
 import Title from "@/components/Title";
+import ProductBoxH from "@/components/ToursBoxH";
 
 
 
@@ -14,7 +14,9 @@ export default function ToursPage({ tours }) {
       <Header />
       <Center>
           <Title>Todos los tours</Title>
-        <ToursGrid tours={tours} />
+        {tours?.map( product => (
+            <ProductBoxH key={product._id} {...product}/>
+        ))}
       </Center>
     </>
   );
