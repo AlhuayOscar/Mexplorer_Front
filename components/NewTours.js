@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Center from "@/components/Center";
-import ProductsGrid from "@/components/ProductsGrid";
+import ToursGrid from "@/components/ToursGrid";
 
 const Title = styled.h2`
   font-size: 1.5rem;
@@ -25,15 +25,15 @@ const YellowTitle = styled(Title)`
   color: #eeb547;
 `;
 
-export default function NewProducts({ products }) {
+export default function NewTours({ tours }) {
   return (
     <Center>
       <RedTitle>Encuentra tu lugar en cancún</RedTitle>
-      <ProductsGrid products={products} />
+      <ToursGrid tours={tours} />
       <PurpleTitle>Crea recuerdos inolvidables</PurpleTitle>
-      <ProductsGrid products={products} />
+      <ToursGrid tours={tours} />
       <YellowTitle>Toma un merecido descanso</YellowTitle>
-      <ProductsGrid products={products} />
+      <ToursGrid tours={tours} />
     </Center>
   );
 }

@@ -1,33 +1,33 @@
 import Header from "@/components/Header";
 import Featured from "@/components/Featured";
-import { Product } from "@/models/Product";
+import { Tour } from "@/models/Tour";
 import { mongooseConnect } from "@/lib/mongoose";
-import NewProducts from "@/components/NewProducts";
+import NewTours from "@/components/NewTours";
 import Footer from "@/components/Footer";
 
-export default function HomePage({ featuredProduct, newProducts }) {
+export default function HomePage({ featuredTour, newTours }) {
   return (
     <div>
       <Header />
-      <Featured product={featuredProduct} />
-      <NewProducts products={newProducts} />
+      <Featured tour={featuredTour} />
+      <NewTours tours={newTours} />
       <Footer />
     </div>
   );
 }
 
 export async function getServerSideProps() {
-  const featuredProductId = "640de2b12aa291ebdf213d48";
+  const featuredTourId = "640de2b12aa291ebdf213d48";
   await mongooseConnect();
-  const featuredProduct = await Product.findById(featuredProductId);
-  const newProducts = await Product.find({}, null, {
+  const featuredTour = await Tour.findById(featuredTourId);
+  const newTours = await Tour.find({}, null, {
     sort: { _id: -1 },
     limit: 10,
   });
   return {
     props: {
-      featuredProduct: JSON.parse(JSON.stringify(featuredProduct)),
-      newProducts: JSON.parse(JSON.stringify(newProducts)),
+      featuredTour: JSON.parse(JSON.stringify(featuredTour)),
+      newTours: JSON.parse(JSON.stringify(newTours)),
     },
   };
 }

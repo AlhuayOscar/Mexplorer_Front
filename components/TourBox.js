@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useContext } from "react";
 import { CartContext } from "@/components/CartContext";
 
-const ProductWrapper = styled(Link)`
+const TourWrapper = styled(Link)`
 /* Por ahora no hay nada acá */
   height: 22rem;
   width: 21rem;
@@ -63,7 +63,7 @@ const PromoTitle = styled.div`
   transform: rotate(40deg);
 `;
 
-const ProductInfoBox = styled.div`
+const TourInfoBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -141,17 +141,17 @@ const Description = styled.div`
     height: 2.5rem;
   }
 `;
-export default function ProductBox({ _id, title, description, price, images }) {
-  const { addProduct } = useContext(CartContext);
-  const url = "/product/" + _id;
+export default function TourBox({ _id, name, description, price, images }) {
+  const { addTour } = useContext(CartContext);
+  const url = "/tour/" + _id;
   return (
-    <ProductWrapper href={url}>
+    <TourWrapper href={url}>
       <WhiteBox>
         <img src={images?.[0]} alt="" />
-        <Title>{title}</Title>
+        <Title>{name}</Title>
         <PromoTitle>¡Promo Exclusiva!</PromoTitle>
       </WhiteBox>
-      <ProductInfoBox>
+      <TourInfoBox>
         
         {/* <TypeT>Todo en uno</TypeT> */}
         <TimeT>🕔 2 hrs</TimeT>
@@ -162,10 +162,10 @@ export default function ProductBox({ _id, title, description, price, images }) {
           <Promo>$35</Promo>
           <Price>${price}USD</Price>
         </Prices>
-        {/* <Button block onClick={() => addProduct(_id)} primary outline>
+        {/* <Button block onClick={() => addTour(_id)} primary outline>
           Reserva ahora!!
         </Button> */}
-      </ProductInfoBox>
-    </ProductWrapper>
+      </TourInfoBox>
+    </TourWrapper>
   );
 }
