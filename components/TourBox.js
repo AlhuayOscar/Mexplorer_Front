@@ -141,14 +141,14 @@ const Description = styled.div`
     height: 2.5rem;
   }
 `;
-export default function TourBox({ _id, title, description, price, images }) {
+export default function TourBox({ _id, name, description, price, images }) {
   const { addTour } = useContext(CartContext);
   const url = "/tour/" + _id;
   return (
     <TourWrapper href={url}>
       <WhiteBox>
         <img src={images?.[0]} alt="" />
-        <Title>{title}</Title>
+        <Title>{name}</Title>
         <PromoTitle>¡Promo Exclusiva!</PromoTitle>
       </WhiteBox>
       <TourInfoBox>
