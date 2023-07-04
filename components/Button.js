@@ -18,6 +18,13 @@ export const ButtonStyle = css`
   ${props => props.block && css`
     display: block;
   `}
+  ${props => props.green && !props.outline && css`
+    background-color: #84C441;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 1rem;
+    padding: 0.8rem; 
+  `}
   ${props => props.white && !props.outline && css`
     background-color: #fff;
     color: #000;
