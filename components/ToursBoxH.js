@@ -1,29 +1,31 @@
 import styled from "styled-components";
 import Button from "@/components/Button";
-import CartIcon from "@/components/icons/CartIcon";
+import React, { useContext } from 'react'
+import { CartContext } from './CartContext'
 import Link from "next/link";
-import { useContext } from "react";
-import { CartContext } from "@/components/CartContext";
 
-const ProductWrapper = styled(Link)`
+const TourWrapper = styled.div`
 /* Por ahora no hay nada acá */
-  height: 22rem;
-  width: 21rem;
+  display: flex;
+  height: 15rem;
+  width: 90%;
+  margin: 0 auto;
+  margin-bottom: 1.5rem;
   background-color: #fff;
   /* border: 2px solid #47556955; */
   box-shadow: 2px 2px 4px #47556955;
   text-decoration: none;
   color: #000;
   @media screen and (min-width: 768px) {
-    height: 24rem;
-    width: 23rem;
+    height: 15rem;
+    width: 80%;
     box-shadow: 2px 2px 4px #47556966;
   }
 `;
 
-const WhiteBox = styled.div`
-  width: 100%;
-  height: 60%;
+const WhiteBox = styled(Link)`
+  width: 35%;
+  height: 100%;
   text-align: center;
   display: flex;
   align-items: center;
@@ -37,18 +39,12 @@ const WhiteBox = styled.div`
   }
 `;
 
-
 const Title = styled.div`
-  padding: 0.5rem 1.2rem;
-  background-color: #d4d4d4bb;
-  left: 0;
-  top: 2rem;
   font-weight: 300;
-  font-size: 1rem;
-  color: #1f2937;
-  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 400;
   margin: 0;
-  position: absolute;
+  color: #84C441;
 `;
 
 const PromoTitle = styled.div`
@@ -63,22 +59,11 @@ const PromoTitle = styled.div`
   transform: rotate(40deg);
 `;
 
-const ProductInfoBox = styled.div`
+const TourInfoBox = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: start;
-  padding: 10px;
-`;
-
-const TypeT = styled.div`
-  font-size: 1rem;
-  color: #6b7280;
-  text-align: left;
-  /* @media screen and (min-width: 768px) {
-    font-size: 1.2rem;
-    font-weight: 600;
-    text-align: left;
-  } */
+  padding: 20px;
+  width: 65%;
 `;
 
 const TimeT = styled.div`
@@ -112,11 +97,11 @@ const Prices = styled.div`
 
 const Price = styled.div`
   display: inline;
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   
   text-align: right;
   @media screen and (min-width: 768px) {
-    font-size: 1.4rem;
+    font-size: 1.8rem;
     
   }
 `;
@@ -125,10 +110,10 @@ const Promo = styled.s`
   color: #ee2743;
   display: inline-block;
   margin-right: 10px;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   
   @media screen and (min-width: 768px) {
-    font-size: 1rem;
+    font-size: 1.6rem;
     
   }`;
 
@@ -141,31 +126,40 @@ const Description = styled.div`
     height: 2.5rem;
   }
 `;
-export default function ProductBox({ _id, title, description, price, images }) {
-  const { addProduct } = useContext(CartContext);
-  const url = "/product/" + _id;
+const ButtonG = styled(Button)`
+  align-self: end;
+`;
+
+
+function TourBoxH({ _id, name, description, price, images }) {
+  const {addTour} = useContext(CartContext);
+  const url = `/Tour/${_id}`
   return (
-    <ProductWrapper href={url}>
-      <WhiteBox>
+    <TourWrapper>
+      <WhiteBox href={url}>
         <img src={images?.[0]} alt="" />
-        <Title>{title}</Title>
+        
         <PromoTitle>¡Promo Exclusiva!</PromoTitle>
       </WhiteBox>
-      <ProductInfoBox>
-        
+      <TourInfoBox>
+        <Title>{name}</Title>
+        <Review>⭐⭐⭐⭐ <b>4</b></Review>
+        <Description>{description.length <= 100 ? description : description.substring(0, 100) + "..."}</Description>
         {/* <TypeT>Todo en uno</TypeT> */}
         <TimeT>🕔 2 hrs</TimeT>
-        <Review>⭐⭐⭐⭐ <b>4</b> (30 opiniones)</Review>
-        <Description>{description.length <= 100 ? description : description.substring(0, 100) + "..."}</Description>
         
+        
+
         <Prices>
           <Promo>$35</Promo>
           <Price>${price}USD</Price>
         </Prices>
-        {/* <Button block onClick={() => addProduct(_id)} primary outline>
+        <ButtonG onClick={() => addTour(_id)} green>
           Reserva ahora!!
-        </Button> */}
-      </ProductInfoBox>
-    </ProductWrapper>
-  );
+        </ButtonG>
+      </TourInfoBox>
+    </TourWrapper>
+  )
 }
+
+export default TourBoxH;

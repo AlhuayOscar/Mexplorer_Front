@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import Header from "@/components/Header";
 import styled from "styled-components";
 import ImageCarousel from "@/components/ImageCarousel";
-import Title from "@/components/Title";
 import Center from "@/components/Center";
+import { mongooseConnect } from "@/lib/mongoose";
+import { Tour } from "@/models/Tour";
+import ToursGrid from "@/components/ToursGrid";
+import Title from "@/components/Title";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
 const BackgroundImage = styled.div`
@@ -80,7 +83,7 @@ const TitleOverlay = styled(Title)`
   justify-content: space-evenly;
 `;
 
-export default function ProductsPage() {
+export default function ToursPage({ tours }) {
   return (
     <>
       <BackgroundImage>
@@ -98,4 +101,14 @@ export default function ProductsPage() {
       <Header />
     </>
   );
+}
+
+export async function getServerSideProps() {
+  await mongooseConnect();
+  const tours = await Tour.find({}, null, { sort: { _id: -1 } });
+  return {
+    props: {
+      tours: JSON.parse(JSON.stringify(tours)),
+    },
+  };
 }

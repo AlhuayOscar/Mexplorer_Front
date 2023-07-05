@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+import i18n from "@/i18n";
 import Link from "next/link";
 import styled from "styled-components";
 import Center from "@/components/Center";
@@ -99,9 +101,14 @@ const NavButton = styled.button`
 `;
 
 export default function Header() {
-  const { cartProducts } = useContext(CartContext);
+  const { t } = useTranslation();
+  const { cartTours } = useContext(CartContext);
   const [mobileNavActive, setMobileNavActive] = useState(false);
   const [isNavButtonFixed, setIsNavButtonFixed] = useState(false);
+
+  const handleLanguageChange = (language) => {
+    i18n.changeLanguage(language);
+  };
 
   const handleNavButtonClick = () => {
     setMobileNavActive((prev) => !prev);
@@ -129,7 +136,7 @@ export default function Header() {
             <NavLink href={"/"} color="#00ABBD">
               Blog
             </NavLink>
-            <NavLink href={"/products"} color="#ED2286">
+            <NavLink href={"/tours"} color="#ED2286">
               Tours
             </NavLink>
             <NavLink href={"/car"} color="#EEB547">
@@ -145,6 +152,9 @@ export default function Header() {
               Sobre nosotros
             </NavLink>
           </StyledNav>
+          {/* Aquí se encuentran los botones
+          <button onClick={() => handleLanguageChange('es')}>Español</button>
+          <button onClick={() => handleLanguageChange('en')}>Inglés</button> */}
           <NavLink
             href={
               "https://www.tripadvisor.com.ar/Attraction_Review-g150801-d19928813-Reviews-Mexplorer_Adventures-Oaxaca_Southern_Mexico.html"
@@ -163,7 +173,7 @@ export default function Header() {
             <StyledIcon src="/icons/what.png" alt="Link a México" fill />
           </NavLink>
           <NavLink href={"/cart"} color="#fff">
-            <ShoppingCartIcon /> ({cartProducts.length})
+            <ShoppingCartIcon /> ({cartTours.length})
           </NavLink>
           <NavButton onClick={handleNavButtonClick} isFixed={isNavButtonFixed}>
             <BarsIcon />

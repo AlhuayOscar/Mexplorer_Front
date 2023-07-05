@@ -67,13 +67,13 @@ const Subtitle = styled.h2`
   }
 `;
 
-export default function Featured({ product }) {
+export default function Featured({ tour }) {
   const [searchValue, setSearchValue] = useState("");
 
-  const { addProduct } = useContext(CartContext);
+  const { addTour } = useContext(CartContext);
 
   function addFeaturedToCart() {
-    addProduct(product._id);
+    addTour(tour._id);
   }
 
   return (
