@@ -16,7 +16,7 @@ const BackgroundImage = styled.div`
   background-position: center;
   overflow: hidden;
   width: 100%;
-  min-height: 800px;
+  min-height: 100vh;
 `;
 
 const WhatsAppButton = styled.a`
