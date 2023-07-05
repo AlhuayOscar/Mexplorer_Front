@@ -19,6 +19,7 @@ const Logo = styled(Link)`
   text-decoration: none;
   position: relative;
   z-index: 3;
+  outline:none; 
   ${(props) => props.hideLogo && `display: none;`}
 `;
 
@@ -142,7 +143,7 @@ export default function Header() {
             <NavLink href={"/car"} color="#EEB547">
               Renta de Autos
             </NavLink>
-            <NavLink href={"/"} color="#AC2484">
+            <NavLink href={"/jetski"} color="#AC2484">
               Renta de Jetski
             </NavLink>
             <NavLink href={"/"} color="#84C441">
