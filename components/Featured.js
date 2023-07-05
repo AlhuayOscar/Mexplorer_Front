@@ -21,12 +21,14 @@ const Bg = styled.div`
 `;
 
 const Overlay = styled.div`
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.5);
   position: absolute;
   top: 5%;
   left: 2.5%;
   width: 95%;
   height: 90%;
+  border-radius: 0.5%;
   display: flex;
   flex-direction: column;
   justify-content: center;
