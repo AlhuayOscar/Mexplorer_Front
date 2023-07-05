@@ -24,11 +24,11 @@ const Box = styled.div`
   padding: 30px;
 `;
 
-const ProductInfoCell = styled.td`
+const TourInfoCell = styled.td`
   padding: 10px 0;
 `;
 
-const ProductImageBox = styled.div`
+const TourImageBox = styled.div`
   width: 70px;
   height: 100px;
   padding: 2px;
@@ -67,9 +67,9 @@ const CityHolder = styled.div`
 `;
 
 export default function CartPage() {
-  const { cartProducts, addProduct, removeProduct, clearCart } =
+  const { cartTours, addTour, removeTour, clearCart } =
     useContext(CartContext);
-  const [products, setProducts] = useState([]);
+  const [tours, setTours] = useState([]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
@@ -79,14 +79,14 @@ export default function CartPage() {
   const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
-    if (cartProducts.length > 0) {
-      axios.post("/api/cart", { ids: cartProducts }).then((response) => {
-        setProducts(response.data);
+    if (cartTours.length > 0) {
+      axios.post("/api/cart", { ids: cartTours }).then((response) => {
+        setTours(response.data);
       });
     } else {
-      setProducts([]);
+      setTours([]);
     }
-  }, [cartProducts]);
+  }, [cartTours]);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -97,11 +97,11 @@ export default function CartPage() {
       clearCart();
     }
   }, []);
-  function moreOfThisProduct(id) {
-    addProduct(id);
+  function moreOfThisTour(id) {
+    addTour(id);
   }
-  function lessOfThisProduct(id) {
-    removeProduct(id);
+  function lessOfThisTour(id) {
+    removeTour(id);
   }
   async function goToPayment() {
     const response = await axios.post("/api/checkout", {
@@ -111,15 +111,15 @@ export default function CartPage() {
       postalCode,
       streetAddress,
       country,
-      cartProducts,
+      cartTours,
     });
     if (response.data.url) {
       window.location = response.data.url;
     }
   }
   let total = 0;
-  for (const productId of cartProducts) {
-    const price = products.find((p) => p._id === productId)?.price || 0;
+  for (const tourId of cartTours) {
+    const price = tours.find((p) => p._id === tourId)?.price || 0;
     total += price;
   }
   total = total.toFixed(2); //Para redondear a 2 decimales
@@ -145,12 +145,12 @@ export default function CartPage() {
         <ColumnsWrapper>
           <Box>
             <h2>Carrito</h2>
-            {!cartProducts?.length && (
+            {!cartTours?.length && (
               <div>
                 Tu carrito actualmente está vacio, Prueba agregando tours!
               </div>
             )}
-            {products?.length > 0 && (
+            {tours?.length > 0 && (
               <Table>
                 <thead>
                   <tr>
@@ -160,32 +160,32 @@ export default function CartPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {products.map((product) => (
-                    <tr key={product._id}>
-                      <ProductInfoCell>
-                        <ProductImageBox>
-                          <img src={product.images[0]} alt="" />
-                        </ProductImageBox>
-                        {product.title}
-                      </ProductInfoCell>
+                  {tours.map((tour) => (
+                    <tr key={tour._id}>
+                      <TourInfoCell>
+                        <TourImageBox>
+                          <img src={tour.images[0]} alt="" />
+                        </TourImageBox>
+                        {tour.title}
+                      </TourInfoCell>
                       <td>
-                        <Button onClick={() => lessOfThisProduct(product._id)}>
+                        <Button onClick={() => lessOfThisTour(tour._id)}>
                           -
                         </Button>
                         <QuantityLabel>
                           {
-                            cartProducts.filter((id) => id === product._id)
+                            cartTours.filter((id) => id === tour._id)
                               .length
                           }
                         </QuantityLabel>
-                        <Button onClick={() => moreOfThisProduct(product._id)}>
+                        <Button onClick={() => moreOfThisTour(tour._id)}>
                           +
                         </Button>
                       </td>
                       <td>
                         $
-                        {cartProducts.filter((id) => id === product._id)
-                          .length * product.price}
+                        {cartTours.filter((id) => id === tour._id)
+                          .length * tour.price}
                       </td>
                     </tr>
                   ))}
@@ -198,7 +198,7 @@ export default function CartPage() {
               </Table>
             )}
           </Box>
-          {!!cartProducts?.length && (
+          {!!cartTours?.length && (
             <Box>
               <h2>Información de la orden</h2>
               <Input

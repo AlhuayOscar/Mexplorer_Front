@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { CartContext } from "@/components/CartContext";
 import { Carousel } from "react-responsive-carousel";
-import Searchbar from "./Searchbar";
+import Searchbar from "../pages/Searchbar";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const videos = [
@@ -21,12 +21,14 @@ const Bg = styled.div`
 `;
 
 const Overlay = styled.div`
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.5);
   position: absolute;
   top: 5%;
   left: 2.5%;
   width: 95%;
   height: 90%;
+  border-radius: 0.5%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -65,11 +67,13 @@ const Subtitle = styled.h2`
   }
 `;
 
-export default function Featured({ product }) {
-  const { addProduct } = useContext(CartContext);
+export default function Featured({ tour }) {
+  const [searchValue, setSearchValue] = useState("");
+
+  const { addTour } = useContext(CartContext);
 
   function addFeaturedToCart() {
-    addProduct(product._id);
+    addTour(tour._id);
   }
 
   return (
@@ -97,7 +101,7 @@ export default function Featured({ product }) {
         <Subtitle>
           ¡El mejor lugar para disfrutar tus vacaciones en todo Cancún!
         </Subtitle>
-        <Searchbar />
+        <Searchbar value={searchValue} setPhrase={setSearchValue} />
       </Overlay>
     </Bg>
   );

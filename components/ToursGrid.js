@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled, { createGlobalStyle } from "styled-components";
-import ProductBox from "@/components/ProductBox";
+import TourBox from "@/components/TourBox";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
@@ -18,8 +18,8 @@ const StyledCarousel = styled(Carousel)`
   .carousel .control-dots .dot {
     background-color: ${(props) => props.theme.dotColor} !important;
     box-shadow: none;
-    width: 16px;
-    height: 16px;
+    width: 10px;
+    height: 10px;
     transition: 0.4s ease;
   }
 
@@ -31,22 +31,23 @@ const StyledCarousel = styled(Carousel)`
   }
 `;
 
-const StyledProductsGrid = styled.div`
+const StyledToursGrid = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 50px;
-  gap: 20px;
+  padding-bottom: 50px;
+  gap: 40px;
+  margin: 0;
   opacity: ${(props) => (props.isActive ? "1" : "0.3")};
   filter: ${(props) => (props.isActive ? "none" : "blur(4px)")};
   transition: 0.4s ease;
 `;
 
-const StyledProductBox = styled(ProductBox)`
-  flex: 1;
+const StyledTourBox = styled(TourBox)`
+  
 `;
 
-export default function ProductsGrid({ products }) {
+export default function ToursGrid({ tours }) {
   const [activeSlide, setActiveSlide] = useState(0);
   const [windowWidth, setWindowWidth] = useState(0);
 
@@ -82,19 +83,19 @@ export default function ProductsGrid({ products }) {
     }
   };
 
-  const renderProducts = () => {
+  const renderTours = () => {
     const slides = [];
 
     const itemsToShow = getNumberOfItemsToShow();
-    for (let i = 0; i < products.length; i += itemsToShow) {
-      const chunk = products.slice(i, i + itemsToShow);
+    for (let i = 0; i < tours.length; i += itemsToShow) {
+      const chunk = tours.slice(i, i + itemsToShow);
 
       slides.push(
-        <StyledProductsGrid key={i} isActive={i / itemsToShow === activeSlide}>
-          {chunk.map((product) => (
-            <StyledProductBox key={product._id} {...product} />
+        <StyledToursGrid key={i} isActive={i / itemsToShow === activeSlide}>
+          {chunk.map((tour) => (
+            <StyledTourBox key={tour._id} {...tour} />
           ))}
-        </StyledProductsGrid>
+        </StyledToursGrid>
       );
     }
 
@@ -105,12 +106,14 @@ export default function ProductsGrid({ products }) {
     <>
       <CarouselGlobalStyles theme={{ color: "#EE2743" }} />
       <StyledCarousel
+        infiniteLoop={true}
+        showArrows={false}
         showThumbs={false}
         selectedItem={activeSlide}
         showStatus={false} // Quita los números de navegación
         onChange={handleSlideChange}
       >
-        {renderProducts()}
+        {renderTours()}
       </StyledCarousel>
     </>
   );
