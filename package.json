@@ -20,6 +20,7 @@
     "mongoose": "^7.0.2",
     "next": "13.2.4",
     "react": "18.2.0",
+    "react-datepicker": "^4.15.0",
     "react-dom": "18.2.0",
     "react-responsive-carousel": "^3.2.23",
     "stripe": "^11.16.0",

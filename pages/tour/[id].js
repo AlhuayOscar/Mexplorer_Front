@@ -11,12 +11,13 @@ import CartIcon from "@/components/icons/CartIcon";
 import { useContext } from "react";
 import { CartContext } from "@/components/CartContext";
 import { Carousel } from "react-responsive-carousel";
+import Reservation from "@/components/Reservation";
 
 const ColWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   @media screen and (min-width: 768px) {
-    grid-template-columns: .8fr 1.2fr;
+    grid-template-columns: 0.8fr 1.2fr;
   }
   gap: 40px;
   margin: 40px 0;
@@ -30,8 +31,8 @@ const Price = styled.span`
   font-size: 1.4rem;
 `;
 
-export default function TourPage({tour}) {
-  const {addTour} = useContext(CartContext);
+export default function TourPage({ tour }) {
+  const { addTour } = useContext(CartContext);
   return (
     <>
       <Header />
@@ -49,12 +50,14 @@ export default function TourPage({tour}) {
               </div>
               <div>
                 <Button primary onClick={() => addTour(tour._id)}>
-                  <CartIcon />Añadir al carrito
+                  <CartIcon />
+                  Añadir al carrito
                 </Button>
               </div>
             </PriceRow>
           </div>
         </ColWrapper>
+        <Reservation />
       </Center>
     </>
   );
@@ -62,11 +65,11 @@ export default function TourPage({tour}) {
 
 export async function getServerSideProps(context) {
   await mongooseConnect();
-  const {id} = context.query;
+  const { id } = context.query;
   const tour = await Tour.findById(id);
   return {
     props: {
       tour: JSON.parse(JSON.stringify(tour)),
-    }
-  }
+    },
+  };
 }
