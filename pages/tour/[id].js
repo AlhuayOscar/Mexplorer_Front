@@ -12,6 +12,9 @@ import { useContext } from "react";
 import { CartContext } from "@/components/CartContext";
 import { Carousel } from "react-responsive-carousel";
 import CheckIcon from '@mui/icons-material/DoneOutlineRounded';
+import Link from "next/link";
+import ArrowIcon from '@mui/icons-material/KeyboardDoubleArrowLeftRounded';
+import ImageCarousel from "@/components/ImageCarousel";
 
 
 const ColWrapper = styled.div`
@@ -20,6 +23,7 @@ const ColWrapper = styled.div`
 
 const SubtitleStyle = css`
  width: 12rem;
+ font-size: 1.5rem;
  margin: 0;
  ${props => props.red && css`
     color: #ee2743;
@@ -59,6 +63,7 @@ const InfoBox = styled.div`
 const Points = styled.div`
   display: flex;
   flex-direction: column;
+  width: 80%;
 `;
 
 const Point = styled.div`
@@ -75,11 +80,27 @@ const Price = styled.span`
   font-size: 1.4rem;
 `;
 
+const ToursLink = styled(Link)`
+  font-size: 1.2rem;
+  text-decoration: none;
+  color: #84C441;
+  div{
+    display: flex;
+    align-items: center;
+  }
+`;
+
+const ArrowI = styled(ArrowIcon)`
+  color: #84C441;
+  font-size: medium;
+`;
+
 export default function TourPage({tour}) {
   const {addTour} = useContext(CartContext);
   return (
     <>
       <Header />
+        {/* <ImageCarousel images={tour.images}/> */}
         <Center>
           <ColWrapper>
             {/* <WhiteBox>
@@ -88,9 +109,13 @@ export default function TourPage({tour}) {
             <TourInfoBox>
                 <Title>{tour.name}</Title>
                 
-                  <h2>Descripción general</h2>
-                  <p>{tour.description}</p>
-                
+                <h2>Descripción general</h2>
+                <ToursLink href={'/tours'}>
+                  <div>
+                    <ArrowI/>Ver todos los tours en Cancun
+                  </div>
+                </ToursLink>
+                <p>{tour.description}</p>
 
                 {tour.description && 
                   <InfoBox>

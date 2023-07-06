@@ -4,7 +4,7 @@ import CartIcon from "@/components/icons/CartIcon";
 import Link from "next/link";
 import { useContext } from "react";
 import { CartContext } from "@/components/CartContext";
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import TimeIcon from '@mui/icons-material/AccessTime';
 
 const TourWrapper = styled(Link)`
 /* Por ahora no hay nada acá */
@@ -85,10 +85,16 @@ const TypeT = styled.div`
 `;
 
 const TimeT = styled.div`
+  color: #888888;
   font-size: 1rem;
   font-weight: 600;
   margin-left: 0.5rem;
 `;
+
+const TimeI = styled(TimeIcon)`
+  color: #888888;
+`;
+
 
 const TimeBox = styled.div`
   display: flex;
@@ -157,7 +163,7 @@ export default function TourBox({ _id, name, subtitle, description, duration, pr
       <TourInfoBox>
         
         {/* <TypeT>Todo en uno</TypeT> */}
-        <TimeBox><AccessTimeIcon/> <TimeT>{duration} hrs</TimeT></TimeBox>
+        <TimeBox><TimeI/> <TimeT>{duration} hrs</TimeT></TimeBox>
         <Review>⭐⭐⭐⭐ <b>4</b> (30 opiniones)</Review>
         <Description>{subtitle.length <= 100 ? subtitle : subtitle.substring(0, 100) + "..."}</Description>
         

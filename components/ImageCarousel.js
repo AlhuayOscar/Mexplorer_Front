@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
 
-const images = [
+/* const images = [
   "https://www.southernliving.com/thmb/opLh6q5S5cEOFPbXQ97h8A0UcyQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/grayton-beach-car-beach-4089102_bronco_0855-copy-2000-b094709c1f6f4f4ea401bdadbefb0227.jpg",
   "https://us-east-1.linodeobjects.com/agirlsguidetocars/2018/05/GGTC-Beach-Photo-by-Lee-Cannon.jpg",
   "https://wallpapercave.com/wp/wp3635654.jpg",
@@ -15,7 +15,7 @@ const images = [
   "https://www.oneclickdrive.com/uploads/mobcars/Kia_Forte_2020_16850_16850_13069512875-1_small.jpg",
   "https://www.oneclickdrive.com/uploads/mobcars/Renault_Megane_2019_20630_20630_13228778405-2_small.jpg",
   "https://www.oneclickdrive.com/car-for-rent/mobile/Hyundai_Accent_2020_8100_-1%20(1)_small.jpg",
-];
+]; */
 
 const HeaderSlider = styled(Slider)`
   display: flex;
@@ -43,7 +43,7 @@ const SlideImage = styled.img`
   }
 `;
 
-const Carousel = () => {
+const Carousel = ({images}) => {
   const settings = {
     dots: false,
     infinite: true,

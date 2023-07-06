@@ -3,14 +3,15 @@ import Button from "@/components/Button";
 import React, { useContext } from 'react'
 import { CartContext } from './CartContext'
 import Link from "next/link";
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import TimeIcon from '@mui/icons-material/AccessTime';
 import { useRouter } from 'next/router';
 
 const TourWrapper = styled.div`
 /* Por ahora no hay nada acá */
   display: flex;
-  height: 15rem;
-  width: 90%;
+  flex-direction: column;
+  height: 27.5rem;
+  width: 100%;
   margin: 0 auto;
   margin-bottom: 1.5rem;
   background-color: #fff;
@@ -22,14 +23,15 @@ const TourWrapper = styled.div`
   overflow: hidden;
   @media screen and (min-width: 768px) {
     height: 15rem;
-    width: 80%;
+    width: 100%;
+    flex-direction: row;
     box-shadow: 2px 2px 4px #47556966;
   }
 `;
 
 const WhiteBox = styled(Link)`
-  width: 35%;
-  height: 100%;
+  width: 100%;
+  height: 50%;
   text-align: center;
   display: flex;
   align-items: center;
@@ -39,6 +41,10 @@ const WhiteBox = styled(Link)`
   object-fit: cover;
   img {
     width: 100%;
+    height: 100%;
+  }
+  @media screen and (min-width: 768px) {
+    width: 35%;
     height: 100%;
   }
 `;
@@ -66,14 +72,24 @@ const PromoTitle = styled.div`
 const TourInfoBox = styled.div`
   display: flex;
   flex-direction: column;
+  height: 50%;
   padding: 20px;
-  width: 65%;
+  @media screen and (min-width: 768px) {
+    width: 65%;
+    
+  
+  }
 `;
 
 const TimeT = styled.div`
+  color: #888888;
   font-size: 1rem;
   font-weight: 600;
   margin-left: 0.5rem;
+`;
+
+const TimeI = styled(TimeIcon)`
+  color: #888888;
 `;
 
 const TimeBox = styled.div`
@@ -153,7 +169,7 @@ function TourBoxH({ _id, name, subtitle, duration, price, promo, withoutPromoPri
         <Review>⭐⭐⭐⭐ <b>4</b></Review>
         <Description>{subtitle.length <= 100 ? subtitle : subtitle.substring(0, 100) + "..."}</Description>
         {/* <TypeT>Todo en uno</TypeT> */}
-        <TimeBox><AccessTimeIcon/> <TimeT>{duration} hrs</TimeT></TimeBox>
+        <TimeBox><TimeI/> <TimeT>{duration} hrs</TimeT></TimeBox>
   
         <Prices>
           {withoutPromoPrice && <Promo>${withoutPromoPrice}</Promo>}
