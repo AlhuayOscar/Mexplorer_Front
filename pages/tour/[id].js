@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import Title from "@/components/Title";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Tour } from "@/models/Tour";
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 import WhiteBox from "@/components/WhiteBox";
 import TourImages from "@/components/TourImages";
 import Button from "@/components/Button";
@@ -11,24 +11,40 @@ import CartIcon from "@/components/icons/CartIcon";
 import { useContext } from "react";
 import { CartContext } from "@/components/CartContext";
 import { Carousel } from "react-responsive-carousel";
-import Reservation from "@/components/Reservation";
 
 const ColWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   @media screen and (min-width: 768px) {
-    grid-template-columns: 0.8fr 1.2fr;
+    grid-template-columns: .8fr 1.2fr;
   }
   gap: 40px;
   margin: 40px 0;
 `;
+
 const PriceRow = styled.div`
   display: flex;
   gap: 20px;
   align-items: center;
 `;
+
 const Price = styled.span`
   font-size: 1.4rem;
+`;
+
+const ToursLink = styled(Link)`
+  font-size: 1.2rem;
+  text-decoration: none;
+  color: #84C441;
+  div{
+    display: flex;
+    align-items: center;
+  }
+`;
+
+const ArrowI = styled(ArrowIcon)`
+  color: #84C441;
+  font-size: medium;
 `;
 
 export default function TourPage({ tour }) {
@@ -50,14 +66,12 @@ export default function TourPage({ tour }) {
               </div>
               <div>
                 <Button primary onClick={() => addTour(tour._id)}>
-                  <CartIcon />
-                  Añadir al carrito
+                  <CartIcon />Añadir al carrito
                 </Button>
               </div>
             </PriceRow>
           </div>
         </ColWrapper>
-        <Reservation />
       </Center>
     </>
   );

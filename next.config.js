@@ -4,6 +4,9 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
-}
+  experiments: {
+    topLevelAwait: true,
+  },
+};
 
 module.exports = nextConfig

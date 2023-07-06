@@ -43,6 +43,7 @@ const ResultSearch = ({ tours, name, totalPages }) => {
         setCurrentPage(1); // página 1 al cambiar el nombre de búsqueda
     }, [name]);
 
+
     return (
         <>
             <Header />
@@ -79,7 +80,7 @@ export async function getServerSideProps(context) {
     }
     if (name) {
         toursQuery['$or'] = [
-            { title: { $regex: name, $options: 'i' } },
+            { name: { $regex: name, $options: 'i' } },
             { description: { $regex: name, $options: 'i' } },
         ];
     }
