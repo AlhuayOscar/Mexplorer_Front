@@ -4,6 +4,7 @@ import CartIcon from "@/components/icons/CartIcon";
 import Link from "next/link";
 import { useContext } from "react";
 import { CartContext } from "@/components/CartContext";
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 const TourWrapper = styled(Link)`
 /* Por ahora no hay nada acá */
@@ -14,6 +15,8 @@ const TourWrapper = styled(Link)`
   box-shadow: 2px 2px 4px #47556955;
   text-decoration: none;
   color: #000;
+  border-radius: 7px;
+  overflow: hidden;
   @media screen and (min-width: 768px) {
     height: 24rem;
     width: 23rem;
@@ -84,12 +87,12 @@ const TypeT = styled.div`
 const TimeT = styled.div`
   font-size: 1rem;
   font-weight: 600;
-  text-align: left;
-    /* @media screen and (min-width: 768px) {
-    font-size: 1.2rem;
-    font-weight: 600;
-    text-align: left;
-  } */
+  margin-left: 0.5rem;
+`;
+
+const TimeBox = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const Review = styled.div`
@@ -141,7 +144,7 @@ const Description = styled.div`
     height: 2.5rem;
   }
 `;
-export default function TourBox({ _id, name, description, price, images }) {
+export default function TourBox({ _id, name, subtitle, description, duration, promo, withoutPromoPrice, price, images }) {
   const { addTour } = useContext(CartContext);
   const url = "/tour/" + _id;
   return (
@@ -149,17 +152,17 @@ export default function TourBox({ _id, name, description, price, images }) {
       <WhiteBox>
         <img src={images?.[0]} alt="" />
         <Title>{name}</Title>
-        <PromoTitle>¡Promo Exclusiva!</PromoTitle>
+        { promo && <PromoTitle>¡Promo Exclusiva!</PromoTitle> }
       </WhiteBox>
       <TourInfoBox>
         
         {/* <TypeT>Todo en uno</TypeT> */}
-        <TimeT>🕔 2 hrs</TimeT>
+        <TimeBox><AccessTimeIcon/> <TimeT>{duration} hrs</TimeT></TimeBox>
         <Review>⭐⭐⭐⭐ <b>4</b> (30 opiniones)</Review>
-        <Description>{description.length <= 100 ? description : description.substring(0, 100) + "..."}</Description>
+        <Description>{subtitle.length <= 100 ? subtitle : subtitle.substring(0, 100) + "..."}</Description>
         
         <Prices>
-          <Promo>$35</Promo>
+          {withoutPromoPrice && <Promo>${withoutPromoPrice}</Promo>}
           <Price>${price}USD</Price>
         </Prices>
         {/* <Button block onClick={() => addTour(_id)} primary outline>
