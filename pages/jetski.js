@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import styled from "styled-components";
 import ImageCarousel from "@/components/ImageCarousel";
@@ -9,8 +9,31 @@ import ToursGrid from "@/components/ToursGrid";
 import Title from "@/components/Title";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
+const AsyncImageCarousel = ({ images }) => {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const loadImage = async (src) => {
+      const image = new Image();
+      image.src = src;
+      await image.decode();
+      setLoaded(true);
+    };
+
+    const loadImages = async () => {
+      const imagePromises = images.map((src) => loadImage(src));
+      await Promise.all(imagePromises);
+      setLoaded(true);
+    };
+
+    loadImages();
+  }, [images]);
+
+  return loaded ? <ImageCarousel images={images} /> : <div></div>;
+};
+
 const BackgroundImage = styled.div`
-  background: url("https://1.bp.blogspot.com/-S1OoFg8xYM0/XRtWj4QBrPI/AAAAAAADNgk/t47SIvSsohQwQpYmfPaKEACOms9UqXargCLcBGAs/s1600/car-3904788_1920.jpg")
+  background: url("https://larnakaonline.com.cy/wp-content/uploads/2023/07/Jet-ski.jpg")
     no-repeat center;
   background-size: cover;
   background-position: center;
@@ -22,8 +45,8 @@ const BackgroundImage = styled.div`
 const WhatsAppButton = styled.a`
   /* Estilos para el botón de WhatsApp */
   text-decoration: none;
-  color: white;
   transition: 0.4s ease 0.2s;
+  color: white;
 `;
 
 const Subtitle = styled.span`
@@ -85,25 +108,24 @@ const TitleOverlay = styled(Title)`
 
 export default function ToursPage({ tours }) {
   const images = [
-    "https://www.southernliving.com/thmb/opLh6q5S5cEOFPbXQ97h8A0UcyQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/grayton-beach-car-beach-4089102_bronco_0855-copy-2000-b094709c1f6f4f4ea401bdadbefb0227.jpg",
-    "https://us-east-1.linodeobjects.com/agirlsguidetocars/2018/05/GGTC-Beach-Photo-by-Lee-Cannon.jpg",
-    "https://wallpapercave.com/wp/wp3635654.jpg",
-    "https://lh5.googleusercontent.com/p/AF1QipOPeKDLXj1dbCXOYy1i7qkQdyRwiipOS2lq4txc=w1080-k-no",
-    "https://memolira.com/wp-content/uploads/2018/08/cuida-tu-auto-si-vas-a-la-playa.jpg",
-    "https://automundo.com.ar//wp-content/uploads/2020/12/Auto-playa-2.jpg",
-    "https://www.southernliving.com/thmb/opLh6q5S5cEOFPbXQ97h8A0UcyQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/grayton-beach-car-beach-4089102_bronco_0855-copy-2000-b094709c1f6f4f4ea401bdadbefb0227.jpg",
-    "https://www.oneclickdrive.com/uploads/mobcars/Kia_Forte_2020_16850_16850_13069512875-1_small.jpg",
-    "https://www.oneclickdrive.com/uploads/mobcars/Renault_Megane_2019_20630_20630_13228778405-2_small.jpg",
-    "https://www.oneclickdrive.com/car-for-rent/mobile/Hyundai_Accent_2020_8100_-1%20(1)_small.jpg",
+    "https://danisailing.com/wp-content/uploads/2020/08/jetski-web.jpg",
+    "https://www.njuskalo.hr/image-w920x690/jet-ski/sea-doo-gti-slika-100426693.jpg",
+    "https://www.njuskalo.hr/image-w920x690/charter/najam-jet-ski-dugorocni-kratkorocni-najam-seadoo-90-ks-trosjed-slika-117224780.jpg",
+    "https://www.sport-decouverte.com/magazine/wp-content/uploads/2022/02/Premier-jet-ski.jpg",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEt0UiAFykYbmlPCCaVAmOxc8D68rFGV4BtyMIP85BzTnl3jOej1ni1ervyROb6uo76t0&usqp=CAU",
+    "https://www.sport-decouverte.com/magazine/wp-content/uploads/2022/02/Premier-jet-ski.jpg",
+    "https://merahputih.com/media/e3/2e/52/e32e52e96106d771943dbfead2f383a4.jpg",
+    "https://megaricos.com/wp-content/uploads/2019/01/jet-ski-black-marlin-5.jpg",
   ];
+
   return (
     <>
       <BackgroundImage>
-        <ImageCarousel images={images}/>
+        <AsyncImageCarousel images={images} />
         <TitleOverlay>
-          Autos de todos los modelos
+          Jetski de todos los modelos
           <Subtitle>
-            <WhatsAppButton href="https://wa.me/+5493794663468?text=Muy%20buenas!%20Te%20contact%C3%B3%20desde%20MexplorerTours%20Para%20conocer%20la%20disponibilidad%20de%20los%20vehiculos%20%3A%29.">
+            <WhatsAppButton href="https://wa.me/+5493794663468?text=Muy%20buenas!%20Te%20contact%C3%B3%20desde%20MexplorerTours%20Para%20conocer%20la%20disponibilidad%20de%20los%20vehiculos%20acúaticos%20%3A%29.">
               Necesita un vehículo? Contáctenos personalmenteㅤ
               <WhatsAppIcon />
             </WhatsAppButton>

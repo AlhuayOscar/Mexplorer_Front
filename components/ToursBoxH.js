@@ -42,6 +42,7 @@ const WhiteBox = styled(Link)`
   img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
   }
   @media screen and (min-width: 768px) {
     width: 35%;
@@ -165,7 +166,6 @@ function TourBoxH({ _id, name, subtitle, duration, price, promo, withoutPromoPri
     <TourWrapper>
       <WhiteBox href={url}>
         <img src={images?.[0]} alt="" />
-        
         {promo && <PromoTitle>¡Promo Exclusiva!</PromoTitle>}
       </WhiteBox>
       <TourInfoBox>
