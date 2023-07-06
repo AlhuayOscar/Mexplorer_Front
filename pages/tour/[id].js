@@ -16,6 +16,7 @@ import Link from "next/link";
 import ArrowIcon from '@mui/icons-material/KeyboardDoubleArrowLeftRounded';
 import ImageCarousel from "@/components/ImageCarousel";
 
+import ToursReviews from "@/components/ToursReviews";
 
 const ColWrapper = styled.div`
  
@@ -158,6 +159,7 @@ export default function TourPage({tour}) {
                 </PriceRow> */}
             </TourInfoBox>
           </ColWrapper>
+          <ToursReviews/>
         </Center>
     </>
   );
@@ -165,7 +167,7 @@ export default function TourPage({tour}) {
 
 export async function getServerSideProps(context) {
   await mongooseConnect();
-  const {id} = context.query;
+  const { id } = context.query;
   const tour = await Tour.findById(id);
   return {
     props: {
