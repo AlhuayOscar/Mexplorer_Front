@@ -11,6 +11,7 @@ import CartIcon from "@/components/icons/CartIcon";
 import { useContext } from "react";
 import { CartContext } from "@/components/CartContext";
 import { Carousel } from "react-responsive-carousel";
+import ToursReviews from "@/components/ToursReviews";
 
 const ColWrapper = styled.div`
  
@@ -24,8 +25,8 @@ const Price = styled.span`
   font-size: 1.4rem;
 `;
 
-export default function TourPage({tour}) {
-  const {addTour} = useContext(CartContext);
+export default function TourPage({ tour }) {
+  const { addTour } = useContext(CartContext);
   return (
     <>
       <Header />
@@ -49,6 +50,7 @@ export default function TourPage({tour}) {
             </PriceRow>
           </div>
         </ColWrapper>
+        <ToursReviews tour={tour} />
       </Center>
     </>
   );
@@ -56,7 +58,7 @@ export default function TourPage({tour}) {
 
 export async function getServerSideProps(context) {
   await mongooseConnect();
-  const {id} = context.query;
+  const { id } = context.query;
   const tour = await Tour.findById(id);
   return {
     props: {

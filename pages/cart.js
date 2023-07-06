@@ -67,8 +67,7 @@ const CityHolder = styled.div`
 `;
 
 export default function CartPage() {
-  const { cartTours, addTour, removeTour, clearCart } =
-    useContext(CartContext);
+  const { cartTours, addTour, removeTour, clearCart } = useContext(CartContext);
   const [tours, setTours] = useState([]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -77,14 +76,17 @@ export default function CartPage() {
   const [streetAddress, setStreetAddress] = useState("");
   const [country, setCountry] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+  const [hasProducts, setHasProducts] = useState(false);
 
   useEffect(() => {
     if (cartTours.length > 0) {
       axios.post("/api/cart", { ids: cartTours }).then((response) => {
         setTours(response.data);
+        setHasProducts(true); // Actualiza el estado hasProducts a true
       });
     } else {
       setTours([]);
+      setHasProducts(false); // Actualiza el estado hasProducts a false
     }
   }, [cartTours]);
 
@@ -173,10 +175,7 @@ export default function CartPage() {
                           -
                         </Button>
                         <QuantityLabel>
-                          {
-                            cartTours.filter((id) => id === tour._id)
-                              .length
-                          }
+                          {cartTours.filter((id) => id === tour._id).length}
                         </QuantityLabel>
                         <Button onClick={() => moreOfThisTour(tour._id)}>
                           +
@@ -184,8 +183,8 @@ export default function CartPage() {
                       </td>
                       <td>
                         $
-                        {cartTours.filter((id) => id === tour._id)
-                          .length * tour.price}
+                        {cartTours.filter((id) => id === tour._id).length *
+                          tour.price}
                       </td>
                     </tr>
                   ))}
@@ -197,6 +196,7 @@ export default function CartPage() {
                 </tbody>
               </Table>
             )}
+            {hasProducts && <Button onClick={clearCart}>Vaciar Carrito</Button>}
           </Box>
           {!!cartTours?.length && (
             <Box>
