@@ -3,12 +3,15 @@ import Button from "@/components/Button";
 import React, { useContext } from 'react'
 import { CartContext } from './CartContext'
 import Link from "next/link";
+import TimeIcon from '@mui/icons-material/AccessTime';
+import { useRouter } from 'next/router';
 
 const TourWrapper = styled.div`
 /* Por ahora no hay nada acá */
   display: flex;
-  height: 15rem;
-  width: 90%;
+  flex-direction: column;
+  height: 27.5rem;
+  width: 100%;
   margin: 0 auto;
   margin-bottom: 1.5rem;
   background-color: #fff;
@@ -16,16 +19,19 @@ const TourWrapper = styled.div`
   box-shadow: 2px 2px 4px #47556955;
   text-decoration: none;
   color: #000;
+  border-radius: 7px;
+  overflow: hidden;
   @media screen and (min-width: 768px) {
     height: 15rem;
-    width: 80%;
+    width: 100%;
+    flex-direction: row;
     box-shadow: 2px 2px 4px #47556966;
   }
 `;
 
 const WhiteBox = styled(Link)`
-  width: 35%;
-  height: 100%;
+  width: 100%;
+  height: 50%;
   text-align: center;
   display: flex;
   align-items: center;
@@ -37,21 +43,25 @@ const WhiteBox = styled(Link)`
     width: 100%;
     height: 100%;
   }
+  @media screen and (min-width: 768px) {
+    width: 35%;
+    height: 100%;
+  }
 `;
 
-const Title = styled.div`
+const Title = styled(Link)`
   font-weight: 300;
   font-size: 1.5rem;
-  font-weight: 400;
+  font-weight: 600;
   margin: 0;
   color: #84C441;
+  text-decoration: none;
 `;
 
 const PromoTitle = styled.div`
   background-color: #ee2743;
   padding: 0.2rem 5rem;
   color: #1f2937;
-  text-decoration: none;
   position: absolute;
   top: 2.2rem;
   right: -5.5rem;
@@ -62,19 +72,29 @@ const PromoTitle = styled.div`
 const TourInfoBox = styled.div`
   display: flex;
   flex-direction: column;
+  height: 50%;
   padding: 20px;
-  width: 65%;
+  @media screen and (min-width: 768px) {
+    width: 65%;
+    
+  
+  }
 `;
 
 const TimeT = styled.div`
+  color: #888888;
   font-size: 1rem;
   font-weight: 600;
-  text-align: left;
-    /* @media screen and (min-width: 768px) {
-    font-size: 1.2rem;
-    font-weight: 600;
-    text-align: left;
-  } */
+  margin-left: 0.5rem;
+`;
+
+const TimeI = styled(TimeIcon)`
+  color: #888888;
+`;
+
+const TimeBox = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const Review = styled.div`
@@ -120,7 +140,7 @@ const Promo = styled.s`
 const Description = styled.div`
   font-size: 0.8rem;
   text-align: left;
-  height: 1.9rem;
+  height: 2rem;
   @media screen and (min-width: 768px) {
     font-size: 0.9rem;
     height: 2.5rem;
@@ -131,30 +151,31 @@ const ButtonG = styled(Button)`
 `;
 
 
-function TourBoxH({ _id, name, description, price, images }) {
-  const {addTour} = useContext(CartContext);
-  const url = `/Tour/${_id}`
+function TourBoxH({ _id, name, subtitle, duration, price, promo, withoutPromoPrice, images }) {
+  const url = `/tour/${_id}`
+  const router = useRouter();
+  const handleButtonClick = () => {
+    router.push(url);
+  };
   return (
     <TourWrapper>
       <WhiteBox href={url}>
         <img src={images?.[0]} alt="" />
         
-        <PromoTitle>¡Promo Exclusiva!</PromoTitle>
+        {promo && <PromoTitle>¡Promo Exclusiva!</PromoTitle>}
       </WhiteBox>
       <TourInfoBox>
-        <Title>{name}</Title>
+        <Title href={url}>{name}</Title>
         <Review>⭐⭐⭐⭐ <b>4</b></Review>
-        <Description>{description.length <= 100 ? description : description.substring(0, 100) + "..."}</Description>
+        <Description>{subtitle.length <= 100 ? subtitle : subtitle.substring(0, 100) + "..."}</Description>
         {/* <TypeT>Todo en uno</TypeT> */}
-        <TimeT>🕔 2 hrs</TimeT>
-        
-        
-
+        <TimeBox><TimeI/> <TimeT>{duration} hrs</TimeT></TimeBox>
+  
         <Prices>
-          <Promo>$35</Promo>
+          {withoutPromoPrice && <Promo>${withoutPromoPrice}</Promo>}
           <Price>${price}USD</Price>
         </Prices>
-        <ButtonG onClick={() => addTour(_id)} green>
+        <ButtonG onClick={handleButtonClick} green>
           Reserva ahora!!
         </ButtonG>
       </TourInfoBox>
