@@ -20,9 +20,7 @@ const BoxNav = styled.div`
 export default function NavTour({ tours }) {
   return (
     <BoxContainer>
-      <TitleLabel>Promociones</TitleLabel>
-      <TitleLabel>Duracion</TitleLabel>
-      <TitleLabel>Precios</TitleLabel>
+      
     </BoxContainer>
   );
 }

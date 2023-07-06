@@ -159,7 +159,7 @@ export default function TourPage({tour}) {
                 </PriceRow> */}
             </TourInfoBox>
           </ColWrapper>
-          <ToursReviews/>
+          <ToursReviews tour={tour} />
         </Center>
     </>
   );
