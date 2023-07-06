@@ -10,7 +10,7 @@ export default async function handler(req, res) {
         res.json(createdReview);
     } else if (req.method === 'GET') {
         const { tour } = req.query;
-        const reviews = await Review.find({ tour });
+        const reviews = await Review.find({ tour }, null, { sort: { createdAt: -1 } });
         res.json(reviews);
     }
 }
