@@ -123,7 +123,7 @@ export default function ToursPage({ tours }) {
         <TitleOverlay>
           Autos de todos los modelos
           <Subtitle>
-            <WhatsAppButton href="https://wa.me/+5493794663468?text=Muy%20buenas!%20Te%20contact%C3%B3%20desde%20MexplorerTours%20Para%20conocer%20la%20disponibilidad%20de%20los%20vehiculos%20%3A%29.">
+            <WhatsAppButton href="https://wa.me/+5493794663468?text=Muy%20buenas!%20Te%20contacto%20desde%20MexplorerTours%20Para%20conocer%20la%20disponibilidad%20de%20los%20vehiculos%20%3A%29.">
               Necesita un vehículo? Contáctenos personalmenteㅤ
               <WhatsAppIcon />
             </WhatsAppButton>
