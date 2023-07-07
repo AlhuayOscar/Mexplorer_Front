@@ -45,14 +45,35 @@ const FooterLink = styled.a`
   text-decoration: none;
   color: #fffffff0;
 `;
-
+const Icon = styled.img`
+  width: 25px;
+  height: 25px;
+  margin-inline: 5px;
+`;
+const CenteredContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+`;
 const Footer = () => {
   return (
     <StyledFooter>
       <FooterContent>
         <FooterDescription>
           <p>(© Mexplorer 2023)</p>
-          <p>Síguenos</p>
+          <CenteredContainer>
+            <p>Síguenos</p>
+            <a href="https://www.facebook.com/mexplorerdmc">
+              <Icon src="facy.png" alt="Facebook" />
+            </a>
+            <a href="https://www.instagram.com/nicolasgomezsb/">
+              <Icon src="insy.png" alt="Instagram" />
+            </a>
+            <a href="https://www.tripadvisor.com.ar/Attraction_Review-g150801-d19928813-Reviews-Mexplorer_Adventures-Oaxaca_Southern_Mexico.html">
+              <Icon src="trippy.png" alt="TripAdvisor" />
+            </a>
+          </CenteredContainer>
           <p>
             Av. Bonampak 73, SM.3, M.10, Edificio Global Cancún Torre “B”. CP.
             77500, Cancún, México.
