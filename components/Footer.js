@@ -14,10 +14,10 @@ const StyledFooter = styled.footer`
 const WavesContainer1 = styled.div`
   position: absolute;
   padding-top: 10px;
-  top: -90px; /* Ajusta el valor según tu diseño para el primer wave */
+  top: -100px; /* Ajusta el valor según tu diseño para el primer wave */
   left: 0;
   right: 0;
-  z-index: 2;
+  z-index: 7;
 `;
 
 const WavesContainer2 = styled.div`
@@ -26,7 +26,7 @@ const WavesContainer2 = styled.div`
   top: -120px; /* Ajusta el valor según tu diseño para el segundo wave */
   left: 0;
   right: 0;
-  z-index: 1;
+  z-index: 6;
 `;
 
 const WavesContainer3 = styled.div`
@@ -35,7 +35,7 @@ const WavesContainer3 = styled.div`
   top: -150px; /* Ajusta el valor según tu diseño para el tercer wave */
   left: 0;
   right: 0;
-  z-index: 0;
+  z-index: 5;
 `;
 const WavesContainer4 = styled.div`
   position: absolute;
@@ -43,7 +43,7 @@ const WavesContainer4 = styled.div`
   top: -170px; /* Ajusta el valor según tu diseño para el tercer wave */
   left: 0;
   right: 0;
-  z-index: 0;
+  z-index: 4;
 `;
 const WavesContainer5 = styled.div`
   position: absolute;
@@ -51,7 +51,23 @@ const WavesContainer5 = styled.div`
   top: -190px; /* Ajusta el valor según tu diseño para el tercer wave */
   left: 0;
   right: 0;
-  z-index: 0;
+  z-index: 3;
+`;
+const WavesContainer6 = styled.div`
+  position: absolute;
+  padding-top: 10px;
+  top: -210px; /* Ajusta el valor según tu diseño para el tercer wave */
+  left: 0;
+  right: 0;
+  z-index: 2;
+`;
+const WavesContainer7 = styled.div`
+  position: absolute;
+  padding-top: 10px;
+  top: -220px; /* Ajusta el valor según tu diseño para el tercer wave */
+  left: 0;
+  right: 0;
+  z-index: 1;
 `;
 
 const FooterContent = styled.div`
@@ -134,7 +150,7 @@ const Footer = () => {
         <WavesContainer2>
           <Waves
             ref={waveRef}
-            fill="rgba(0, 171, 189, 0.8)" // Colore menos transparente para Waves número 2
+            fill="rgba(238, 39, 67, 0.9)" // Colore menos transparente para Waves número 2
             paused={false}
             options={{
               height: 10,
@@ -148,7 +164,7 @@ const Footer = () => {
         <WavesContainer3>
           <Waves
             ref={waveRef}
-            fill="rgba(237, 34, 134, 0.6)" // Colore menos transparente para Waves número 3
+            fill="rgba(237, 34, 134, 0.8)" // Colore menos transparente para Waves número 3
             paused={false}
             options={{
               height: 10,
@@ -162,7 +178,7 @@ const Footer = () => {
         <WavesContainer4>
           <Waves
             ref={waveRef}
-            fill="rgba(238, 181, 71, 0.4)" // Colore menos transparente para Waves número 3
+            fill="rgba(238, 181, 39, 0.7)" // Colore menos transparente para Waves número 3
             paused={false}
             options={{
               height: 10,
@@ -176,7 +192,7 @@ const Footer = () => {
         <WavesContainer5>
           <Waves
             ref={waveRef}
-            fill="rgba(172, 36, 132, 0.3)" // Colore menos transparente para Waves número 3
+            fill="rgba(172, 36, 132, 0.6)" // Colore menos transparente para Waves número 3
             paused={false}
             options={{
               height: 10,
@@ -187,6 +203,34 @@ const Footer = () => {
             }}
           />
         </WavesContainer5>
+        <WavesContainer6>
+          <Waves
+            ref={waveRef}
+            fill="rgba(132, 196, 65, 0.5)" // Colore menos transparente para Waves número 3
+            paused={false}
+            options={{
+              height: 10,
+              amplitude: 25,
+              speed: 0.2,
+              points: 4,
+              fill: 0b0000,
+            }}
+          />
+        </WavesContainer6>
+        <WavesContainer7>
+          <Waves
+            ref={waveRef}
+            fill="rgba(0, 171, 189, 1)" // Colore menos transparente para Waves número 3
+            paused={false}
+            options={{
+              height: 10,
+              amplitude: 25,
+              speed: 0.2,
+              points: 4,
+              fill: 0b0000,
+            }}
+          />
+        </WavesContainer7>
         <FooterContent>
           <FooterDescription>
             <p>(© Mexplorer 2023)</p>
