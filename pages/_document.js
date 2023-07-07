@@ -15,6 +15,7 @@ export default class MyDocument extends Document {
             }}
           />
         </Head>
+        <title>Mexplorer</title>
         <body>
           <Main />
           <NextScript />
