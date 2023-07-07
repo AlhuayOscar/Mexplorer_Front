@@ -28,13 +28,12 @@ const YellowTitle = styled(Title)`
 export default function NewTours({ tours, promo }) {
   return (
     <Center>
-      <RedTitle>No te pierdas estas promos </RedTitle>
-      <ToursGrid tours={promo} />
       <PurpleTitle>Encuentra tu lugar en cancún</PurpleTitle>
       <ToursGrid tours={tours} />
-      {/* <PurpleTitle>Crea recuerdos inolvidables</PurpleTitle>
-      <ToursGrid tours={tours} /> */}
-      
+      <RedTitle>No te pierdas estas promos </RedTitle>
+      <ToursGrid tours={promo} />
+      <YellowTitle>Crea recuerdos inolvidables</YellowTitle>
+      <ToursGrid tours={tours} />
     </Center>
   );
 }
