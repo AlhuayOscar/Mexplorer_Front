@@ -25,15 +25,16 @@ const YellowTitle = styled(Title)`
   color: #eeb547;
 `;
 
-export default function NewTours({ tours }) {
+export default function NewTours({ tours, promo }) {
   return (
     <Center>
-      <RedTitle>Encuentra tu lugar en cancún</RedTitle>
+      <RedTitle>No te pierdas estas promos </RedTitle>
+      <ToursGrid tours={promo} />
+      <PurpleTitle>Encuentra tu lugar en cancún</PurpleTitle>
       <ToursGrid tours={tours} />
-      <PurpleTitle>Crea recuerdos inolvidables</PurpleTitle>
-      <ToursGrid tours={tours} />
-      <YellowTitle>Toma un merecido descanso</YellowTitle>
-      <ToursGrid tours={tours} />
+      {/* <PurpleTitle>Crea recuerdos inolvidables</PurpleTitle>
+      <ToursGrid tours={tours} /> */}
+      
     </Center>
   );
 }

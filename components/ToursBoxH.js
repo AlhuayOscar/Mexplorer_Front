@@ -148,6 +148,10 @@ const Description = styled.div`
 `;
 const ButtonG = styled(Button)`
   align-self: end;
+  &:hover {
+    scale: 1.1;
+    background-color: #699c34;
+  }
 `;
 
 
