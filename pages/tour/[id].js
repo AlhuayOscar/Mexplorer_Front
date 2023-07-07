@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import Title from "@/components/Title";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Tour } from "@/models/Tour";
-import styled, {css} from "styled-components";
+import styled, { css } from "styled-components";
 import WhiteBox from "@/components/WhiteBox";
 import TourImages from "@/components/TourImages";
 import Button from "@/components/Button";
@@ -11,30 +11,34 @@ import CartIcon from "@/components/icons/CartIcon";
 import { useContext } from "react";
 import { CartContext } from "@/components/CartContext";
 import { Carousel } from "react-responsive-carousel";
-import CheckIcon from '@mui/icons-material/DoneOutlineRounded';
+import CheckIcon from "@mui/icons-material/DoneOutlineRounded";
 import Link from "next/link";
-import ArrowIcon from '@mui/icons-material/KeyboardDoubleArrowLeftRounded';
-import ImageCarousel from "@/components/ImageCarousel";
+import ArrowIcon from "@mui/icons-material/KeyboardDoubleArrowLeftRounded";
+import ToursImageCarousel from "@/components/ToursImageCarousel";
 
 import ToursReviews from "@/components/ToursReviews";
 
-const ColWrapper = styled.div`
- 
-`;
+const ColWrapper = styled.div``;
 
 const SubtitleStyle = css`
- width: 12rem;
- font-size: 1.5rem;
- margin: 0;
- ${props => props.red && css`
-    color: #ee2743;
-  `}
- ${props => props.purple && css`
-    color: #ac2484;
-  `}
- ${props => props.yellow && css`
-    color: #eeb547;
-  `}
+  width: 12rem;
+  font-size: 1.5rem;
+  margin: 0;
+  ${(props) =>
+    props.red &&
+    css`
+      color: #ee2743;
+    `}
+  ${(props) =>
+    props.purple &&
+    css`
+      color: #ac2484;
+    `}
+ ${(props) =>
+    props.yellow &&
+    css`
+      color: #eeb547;
+    `}
 `;
 
 const Subtitle = styled.h3`
@@ -42,9 +46,9 @@ const Subtitle = styled.h3`
 `;
 
 const Check = styled(CheckIcon)`
- color: #84C441;
- margin-right: 5px;
- font-size: medium;
+  color: #84c441;
+  margin-right: 5px;
+  font-size: medium;
 `;
 
 const TourInfoBox = styled.div`
@@ -76,6 +80,9 @@ const PriceRow = styled.div`
   gap: 20px;
   align-items: center;
 `;
+const OverflowProtection = styled.div`
+  overflow: hidden;
+`;
 
 const Price = styled.span`
   font-size: 1.4rem;
@@ -84,83 +91,94 @@ const Price = styled.span`
 const ToursLink = styled(Link)`
   font-size: 1.2rem;
   text-decoration: none;
-  color: #84C441;
-  div{
+  color: #84c441;
+  div {
     display: flex;
     align-items: center;
   }
 `;
 
 const ArrowI = styled(ArrowIcon)`
-  color: #84C441;
+  color: #84c441;
   font-size: medium;
 `;
 
-export default function TourPage({tour}) {
-  const {addTour} = useContext(CartContext);
+export default function TourPage({ tour }) {
+  const { addTour } = useContext(CartContext);
   return (
     <>
       <Header />
-        {/* <ImageCarousel images={tour.images}/> */}
-        <Center>
-          <ColWrapper>
-            {/* <WhiteBox>
-              <TourImages images={tour.images} />
-            </WhiteBox> */}
-            <TourInfoBox>
-                <Title>{tour.name}</Title>
-                
-                <h2>Descripción general</h2>
-                <ToursLink href={'/tours'}>
-                  <div>
-                    <ArrowI/>Ver todos los tours en Cancun
-                  </div>
-                </ToursLink>
-                <p>{tour.description}</p>
+      <OverflowProtection>
+        <ToursImageCarousel images={tour.images} />
+      </OverflowProtection>
+      <Center>
+        <ColWrapper>
+          <TourInfoBox>
+            <Title>{tour.name}</Title>
+            <h2>Descripción general</h2>
+            <ToursLink href={"/tours"}>
+              <div>
+                <ArrowI />
+                Ver todos los tours en Cancun
+              </div>
+            </ToursLink>
+            <p>{tour.description}</p>
 
-                {tour.description && 
-                  <InfoBox>
-                    <Subtitle red>Que incluye</Subtitle>
-                    <Points>
-                      {tour.includes?.map(include => (
-                        <Point><Check/>{include}</Point>
-                      ))}
-                    </Points>
-                  </InfoBox>}
+            {tour.description && (
+              <InfoBox>
+                <Subtitle red>Que incluye</Subtitle>
+                <Points>
+                  {tour.includes?.map((include) => (
+                    <Point>
+                      <Check />
+                      {include}
+                    </Point>
+                  ))}
+                </Points>
+              </InfoBox>
+            )}
+            {tour.requirements && (
+              <InfoBox>
+                <Subtitle purple>Que Llevar</Subtitle>
+                <Points>
+                  {tour.requirements?.map((requirement) => (
+                    <Point>
+                      <Check />
+                      {requirement}
+                    </Point>
+                  ))}
+                </Points>
+              </InfoBox>
+            )}
 
-                {tour.requirements && 
-                  <InfoBox>
-                    <Subtitle purple>Que Llevar</Subtitle>
-                    <Points>
-                      {tour.requirements?.map(requirement => (
-                        <Point><Check/>{requirement}</Point>
-                      ))}
-                    </Points>
-                  </InfoBox>}
-
-                  {tour.notes && 
-                    <InfoBox>
-                      <Subtitle yellow>Notas</Subtitle>
-                      <Points>
-                        {tour.notes?.map(note => (
-                          <Point><Check/>{note}</Point>
-                        ))}
-                      </Points>
-                    </InfoBox>}
-               {/*  <PriceRow>
-                  <div>
-                    <Price>${tour.price}</Price>
-                  </div>
-                  <div>
-                    <Button primary onClick={() => addTour(tour._id)}>
-                      <CartIcon />Añadir al carrito
-                    </Button>
-                  </div>
-                </PriceRow> */}
-            </TourInfoBox>
-          </ColWrapper>
-          <ToursReviews tour={tour} />
-        </Center>
+            {tour.notes && (
+              <InfoBox>
+                <Subtitle yellow>Notas</Subtitle>
+                <Points>
+                  {tour.notes?.map((note) => (
+                    <Point>
+                      <Check />
+                      {note}
+                    </Point>
+                  ))}
+                </Points>
+              </InfoBox>
+            )}
+            <PriceRow>
+              <div>
+                <Price>${tour.price}</Price>
+              </div>
+              <div>
+                <Button primary onClick={() => addTour(tour._id)}>
+                  <CartIcon />
+                  Añadir al carrito
+                </Button>
+              </div>
+            </PriceRow>
+          </TourInfoBox>
+        </ColWrapper>
+        <ToursReviews tour={tour} />
+      </Center>
     </>
   );
 }
@@ -172,6 +190,6 @@ export async function getServerSideProps(context) {
   return {
     props: {
       tour: JSON.parse(JSON.stringify(tour)),
-    }
-  }
+    },
+  };
 }
