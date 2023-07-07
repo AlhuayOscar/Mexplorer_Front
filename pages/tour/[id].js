@@ -80,6 +80,9 @@ const PriceRow = styled.div`
   gap: 20px;
   align-items: center;
 `;
+const OverflowProtection = styled.div`
+  overflow: hidden;
+`;
 
 const Price = styled.span`
   font-size: 1.4rem;
@@ -105,15 +108,13 @@ export default function TourPage({ tour }) {
   return (
     <>
       <Header />
-      <ToursImageCarousel images={tour.images} />
+      <OverflowProtection>
+        <ToursImageCarousel images={tour.images} />
+      </OverflowProtection>
       <Center>
         <ColWrapper>
-          {/* <WhiteBox>
-              <TourImages images={tour.images} />
-            </WhiteBox> */}
           <TourInfoBox>
             <Title>{tour.name}</Title>
-
             <h2>Descripción general</h2>
             <ToursLink href={"/tours"}>
               <div>
@@ -136,7 +137,6 @@ export default function TourPage({ tour }) {
                 </Points>
               </InfoBox>
             )}
-
             {tour.requirements && (
               <InfoBox>
                 <Subtitle purple>Que Llevar</Subtitle>
@@ -164,16 +164,17 @@ export default function TourPage({ tour }) {
                 </Points>
               </InfoBox>
             )}
-            {/*  <PriceRow>
-                  <div>
-                    <Price>${tour.price}</Price>
-                  </div>
-                  <div>
-                    <Button primary onClick={() => addTour(tour._id)}>
-                      <CartIcon />Añadir al carrito
-                    </Button>
-                  </div>
-                </PriceRow> */}
+            <PriceRow>
+              <div>
+                <Price>${tour.price}</Price>
+              </div>
+              <div>
+                <Button primary onClick={() => addTour(tour._id)}>
+                  <CartIcon />
+                  Añadir al carrito
+                </Button>
+              </div>
+            </PriceRow>
           </TourInfoBox>
         </ColWrapper>
         <ToursReviews tour={tour} />

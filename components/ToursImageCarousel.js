@@ -23,23 +23,27 @@ const HeaderSlider = styled(Slider)`
   overflow: hidden;
   transition: 0.4s ease;
   &:hover {
-    transform: scale(1.091);
     transition: 0.4s ease;
     cursor: grab;
+    overflow: hidden;
+    padding-block: 10px;
   }
 `;
 
 const SlideImage = styled.img`
   height: 200px;
-  height: 300px;
+  height: 350px;
   object-fit: cover; /* Aplica el recorte */
   object-position: center; /* Centra la imagen en el recorte */
-  transition: 0.4s ease;
-
+  transition: 0.4s ease 0.15s;
+  padding-top: 15px;
   &:hover {
     transform: scale(1.11);
+    height: 380px;
+    padding-top: 15px;
     transition: 0.4s ease;
     cursor: grab;
+    overflow: hidden;
   }
 `;
 
