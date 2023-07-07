@@ -10,7 +10,7 @@ export default function HomePage({ featuredTour, newTours, promoTours }) {
     <div>
       <Header />
       <Featured tour={featuredTour} />
-      <NewTours tours={newTours} promo={promoTours}/>
+      <NewTours tours={newTours} promo={promoTours} />
       <Footer />
     </div>
   );
@@ -24,7 +24,7 @@ export async function getServerSideProps() {
     sort: { _id: -1 },
     limit: 10,
   });
-  const promoTours = await Tour.find({promo: true}, null)
+  const promoTours = await Tour.find({ promo: true }, null);
   return {
     props: {
       featuredTour: JSON.parse(JSON.stringify(featuredTour)),

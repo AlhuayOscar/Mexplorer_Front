@@ -21,8 +21,8 @@ const Bg = styled.div`
 `;
 
 const Overlay = styled.div`
-  background-color: rgba(0, 0, 0, 0.4);
-  box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.2);
   position: absolute;
   top: 5%;
   left: 2.5%;
@@ -50,12 +50,13 @@ const Title = styled.h1`
   @media screen and (max-width: 390px) {
     font-size: 16px;
   }
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 1); /* Agregado efecto de sombra de texto */
 `;
 
 const Subtitle = styled.h2`
-  font-size: 18px;
+  font-size: 20px;
   margin-bottom: 22px;
-
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.8); /* Agregado efecto de sombra de texto */
   @media screen and (max-width: 768px) {
     font-size: 16px;
   }

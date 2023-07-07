@@ -24,8 +24,11 @@
     "react-datepicker": "^4.15.0",
     "react-dom": "18.2.0",
     "react-i18next": "^13.0.1",
+    "react-image-gallery": "^1.2.12",
+    "react-modal": "^3.16.1",
     "react-responsive-carousel": "^3.2.23",
     "react-slick": "^0.29.0",
+    "react-wavify": "^1.8.3",
     "slick-carousel": "^1.8.1",
     "stripe": "^11.16.0",
     "styled-components": "^5.3.9"
