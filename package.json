@@ -25,6 +25,7 @@
     "react-dom": "18.2.0",
     "react-i18next": "^13.0.1",
     "react-image-gallery": "^1.2.12",
+    "react-lazy-load": "^4.0.1",
     "react-modal": "^3.16.1",
     "react-responsive-carousel": "^3.2.23",
     "react-slick": "^0.29.0",
