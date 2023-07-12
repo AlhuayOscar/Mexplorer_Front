@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import CartIcon from "@/components/icons/CartIcon";
 import MyDatePicker from "./DatePicker";
 import Button from "./Button";
 import Input from "@/components/Input";
@@ -36,24 +37,28 @@ const Box = styled.div`
 `;
 
 export default function Reservation({ tour }) {
-  const [persons, setPersons] = useState(null);
+  const [persons, setPersons] = useState(1);
+  const [date, setDate] = useState("");
   const [name, setName] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
 
-  async function goToPayment() {
-    const response = await axios.post("/api/checkout", {
+  async function goToPayment(e) {
+    e.preventDefault();
+    const response = await axios.post("/api/reservationcheckout", {
       kind: "Reserva",
       name,
       lastname,
       email,
+      tour,
     });
+    console.log(response);
     if (response.data.url) {
       window.location = response.data.url;
     }
   }
   return (
-    <form>
+    <form onSubmit={goToPayment}>
       <ReservationBox>
         <Box>
           <h2>RESERVA AHORA!</h2>
@@ -85,11 +90,12 @@ export default function Reservation({ tour }) {
             onChange={(e) => setPersons(e.target.value)}
             min={1}
           />
-          <MyDatePicker />
-          <Price>{tour.reservationPrice} USD</Price>
-          <Button black block onClick={goToPayment}>
-            Realizar el pago
-          </Button>
+          <MyDatePicker
+            value={date}
+            onChange={(ev) => setDate(ev.target.value)}
+          />
+          <Price>{tour.reservationPrice * persons} USD</Price>
+          <Button type="submit">Pagar</Button>
         </Box>
       </ReservationBox>
     </form>

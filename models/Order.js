@@ -6,6 +6,7 @@ const OrderSchema = new Schema(
     line_items: Object,
     name: String,
     lastname: String,
+    date: String,
     email: String,
     paid: Boolean,
   },

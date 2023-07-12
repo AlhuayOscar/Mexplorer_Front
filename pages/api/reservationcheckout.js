@@ -8,39 +8,29 @@ export default async function handler(req, res) {
     res.json("should be a POST request");
     return;
   }
-  const { kind, name, lastname, email, cartTours } = req.body;
-  console.log(req.body);
+  const { kind, name, lastname, email, tour } = req.body;
+  console.log(req.body, "-------------------REQ.BODY-----------------------");
   await mongooseConnect();
-  const toursIds = cartTours;
-  const uniqueIds = [...new Set(toursIds)];
-  const toursInfos = await Tour.find({ _id: uniqueIds });
 
-  let line_items = [];
-  for (const tourId of uniqueIds) {
-    const tourInfo = toursInfos.find((p) => p._id.toString() === tourId);
-    const quantity = toursIds.filter((id) => id === tourId)?.length || 0;
-    if (quantity > 0 && tourInfo) {
-      line_items.push({
-        quantity,
-        price_data: {
-          currency: "USD",
-          product_data: { name: tourInfo.name },
-          unit_amount: tourInfo.price * 100,
-        },
-      });
-    }
-  }
+  const line_items = [
+    {
+      quantity: 1,
+      price_data: {
+        currency: "USD",
+        product_data: { name: tour.name },
+        unit_amount: tour.reservationPrice * 100,
+      },
+    },
+  ];
 
   const orderDoc = await Order.create({
     kind,
     name,
     lastname,
     email,
-    cartTours,
-    line_items,
     paid: false,
   });
-  console.log(orderDoc);
+
   const session = await stripe.checkout.sessions.create({
     line_items,
     mode: "payment",
@@ -50,7 +40,7 @@ export default async function handler(req, res) {
     metadata: { orderId: orderDoc._id.toString(), test: "ok" },
   });
 
-  res.json({
+  return res.json({
     url: session.url,
   });
 }
