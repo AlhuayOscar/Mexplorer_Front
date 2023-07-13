@@ -15,6 +15,7 @@ import CheckIcon from "@mui/icons-material/DoneOutlineRounded";
 import Link from "next/link";
 import ArrowIcon from "@mui/icons-material/KeyboardDoubleArrowLeftRounded";
 import ToursImageCarousel from "@/components/ToursImageCarousel";
+import Reservation from "@/components/Reservation";
 
 import ToursReviews from "@/components/ToursReviews";
 
@@ -174,6 +175,7 @@ export default function TourPage({ tour }) {
                   Añadir al carrito
                 </Button>
               </div>
+              <Reservation tour={tour}/>
             </PriceRow>
           </TourInfoBox>
         </ColWrapper>

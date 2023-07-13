@@ -104,7 +104,7 @@ export default function CartPage() {
   }
   async function goToPayment() {
     const response = await axios.post("/api/checkout", {
-      kind: "Pago",
+      kind: "Compra",
       name,
       lastname,
       email,
