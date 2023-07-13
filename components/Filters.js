@@ -3,6 +3,8 @@ import Center from "@/components/Center";
 import ToursGrid from "@/components/ToursGrid";
 
 const BoxContainer = styled.div`
+  position: sticky;
+  top: 20px;
   height: 30rem;
   display: flex;
   flex-direction: column;

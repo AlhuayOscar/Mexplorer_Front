@@ -46,14 +46,21 @@ const AsyncImageCarousel = ({ images }) => {
   return loaded ? <ToursImageCarousel images={images} /> : <div></div>;
 };
 
-const ColWrapper = styled.div``;
+const ColWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
 const TitleTour = styled.div`
   display: flex;
   justify-content: space-between;
   align-self: center;
   padding: 40px 20px;
+  @media screen and (min-width: 768px) {
+    justify-content: space-around;
+  }
 `;
+
 const Title = styled.div`
   font-size: 2.3rem;
 `;
@@ -88,6 +95,11 @@ const SubtitleStyle = css`
     @media screen and (min-width: 768px) {
       width: 12rem;
       font-size: 1.5rem;
+      ${(props) =>
+      props.title &&
+      css`
+     width: auto;
+  `}
   }
 `;
 
@@ -107,6 +119,15 @@ const MovilHeader = styled.div`
   }
 `;
 
+const Desktop = styled.div`
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 20px;
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+`;
+
 const TourInfoBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -114,6 +135,7 @@ const TourInfoBox = styled.div`
   width: 100%;
   @media screen and (min-width: 768px) {
     width: 65%;
+    margin-right: 3rem;
   }
 `;
 
@@ -176,6 +198,9 @@ const Description = styled.div`
   line-height: 1.5;
   padding: 20px;
   text-align: justify;
+  @media screen and (min-width: 768px) {
+    padding: 0;
+  }
 `;
 
 const Points = styled.div`
@@ -204,19 +229,18 @@ const Price = styled.span`
   font-size: 1.4rem;
 `;
 
-const Promos = styled.div`
+const Recomendations = styled.div`
   /* background-color: #ee2743; */
   padding: 20px;
   p{
     font-size: 1.4rem;
-    color: #fff;
   }
 `;
 
 const ToursLink = styled(Link)`
   font-size: 1.2rem;
   text-decoration: none;
-  color: #ee2743;
+  color: #84c441;
   div {
     display: flex;
     align-items: center;
@@ -238,7 +262,7 @@ const Review = styled.div`
 `;
 
 const ArrowI = styled(ArrowIcon)`
-  color: #ee2743;
+  color: #84c441;
   font-size: medium;
 `;
 
@@ -267,6 +291,9 @@ const ReservationBtn = styled.button`
   color: #fff; 
   margin-bottom: 10px;
   border: none;
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
 `;
 
 export default function TourPage({ tour, promoTours }) {
@@ -276,7 +303,6 @@ export default function TourPage({ tour, promoTours }) {
   const [showIncludes, setShowIncludes] = useState(false);
   const [showRequirements, setShowRequirements] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
-  const [showReview, setShowReview] = useState(false);
 
 
   const handleShowDescription = () => {
@@ -295,9 +321,6 @@ export default function TourPage({ tour, promoTours }) {
     setShowNotes(!showNotes)
   }
 
-  const handleShowReview = () => {
-    setShowReview(!showReview)
-  }
   return (
     <>
       <Header />
@@ -366,28 +389,26 @@ export default function TourPage({ tour, promoTours }) {
             ))}
           </Points>
         </InfoBox>}
-        <HeaderInfo blue>
-          Reseñas
-          <IconShow onClick={handleShowReview}>{showReview ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</IconShow>
-        </HeaderInfo>
-        {showReview && <ToursReviews tour={tour} />}
+        <Center>
+       <Reservation tour={tour}/>  
+       <ToursReviews tour={tour} />
+      </Center>
       </MovilHeader>
-     {/*  <Center>
+      <Desktop>
         <ColWrapper>
           <TourInfoBox>
-            <Title>{tour.name}</Title>
-            <h2>Descripción general</h2>
+            <Subtitle title>Descripción general</Subtitle>
             <ToursLink href={"/tours"}>
               <div>
                 <ArrowI />
                 Ver todos los tours en Cancun
               </div>
             </ToursLink>
-            <p>{tour.description}</p>
+            <Description>{tour.description}</Description>
 
             {tour.includes && (
               <InfoBox>
-                <Subtitle red>Que incluye</Subtitle>
+                <Subtitle yellow>Que incluye</Subtitle>
                 <Points>
                   {tour.includes?.map((include) => (
                     <Point>
@@ -414,7 +435,7 @@ export default function TourPage({ tour, promoTours }) {
 
             {tour.notes && (
               <InfoBox>
-                <Subtitle yellow>Notas</Subtitle>
+                <Subtitle green>Notas</Subtitle>
                 <Points>
                   {tour.notes?.map((note) => (
                     <Point>
@@ -425,7 +446,7 @@ export default function TourPage({ tour, promoTours }) {
                 </Points>
               </InfoBox>
             )}
-            <PriceRow>
+            {/* <PriceRow>
               <div>
                 <Price>${tour.price}</Price>
               </div>
@@ -435,19 +456,16 @@ export default function TourPage({ tour, promoTours }) {
                   Añadir al carrito
                 </Button>
               </div>
-              <Reservation tour={tour}/>
-            </PriceRow>
+            </PriceRow> */}
           </TourInfoBox>
+          <Reservation tour={tour} sticky={true}/>  
         </ColWrapper>
-        <ToursReviews tour={tour} />
-      </Center> */}
-      <Center>
-       <Reservation tour={tour}/>  
-      </Center>
-      <Promos>
-        <p>Promociones</p>
+      </Desktop>
+      
+      <Recomendations>
+        <p>Recomendaciones</p>
         <ToursGrid tours={promoTours}/>
-      </Promos>
+      </Recomendations>
       <Footer/>
     </>
   );
