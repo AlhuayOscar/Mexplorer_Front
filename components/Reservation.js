@@ -51,8 +51,10 @@ export default function Reservation({ tour }) {
       lastname,
       email,
       tour,
+      persons,
+      date
     });
-    console.log(response);
+    console.log(response.date);
     if (response.data.url) {
       window.location = response.data.url;
     }
@@ -92,7 +94,8 @@ export default function Reservation({ tour }) {
           />
           <MyDatePicker
             value={date}
-            onChange={(ev) => setDate(ev.target.value)}
+            onChange={(ev) => { return console.log(ev.target.value)
+                setDate(ev.target.value)}}
           />
           <Price>{tour.reservationPrice * persons} USD</Price>
           <Button type="submit">Pagar</Button>

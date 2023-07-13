@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     res.json("should be a POST request");
     return;
   }
-  const { kind, name, lastname, email, tour } = req.body;
+  const { kind, name, lastname, email, tour, persons, date } = req.body;
   console.log(req.body, "-------------------REQ.BODY-----------------------");
   await mongooseConnect();
 
@@ -28,6 +28,8 @@ export default async function handler(req, res) {
     name,
     lastname,
     email,
+    persons, 
+    date,
     paid: false,
   });
 

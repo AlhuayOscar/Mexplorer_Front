@@ -7,6 +7,7 @@ const OrderSchema = new Schema(
     name: String,
     lastname: String,
     date: String,
+    persons: Number,
     email: String,
     paid: Boolean,
   },
