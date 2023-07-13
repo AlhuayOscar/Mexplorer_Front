@@ -17,6 +17,8 @@ import ToursImageCarousel from "@/components/ToursImageCarousel";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import TimeIcon from '@mui/icons-material/AccessTime';
+import Reservation from "@/components/Reservation";
+
 import ToursReviews from "@/components/ToursReviews";
 import Footer from "@/components/Footer";
 import ToursGrid from "@/components/ToursGrid";
@@ -203,7 +205,7 @@ const Price = styled.span`
 `;
 
 const Promos = styled.div`
-  background-color: #ee2743;
+  /* background-color: #ee2743; */
   padding: 20px;
   p{
     font-size: 1.4rem;
@@ -433,15 +435,19 @@ export default function TourPage({ tour, promoTours }) {
                   Añadir al carrito
                 </Button>
               </div>
+              <Reservation tour={tour}/>
             </PriceRow>
           </TourInfoBox>
         </ColWrapper>
         <ToursReviews tour={tour} />
       </Center> */}
-      {/* <Promos>
+      <Center>
+       <Reservation tour={tour}/>  
+      </Center>
+      <Promos>
         <p>Promociones</p>
         <ToursGrid tours={promoTours}/>
-      </Promos> */}
+      </Promos>
       <Footer/>
     </>
   );
@@ -451,7 +457,7 @@ export async function getServerSideProps(context) {
   await mongooseConnect();
   const { id } = context.query;
   const tour = await Tour.findById(id);
-  const promoTours = await Tour.find({ promo: true }, null);
+  const promoTours = await Tour.find({ promo: true }, null, {limit: 3});
   return {
     props: {
       tour: JSON.parse(JSON.stringify(tour)),
