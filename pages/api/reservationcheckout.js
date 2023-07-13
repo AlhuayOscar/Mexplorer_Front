@@ -17,7 +17,7 @@ export default async function handler(req, res) {
       price_data: {
         currency: "USD",
         product_data: { name: tour.name },
-        unit_amount: tour.reservationPrice * persons * 100,
+        unit_amount: tour.reservationPrice * 100,
       },
     },
   ];
