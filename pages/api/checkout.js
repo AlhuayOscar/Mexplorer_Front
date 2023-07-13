@@ -9,7 +9,6 @@ export default async function handler(req, res) {
     return;
   }
   const { kind, name, lastname, email, cartTours } = req.body;
-  console.log(req.body);
   await mongooseConnect();
   const toursIds = cartTours;
   const uniqueIds = [...new Set(toursIds)];

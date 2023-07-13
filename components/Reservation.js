@@ -102,17 +102,13 @@ export default function Reservation({ tour, sticky }) {
       email,
       tour,
       persons,
-      date,
+      date
     });
+    console.log(response.date);
     if (response.data.url) {
       window.location = response.data.url;
     }
   }
-
-  const logSelectedDate = (date) => {
-    console.log("Fecha seleccionada:", date);
-  };
-
   return (
     <form onSubmit={goToPayment}>
       <ReservationBox sticky={sticky ? "sticky" : ""}>
@@ -151,11 +147,15 @@ export default function Reservation({ tour, sticky }) {
             onChange={(e) => setPersons(e.target.value)}
             min={1}
           />
-          <MyDatePicker
-            value={date}
-            onChange={(ev) => { return console.log(ev.target.value)
-                setDate(ev.target.value)}}
-          />
+          <Date>
+            <MyDatePicker
+              inline={true}
+              value={date}
+              satHighlight={true}
+              onChange={(ev) => { return console.log(ev.target.value)
+                  setDate(ev.target.value)}}
+            />
+          </Date>
           <Price>{tour.reservationPrice * persons} USD</Price>
           <ButtonR type="submit" green>Reserva</ButtonR>
           </Box>
