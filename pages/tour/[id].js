@@ -1,6 +1,5 @@
 import Center from "@/components/Center";
 import Header from "@/components/Header";
-import Title from "@/components/Title";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Tour } from "@/models/Tour";
 import styled, { css } from "styled-components";
@@ -8,22 +7,58 @@ import WhiteBox from "@/components/WhiteBox";
 import TourImages from "@/components/TourImages";
 import Button from "@/components/Button";
 import CartIcon from "@/components/icons/CartIcon";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { CartContext } from "@/components/CartContext";
 import { Carousel } from "react-responsive-carousel";
 import CheckIcon from "@mui/icons-material/DoneOutlineRounded";
 import Link from "next/link";
 import ArrowIcon from "@mui/icons-material/KeyboardDoubleArrowLeftRounded";
 import ToursImageCarousel from "@/components/ToursImageCarousel";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import TimeIcon from '@mui/icons-material/AccessTime';
 import Reservation from "@/components/Reservation";
 
 import ToursReviews from "@/components/ToursReviews";
+import Footer from "@/components/Footer";
+import ToursGrid from "@/components/ToursGrid";
+
+const AsyncImageCarousel = ({ images }) => {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const loadImage = async (src) => {
+      const image = new Image();
+      image.src = src;
+      await image.decode();
+      setLoaded(true);
+    };
+
+    const loadImages = async () => {
+      const imagePromises = images.map((src) => loadImage(src));
+      await Promise.all(imagePromises);
+      setLoaded(true);
+    };
+
+    loadImages();
+  }, [images]);
+
+  return loaded ? <ToursImageCarousel images={images} /> : <div></div>;
+};
 
 const ColWrapper = styled.div``;
 
+const TitleTour = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-self: center;
+  padding: 40px 20px;
+`;
+const Title = styled.div`
+  font-size: 2.3rem;
+`;
+
 const SubtitleStyle = css`
-  width: 12rem;
-  font-size: 1.5rem;
   margin: 0;
   ${(props) =>
     props.red &&
@@ -40,6 +75,20 @@ const SubtitleStyle = css`
     css`
       color: #eeb547;
     `}
+  ${(props) =>
+    props.green &&
+    css`
+      color: #84c441;
+    `}
+  ${(props) =>
+  props.pink &&
+  css`
+     color: #e73a78;
+  `}
+    @media screen and (min-width: 768px) {
+      width: 12rem;
+      font-size: 1.5rem;
+  }
 `;
 
 const Subtitle = styled.h3`
@@ -52,24 +101,90 @@ const Check = styled(CheckIcon)`
   font-size: medium;
 `;
 
+const MovilHeader = styled.div`
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
+`;
+
 const TourInfoBox = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px;
-  width: 65%;
+  width: 100%;
+  @media screen and (min-width: 768px) {
+    width: 65%;
+  }
+`;
+
+const HeaderInfo = styled.div`
+  display: flex;
+  font-size: 1.3rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  width: 100hv;
+  color: #fff;
+
+  ${(props) =>
+    props.green &&
+    css`
+      background-color: #84c441;
+    `}
+  ${(props) =>
+    props.red &&
+    css`
+      background-color: #ee2743;
+    `}
+  ${(props) =>
+    props.purple &&
+    css`
+      background-color: #ac2484;
+    `}
+ ${(props) =>
+    props.yellow &&
+    css`
+      background-color: #eeb547;
+    `}
+    ${(props) =>
+    props.blue &&
+    css`
+      background-color: #00abbd;
+    `}
+    ${(props) =>
+    props.pink &&
+    css`
+      background-color: #e73a78;
+    `}
+`;
+
+const IconShow = styled.div`
+
 `;
 
 const InfoBox = styled.div`
-  display: flex;
+  padding: 20px;
+  @media screen and (min-width: 768px) {
+    display: flex;
   align-items: start;
   padding: 20px;
   border-bottom: 1px solid #47556966;
+  }
+`;
+
+const Description = styled.div`
+  line-height: 1.5;
+  padding: 20px;
+  text-align: justify;
 `;
 
 const Points = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 80%;
+ 
+  @media screen and (min-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+  }
 `;
 
 const Point = styled.div`
@@ -89,30 +204,175 @@ const Price = styled.span`
   font-size: 1.4rem;
 `;
 
-const ToursLink = styled(Link)`
-  font-size: 1.2rem;
-  text-decoration: none;
-  color: #84c441;
-  div {
-    display: flex;
-    align-items: center;
+const Promos = styled.div`
+  /* background-color: #ee2743; */
+  padding: 20px;
+  p{
+    font-size: 1.4rem;
+    color: #fff;
   }
 `;
 
+const ToursLink = styled(Link)`
+  font-size: 1.2rem;
+  text-decoration: none;
+  color: #ee2743;
+  div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+`;
+
+const Review = styled.div`
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 8px 0;
+  justify-items: end;
+  align-self: start;
+  /* @media screen and (min-width: 768px) {
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: left;
+  } */
+`;
+
 const ArrowI = styled(ArrowIcon)`
-  color: #84c441;
+  color: #ee2743;
   font-size: medium;
 `;
 
-export default function TourPage({ tour }) {
+const TimeT = styled.div`
+  color: #888888;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+`;
+
+const TimeI = styled(TimeIcon)`
+  color: #888888;
+`;
+
+
+const TimeBox = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const ReservationBtn = styled.button`
+  width: 100%;
+  background-color: #ee2743;
+  font-size: 1.2rem;
+  padding: 15px;
+  color: #fff; 
+  margin-bottom: 10px;
+  border: none;
+`;
+
+export default function TourPage({ tour, promoTours }) {
+  console.log(promoTours)
   const { addTour } = useContext(CartContext);
+  const [showDescription, setShowDescription] = useState(true);
+  const [showIncludes, setShowIncludes] = useState(false);
+  const [showRequirements, setShowRequirements] = useState(false);
+  const [showNotes, setShowNotes] = useState(false);
+  const [showReview, setShowReview] = useState(false);
+
+
+  const handleShowDescription = () => {
+    setShowDescription(!showDescription)
+  }
+
+  const handleShowIncludes = () => {
+    setShowIncludes(!showIncludes)
+  }
+
+  const handleShowRequirements = () => {
+    setShowRequirements(!showRequirements)
+  }
+
+  const handleShowNotes = () => {
+    setShowNotes(!showNotes)
+  }
+
+  const handleShowReview = () => {
+    setShowReview(!showReview)
+  }
   return (
     <>
       <Header />
       <OverflowProtection>
         <ToursImageCarousel images={tour.images} />
       </OverflowProtection>
-      <Center>
+      <TitleTour>
+        <div>
+          <Title>{tour.name}</Title>
+          <TimeBox><TimeI/> <TimeT>{tour.duration} hrs</TimeT></TimeBox>
+        </div>
+        <Review>⭐⭐⭐⭐ <b>4</b></Review>
+      </TitleTour>
+      <ReservationBtn>Reserva ahora!!!</ReservationBtn>
+      <MovilHeader>
+        <HeaderInfo pink>
+          Descripción general
+          <IconShow onClick={handleShowDescription}>{showDescription ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</IconShow>
+        </HeaderInfo>
+        {showDescription && <Description>{tour.description}</Description>}
+        <HeaderInfo yellow>
+          Que incluye
+          <IconShow onClick={handleShowIncludes}>{showIncludes ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</IconShow>
+        </HeaderInfo>
+        {showIncludes && 
+          <InfoBox>
+          <Subtitle yellow>Este tour incluye:</Subtitle>
+          <Points>
+            {tour.includes?.map((include) => (
+              <Point>
+                <Check />
+                {include}
+              </Point>
+            ))}
+          </Points>
+        </InfoBox>}
+        <HeaderInfo purple>
+          Que llevar
+          <IconShow onClick={handleShowRequirements}>{showRequirements ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</IconShow>
+        </HeaderInfo>
+        {showRequirements && 
+          <InfoBox>
+          <Subtitle purple>A este tour recomendamos llevar:</Subtitle>
+          <Points>
+            {tour.requirements?.map((requirement) => (
+              <Point>
+                <Check />
+                {requirement}
+              </Point>
+            ))}
+          </Points>
+        </InfoBox>}
+        <HeaderInfo green>
+          Notas
+          <IconShow onClick={handleShowNotes}>{showNotes ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</IconShow>
+        </HeaderInfo>
+        {showNotes && 
+          <InfoBox>
+          <Subtitle green>Notas y recomendaciones:</Subtitle>
+          <Points>
+            {tour.notes?.map((note) => (
+              <Point>
+                <Check />
+                {note}
+              </Point>
+            ))}
+          </Points>
+        </InfoBox>}
+        <HeaderInfo blue>
+          Reseñas
+          <IconShow onClick={handleShowReview}>{showReview ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</IconShow>
+        </HeaderInfo>
+        {showReview && <ToursReviews tour={tour} />}
+      </MovilHeader>
+     {/*  <Center>
         <ColWrapper>
           <TourInfoBox>
             <Title>{tour.name}</Title>
@@ -125,7 +385,7 @@ export default function TourPage({ tour }) {
             </ToursLink>
             <p>{tour.description}</p>
 
-            {tour.description && (
+            {tour.includes && (
               <InfoBox>
                 <Subtitle red>Que incluye</Subtitle>
                 <Points>
@@ -180,7 +440,15 @@ export default function TourPage({ tour }) {
           </TourInfoBox>
         </ColWrapper>
         <ToursReviews tour={tour} />
+      </Center> */}
+      <Center>
+       <Reservation tour={tour}/>  
       </Center>
+      <Promos>
+        <p>Promociones</p>
+        <ToursGrid tours={promoTours}/>
+      </Promos>
+      <Footer/>
     </>
   );
 }
@@ -189,9 +457,12 @@ export async function getServerSideProps(context) {
   await mongooseConnect();
   const { id } = context.query;
   const tour = await Tour.findById(id);
+  const promoTours = await Tour.find({ promo: true }, null, {limit: 3});
   return {
     props: {
       tour: JSON.parse(JSON.stringify(tour)),
+      promoTours: JSON.parse(JSON.stringify(promoTours)),
     },
   };
 }
+

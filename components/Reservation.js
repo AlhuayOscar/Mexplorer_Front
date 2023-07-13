@@ -7,11 +7,13 @@ import { useState } from "react";
 import axios from "axios";
 
 const ReservationBox = styled.div`
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  border: 1px solid gray;
+  padding: 20px;
   border-radius: 7px;
-  width: 21rem;
-  height: 22rem;
+  width: 100hv;
+  margin: 20px 0;
   background-color: #fff;
   box-shadow: 2px 2px 4px #47556955;
   text-decoration: none;
@@ -23,6 +25,14 @@ const ReservationBox = styled.div`
   }
 `;
 
+const InputRes = styled.input`
+  width: 95%;
+  padding: 10px;
+  border-radius: 7px;
+  margin: 10px;
+  font-size: 0.9rem;
+`;
+
 const Price = styled.h3`
   border: solid 1px;
   width: 5rem;
@@ -30,10 +40,13 @@ const Price = styled.h3`
   margin-top: 5px;
 `;
 
-const Box = styled.div`
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 25px;
+const Titles = styled.label`
+  align-self: flex-start;
+  text-align: left;
+`;
+
+const Date = styled.div`
+  width: 100%;
 `;
 
 export default function Reservation({ tour }) {
@@ -62,44 +75,52 @@ export default function Reservation({ tour }) {
   return (
     <form onSubmit={goToPayment}>
       <ReservationBox>
-        <Box>
+        
           <h2>RESERVA AHORA!</h2>
-          <Input
+          <Titles>Nombre</Titles>
+          <InputRes
             type="text"
             placeholder="Nombre"
             value={name}
             name="name"
             onChange={(ev) => setName(ev.target.value)}
           />
-          <Input
+          <Titles>Apellido</Titles>
+          <InputRes
             type="text"
             placeholder="Apellido"
             value={lastname}
             name="lastname"
             onChange={(ev) => setLastname(ev.target.value)}
           />
-          <Input
+          <Titles>Email</Titles>
+          <InputRes
             type="text"
             placeholder="Email"
             value={email}
             name="email"
             onChange={(ev) => setEmail(ev.target.value)}
           />
-          <Input
+          <Titles>Adultos</Titles>
+          <InputRes
             placeholder="Cantidad de personas"
             type="number"
             value={persons}
             onChange={(e) => setPersons(e.target.value)}
             min={1}
           />
-          <MyDatePicker
-            value={date}
-            onChange={(ev) => { return console.log(ev.target.value)
-                setDate(ev.target.value)}}
-          />
+          <Date>
+            <MyDatePicker
+              inline={true}
+              value={date}
+              satHighlight={true}
+              onChange={(ev) => { return console.log(ev.target.value)
+                  setDate(ev.target.value)}}
+            />
+          </Date>
           <Price>{tour.reservationPrice * persons} USD</Price>
           <Button type="submit">Pagar</Button>
-        </Box>
+        
       </ReservationBox>
     </form>
   );
