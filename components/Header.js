@@ -19,8 +19,14 @@ const Logo = styled(Link)`
   text-decoration: none;
   position: relative;
   z-index: 3;
-  outline:none; 
+  outline: none;
+  transition: 0.8s ease;
   ${(props) => props.hideLogo && `display: none;`}
+  @media screen and (max-width: 450px) {
+    transform: scale(0.5);
+    transition: 0.4s ease;
+    width: 10%;
+  }
 `;
 
 const StyledImage = styled.img`
@@ -149,7 +155,7 @@ export default function Header() {
             <NavLink href={"/"} color="#84C441">
               Promociones
             </NavLink>
-            <NavLink href={"/"} color="#00ABBD">
+            <NavLink href={"/about"} color="#00ABBD">
               Sobre nosotros
             </NavLink>
           </StyledNav>

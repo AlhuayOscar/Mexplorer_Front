@@ -52,13 +52,15 @@ export default function Reservation({ tour }) {
       email,
       tour,
       persons,
-      date
+      date,
     });
-    console.log(response.date);
     if (response.data.url) {
       window.location = response.data.url;
     }
   }
+  const logSelectedDate = (date) => {
+    console.log("Fecha seleccionada:", date);
+  };
   return (
     <form onSubmit={goToPayment}>
       <ReservationBox>
@@ -94,8 +96,10 @@ export default function Reservation({ tour }) {
           />
           <MyDatePicker
             value={date}
-            onChange={(ev) => { return console.log(ev.target.value)
-                setDate(ev.target.value)}}
+            onChange={(date) => {
+              setDate(date);
+              logSelectedDate(date);
+            }}
           />
           <Price>{tour.reservationPrice * persons} USD</Price>
           <Button type="submit">Pagar</Button>

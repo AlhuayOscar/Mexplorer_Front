@@ -1,19 +1,18 @@
-import { useState } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-export default function MyDatePicker() {
-  const [selectedDate, setSelectedDate] = useState(null);
-
+export default function MyDatePicker({ value, onChange }) {
   const handleDateChange = (date) => {
-    setSelectedDate(date);
+    onChange(date);
   };
 
   return (
     <DatePicker
-      selected={selectedDate}
+      selected={value}
       onChange={handleDateChange}
       placeholderText="Selecciona una fecha"
+      value={value}
     />
   );
-};
+}

@@ -18,7 +18,7 @@ const AsyncImageCarousel = ({ images }) => {
       image.src = src;
       await image.decode();
       setLoaded(true);
-    };
+    };  
 
     const loadImages = async () => {
       const imagePromises = images.map((src) => loadImage(src));
