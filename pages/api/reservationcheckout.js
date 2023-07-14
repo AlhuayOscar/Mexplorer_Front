@@ -9,12 +9,11 @@ export default async function handler(req, res) {
     return;
   }
   const { kind, name, lastname, email, tour, persons, date } = req.body;
-  console.log(req.body, "-------------------REQ.BODY-----------------------");
   await mongooseConnect();
 
   const line_items = [
     {
-      quantity: 1,
+      quantity: persons,
       price_data: {
         currency: "USD",
         product_data: { name: tour.name },
@@ -28,7 +27,7 @@ export default async function handler(req, res) {
     name,
     lastname,
     email,
-    persons, 
+    persons,
     date,
     paid: false,
   });

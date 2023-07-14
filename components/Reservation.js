@@ -1,25 +1,61 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import CartIcon from "@/components/icons/CartIcon";
 import MyDatePicker from "./DatePicker";
-import Button from "./Button";
+import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { useState } from "react";
 import axios from "axios";
 
-const ReservationBox = styled.div`
-  align-items: center;
-  border: 1px solid gray;
+const ReservationStyle = css`
+  overflow: hidden;
   border-radius: 7px;
-  width: 21rem;
-  height: 22rem;
+  width: 100hv;
+  margin: 20px 0;
   background-color: #fff;
   box-shadow: 2px 2px 4px #47556955;
   text-decoration: none;
-  overflow: hidden;
+  ${(props) =>
+    props.sticky &&
+    css`
+      position: sticky;
+      top: 20px;
+    `}
   @media screen and (min-width: 768px) {
-    height: 24rem;
     width: 23rem;
     box-shadow: 2px 2px 4px #47556966;
+  }
+`;
+
+const ReservationBox = styled.div`
+  ${ReservationStyle}
+`;
+
+const ResercaTitle = styled.div`
+  text-align: center;
+  background-color: #00abbd;
+  color: #fff;
+  padding: 20px;
+  font-size: 1.5rem;
+`;
+
+const Box = styled.div`
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const InputRes = styled.input`
+  width: 95%;
+  padding: 10px;
+  border-radius: 7px;
+  margin: 10px;
+  font-size: 0.9rem;
+  border: 2px solid #0006;
+  &:focus {
+    border: 2px solid #00abbd;
+    background-color: #00abbd22;
+    outline: none;
   }
 `;
 
@@ -30,13 +66,26 @@ const Price = styled.h3`
   margin-top: 5px;
 `;
 
-const Box = styled.div`
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 25px;
+const Titles = styled.label`
+  align-self: flex-start;
+  text-align: left;
 `;
 
-export default function Reservation({ tour }) {
+const Date = styled.div`
+  width: 100%;
+`;
+
+const ButtonR = styled(Button)`
+  font-size: 1.4rem;
+  padding: 1rem 7rem;
+  text-align: center;
+  &:hover {
+    scale: 1.05;
+    background-color: #699c34;
+  }
+`;
+
+export default function Reservation({ tour, sticky }) {
   const [persons, setPersons] = useState(1);
   const [date, setDate] = useState("");
   const [name, setName] = useState("");
@@ -58,51 +107,63 @@ export default function Reservation({ tour }) {
       window.location = response.data.url;
     }
   }
+
   const logSelectedDate = (date) => {
     console.log("Fecha seleccionada:", date);
   };
+
   return (
     <form onSubmit={goToPayment}>
-      <ReservationBox>
+      <ReservationBox sticky={sticky ? "sticky" : ""}>
+        <ResercaTitle>RESERVA AHORA!</ResercaTitle>
         <Box>
-          <h2>RESERVA AHORA!</h2>
-          <Input
+          <Titles>Nombre</Titles>
+          <InputRes
             type="text"
             placeholder="Nombre"
             value={name}
             name="name"
             onChange={(ev) => setName(ev.target.value)}
           />
-          <Input
+          <Titles>Apellido</Titles>
+          <InputRes
             type="text"
             placeholder="Apellido"
             value={lastname}
             name="lastname"
             onChange={(ev) => setLastname(ev.target.value)}
           />
-          <Input
+          <Titles>Email</Titles>
+          <InputRes
             type="text"
             placeholder="Email"
             value={email}
             name="email"
             onChange={(ev) => setEmail(ev.target.value)}
           />
-          <Input
+          <Titles>Adultos</Titles>
+          <InputRes
             placeholder="Cantidad de personas"
             type="number"
             value={persons}
             onChange={(e) => setPersons(e.target.value)}
             min={1}
           />
-          <MyDatePicker
-            value={date}
-            onChange={(date) => {
-              setDate(date);
-              logSelectedDate(date);
-            }}
-          />
+          <Date>
+            <MyDatePicker
+              inline={true}
+              value={date}
+              satHighlight={true}
+              onChange={(date) => {
+                setDate(date);
+                logSelectedDate(date);
+              }}
+            />
+          </Date>
           <Price>{tour.reservationPrice * persons} USD</Price>
-          <Button type="submit">Pagar</Button>
+          <ButtonR type="submit" green>
+            Reserva
+          </ButtonR>
         </Box>
       </ReservationBox>
     </form>

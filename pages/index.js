@@ -25,6 +25,7 @@ export async function getServerSideProps() {
     limit: 10,
   });
   const promoTours = await Tour.find({ promo: true }, null);
+  console.log(promoTours)
   return {
     props: {
       featuredTour: JSON.parse(JSON.stringify(featuredTour)),
