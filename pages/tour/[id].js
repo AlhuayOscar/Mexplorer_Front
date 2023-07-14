@@ -231,10 +231,9 @@ const Price = styled.span`
 
 const Recomendations = styled.div`
   /* background-color: #ee2743; */
-  padding: 20px;
-  p{
-    font-size: 1.4rem;
-  }
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 20px;
 `;
 
 const ToursLink = styled(Link)`
@@ -391,7 +390,7 @@ export default function TourPage({ tour, promoTours }) {
         </InfoBox>}
         <Center>
        <Reservation tour={tour}/>  
-       <ToursReviews tour={tour} />
+       
       </Center>
       </MovilHeader>
       <Desktop>
@@ -461,9 +460,11 @@ export default function TourPage({ tour, promoTours }) {
           <Reservation tour={tour} sticky={true}/>  
         </ColWrapper>
       </Desktop>
-      
+      <Center>
+        <ToursReviews tour={tour} />  
+      </Center>
       <Recomendations>
-        <p>Recomendaciones</p>
+        <Subtitle purple>Recomendaciones</Subtitle>
         <ToursGrid tours={promoTours}/>
       </Recomendations>
       <Footer/>
