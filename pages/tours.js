@@ -5,6 +5,7 @@ import { mongooseConnect } from "@/lib/mongoose";
 import { Tour } from "@/models/Tour";
 import TourBoxH from "@/components/ToursBoxH";
 import Filters from "@/components/Filters";
+import { useState } from "react";
 
 const ImageBox = styled.div`
   background: url("https://res.cloudinary.com/simpleview/image/upload/v1571158080/clients/quintanaroo/Intercontinental_Cancun_3_231b1843-c2bd-4fa8-b4b6-56cb64a30f39.jpg")
@@ -48,6 +49,14 @@ const ToursBox = styled.div`
 `;
 
 export default function ToursPage({ tours }) {
+  const [filteredTours, setFilteredTours] = useState(tours);
+
+  console.log("tours", tours);
+
+  const handleFiltersChange = (filteredTours) => {
+    setFilteredTours(filteredTours);
+  };
+
   return (
     <>
       <Header />
@@ -57,9 +66,9 @@ export default function ToursPage({ tours }) {
       <Center>
         <h2>Todos los tours</h2>
         <Main>
-          <Filters />
+          <Filters tours={tours} onFiltersChange={handleFiltersChange} />
           <ToursBox>
-            {tours?.map((product) => (
+            {filteredTours?.map((product) => (
               <TourBoxH key={product._id} {...product} />
             ))}
           </ToursBox>
