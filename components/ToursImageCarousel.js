@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -22,42 +22,69 @@ const HeaderSlider = styled(Slider)`
   align-items: center;
   overflow: hidden;
   transition: 0.4s ease;
-  &:hover {
+  
+  /* &:hover {
     transition: 0.4s ease;
     cursor: grab;
     overflow: hidden;
     padding-block: 10px;
-  }
+  } */
 `;
 
 const SlideImage = styled.img`
-  height: 200px;
-  height: 350px;
+  height: 300px;
   object-fit: cover; /* Aplica el recorte */
   object-position: center; /* Centra la imagen en el recorte */
   transition: 0.4s ease 0.15s;
-  padding-top: 15px;
-  &:hover {
-    transform: scale(1.11);
+  
+  @media screen and (min-width: 768px) {
     height: 380px;
-    padding-top: 15px;
-    transition: 0.4s ease;
-    cursor: grab;
-    overflow: hidden;
   }
 `;
 
 const Carousel = ({ images }) => {
+  const [windowWidth, setWindowWidth] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    // Verificar si window está definido antes de suscribirse al evento resize
+    if (typeof window !== "undefined") {
+      setWindowWidth(window.innerWidth);
+      window.addEventListener("resize", handleResize);
+    }
+
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("resize", handleResize);
+      }
+    };
+  }, []);
+
+  const getNumberOfItemsToShow = () => {
+    if (windowWidth >= 1000) {
+      return 3;
+    } else if (windowWidth >= 786) {
+      return 2;
+    } else {
+      return 1;
+    }
+  };
+
+  const showCards = getNumberOfItemsToShow();
+
   const settings = {
     dots: false,
     infinite: true,
     speed: 550,
-    slidesToShow: 2,
+    slidesToShow: showCards,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 2500,
+    autoplaySpeed: 3000,
     cssEase: "linear",
-    centerMode: true,
+    /* arrows: true, */
   };
 
   return (

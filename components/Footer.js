@@ -142,7 +142,7 @@ const Footer = () => {
               height: 10,
               amplitude: 25,
               speed: 0.2,
-              points: 4,
+              points: 3,
               fill: 0b0000,
             }}
           />
@@ -155,8 +155,8 @@ const Footer = () => {
             options={{
               height: 10,
               amplitude: 25,
-              speed: 0.2,
-              points: 4,
+              speed: 0.4,
+              points: 2,
               fill: 0b0000,
             }}
           />
@@ -169,8 +169,8 @@ const Footer = () => {
             options={{
               height: 10,
               amplitude: 25,
-              speed: 0.2,
-              points: 4,
+              speed: 0.3,
+              points: 3,
               fill: 0b0000,
             }}
           />
@@ -184,7 +184,7 @@ const Footer = () => {
               height: 10,
               amplitude: 25,
               speed: 0.2,
-              points: 4,
+              points: 2,
               fill: 0b0000,
             }}
           />
@@ -197,8 +197,8 @@ const Footer = () => {
             options={{
               height: 10,
               amplitude: 25,
-              speed: 0.2,
-              points: 4,
+              speed: 0.1,
+              points: 3,
               fill: 0b0000,
             }}
           />
@@ -211,8 +211,8 @@ const Footer = () => {
             options={{
               height: 10,
               amplitude: 25,
-              speed: 0.2,
-              points: 4,
+              speed: 0.3,
+              points: 2,
               fill: 0b0000,
             }}
           />
@@ -226,7 +226,7 @@ const Footer = () => {
               height: 10,
               amplitude: 25,
               speed: 0.2,
-              points: 4,
+              points: 3,
               fill: 0b0000,
             }}
           />

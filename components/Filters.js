@@ -5,6 +5,8 @@ import { styled as muiStyled } from '@mui/material/styles';
 
 
 const BoxContainer = styled.div`
+  position: sticky;
+  top: 20px;
   height: 40rem;
   display: flex;
   flex-direction: column;
