@@ -85,7 +85,7 @@ const ButtonR = styled(Button)`
   }
 `;
 
-export default function Reservation({ tour, sticky }) {
+export default function Reservation({ tour, sticky, reservationsRef }) {
   const [persons, setPersons] = useState(1);
   const [date, setDate] = useState("");
   const [name, setName] = useState("");
@@ -113,7 +113,7 @@ export default function Reservation({ tour, sticky }) {
   };
 
   return (
-    <form onSubmit={goToPayment}>
+    <form onSubmit={goToPayment} ref={reservationsRef}>
       <ReservationBox sticky={sticky ? "sticky" : ""}>
         <ResercaTitle>RESERVA AHORA!</ResercaTitle>
         <Box>

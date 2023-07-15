@@ -79,7 +79,6 @@ export default function ToursReviews({ tour }) {
     }
     return (
         <div>
-            <Title>Reseña</Title>
             <ColsWrapper>
                 <div>
                     <WhiteBox>
