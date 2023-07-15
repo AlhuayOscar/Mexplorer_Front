@@ -1,4 +1,4 @@
-import styled, {css} from "styled-components";
+import styled, { css } from "styled-components";
 import CartIcon from "@/components/icons/CartIcon";
 import MyDatePicker from "./DatePicker";
 import Button from "@/components/Button";
@@ -53,10 +53,10 @@ const InputRes = styled.input`
   font-size: 0.9rem;
   border: 2px solid #0006;
   &:focus {
-      border: 2px solid #00abbd;
-      background-color: #00abbd22;
-      outline: none;
-      }
+    border: 2px solid #00abbd;
+    background-color: #00abbd22;
+    outline: none;
+  }
 `;
 
 const Price = styled.h3`
@@ -69,7 +69,6 @@ const Price = styled.h3`
 const Titles = styled.label`
   align-self: flex-start;
   text-align: left;
-  
 `;
 
 const Date = styled.div`
@@ -102,19 +101,22 @@ export default function Reservation({ tour, sticky }) {
       email,
       tour,
       persons,
-      date
+      date,
     });
-    console.log(response.date);
     if (response.data.url) {
       window.location = response.data.url;
     }
   }
+
+  const logSelectedDate = (date) => {
+    console.log("Fecha seleccionada:", date);
+  };
+
   return (
     <form onSubmit={goToPayment}>
       <ReservationBox sticky={sticky ? "sticky" : ""}>
-        
-          <ResercaTitle>RESERVA AHORA!</ResercaTitle>
-          <Box>
+        <ResercaTitle>RESERVA AHORA!</ResercaTitle>
+        <Box>
           <Titles>Nombre</Titles>
           <InputRes
             type="text"
@@ -152,13 +154,17 @@ export default function Reservation({ tour, sticky }) {
               inline={true}
               value={date}
               satHighlight={true}
-              onChange={(ev) => { return console.log(ev.target.value)
-                  setDate(ev.target.value)}}
+              onChange={(date) => {
+                setDate(date);
+                logSelectedDate(date);
+              }}
             />
           </Date>
           <Price>{tour.reservationPrice * persons} USD</Price>
-          <ButtonR type="submit" green>Reserva</ButtonR>
-          </Box>
+          <ButtonR type="submit" green>
+            Reserva
+          </ButtonR>
+        </Box>
       </ReservationBox>
     </form>
   );
