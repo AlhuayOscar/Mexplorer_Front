@@ -7,7 +7,7 @@ import WhiteBox from "@/components/WhiteBox";
 import TourImages from "@/components/TourImages";
 import Button from "@/components/Button";
 import CartIcon from "@/components/icons/CartIcon";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import { CartContext } from "@/components/CartContext";
 import { Carousel } from "react-responsive-carousel";
 import CheckIcon from "@mui/icons-material/DoneOutlineRounded";
@@ -22,6 +22,8 @@ import Reservation from "@/components/Reservation";
 import ToursReviews from "@/components/ToursReviews";
 import Footer from "@/components/Footer";
 import ToursGrid from "@/components/ToursGrid";
+import NavTour from "@/components/NavTour";
+import { Reviews } from "@mui/icons-material";
 
 const AsyncImageCarousel = ({ images }) => {
   const [loaded, setLoaded] = useState(false);
@@ -231,10 +233,9 @@ const Price = styled.span`
 
 const Recomendations = styled.div`
   /* background-color: #ee2743; */
-  padding: 20px;
-  p{
-    font-size: 1.4rem;
-  }
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 20px;
 `;
 
 const ToursLink = styled(Link)`
@@ -303,7 +304,12 @@ export default function TourPage({ tour, promoTours }) {
   const [showIncludes, setShowIncludes] = useState(false);
   const [showRequirements, setShowRequirements] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
-
+  const includesRef = useRef(null);
+  const requirementsRef = useRef(null);
+  const notesRef = useRef(null);
+  const reviewsRef = useRef(null);
+  const recomendationsRef = useRef(null);
+  const reservationsRef = useRef(null);
 
   const handleShowDescription = () => {
     setShowDescription(!showDescription)
@@ -321,6 +327,10 @@ export default function TourPage({ tour, promoTours }) {
     setShowNotes(!showNotes)
   }
 
+  const scrollToreservations = () => {
+    reservationsRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <>
       <Header />
@@ -334,7 +344,12 @@ export default function TourPage({ tour, promoTours }) {
         </div>
         <Review>⭐⭐⭐⭐ <b>4</b></Review>
       </TitleTour>
-      <ReservationBtn>Reserva ahora!!!</ReservationBtn>
+      <NavTour includesRef={includesRef}
+               requirementsRef={requirementsRef}
+               notesRef={notesRef}
+               reviewsRef={reviewsRef}
+               recomendationsRef={recomendationsRef}/>
+      <ReservationBtn onClick={scrollToreservations}>Reserva ahora!!!</ReservationBtn>
       <MovilHeader>
         <HeaderInfo pink>
           Descripción general
@@ -391,7 +406,7 @@ export default function TourPage({ tour, promoTours }) {
         </InfoBox>}
         <Center>
        <Reservation tour={tour}/>  
-       <ToursReviews tour={tour} />
+       
       </Center>
       </MovilHeader>
       <Desktop>
@@ -407,7 +422,7 @@ export default function TourPage({ tour, promoTours }) {
             <Description>{tour.description}</Description>
 
             {tour.includes && (
-              <InfoBox>
+              <InfoBox ref={includesRef}>
                 <Subtitle yellow>Que incluye</Subtitle>
                 <Points>
                   {tour.includes?.map((include) => (
@@ -420,7 +435,7 @@ export default function TourPage({ tour, promoTours }) {
               </InfoBox>
             )}
             {tour.requirements && (
-              <InfoBox>
+              <InfoBox ref={requirementsRef}>
                 <Subtitle purple>Que Llevar</Subtitle>
                 <Points>
                   {tour.requirements?.map((requirement) => (
@@ -434,7 +449,7 @@ export default function TourPage({ tour, promoTours }) {
             )}
 
             {tour.notes && (
-              <InfoBox>
+              <InfoBox ref={notesRef}>
                 <Subtitle green>Notas</Subtitle>
                 <Points>
                   {tour.notes?.map((note) => (
@@ -458,12 +473,15 @@ export default function TourPage({ tour, promoTours }) {
               </div>
             </PriceRow> */}
           </TourInfoBox>
-          <Reservation tour={tour} sticky={true}/>  
+          <Reservation tour={tour} sticky={true} reservationsRef={reservationsRef}/>  
         </ColWrapper>
       </Desktop>
-      
+      <Center>
+        <Subtitle red reviewsRef={reviewsRef}>Reseñas</Subtitle>
+        <ToursReviews tour={tour}/>  
+      </Center>
       <Recomendations>
-        <p>Recomendaciones</p>
+        <Subtitle purple ref={recomendationsRef}>Recomendaciones</Subtitle>
         <ToursGrid tours={promoTours}/>
       </Recomendations>
       <Footer/>
