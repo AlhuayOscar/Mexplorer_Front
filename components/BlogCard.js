@@ -38,6 +38,7 @@ const Description = styled.p`
   font-size: 16px;
   padding-inline: 20px;
 `;
+
 const BlogDate = styled.span`
   text-align: start;
 
@@ -59,7 +60,6 @@ const Image = styled.img`
   ); /* Puedes ajustar el valor de blur según tus preferencias */
 `;
 
-// Estilos globales para los enlaces
 const GlobalLinkStyles = styled.a`
   text-decoration: none;
   color: inherit;
