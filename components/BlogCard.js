@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Link from "next/link";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 const CardContainer = styled.div`
@@ -8,6 +9,7 @@ const CardContainer = styled.div`
   padding: 8px;
   box-shadow: 0 0 5px #888;
   width: 350px;
+  height: 525px;
   padding-bottom: 25px;
   display: flex;
   flex-direction: column;
@@ -57,6 +59,12 @@ const Image = styled.img`
   ); /* Puedes ajustar el valor de blur según tus preferencias */
 `;
 
+// Estilos globales para los enlaces
+const GlobalLinkStyles = styled.a`
+  text-decoration: none;
+  color: inherit;
+`;
+
 const BlogCard = ({ blog }) => {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -79,18 +87,26 @@ const BlogCard = ({ blog }) => {
   const truncatedDescription = truncateDescription(blog.description, 160);
 
   return (
-    <CardContainer>
-      <Image src={blog.images[0]} alt="Blog Image" />
-      <Title>{blog.title}</Title>
-      <BlogDate>
-        <p>
-          <CalendarMonthIcon />
-          {formatDate(blog.date)}
-        </p>
-      </BlogDate>
-      <Subtitle>{blog.subtitle}</Subtitle>
-      <Description>{truncatedDescription}</Description>
-    </CardContainer>
+    <Link href={`/blog/${blog._id}`} passHref>
+      <CardContainer>
+        <Image src={blog.images[0]} alt="Blog Image" />
+        <Title>{blog.title}</Title>
+        <BlogDate>
+          <p>
+            <CalendarMonthIcon />
+            {formatDate(blog.date)}
+          </p>
+        </BlogDate>
+        <Subtitle>{blog.subtitle}</Subtitle>
+        <Description>{truncatedDescription}</Description>
+        <style jsx global>{`
+          a {
+            text-decoration: none;
+            color: inherit;
+          }
+        `}</style>
+      </CardContainer>
+    </Link>
   );
 };
 
