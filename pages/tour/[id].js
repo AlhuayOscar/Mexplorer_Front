@@ -14,9 +14,9 @@ import CheckIcon from "@mui/icons-material/DoneOutlineRounded";
 import Link from "next/link";
 import ArrowIcon from "@mui/icons-material/KeyboardDoubleArrowLeftRounded";
 import ToursImageCarousel from "@/components/ToursImageCarousel";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import TimeIcon from '@mui/icons-material/AccessTime';
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import TimeIcon from "@mui/icons-material/AccessTime";
 import Reservation from "@/components/Reservation";
 
 import ToursReviews from "@/components/ToursReviews";
@@ -90,18 +90,18 @@ const SubtitleStyle = css`
       color: #84c441;
     `}
   ${(props) =>
-  props.pink &&
-  css`
-     color: #e73a78;
-  `}
+    props.pink &&
+    css`
+      color: #e73a78;
+    `}
     @media screen and (min-width: 768px) {
-      width: 12rem;
-      font-size: 1.5rem;
-      ${(props) =>
+    width: 12rem;
+    font-size: 1.5rem;
+    ${(props) =>
       props.title &&
       css`
-     width: auto;
-  `}
+        width: auto;
+      `}
   }
 `;
 
@@ -182,17 +182,15 @@ const HeaderInfo = styled.div`
     `}
 `;
 
-const IconShow = styled.div`
-
-`;
+const IconShow = styled.div``;
 
 const InfoBox = styled.div`
   padding: 20px;
   @media screen and (min-width: 768px) {
     display: flex;
-  align-items: start;
-  padding: 20px;
-  border-bottom: 1px solid #47556966;
+    align-items: start;
+    padding: 20px;
+    border-bottom: 1px solid #47556966;
   }
 `;
 
@@ -206,7 +204,6 @@ const Description = styled.div`
 `;
 
 const Points = styled.div`
- 
   @media screen and (min-width: 768px) {
     display: flex;
     flex-direction: column;
@@ -278,7 +275,6 @@ const TimeI = styled(TimeIcon)`
   color: #888888;
 `;
 
-
 const TimeBox = styled.div`
   display: flex;
   align-items: center;
@@ -289,7 +285,7 @@ const ReservationBtn = styled.button`
   background-color: #ee2743;
   font-size: 1.2rem;
   padding: 15px;
-  color: #fff; 
+  color: #fff;
   margin-bottom: 10px;
   border: none;
   @media screen and (min-width: 768px) {
@@ -298,7 +294,7 @@ const ReservationBtn = styled.button`
 `;
 
 export default function TourPage({ tour, promoTours }) {
-  console.log(promoTours)
+  console.log(promoTours);
   const { addTour } = useContext(CartContext);
   const [showDescription, setShowDescription] = useState(true);
   const [showIncludes, setShowIncludes] = useState(false);
@@ -312,20 +308,20 @@ export default function TourPage({ tour, promoTours }) {
   const reservationsRef = useRef(null);
 
   const handleShowDescription = () => {
-    setShowDescription(!showDescription)
-  }
+    setShowDescription(!showDescription);
+  };
 
   const handleShowIncludes = () => {
-    setShowIncludes(!showIncludes)
-  }
+    setShowIncludes(!showIncludes);
+  };
 
   const handleShowRequirements = () => {
-    setShowRequirements(!showRequirements)
-  }
+    setShowRequirements(!showRequirements);
+  };
 
   const handleShowNotes = () => {
-    setShowNotes(!showNotes)
-  }
+    setShowNotes(!showNotes);
+  };
 
   const scrollToreservations = () => {
     reservationsRef.current.scrollIntoView({ behavior: "smooth" });
@@ -340,74 +336,92 @@ export default function TourPage({ tour, promoTours }) {
       <TitleTour>
         <div>
           <Title>{tour.name}</Title>
-          <TimeBox><TimeI/> <TimeT>{tour.duration} hrs</TimeT></TimeBox>
+          <TimeBox>
+            <TimeI /> <TimeT>{tour.duration} hrs</TimeT>
+          </TimeBox>
         </div>
-        <Review>⭐⭐⭐⭐ <b>4</b></Review>
+        <Review>
+          ⭐⭐⭐⭐ <b>4</b>
+        </Review>
       </TitleTour>
-      <NavTour includesRef={includesRef}
-               requirementsRef={requirementsRef}
-               notesRef={notesRef}
-               reviewsRef={reviewsRef}
-               recomendationsRef={recomendationsRef}/>
-      <ReservationBtn onClick={scrollToreservations}>Reserva ahora!!!</ReservationBtn>
+      <NavTour
+        includesRef={includesRef}
+        requirementsRef={requirementsRef}
+        notesRef={notesRef}
+        reviewsRef={reviewsRef}
+        recomendationsRef={recomendationsRef}
+      />
+      <ReservationBtn onClick={scrollToreservations}>
+        Reserva ahora!!!
+      </ReservationBtn>
       <MovilHeader>
         <HeaderInfo pink>
           Descripción general
-          <IconShow onClick={handleShowDescription}>{showDescription ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</IconShow>
+          <IconShow onClick={handleShowDescription}>
+            {showDescription ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </IconShow>
         </HeaderInfo>
         {showDescription && <Description>{tour.description}</Description>}
         <HeaderInfo yellow>
           Que incluye
-          <IconShow onClick={handleShowIncludes}>{showIncludes ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</IconShow>
+          <IconShow onClick={handleShowIncludes}>
+            {showIncludes ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </IconShow>
         </HeaderInfo>
-        {showIncludes && 
+        {showIncludes && (
           <InfoBox>
-          <Subtitle yellow>Este tour incluye:</Subtitle>
-          <Points>
-            {tour.includes?.map((include) => (
-              <Point>
-                <Check />
-                {include}
-              </Point>
-            ))}
-          </Points>
-        </InfoBox>}
+            <Subtitle yellow>Este tour incluye:</Subtitle>
+            <Points>
+              {tour.includes?.map((include) => (
+                <Point>
+                  <Check />
+                  {include}
+                </Point>
+              ))}
+            </Points>
+          </InfoBox>
+        )}
         <HeaderInfo purple>
           Que llevar
-          <IconShow onClick={handleShowRequirements}>{showRequirements ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</IconShow>
+          <IconShow onClick={handleShowRequirements}>
+            {showRequirements ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </IconShow>
         </HeaderInfo>
-        {showRequirements && 
+        {showRequirements && (
           <InfoBox>
-          <Subtitle purple>A este tour recomendamos llevar:</Subtitle>
-          <Points>
-            {tour.requirements?.map((requirement) => (
-              <Point>
-                <Check />
-                {requirement}
-              </Point>
-            ))}
-          </Points>
-        </InfoBox>}
+            <Subtitle purple>A este tour recomendamos llevar:</Subtitle>
+            <Points>
+              {tour.requirements?.map((requirement) => (
+                <Point>
+                  <Check />
+                  {requirement}
+                </Point>
+              ))}
+            </Points>
+          </InfoBox>
+        )}
         <HeaderInfo green>
           Notas
-          <IconShow onClick={handleShowNotes}>{showNotes ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</IconShow>
+          <IconShow onClick={handleShowNotes}>
+            {showNotes ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </IconShow>
         </HeaderInfo>
-        {showNotes && 
+        {showNotes && (
           <InfoBox>
-          <Subtitle green>Notas y recomendaciones:</Subtitle>
-          <Points>
-            {tour.notes?.map((note) => (
-              <Point>
-                <Check />
-                {note}
-              </Point>
-            ))}
-          </Points>
-        </InfoBox>}
+            <Subtitle green>Notas y recomendaciones:</Subtitle>
+            <Points>
+              {tour.notes?.map((note) => (
+                <Point>
+                  <Check />
+                  {note}
+                </Point>
+              ))}
+            </Points>
+          </InfoBox>
+        )}
         <Center>
-       <Reservation tour={tour}/>  
-       
-      </Center>
+          <Reservation tour={tour} />
+        </Center>
       </MovilHeader>
       <Desktop>
         <ColWrapper>
@@ -473,18 +487,26 @@ export default function TourPage({ tour, promoTours }) {
               </div>
             </PriceRow> */}
           </TourInfoBox>
-          <Reservation tour={tour} sticky={true} reservationsRef={reservationsRef}/>  
+          <Reservation
+            tour={tour}
+            sticky={true}
+            reservationsRef={reservationsRef}
+          />
         </ColWrapper>
       </Desktop>
       <Center>
-        <Subtitle red reviewsRef={reviewsRef}>Reseñas</Subtitle>
-        <ToursReviews tour={tour}/>  
+        <Subtitle red reviewsRef={reviewsRef}>
+          Reseñas
+        </Subtitle>
+        <ToursReviews tour={tour} />
       </Center>
       <Recomendations>
-        <Subtitle purple ref={recomendationsRef}>Recomendaciones</Subtitle>
-        <ToursGrid tours={promoTours}/>
+        <Subtitle purple ref={recomendationsRef}>
+          Recomendaciones
+        </Subtitle>
+        <ToursGrid tours={promoTours} />
       </Recomendations>
-      <Footer/>
+      <Footer />
     </>
   );
 }
@@ -493,7 +515,7 @@ export async function getServerSideProps(context) {
   await mongooseConnect();
   const { id } = context.query;
   const tour = await Tour.findById(id);
-  const promoTours = await Tour.find({ promo: true }, null, {limit: 3});
+  const promoTours = await Tour.find({ promo: true }, null, { limit: 3 });
   return {
     props: {
       tour: JSON.parse(JSON.stringify(tour)),
@@ -501,4 +523,3 @@ export async function getServerSideProps(context) {
     },
   };
 }
-

@@ -140,7 +140,7 @@ export default function Header() {
             <StyledImage src="/mex_logo.png" alt="Logo de México" fill />
           </Logo>
           <StyledNav mobileNavActive={mobileNavActive}>
-            <NavLink href={"/"} color="#00ABBD">
+            <NavLink href={"/blog"} color="#00ABBD">
               Blog
             </NavLink>
             <NavLink href={"/tours"} color="#ED2286">
