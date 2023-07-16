@@ -59,11 +59,34 @@ const InputRes = styled.input`
   }
 `;
 
-const Price = styled.h3`
-  border: solid 1px;
-  width: 5rem;
-  font-size: 1rem;
-  margin-top: 5px;
+const Price = styled.div`
+  display: flex;
+  border-radius: 7px;
+  align-items: center;
+  justify-content: center;
+  background-color: #00abbd;
+  width: 80%;
+  height: 4rem;
+  margin: 20px 0;
+  padding: 10px;
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: #fff;
+  
+  label {
+    font-size: 0.8rem;
+    align-self: flex-start;
+    
+    
+  }
+  div{
+    display: flex;
+    align-items: center;
+  }
+  span {
+    font-size: 1rem;
+    align-self: flex-start;
+  }
 `;
 
 const Titles = styled.label`
@@ -160,7 +183,13 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
               }}
             />
           </Date>
-          <Price>{tour.reservationPrice * persons} USD</Price>
+          <Price>
+            <label>Total</label>
+            <div>
+              {tour.reservationPrice * persons} 
+              <span>USD</span>
+            </div>
+            </Price>
           <ButtonR type="submit" green>
             Reserva
           </ButtonR>
