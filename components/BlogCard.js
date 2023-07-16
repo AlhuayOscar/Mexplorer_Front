@@ -6,23 +6,30 @@ const CardContainer = styled.div`
   background-color: #f5f5f5;
   border-radius: 8px;
   padding: 8px;
-
+  box-shadow: 0 0 5px #888;
   width: 350px;
-  height: 465px;
+  padding-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const Title = styled.h2`
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 8px;
+  min-height: 60px;
   color: #103f54;
   text-align: center;
+  display: flex;
+  align-items: center;
 `;
 
 const Subtitle = styled.h3`
   font-size: 18px;
   margin-bottom: 8px;
   text-align: center;
+  max-height: 20px;
+  overflow: hidden;
 `;
 
 const Description = styled.p`
@@ -83,7 +90,6 @@ const BlogCard = ({ blog }) => {
       </BlogDate>
       <Subtitle>{blog.subtitle}</Subtitle>
       <Description>{truncatedDescription}</Description>
-      {/* Otras propiedades del blog que desees mostrar */}
     </CardContainer>
   );
 };

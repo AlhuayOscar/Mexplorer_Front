@@ -7,6 +7,7 @@ const CardsContainer = styled.div`
   flex-wrap: wrap;
   gap: 16px;
   justify-content: center;
+  
 `;
 
 const BlogCards = ({ blogs }) => {
