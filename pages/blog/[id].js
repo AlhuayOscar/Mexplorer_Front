@@ -23,6 +23,7 @@ const BlogImage = styled.img`
 
 const BlogDescription = styled.p`
   margin-bottom: 20px;
+  max-width: 1130px;
   color: #1a1a1a;
   &::first-letter {
     font-size: 3em; /* Cambia el tamaño de la primera letra */
