@@ -18,15 +18,43 @@ const BlogTitle = styled.h1`
 
 const ImageContainer = styled.div`
   height: 600px;
+  margin-inline: 10px;
   overflow: hidden;
+  @media (max-width: 1140px) {
+    height: 400px; // Ajustar la altura para pantallas más pequeñas
+  }
+
+  @media (max-width: 800px) {
+    height: 300px; // Ajustar la altura para pantallas más pequeñas
+  }
+
+  @media (max-width: 400px) {
+    height: 200px; // Ajustar la altura para pantallas más pequeñas
+  }
+  @media (max-width: 300px) {
+    height: 150px; // Ajustar la altura para pantallas más pequeñas
+  }
 `;
 
 const BlogImage = styled.img`
-  width: 1130px;
-  max-width: none;
-  height: 600px;
+  width: 100%; // Ajustar el ancho de la imagen al 100% del contenedor
+  height: 100%; // Ajustar la altura de la imagen al 100% del contenedor
   object-fit: cover;
   cursor: pointer;
+  @media (max-width: 1140px) {
+    width: 100%; // Ajustar el ancho de la imagen al 100% del contenedor
+    height: 100%; // Ajustar la altura de la imagen al 100% del contenedor
+  }
+
+  @media (max-width: 600px) {
+    width: 100%; // Ajustar el ancho de la imagen al 100% del contenedor
+    height: 100%; // Ajustar la altura de la imagen al 100% del contenedor
+  }
+
+  @media (max-width: 290px) {
+    width: 100%; // Ajustar el ancho de la imagen al 100% del contenedor
+    height: 100%; // Ajustar la altura de la imagen al 100% del contenedor
+  }
 `;
 
 const ModalOverlay = styled.div`
@@ -57,7 +85,6 @@ const ModalImage = styled.img`
 `;
 
 const BlogDescription = styled.p`
-  margin-bottom: 20px;
   max-width: 1130px;
   color: #1a1a1a;
 
@@ -95,9 +122,11 @@ const BlogPage = ({ blog }) => {
         {paragraphs.map((paragraph, index) => (
           <BlogDescription key={index}>
             {index === 0 ? (
-              <span>
-                {paragraph.charAt(0).toUpperCase() + paragraph.slice(1)}
-              </span>
+              paragraph ? (
+                <span>
+                  {paragraph.charAt(0).toUpperCase() + paragraph.slice(1)}
+                </span>
+              ) : null
             ) : (
               <span>{paragraph}</span>
             )}
