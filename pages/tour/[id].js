@@ -213,6 +213,7 @@ const Points = styled.div`
 
 const Point = styled.div`
   margin: 10px;
+  line-height: 1.5;
 `;
 
 const PriceRow = styled.div`
@@ -420,7 +421,7 @@ export default function TourPage({ tour, promoTours }) {
           </InfoBox>
         )}
         <Center>
-          <Reservation tour={tour} />
+          <Reservation tour={tour} reservationsRef={reservationsRef}/>  
         </Center>
       </MovilHeader>
       <Desktop>
@@ -487,18 +488,12 @@ export default function TourPage({ tour, promoTours }) {
               </div>
             </PriceRow> */}
           </TourInfoBox>
-          <Reservation
-            tour={tour}
-            sticky={true}
-            reservationsRef={reservationsRef}
-          />
+          <Reservation tour={tour} sticky={true}/>  
         </ColWrapper>
       </Desktop>
       <Center>
-        <Subtitle red reviewsRef={reviewsRef}>
-          Reseñas
-        </Subtitle>
-        <ToursReviews tour={tour} />
+        <Subtitle red reviewsRef={reviewsRef}>Reseñas</Subtitle>
+        <ToursReviews tour={tour}/>  
       </Center>
       <Recomendations>
         <Subtitle purple ref={recomendationsRef}>
