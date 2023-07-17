@@ -3,6 +3,8 @@ import Header from "@/components/Header";
 import styled from "styled-components";
 import Footer from "@/components/Footer";
 import { Blog } from "@/models/Blog";
+import { Tour } from "@/models/Tour";
+import ToursGrid from "@/components/ToursGrid";
 
 const BlogContainer = styled.div`
   text-align: center;
@@ -11,11 +13,25 @@ const BlogContainer = styled.div`
   align-content: center;
   align-items: center;
 `;
-
+const BlogInfo = styled.div`
+  display: flex;
+`;
 const BlogTitle = styled.h1`
-  color: your-color;
+  font-size: 40px;
 `;
 
+const BlogDescription = styled.div`
+  max-width: 750px;
+  font-size: x-large;
+  color: #1a1a1a;
+  text-align: left;
+  &:first-of-type::first-letter {
+    font-size: 3em;
+    color: your-other-color;
+  }
+`;
+
+const ToursCards = styled.div``;
 const ImageContainer = styled.div`
   height: 600px;
   margin-inline: 10px;
@@ -84,17 +100,7 @@ const ModalImage = styled.img`
   object-fit: contain;
 `;
 
-const BlogDescription = styled.p`
-  max-width: 1130px;
-  color: #1a1a1a;
-
-  &:first-of-type::first-letter {
-    font-size: 3em;
-    color: your-other-color;
-  }
-`;
-
-const BlogPage = ({ blog }) => {
+const BlogPage = ({ blog, tours }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleImageClick = () => {
@@ -119,20 +125,23 @@ const BlogPage = ({ blog }) => {
             onClick={handleImageClick}
           />
         </ImageContainer>
-        {paragraphs.map((paragraph, index) => (
-          <BlogDescription key={index}>
-            {index === 0 ? (
-              paragraph ? (
-                <span>
-                  {paragraph.charAt(0).toUpperCase() + paragraph.slice(1)}
-                </span>
-              ) : null
-            ) : (
-              <span>{paragraph}</span>
-            )}
+        <BlogInfo>
+          <BlogDescription>
+            {paragraphs.map((paragraph, index) => (
+              <BlogDescription key={index}>
+                {index === 0 ? (
+                  paragraph ? (
+                    <span>
+                      {paragraph.charAt(0).toUpperCase() + paragraph.slice(1)}
+                    </span>
+                  ) : null
+                ) : (
+                  <span>{paragraph}</span>
+                )}
+              </BlogDescription>
+            ))}
           </BlogDescription>
-        ))}
-        {/* Resto del contenido de la página del blog */}
+        </BlogInfo>
       </BlogContainer>
       {showModal && (
         <ModalOverlay onClick={handleCloseModal}>
