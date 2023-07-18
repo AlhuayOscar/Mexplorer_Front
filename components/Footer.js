@@ -237,13 +237,22 @@ const Footer = () => {
             <CenteredContainer>
               <p>Síguenos</p>
               <a href="https://www.facebook.com/mexplorerdmc">
-                <Icon src="facy.png" alt="Facebook" />
+                <Icon
+                  src="https://res.cloudinary.com/dipn8zmq3/image/upload/v1689651875/facy_toglrc.png"
+                  alt="Facebook"
+                />
               </a>
               <a href="https://www.instagram.com/nicolasgomezsb/">
-                <Icon src="insy.png" alt="Instagram" />
+                <Icon
+                  src="https://res.cloudinary.com/dipn8zmq3/image/upload/v1689651875/insy_lcdcik.png"
+                  alt="Instagram"
+                />
               </a>
               <a href="https://www.tripadvisor.com.ar/Attraction_Review-g150801-d19928813-Reviews-Mexplorer_Adventures-Oaxaca_Southern_Mexico.html">
-                <Icon src="trippy.png" alt="TripAdvisor" />
+                <Icon
+                  src="https://res.cloudinary.com/dipn8zmq3/image/upload/v1689651875/trippy_gpvp7q.png"
+                  alt="TripAdvisor"
+                />
               </a>
             </CenteredContainer>
             <p>
