@@ -171,10 +171,9 @@ function TourBoxH({ _id, name, subtitle, duration, price, promo, withoutPromoPri
       <TourInfoBox>
         <Title href={url}>{name}</Title>
         <Review>⭐⭐⭐⭐ <b>4</b></Review>
-        <Description>{subtitle.length <= 100 ? subtitle : subtitle.substring(0, 100) + "..."}</Description>
+        <Description>{subtitle?.length <= 100 ? subtitle : subtitle?.substring(0, 100) + "..."}</Description>
         {/* <TypeT>Todo en uno</TypeT> */}
         <TimeBox><TimeI/> <TimeT>{duration} hrs</TimeT></TimeBox>
-  
         <Prices>
           {withoutPromoPrice && <Promo>${withoutPromoPrice}</Promo>}
           <Price>${price}USD</Price>

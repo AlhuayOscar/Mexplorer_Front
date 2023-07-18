@@ -1,9 +1,9 @@
 import Header from "@/components/Header";
 import Featured from "@/components/Featured";
+import Footer from "@/components/Footer";
 import { Tour } from "@/models/Tour";
 import { mongooseConnect } from "@/lib/mongoose";
 import NewTours from "@/components/NewTours";
-import Footer from "@/components/Footer";
 
 export default function HomePage({ featuredTour, newTours, promoTours }) {
   return (
@@ -25,7 +25,7 @@ export async function getServerSideProps() {
     limit: 10,
   });
   const promoTours = await Tour.find({ promo: true }, null);
-  console.log(promoTours)
+  console.log(promoTours);
   return {
     props: {
       featuredTour: JSON.parse(JSON.stringify(featuredTour)),
