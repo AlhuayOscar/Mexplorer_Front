@@ -12,8 +12,8 @@ const Bg = styled.div`
 `;
 
 const Overlay = styled.div`
-  background-color: rgba(0, 0, 0, 0.1);
-  box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.05);
   position: absolute;
   top: 5%;
   left: 2.5%;
