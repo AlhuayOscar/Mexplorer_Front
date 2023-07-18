@@ -59,16 +59,10 @@ const Subtitle = styled.h2`
   }
 `;
 
-export default function Featured({ tour }) {
+export default function Featured() {
   const [portadaUrls, setPortadaUrls] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchValue, setSearchValue] = useState("");
-
-  const { addTour } = useContext(CartContext);
-
-  function addFeaturedToCart() {
-    addTour(tour._id);
-  }
 
   useEffect(() => {
     fetch("/api/urls")
@@ -79,12 +73,31 @@ export default function Featured({ tour }) {
           setLoading(false);
           return;
         }
-        // Concatenar todas las URLs de "Portada" en un solo arreglo
-        const portadaUrls = data.flatMap((item) => item.videoUrls);
 
+        // Verificar si hay un valor "Portada" en el arreglo data[0].urlName
+        const portadaIndex = data[0].urlName.findIndex(
+          (item) => item === "Portada"
+        );
+
+        // Verificar si hay un valor "Portada" en el arreglo data[0].videoUrls
+        const portadaUrls = data[0].videoUrls.reduce((acc, url, index) => {
+          if (data[0].urlName[index] === "Portada") {
+            acc.push(url);
+          }
+          return acc;
+        }, []);
+
+        // Setear el valor del estado portadaUrls
         setPortadaUrls(portadaUrls);
+
+        // Mostrar el listado de URLs de "Portada"
+        if (portadaIndex !== -1) {
+          console.log("URLs de 'Portada':", portadaUrls);
+        } else {
+          console.log("No se encontraron URLs de 'Portada'.");
+        }
+
         setLoading(false);
-        console.log(data[0].urlName, data[0].videoUrls);
       })
       .catch((error) => {
         console.error("Error al obtener las URLs de Portada:", error);
@@ -98,7 +111,7 @@ export default function Featured({ tour }) {
         <div>Cargando...</div>
       ) : (
         <Carousel
-          interval={2500}
+          interval={4500}
           infiniteLoop={true}
           autoPlay={true}
           showThumbs={false}
