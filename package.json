@@ -30,6 +30,7 @@
     "react-modal": "^3.16.1",
     "react-responsive-carousel": "^3.2.23",
     "react-scroll": "^1.8.9",
+    "react-share": "^4.4.1",
     "react-slick": "^0.29.0",
     "react-spinner": "^0.2.7",
     "react-wavify": "^1.8.3",

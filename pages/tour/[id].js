@@ -18,13 +18,13 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import TimeIcon from "@mui/icons-material/AccessTime";
 import Reservation from "@/components/Reservation";
-
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import ToursReviews from "@/components/ToursReviews";
 import Footer from "@/components/Footer";
 import ToursGrid from "@/components/ToursGrid";
 import NavTour from "@/components/NavTour";
 import { Reviews } from "@mui/icons-material";
-
+import FacebookIcon from "@mui/icons-material/Facebook";
 const AsyncImageCarousel = ({ images }) => {
   const [loaded, setLoaded] = useState(false);
 
@@ -307,6 +307,12 @@ export default function TourPage({ tour, promoTours }) {
   const reviewsRef = useRef(null);
   const recomendationsRef = useRef(null);
   const reservationsRef = useRef(null);
+  const [currentUrl, setCurrentUrl] = useState("");
+
+  useEffect(() => {
+    // Get the current URL only when the component mounts (client-side).
+    setCurrentUrl(window.location.href);
+  }, []);
 
   const handleShowDescription = () => {
     setShowDescription(!showDescription);
@@ -340,6 +346,29 @@ export default function TourPage({ tour, promoTours }) {
           <TimeBox>
             <TimeI /> <TimeT>{tour.duration} hrs</TimeT>
           </TimeBox>
+        </div>
+        <div>
+          {/* Facebook Share Button */}
+          {/* <a
+            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+              currentUrl
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FacebookIcon />
+          </a> */}
+          {/* FUNCIONA EL DE FACEBOOK PERO CON UNA URL REAL */}
+          {/* WhatsApp Share Button */}
+          <a
+            href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
+              currentUrl
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <WhatsAppIcon />
+          </a>
         </div>
         <Review>
           ⭐⭐⭐⭐ <b>4</b>
@@ -421,7 +450,7 @@ export default function TourPage({ tour, promoTours }) {
           </InfoBox>
         )}
         <Center>
-          <Reservation tour={tour} reservationsRef={reservationsRef}/>  
+          <Reservation tour={tour} reservationsRef={reservationsRef} />
         </Center>
       </MovilHeader>
       <Desktop>
@@ -488,12 +517,14 @@ export default function TourPage({ tour, promoTours }) {
               </div>
             </PriceRow> */}
           </TourInfoBox>
-          <Reservation tour={tour} sticky={true}/>  
+          <Reservation tour={tour} sticky={true} />
         </ColWrapper>
       </Desktop>
       <Center>
-        <Subtitle red reviewsRef={reviewsRef}>Reseñas</Subtitle>
-        <ToursReviews tour={tour}/>  
+        <Subtitle red reviewsRef={reviewsRef}>
+          Reseñas
+        </Subtitle>
+        <ToursReviews tour={tour} />
       </Center>
       <Recomendations>
         <Subtitle purple ref={recomendationsRef}>
