@@ -1,18 +1,9 @@
+import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
-import React, { useContext, useState } from "react";
 import { CartContext } from "@/components/CartContext";
 import { Carousel } from "react-responsive-carousel";
 import Searchbar from "../pages/Searchbar";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-
-const videos = [
-  { id: 1, url: "/videos/beach2.mp4" },
-  { id: 2, url: "/videos/beach2.mp4" },
-  { id: 3, url: "/videos/beach2.mp4" },
-  { id: 4, url: "/videos/beach2.mp4" },
-  { id: 5, url: "/videos/beach2.mp4" },
-  { id: 6, url: "/videos/beach2.mp4" },
-];
 
 const Bg = styled.div`
   background-color: #222;
@@ -69,6 +60,8 @@ const Subtitle = styled.h2`
 `;
 
 export default function Featured({ tour }) {
+  const [portadaUrls, setPortadaUrls] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchValue, setSearchValue] = useState("");
 
   const { addTour } = useContext(CartContext);
@@ -77,26 +70,52 @@ export default function Featured({ tour }) {
     addTour(tour._id);
   }
 
+  useEffect(() => {
+    fetch("/api/urls")
+      .then((response) => response.json())
+      .then((data) => {
+        if (!data || data.length === 0) {
+          console.error("No se encontraron URLs de Portada.");
+          setLoading(false);
+          return;
+        }
+        // Concatenar todas las URLs de "Portada" en un solo arreglo
+        const portadaUrls = data.flatMap((item) => item.videoUrls);
+
+        setPortadaUrls(portadaUrls);
+        setLoading(false);
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error al obtener las URLs de Portada:", error);
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <Bg>
-      <Carousel
-        interval={2500}
-        infiniteLoop={true}
-        autoPlay={true}
-        showThumbs={false}
-        showStatus={false}
-        showArrows={false}
-        showIndicators={false}
-      >
-        {videos.map((video) => (
-          <div key={video.id}>
-            <video autoPlay loop muted width="100%" height="100%">
-              <source src={video.url} type="video/mp4" />
-              Tu navegador no admite la reproducción de videos.
-            </video>
-          </div>
-        ))}
-      </Carousel>
+      {loading ? (
+        <div>Cargando...</div>
+      ) : (
+        <Carousel
+          interval={2500}
+          infiniteLoop={true}
+          autoPlay={true}
+          showThumbs={false}
+          showStatus={false}
+          showArrows={false}
+          showIndicators={false}
+        >
+          {portadaUrls.map((urls, index) => (
+            <div key={index}>
+              <video autoPlay loop muted width="100%" height="100%">
+                <source src={urls} type="video/mp4" />
+                Tu navegador no admite la reproducción de videos.
+              </video>
+            </div>
+          ))}
+        </Carousel>
+      )}
       <Overlay>
         <Title>Vive experiencias únicas en paisajes únicos</Title>
         <Subtitle>
