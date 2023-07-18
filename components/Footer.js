@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Waves from "react-wavify";
 
@@ -120,12 +120,59 @@ const CenteredContainer = styled.div`
   margin-top: 10px;
 `;
 const Footer = () => {
+  const [socialUrls, setSocialUrls] = useState({
+    whatsapp: "",
+    facebook: "",
+    instagram: "",
+    tripadvisor: "",
+  });
+
+  useEffect(() => {
+    fetch("/api/urls")
+      .then((response) => response.json())
+      .then((data) => {
+        if (!data || data.length === 0) {
+          console.error("No se encontraron URLs de Portada.");
+          return;
+        }
+
+        // Get the index of the target URLs in the data array
+        const whatsappIndex = data[0].urlName.findIndex(
+          (item) => item === "Whatsapp"
+        );
+        const facebookIndex = data[0].urlName.findIndex(
+          (item) => item === "Facebook"
+        );
+        const instagramIndex = data[0].urlName.findIndex(
+          (item) => item === "Instagram"
+        );
+        const tripadvisorIndex = data[0].urlName.findIndex(
+          (item) => item === "Trip"
+        );
+
+        // Set the corresponding URLs in the state variable socialUrls
+        setSocialUrls({
+          whatsapp:
+            whatsappIndex !== -1 ? data[0].videoUrls[whatsappIndex] : "",
+          facebook:
+            facebookIndex !== -1 ? data[0].videoUrls[facebookIndex] : "",
+          instagram:
+            instagramIndex !== -1 ? data[0].videoUrls[instagramIndex] : "",
+          tripadvisor:
+            tripadvisorIndex !== -1 ? data[0].videoUrls[tripadvisorIndex] : "",
+        });
+      })
+      .catch((error) => {
+        console.error("Error al obtener las URLs de Portada:", error);
+      });
+  }, []);
+
   return (
     <>
       <StyledFooter>
         <WavesContainer1>
           <Waves
-            fill="#0b0000" 
+            fill="#0b0000"
             paused={false}
             options={{
               height: 10,
@@ -138,7 +185,7 @@ const Footer = () => {
         </WavesContainer1>
         <WavesContainer2>
           <Waves
-            fill="rgba(238, 39, 67, 0.9)" 
+            fill="rgba(238, 39, 67, 0.9)"
             paused={false}
             options={{
               height: 10,
@@ -151,7 +198,7 @@ const Footer = () => {
         </WavesContainer2>
         <WavesContainer3>
           <Waves
-            fill="rgba(237, 34, 134, 0.8)" 
+            fill="rgba(237, 34, 134, 0.8)"
             paused={false}
             options={{
               height: 10,
@@ -164,7 +211,7 @@ const Footer = () => {
         </WavesContainer3>
         <WavesContainer4>
           <Waves
-            fill="rgba(238, 181, 39, 0.7)" 
+            fill="rgba(238, 181, 39, 0.7)"
             paused={false}
             options={{
               height: 10,
@@ -177,7 +224,7 @@ const Footer = () => {
         </WavesContainer4>
         <WavesContainer5>
           <Waves
-            fill="rgba(172, 36, 132, 0.6)" 
+            fill="rgba(172, 36, 132, 0.6)"
             paused={false}
             options={{
               height: 10,
@@ -190,7 +237,7 @@ const Footer = () => {
         </WavesContainer5>
         <WavesContainer6>
           <Waves
-            fill="rgba(132, 196, 65, 0.5)" 
+            fill="rgba(132, 196, 65, 0.5)"
             paused={false}
             options={{
               height: 10,
@@ -203,7 +250,7 @@ const Footer = () => {
         </WavesContainer6>
         <WavesContainer7>
           <Waves
-            fill="rgba(0, 171, 189, 1)" 
+            fill="rgba(0, 171, 189, 1)"
             paused={false}
             options={{
               height: 10,
@@ -219,19 +266,19 @@ const Footer = () => {
             <p>(© Mexplorer 2023)</p>
             <CenteredContainer>
               <p>Síguenos</p>
-              <a href="https://www.facebook.com/mexplorerdmc">
+              <a href={socialUrls.facebook}>
                 <Icon
                   src="https://res.cloudinary.com/dipn8zmq3/image/upload/v1689651875/facy_toglrc.png"
                   alt="Facebook"
                 />
               </a>
-              <a href="https://www.instagram.com/nicolasgomezsb/">
+              <a href={socialUrls.instagram}>
                 <Icon
                   src="https://res.cloudinary.com/dipn8zmq3/image/upload/v1689651875/insy_lcdcik.png"
                   alt="Instagram"
                 />
               </a>
-              <a href="https://www.tripadvisor.com.ar/Attraction_Review-g150801-d19928813-Reviews-Mexplorer_Adventures-Oaxaca_Southern_Mexico.html">
+              <a href={socialUrls.tripadvisor}>
                 <Icon
                   src="https://res.cloudinary.com/dipn8zmq3/image/upload/v1689651875/trippy_gpvp7q.png"
                   alt="TripAdvisor"

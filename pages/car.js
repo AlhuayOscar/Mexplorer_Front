@@ -18,7 +18,7 @@ const AsyncImageCarousel = ({ images }) => {
       image.src = src;
       await image.decode();
       setLoaded(true);
-    };  
+    };
 
     const loadImages = async () => {
       const imagePromises = images.map((src) => loadImage(src));
@@ -29,7 +29,11 @@ const AsyncImageCarousel = ({ images }) => {
     loadImages();
   }, [images]);
 
-  return loaded ? <ImageCarousel images={images} /> : <div></div>;
+  return loaded ? (
+    <ImageCarousel images={images} loading="lazy" />
+  ) : (
+    <div></div>
+  );
 };
 
 const BackgroundImage = styled.div`
