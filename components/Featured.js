@@ -84,7 +84,7 @@ export default function Featured({ tour }) {
 
         setPortadaUrls(portadaUrls);
         setLoading(false);
-        console.log(data);
+        console.log(data[0].urlName, data[0].videoUrls);
       })
       .catch((error) => {
         console.error("Error al obtener las URLs de Portada:", error);
