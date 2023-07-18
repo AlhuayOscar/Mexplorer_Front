@@ -25,6 +25,8 @@ import ToursGrid from "@/components/ToursGrid";
 import NavTour from "@/components/NavTour";
 import { Reviews } from "@mui/icons-material";
 import FacebookIcon from "@mui/icons-material/Facebook";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import TelegramIcon from "@mui/icons-material/Telegram";
 const AsyncImageCarousel = ({ images }) => {
   const [loaded, setLoaded] = useState(false);
 
@@ -368,6 +370,24 @@ export default function TourPage({ tour, promoTours }) {
             rel="noopener noreferrer"
           >
             <WhatsAppIcon />
+          </a>
+          <a
+            href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+              currentUrl
+            )}&text=${encodeURIComponent("Echa un vistazo a este tour!")}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <TwitterIcon />
+          </a>
+          <a
+            href={`https://t.me/share/url?url=${encodeURIComponent(
+              currentUrl
+            )}&text=${encodeURIComponent("Echa un vistazo a este tour!")}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <TelegramIcon />
           </a>
         </div>
         <Review>
