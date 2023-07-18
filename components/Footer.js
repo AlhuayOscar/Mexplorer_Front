@@ -120,23 +120,12 @@ const CenteredContainer = styled.div`
   margin-top: 10px;
 `;
 const Footer = () => {
-  const waveRef = useRef(null);
-
-  useEffect(() => {
-    // Detén la animación y libera los recursos al desmontar el componente
-    return () => {
-      if (waveRef.current) {
-        waveRef.current.pause();
-      }
-    };
-  }, []);
   return (
     <>
       <StyledFooter>
         <WavesContainer1>
           <Waves
-            ref={waveRef}
-            fill="#0b0000" // Colore menos transparente para Waves número 2
+            fill="#0b0000" 
             paused={false}
             options={{
               height: 10,
@@ -149,8 +138,7 @@ const Footer = () => {
         </WavesContainer1>
         <WavesContainer2>
           <Waves
-            ref={waveRef}
-            fill="rgba(238, 39, 67, 0.9)" // Colore menos transparente para Waves número 2
+            fill="rgba(238, 39, 67, 0.9)" 
             paused={false}
             options={{
               height: 10,
@@ -163,8 +151,7 @@ const Footer = () => {
         </WavesContainer2>
         <WavesContainer3>
           <Waves
-            ref={waveRef}
-            fill="rgba(237, 34, 134, 0.8)" // Colore menos transparente para Waves número 3
+            fill="rgba(237, 34, 134, 0.8)" 
             paused={false}
             options={{
               height: 10,
@@ -177,8 +164,7 @@ const Footer = () => {
         </WavesContainer3>
         <WavesContainer4>
           <Waves
-            ref={waveRef}
-            fill="rgba(238, 181, 39, 0.7)" // Colore menos transparente para Waves número 3
+            fill="rgba(238, 181, 39, 0.7)" 
             paused={false}
             options={{
               height: 10,
@@ -191,8 +177,7 @@ const Footer = () => {
         </WavesContainer4>
         <WavesContainer5>
           <Waves
-            ref={waveRef}
-            fill="rgba(172, 36, 132, 0.6)" // Colore menos transparente para Waves número 3
+            fill="rgba(172, 36, 132, 0.6)" 
             paused={false}
             options={{
               height: 10,
@@ -205,8 +190,7 @@ const Footer = () => {
         </WavesContainer5>
         <WavesContainer6>
           <Waves
-            ref={waveRef}
-            fill="rgba(132, 196, 65, 0.5)" // Colore menos transparente para Waves número 3
+            fill="rgba(132, 196, 65, 0.5)" 
             paused={false}
             options={{
               height: 10,
@@ -219,8 +203,7 @@ const Footer = () => {
         </WavesContainer6>
         <WavesContainer7>
           <Waves
-            ref={waveRef}
-            fill="rgba(0, 171, 189, 1)" // Colore menos transparente para Waves número 3
+            fill="rgba(0, 171, 189, 1)" 
             paused={false}
             options={{
               height: 10,
