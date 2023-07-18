@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import styled, { keyframes } from "styled-components";
 import Footer from "@/components/Footer";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { Loader } from "react-spinner"; // Importa el componente Loader de react-spinner
 
 const BlogContainer = styled.div`
   display: flex;
@@ -124,11 +125,30 @@ const RemoveSearchItem = styled.span`
   }
 `;
 
+const spinAnimation = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const LoadingSpinner = styled.div`
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #007bff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: ${spinAnimation} 1s linear infinite;
+  margin: 0 auto;
+`;
 const Blog = () => {
   const [blogs, setBlogs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredBlogs, setFilteredBlogs] = useState([]);
   const [recentSearches, setRecentSearches] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // Nuevo estado para controlar la animación de carga
 
   useEffect(() => {
     fetchBlogs();
@@ -139,6 +159,9 @@ const Blog = () => {
     try {
       const response = await axios.get("/api/blogs"); // Reemplaza con la ruta correcta de tu API
       setBlogs(response.data);
+      setTimeout(() => {
+        setIsLoading(false); // Set isLoading to false after data is fetched
+      }, 400);
     } catch (error) {
       console.error(error);
     }
@@ -226,7 +249,10 @@ const Blog = () => {
             onKeyPress={handleEnterKeyPress}
           />
         </SearchContainer>
-        {searchTerm !== "" ? (
+        {isLoading ? (
+          // Render the loading spinner if isLoading is true
+          <LoadingSpinner />
+        ) : searchTerm !== "" ? (
           <BlogCards blogs={filteredBlogs} />
         ) : (
           <BlogCards blogs={blogs} />

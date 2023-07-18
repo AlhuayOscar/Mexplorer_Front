@@ -31,6 +31,7 @@
     "react-responsive-carousel": "^3.2.23",
     "react-scroll": "^1.8.9",
     "react-slick": "^0.29.0",
+    "react-spinner": "^0.2.7",
     "react-wavify": "^1.8.3",
     "slick-carousel": "^1.8.1",
     "stripe": "^11.16.0",
