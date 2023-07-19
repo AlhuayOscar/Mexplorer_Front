@@ -108,6 +108,7 @@ export default function CartPage() {
       name,
       lastname,
       email,
+      currency: 'USD',
       cartTours,
     });
     if (response.data.url) {
@@ -116,7 +117,7 @@ export default function CartPage() {
   }
   let total = 0;
   for (const tourId of cartTours) {
-    const price = tours.find((p) => p._id === tourId)?.price || 0;
+    const price = tours.find((p) => p._id === tourId)?.adultsPrice || 0;
     total += price;
   }
   total = total.toFixed(2); //Para redondear a 2 decimales
@@ -179,7 +180,7 @@ export default function CartPage() {
                       <td>
                         $
                         {cartTours.filter((id) => id === tour._id).length *
-                          tour.price}
+                          tour.adultsPrice}
                       </td>
                     </tr>
                   ))}

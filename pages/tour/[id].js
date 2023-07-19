@@ -446,7 +446,7 @@ export default function TourPage({ tour, promoTours }) {
                 </Points>
               </InfoBox>
             )}
-            {/* <PriceRow>
+            <PriceRow>
               <div>
                 <Price>${tour.price}</Price>
               </div>
@@ -456,7 +456,7 @@ export default function TourPage({ tour, promoTours }) {
                   Añadir al carrito
                 </Button>
               </div>
-            </PriceRow> */}
+            </PriceRow>
           </TourInfoBox>
           <Reservation tour={tour} sticky={true}/>  
         </ColWrapper>
