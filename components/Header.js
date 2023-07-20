@@ -19,8 +19,18 @@ const Logo = styled(Link)`
   text-decoration: none;
   position: relative;
   z-index: 3;
-  outline:none; 
-  ${(props) => props.hideLogo && `display: none;`}
+  outline: none;
+  transition: 0.8s ease;
+  display: ${(props) =>
+    props.hidelogo === "false"
+      ? "none"
+      : "block"}; // Use a conditional expression to hide or show the logo
+
+  @media screen and (max-width: 450px) {
+    transform: scale(0.5);
+    transition: 0.4s ease;
+    width: 10%;
+  }
 `;
 
 const StyledImage = styled.img`
@@ -106,7 +116,13 @@ export default function Header() {
   const { cartTours } = useContext(CartContext);
   const [mobileNavActive, setMobileNavActive] = useState(false);
   const [isNavButtonFixed, setIsNavButtonFixed] = useState(false);
-
+  const [loading, setLoading] = useState(true);
+  const [socialUrls, setSocialUrls] = useState({
+    whatsapp: "",
+    facebook: "",
+    instagram: "",
+    tripadvisor: "",
+  });
   const handleLanguageChange = (language) => {
     i18n.changeLanguage(language);
   };
@@ -126,15 +142,59 @@ export default function Header() {
     handleNavMenuClose();
   }, []);
 
+  useEffect(() => {
+    fetch("/api/urls")
+      .then((response) => response.json())
+      .then((data) => {
+        if (!data || data.length === 0) {
+          console.error("No se encontraron URLs de Portada.");
+          setLoading(false);
+          return;
+        }
+
+        // Get the index of the target URLs in the data array
+        const whatsappIndex = data[0].urlName.findIndex(
+          (item) => item === "Whatsapp"
+        );
+        const facebookIndex = data[0].urlName.findIndex(
+          (item) => item === "Facebook"
+        );
+        const instagramIndex = data[0].urlName.findIndex(
+          (item) => item === "Instagram"
+        );
+        const tripadvisorIndex = data[0].urlName.findIndex(
+          (item) => item === "Trip"
+        );
+
+        // Set the corresponding URLs in the state variable socialUrls
+        setSocialUrls({
+          whatsapp:
+            whatsappIndex !== -1 ? data[0].videoUrls[whatsappIndex] : "",
+          facebook:
+            facebookIndex !== -1 ? data[0].videoUrls[facebookIndex] : "",
+          instagram:
+            instagramIndex !== -1 ? data[0].videoUrls[instagramIndex] : "",
+          tripadvisor:
+            tripadvisorIndex !== -1 ? data[0].videoUrls[tripadvisorIndex] : "",
+        });
+
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error al obtener las URLs de Portada:", error);
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <StyledHeader>
       <Center>
         <Wrapper>
-          <Logo href={"/"} hideLogo={mobileNavActive}>
-            <StyledImage src="/mex_logo.png" alt="Logo de México" fill />
+          <Logo href={"/"} hidelogo={mobileNavActive ? "false" : "true"}>
+            <StyledImage src="/mex_logo.png" alt="Logo de México" fill="true" />
           </Logo>
           <StyledNav mobileNavActive={mobileNavActive}>
-            <NavLink href={"/"} color="#00ABBD">
+            <NavLink href={"/blog"} color="#00ABBD">
               Blog
             </NavLink>
             <NavLink href={"/tours"} color="#ED2286">
@@ -149,29 +209,36 @@ export default function Header() {
             <NavLink href={"/"} color="#84C441">
               Promociones
             </NavLink>
-            <NavLink href={"/"} color="#00ABBD">
+            <NavLink href={"/about"} color="#00ABBD">
               Sobre nosotros
             </NavLink>
           </StyledNav>
           {/* Aquí se encuentran los botones
           <button onClick={() => handleLanguageChange('es')}>Español</button>
           <button onClick={() => handleLanguageChange('en')}>Inglés</button> */}
-          <NavLink
-            href={
-              "https://www.tripadvisor.com.ar/Attraction_Review-g150801-d19928813-Reviews-Mexplorer_Adventures-Oaxaca_Southern_Mexico.html"
-            }
-            color="#00ABBD"
-          >
-            <StyledIcon src="/icons/trip.png" alt="Link a TripAdvisor" fill />
+          <NavLink href={socialUrls.tripadvisor} color="#00ABBD">
+            <StyledIcon
+              src="/icons/trip.png"
+              alt="Link a TripAdvisor"
+              fill="true"
+            />
           </NavLink>
-          <NavLink href={"https://www.instagram.com/nicolasgomezsb/"}>
-            <StyledIcon src="/icons/insta.png" alt="Link a Instagram" fill />
+          <NavLink href={socialUrls.instagram}>
+            <StyledIcon
+              src="/icons/insta.png"
+              alt="Link a Instagram"
+              fill="true"
+            />
           </NavLink>
-          <NavLink href={"https://www.facebook.com/mexplorerdmc"}>
-            <StyledIcon src="/icons/face.png" alt="Link a Facebook" fill />
+          <NavLink href={socialUrls.facebook}>
+            <StyledIcon
+              src="/icons/face.png"
+              alt="Link a Facebook"
+              fill="true"
+            />
           </NavLink>
-          <NavLink href={"whatsapp://send?phone=+54 9 379 466-3468"}>
-            <StyledIcon src="/icons/what.png" alt="Link a México" fill />
+          <NavLink href={socialUrls.whatsapp}>
+            <StyledIcon src="/icons/what.png" alt="Link a México" fill="true" />
           </NavLink>
           <NavLink href={"/cart"} color="#fff">
             <ShoppingCartIcon /> ({cartTours.length})

@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import Button from "@/components/Button";
-import CartIcon from "@/components/icons/CartIcon";
 import Link from "next/link";
 import { useContext } from "react";
 import { CartContext } from "@/components/CartContext";
@@ -73,16 +71,6 @@ const TourInfoBox = styled.div`
   padding: 10px;
 `;
 
-const TypeT = styled.div`
-  font-size: 1rem;
-  color: #6b7280;
-  text-align: left;
-  /* @media screen and (min-width: 768px) {
-    font-size: 1.2rem;
-    font-weight: 600;
-    text-align: left;
-  } */
-`;
 
 const TimeT = styled.div`
   color: #888888;
@@ -161,19 +149,14 @@ export default function TourBox({ _id, name, subtitle, description, duration, pr
         { promo && <PromoTitle>¡Promo Exclusiva!</PromoTitle> }
       </WhiteBox>
       <TourInfoBox>
-        
         {/* <TypeT>Todo en uno</TypeT> */}
         <TimeBox><TimeI/> <TimeT>{duration} hrs</TimeT></TimeBox>
         <Review>⭐⭐⭐⭐ <b>4</b> (30 opiniones)</Review>
         <Description>{subtitle.length <= 100 ? subtitle : subtitle.substring(0, 100) + "..."}</Description>
-        
         <Prices>
           {withoutPromoPrice && <Promo>${withoutPromoPrice}</Promo>}
           <Price>${price}USD</Price>
         </Prices>
-        {/* <Button block onClick={() => addTour(_id)} primary outline>
-          Reserva ahora!!
-        </Button> */}
       </TourInfoBox>
     </TourWrapper>
   );

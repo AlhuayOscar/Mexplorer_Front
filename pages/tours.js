@@ -60,7 +60,7 @@ export default function ToursPage({ tours }) {
   return (
     <>
       <Header />
-      <ImageBox>
+      <ImageBox loading="lazy">
         <Title>Cancún</Title>
       </ImageBox>
       <Center>

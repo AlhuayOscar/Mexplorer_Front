@@ -89,7 +89,6 @@ export default function ToursGrid({ tours }) {
     const itemsToShow = getNumberOfItemsToShow();
     for (let i = 0; i < tours.length; i += itemsToShow) {
       const chunk = tours.slice(i, i + itemsToShow);
-
       slides.push(
         <StyledToursGrid key={i} isActive={i / itemsToShow === activeSlide}>
           {chunk.map((tour) => (
