@@ -5,6 +5,7 @@ import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { useState } from "react";
 import axios from "axios";
+import { DatePicker } from "@mui/x-date-pickers";
 
 const ReservationStyle = css`
   overflow: hidden;
@@ -98,6 +99,7 @@ const Titles = styled.label`
 
 const Date = styled.div`
   width: 100%;
+  margin: 10px;
 `;
 
 const ButtonR = styled(Button)`
@@ -175,7 +177,7 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
             min={1}
           />
           <Date>
-            <MyDatePicker
+            {/* <MyDatePicker
               inline={true}
               value={date}
               satHighlight={true}
@@ -183,7 +185,13 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
                 setDate(date);
                 logSelectedDate(date);
               }}
-            />
+            /> */}
+            <DatePicker
+            disablePast
+            label='Elige una fecha'
+            views={['year', 'month', 'day']}
+            value={date}
+            onChange={date => {setDate(date)}}/>
           </Date>
           <Price>
             <label>Total</label>
