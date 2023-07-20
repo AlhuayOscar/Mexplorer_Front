@@ -92,10 +92,17 @@ const SubtitleStyle = css`
       color: #84c441;
     `}
   ${(props) =>
-    props.pink &&
-    css`
-      color: #e73a78;
-    `}
+  props.pink &&
+  css`
+     color: #e73a78;
+  `}
+  ${(props) =>
+  props.margin &&
+  css`
+     margin: 20px 0;
+     font-size: 1.3rem;
+     text-align: center;
+  `}
     @media screen and (min-width: 768px) {
     width: 12rem;
     font-size: 1.5rem;
@@ -541,16 +548,12 @@ export default function TourPage({ tour, promoTours }) {
         </ColWrapper>
       </Desktop>
       <Center>
-        <Subtitle red reviewsRef={reviewsRef}>
-          Reseñas
-        </Subtitle>
-        <ToursReviews tour={tour} />
+        <Subtitle red margin ref={reviewsRef}>Reseñas</Subtitle>
+        <ToursReviews tour={tour}/>  
       </Center>
       <Recomendations>
-        <Subtitle purple ref={recomendationsRef}>
-          Recomendaciones
-        </Subtitle>
-        <ToursGrid tours={promoTours} />
+        <Subtitle purple margin ref={recomendationsRef}>Recomendaciones</Subtitle>
+        <ToursGrid tours={promoTours}/>
       </Recomendations>
       <Footer />
     </>

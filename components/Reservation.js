@@ -5,12 +5,13 @@ import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { useState } from "react";
 import axios from "axios";
+import { DatePicker } from "@mui/x-date-pickers";
 
 const ReservationStyle = css`
   overflow: hidden;
   border-radius: 7px;
   width: 100hv;
-  margin: 20px 0;
+  margin: 40px 0;
   background-color: #fff;
   box-shadow: 2px 2px 4px #47556955;
   text-decoration: none;
@@ -61,10 +62,11 @@ const InputRes = styled.input`
 
 const Price = styled.div`
   display: flex;
+  flex-direction: column;
   border-radius: 7px;
   align-items: center;
-  justify-content: center;
   background-color: #00abbd;
+  justify-content: center;
   width: 80%;
   height: 4rem;
   margin: 20px 0;
@@ -75,16 +77,17 @@ const Price = styled.div`
   
   label {
     font-size: 0.8rem;
-    align-self: flex-start;
-    
-    
+    align-self: start;
+    justify-self: flex-start;
   }
-  div{
+  
+  div {
     display: flex;
     align-items: center;
   }
+  
   span {
-    font-size: 1rem;
+    font-size: 0.9rem;
     align-self: flex-start;
   }
 `;
@@ -96,6 +99,7 @@ const Titles = styled.label`
 
 const Date = styled.div`
   width: 100%;
+  margin: 10px;
 `;
 
 const ButtonR = styled(Button)`
@@ -173,7 +177,7 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
             min={1}
           />
           <Date>
-            <MyDatePicker
+            {/* <MyDatePicker
               inline={true}
               value={date}
               satHighlight={true}
@@ -181,12 +185,18 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
                 setDate(date);
                 logSelectedDate(date);
               }}
-            />
+            /> */}
+            <DatePicker
+            disablePast
+            label='Elige una fecha'
+            views={['year', 'month', 'day']}
+            value={date}
+            onChange={date => {setDate(date)}}/>
           </Date>
           <Price>
             <label>Total</label>
             <div>
-              {tour.reservationPrice * persons} 
+              ${tour.adultsReservationPrice * persons} 
               <span>USD</span>
             </div>
             </Price>
