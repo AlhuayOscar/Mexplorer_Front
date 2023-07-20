@@ -3,9 +3,9 @@ import styled from "styled-components";
 import Center from "@/components/Center";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Tour } from "@/models/Tour";
-import TourBoxH from "@/components/ToursBoxH";
 import Filters from "@/components/Filters";
 import { useState } from "react";
+import PaginatedTourList from "@/components/PaginatedTourList";
 
 const ImageBox = styled.div`
   background: url("https://res.cloudinary.com/simpleview/image/upload/v1571158080/clients/quintanaroo/Intercontinental_Cancun_3_231b1843-c2bd-4fa8-b4b6-56cb64a30f39.jpg")
@@ -50,8 +50,7 @@ const ToursBox = styled.div`
 
 export default function ToursPage({ tours }) {
   const [filteredTours, setFilteredTours] = useState(tours);
-
-  console.log("tours", tours);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const handleFiltersChange = (filteredTours) => {
     setFilteredTours(filteredTours);
@@ -66,11 +65,9 @@ export default function ToursPage({ tours }) {
       <Center>
         <h2>Todos los tours</h2>
         <Main>
-          <Filters tours={tours} onFiltersChange={handleFiltersChange} />
+          <Filters tours={tours} onFiltersChange={handleFiltersChange} setCurrentPage={setCurrentPage} />
           <ToursBox>
-            {filteredTours?.map((product) => (
-              <TourBoxH key={product._id} {...product} />
-            ))}
+            <PaginatedTourList tours={filteredTours} setCurrentPage={setCurrentPage} currentPage={currentPage} />
           </ToursBox>
         </Main>
       </Center>
