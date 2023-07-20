@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Slider from '@mui/material/Slider';
 import { styled as muiStyled } from '@mui/material/styles';
@@ -137,7 +137,7 @@ const marks = [
 ];
 
 
-export default function Filters({ tours, onFiltersChange }) {
+export default function Filters({ tours, onFiltersChange, setCurrentPage }) {
   const [selectedReserva, setSelectedReserva] = useState("");
   const [selectedPromo, setSelectedPromo] = useState("");
   const [durationOptions, setDurationOptions] = useState(null);
@@ -176,11 +176,14 @@ export default function Filters({ tours, onFiltersChange }) {
     onFiltersChange(tours); // Restaurar todos los tours originales
   };
 
+  useEffect(() => {
+    filterTours();
+  }, [selectedReserva, selectedPromo, durationOptions, values])
+
   // Filtrar tours según los filtros seleccionados
   const filterTours = () => {
+    setCurrentPage(1);
     const filteredTours = tours.filter((tour) => {
-      console.log(`Valor de promo en el tour: ${tour.promo}`);
-      console.log(`YO SOY LA RESERVA: ${tour.reservation}`);
       let meetsPromotionsFilter = true;
       let meetsDurationFilter = true;
       let meetsPriceRangeFilter = true;
@@ -249,7 +252,7 @@ export default function Filters({ tours, onFiltersChange }) {
         valueLabelDisplay="on"
       />
       <ButtonContainer>
-        <button onClick={filterTours}>Aplicar filtros</button>
+        {/* <button onClick={filterTours}>Aplicar filtros</button> */}
         <ClearButton onClick={clearFilters}>Limpiar filtros</ClearButton>
       </ButtonContainer>
     </BoxContainer>
