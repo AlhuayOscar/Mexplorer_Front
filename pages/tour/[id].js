@@ -28,6 +28,7 @@ import { CancelPresentationOutlined, Reviews } from "@mui/icons-material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import TelegramIcon from "@mui/icons-material/Telegram";
+import ReviewBox from "@/components/ReviewBox";
 const AsyncImageCarousel = ({ images }) => {
   const [loaded, setLoaded] = useState(false);
 
@@ -422,9 +423,7 @@ export default function TourPage({ tour, promoTours }) {
             <TelegramIcon />
           </a>
         </div>
-        <Review>
-          ⭐⭐⭐⭐ <b>4</b>
-        </Review>
+        <ReviewBox review={tour.review}/>
       </TitleTour>
       <NavTour
         includesRef={includesRef}

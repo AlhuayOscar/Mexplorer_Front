@@ -12,9 +12,10 @@ export default async function handler(req, res) {
       const createdReview = await Review.create({ title, description, stars, tour });
 
       const averageStars = await calculateAverageStars(tour);
+      const reviewQuantity = await Review.countDocuments({ tour });
 
       if (averageStars >= 0) {
-        await updateTourReview(tour, averageStars);
+        await updateTourReview(tour, averageStars, reviewQuantity);
       }
 
       res.json(createdReview);
@@ -46,13 +47,14 @@ async function calculateAverageStars(tourId) {
 
       return Math.ceil(averageStars[0].averageStars);
     } catch (error) {
-      throw error; 
+      throw 'aqui esta el errorrrrrrrrrr'; 
     }
   }
 
-async function updateTourReview(tourId, averageStars) {
+async function updateTourReview(tourId, averageStars, reviewQuantity) {
   console.log('Actualizando review del tourId', tourId, 'con promedio de estrellas:', averageStars);
   const tour = await Tour.findById(tourId);
-  tour.review = averageStars;
+  tour.review.total = averageStars;
+  tour.review.quantity = reviewQuantity;
   await tour.save();
 }
