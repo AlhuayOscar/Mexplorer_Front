@@ -8,16 +8,16 @@ export default async function handler(req, res) {
     res.json("should be a POST request");
     return;
   }
-  const { kind, name, lastname, email, tour, persons, date } = req.body;
+  const { kind, name, lastname, email, tour, adults, children, price, date } = req.body;
   await mongooseConnect();
 
   const line_items = [
     {
-      quantity: persons,
+      quantity: adults + children,
       price_data: {
         currency: "USD",
         product_data: { name: tour.name },
-        unit_amount: tour.reservationPrice * 100,
+        unit_amount: price,
       },
     },
   ];
@@ -27,7 +27,7 @@ export default async function handler(req, res) {
     name,
     lastname,
     email,
-    persons,
+    adults,
     date,
     paid: false,
   });

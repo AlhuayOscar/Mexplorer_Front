@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useContext } from "react";
 import { CartContext } from "@/components/CartContext";
 import TimeIcon from '@mui/icons-material/AccessTime';
+import Image from "next/image";
 
 const TourWrapper = styled(Link)`
 /* Por ahora no hay nada acá */
@@ -138,13 +139,17 @@ const Description = styled.div`
     height: 2.5rem;
   }
 `;
-export default function TourBox({ _id, name, subtitle, description, duration, promo, withoutPromoPrice, price, images }) {
+export default function TourBox({ _id, name, subtitle, description, duration, promo, withoutPromoPrice, adultsPrice, images }) {
   const { addTour } = useContext(CartContext);
   const url = "/tour/" + _id;
   return (
     <TourWrapper href={url}>
       <WhiteBox>
-        <img src={images?.[0]} alt="" />
+        <Image src={images?.[0]} 
+               alt={`imagen del tour ${name}`} 
+               width={350}
+               height={310}
+                />
         <Title>{name}</Title>
         { promo && <PromoTitle>¡Promo Exclusiva!</PromoTitle> }
       </WhiteBox>
@@ -155,7 +160,7 @@ export default function TourBox({ _id, name, subtitle, description, duration, pr
         <Description>{subtitle.length <= 100 ? subtitle : subtitle.substring(0, 100) + "..."}</Description>
         <Prices>
           {withoutPromoPrice && <Promo>${withoutPromoPrice}</Promo>}
-          <Price>${price}USD</Price>
+          <Price>${adultsPrice}USD</Price>
         </Prices>
       </TourInfoBox>
     </TourWrapper>
