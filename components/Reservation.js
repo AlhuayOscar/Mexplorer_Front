@@ -1,11 +1,12 @@
+import React, { useState, useEffect } from 'react';
 import styled, { css } from "styled-components";
 import CartIcon from "@/components/icons/CartIcon";
 import MyDatePicker from "./DatePicker";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
-import { useState } from "react";
 import axios from "axios";
 import { DatePicker } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 
 const ReservationStyle = css`
   overflow: hidden;
@@ -52,10 +53,9 @@ const InputRes = styled.input`
   border-radius: 7px;
   margin: 10px;
   font-size: 0.9rem;
-  border: 2px solid #0006;
+  border: 1px solid #0006;
   &:focus {
     border: 2px solid #00abbd;
-    background-color: #00abbd22;
     outline: none;
   }
 `;
@@ -113,11 +113,29 @@ const ButtonR = styled(Button)`
 `;
 
 export default function Reservation({ tour, sticky, reservationsRef }) {
-  const [persons, setPersons] = useState(1);
-  const [date, setDate] = useState("");
+  const [adults, setAdults] = useState(1);
+  const [children, setChildren] = useState(0);
+  const [date, setDate] = useState();
   const [name, setName] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
+  const [price, setPrice] = useState(0);
+
+  useEffect(() => {
+    const calculateTotalPrice = () => {
+      let totalPrice;
+      if (tour.reservation) {
+        totalPrice =
+          tour.adultsReservationPrice * adults + tour.childrenReservationPrice * children;
+      } else {
+        totalPrice = tour.adultsPrice * adults + tour.childrenPrice * children;
+      }
+      setPrice(totalPrice);
+    };
+
+    calculateTotalPrice(); 
+
+  }, [adults, children, tour]);
 
   async function goToPayment(e) {
     e.preventDefault();
@@ -127,7 +145,9 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
       lastname,
       email,
       tour,
-      persons,
+      adults,
+      children,
+      price,
       date,
     });
     if (response.data.url) {
@@ -172,9 +192,17 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
           <InputRes
             placeholder="Cantidad de personas"
             type="number"
-            value={persons}
-            onChange={(e) => setPersons(e.target.value)}
+            value={adults}
+            onChange={(e) => setAdults(e.target.value)}
             min={1}
+          />
+          <Titles>Niños</Titles>
+          <InputRes
+            placeholder="Cantidad de niños"
+            type="number"
+            value={children}
+            onChange={(e) => setChildren(e.target.value)}
+            min={0}
           />
           <Date>
             {/* <MyDatePicker
@@ -191,18 +219,19 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
             label='Elige una fecha'
             views={['year', 'month', 'day']}
             value={date}
-            onChange={date => {setDate(date)}}/>
+            onChange={date => {setDate(dayjs(date).format('DD/MM/YYYY'))}}/>
           </Date>
           <Price>
             <label>Total</label>
             <div>
-              ${tour.adultsReservationPrice * persons} 
+              ${price}
               <span>USD</span>
             </div>
-            </Price>
-          <ButtonR type="submit" green>
-            Reserva
-          </ButtonR>
+          </Price>
+          {tour.reservation ? 
+          <ButtonR type="submit" green>Reserva</ButtonR>
+          : <ButtonR type="submit" green>Compra</ButtonR>}
+          
         </Box>
       </ReservationBox>
     </form>

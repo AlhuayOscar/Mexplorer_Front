@@ -7,6 +7,9 @@ const nextConfig = {
   experiments: {
     topLevelAwait: true,
   },
+  images: {
+    domains: ['mexplorer.s3.amazonaws.com']
+  }
 };
 
 module.exports = nextConfig

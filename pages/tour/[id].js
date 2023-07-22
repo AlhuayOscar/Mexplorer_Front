@@ -11,6 +11,7 @@ import { useContext, useState, useEffect, useRef } from "react";
 import { CartContext } from "@/components/CartContext";
 import { Carousel } from "react-responsive-carousel";
 import CheckIcon from "@mui/icons-material/DoneOutlineRounded";
+import CancelIcon from '@mui/icons-material/CloseRounded';
 import Link from "next/link";
 import ArrowIcon from "@mui/icons-material/KeyboardDoubleArrowLeftRounded";
 import ToursImageCarousel from "@/components/ToursImageCarousel";
@@ -23,7 +24,7 @@ import ToursReviews from "@/components/ToursReviews";
 import Footer from "@/components/Footer";
 import ToursGrid from "@/components/ToursGrid";
 import NavTour from "@/components/NavTour";
-import { Reviews } from "@mui/icons-material";
+import { CancelPresentationOutlined, Reviews } from "@mui/icons-material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import TelegramIcon from "@mui/icons-material/Telegram";
@@ -124,6 +125,13 @@ const Check = styled(CheckIcon)`
   font-size: medium;
 `;
 
+const Cancel = styled(CancelIcon)`
+  color: #ee2743;
+  padding: 0;
+  margin-right: 5px;
+ 
+`;
+
 const MovilHeader = styled.div`
   @media screen and (min-width: 768px) {
     display: none;
@@ -216,13 +224,30 @@ const Points = styled.div`
   @media screen and (min-width: 768px) {
     display: flex;
     flex-direction: column;
-    width: 80%;
+    h4{
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+    ${(props) =>
+    props.long &&
+    css`
+      width: 80%;
+    `}
+    ${(props) =>
+    props.short &&
+    css`
+      width: 40%;
+    `}
   }
 `;
 
 const Point = styled.div`
-  margin: 10px;
+  display: flex;
+  align-items: start;
+  margin: 10px 0;
   line-height: 1.5;
+  font-size: 0.9rem;
 `;
 
 const PriceRow = styled.div`
@@ -304,7 +329,7 @@ const ReservationBtn = styled.button`
 `;
 
 export default function TourPage({ tour, promoTours }) {
-  console.log(promoTours);
+  console.log(tour)
   const { addTour } = useContext(CartContext);
   const [showDescription, setShowDescription] = useState(true);
   const [showIncludes, setShowIncludes] = useState(false);
@@ -435,6 +460,13 @@ export default function TourPage({ tour, promoTours }) {
                   {include}
                 </Point>
               ))}
+              <Subtitle yellow>Este tour no incluye:</Subtitle>
+              {tour.doesntIncludes?.map((doesntInclude) => (
+                <Point>
+                  <Cancel />
+                  {doesntInclude}
+                </Point>
+              ))}
             </Points>
           </InfoBox>
         )}
@@ -495,7 +527,8 @@ export default function TourPage({ tour, promoTours }) {
             {tour.includes && (
               <InfoBox ref={includesRef}>
                 <Subtitle yellow>Que incluye</Subtitle>
-                <Points>
+                <Points short>
+                  <h4>Este tour incluye:</h4>
                   {tour.includes?.map((include) => (
                     <Point>
                       <Check />
@@ -503,12 +536,25 @@ export default function TourPage({ tour, promoTours }) {
                     </Point>
                   ))}
                 </Points>
+                {tour.doesntIncludes && (
+                  <>
+                    <Points short>
+                      <h4>Este tour no incluye:</h4>
+                      {tour.doesntIncludes?.map((doesntInclude) => (
+                        <Point>
+                          <Cancel />
+                          {doesntInclude}
+                        </Point>
+                      ))}
+                    </Points>
+                  </>
+                )}
               </InfoBox>
             )}
             {tour.requirements && (
               <InfoBox ref={requirementsRef}>
                 <Subtitle purple>Que Llevar</Subtitle>
-                <Points>
+                <Points long>
                   {tour.requirements?.map((requirement) => (
                     <Point>
                       <Check />
@@ -522,7 +568,7 @@ export default function TourPage({ tour, promoTours }) {
             {tour.notes && (
               <InfoBox ref={notesRef}>
                 <Subtitle green>Notas</Subtitle>
-                <Points>
+                <Points long>
                   {tour.notes?.map((note) => (
                     <Point>
                       <Check />

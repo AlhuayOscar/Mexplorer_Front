@@ -3,6 +3,7 @@ import Button from "@/components/Button";
 import React, { useContext } from 'react'
 import { CartContext } from './CartContext'
 import Link from "next/link";
+import Image from "next/image";
 import TimeIcon from '@mui/icons-material/AccessTime';
 import { useRouter } from 'next/router';
 
@@ -156,7 +157,7 @@ const ButtonG = styled(Button)`
 `;
 
 
-function TourBoxH({ _id, name, subtitle, duration, price, promo, withoutPromoPrice, images }) {
+function TourBoxH({ _id, name, subtitle, duration, adultsPrice, promo, withoutPromoPrice, images }) {
   const url = `/tour/${_id}`
   const router = useRouter();
   const handleButtonClick = () => {
@@ -165,7 +166,11 @@ function TourBoxH({ _id, name, subtitle, duration, price, promo, withoutPromoPri
   return (
     <TourWrapper>
       <WhiteBox href={url}>
-        <img src={images?.[0]} alt="" />
+      <Image src={images?.[0]} 
+               alt={`imagen del tour ${name}`} 
+               width={350}
+               height={310}
+                />
         {promo && <PromoTitle>¡Promo Exclusiva!</PromoTitle>}
       </WhiteBox>
       <TourInfoBox>
@@ -176,7 +181,7 @@ function TourBoxH({ _id, name, subtitle, duration, price, promo, withoutPromoPri
         <TimeBox><TimeI/> <TimeT>{duration} hrs</TimeT></TimeBox>
         <Prices>
           {withoutPromoPrice && <Promo>${withoutPromoPrice}</Promo>}
-          <Price>${price}USD</Price>
+          <Price>${adultsPrice}USD</Price>
         </Prices>
         <ButtonG onClick={handleButtonClick} green>
           Reserva ahora!!
