@@ -30,7 +30,7 @@ color: #eeb527;
 
 export default function StarsRanting({
     size = 'md',
-    defaulHowMany = 0, disabled, onChange = () => { }
+    defaulHowMany = 1, disabled, onChange = () => { }
 }) {
     const [howMany, setHowMany] = useState(defaulHowMany);
     const five = [1, 2, 3, 4, 5];

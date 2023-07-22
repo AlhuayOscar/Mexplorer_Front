@@ -2,8 +2,10 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useContext } from "react";
 import { CartContext } from "@/components/CartContext";
-import TimeIcon from '@mui/icons-material/AccessTime';
 import Image from "next/image";
+import ReviewBox from "./ReviewBox";
+import TimeBox from "./TimeBox";
+
 
 const TourWrapper = styled(Link)`
 /* Por ahora no hay nada acá */
@@ -69,42 +71,12 @@ const TourInfoBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: start;
+  align-items: flex-start;
   padding: 10px;
 `;
 
-
-const TimeT = styled.div`
-  color: #888888;
-  font-size: 1rem;
-  font-weight: 600;
-  margin-left: 0.5rem;
-`;
-
-const TimeI = styled(TimeIcon)`
-  color: #888888;
-`;
-
-
-const TimeBox = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const Review = styled.div`
-  font-size: 1rem;
-  font-weight: 400;
-  margin: 8px 0;
-  justify-items: end;
-  align-self: start;
-  /* @media screen and (min-width: 768px) {
-    font-size: 1.2rem;
-    font-weight: 600;
-    text-align: left;
-  } */
-`;
-
 const Prices = styled.div`
-  text-align: right;
+  align-self: flex-end;
   margin: 2px 0;
 `;
 
@@ -139,7 +111,7 @@ const Description = styled.div`
     height: 2.5rem;
   }
 `;
-export default function TourBox({ _id, name, subtitle, description, duration, promo, withoutPromoPrice, adultsPrice, images }) {
+export default function TourBox({ _id, name, subtitle, review, duration, promo, price, images }) {
   const { addTour } = useContext(CartContext);
   const url = "/tour/" + _id;
   return (
@@ -155,12 +127,12 @@ export default function TourBox({ _id, name, subtitle, description, duration, pr
       </WhiteBox>
       <TourInfoBox>
         {/* <TypeT>Todo en uno</TypeT> */}
-        <TimeBox><TimeI/> <TimeT>{duration} hrs</TimeT></TimeBox>
-        <Review>⭐⭐⭐⭐ <b>4</b> (30 opiniones)</Review>
+        <TimeBox duration={duration}/>
+        <ReviewBox review={review} opinions={true}/>
         <Description>{subtitle.length <= 100 ? subtitle : subtitle.substring(0, 100) + "..."}</Description>
         <Prices>
-          {withoutPromoPrice && <Promo>${withoutPromoPrice}</Promo>}
-          <Price>${adultsPrice}USD</Price>
+          {price.usd.withoutPromoPrice && <Promo>${price.usd.withoutPromoPrice}</Promo>}
+          <Price>${price.usd.adultsPrice}USD</Price>
         </Prices>
       </TourInfoBox>
     </TourWrapper>
