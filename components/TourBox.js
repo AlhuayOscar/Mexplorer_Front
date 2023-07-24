@@ -131,7 +131,7 @@ export default function TourBox({ _id, name, subtitle, review, duration, promo, 
         <ReviewBox review={review} opinions={true}/>
         <Description>{subtitle.length <= 100 ? subtitle : subtitle.substring(0, 100) + "..."}</Description>
         <Prices>
-          {price.usd.withoutPromoPrice && <Promo>${price.usd.withoutPromoPrice}</Promo>}
+          {price.usd.withoutPromoAdultsPrice && <Promo>${price.usd.withoutPromoAdultsPrice}</Promo>}
           <Price>${price.usd.adultsPrice}USD</Price>
         </Prices>
       </TourInfoBox>

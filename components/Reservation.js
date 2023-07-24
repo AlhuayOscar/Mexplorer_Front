@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { CartContext } from "@/components/CartContext";
 import styled, { css } from "styled-components";
 import CartIcon from "@/components/icons/CartIcon";
 import MyDatePicker from "./DatePicker";
@@ -8,7 +9,7 @@ import axios from "axios";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 
-const ReservationStyle = css`
+const ReservationBox = styled.div`
   overflow: hidden;
   border-radius: 7px;
   width: 100hv;
@@ -16,6 +17,7 @@ const ReservationStyle = css`
   background-color: #fff;
   box-shadow: 2px 2px 4px #47556955;
   text-decoration: none;
+  height: fit-content;
   ${(props) =>
     props.sticky &&
     css`
@@ -28,9 +30,9 @@ const ReservationStyle = css`
   }
 `;
 
-const ReservationBox = styled.div`
+/* const ReservationBox = styled.div`
   ${ReservationStyle}
-`;
+`; */
 
 const ResercaTitle = styled.div`
   text-align: center;
@@ -54,6 +56,10 @@ const InputRes = styled.input`
   margin: 10px;
   font-size: 0.9rem;
   border: 1px solid #0006;
+  &:hover {
+    border: 1px solid #000;
+    outline: none;
+  }
   &:focus {
     border: 2px solid #00abbd;
     outline: none;
@@ -97,9 +103,9 @@ const Titles = styled.label`
   text-align: left;
 `;
 
-const Date = styled.div`
+const Date = styled(DatePicker)`
   width: 100%;
-  margin: 10px;
+  margin: 10px 0;
 `;
 
 const ButtonR = styled(Button)`
@@ -112,32 +118,71 @@ const ButtonR = styled(Button)`
   }
 `;
 
+const TypeBox = styled.div`
+  display: flex;
+  width: 100%;
+  color: #fff;
+  background-color: #84C441;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+`;
+
+const Types = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 100%;
+  background-color: #699c34;
+  box-sizing: border-box;
+  color: #ddd;
+  cursor: pointer;
+  ${(props) =>
+    props.active &&
+    css`
+      background-color: #84C441;
+      /* border: 2px solid #fff; */
+      scale: 1.1;
+      color: #fff;
+    `}
+`;
+
 export default function Reservation({ tour, sticky, reservationsRef }) {
-  const [adults, setAdults] = useState(1);
+  const { addTour } = useContext(CartContext);
+  const { cartTours } = useContext(CartContext);
+  const [orderData, setOrderData] = useState({
+    id: tour._id,
+    type: 'compra',
+    adults: 1,
+    children: 0,
+    date: '',
+    hour: '',
+    price: 0
+  })
+  /* const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
   const [date, setDate] = useState();
-  const [name, setName] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [email, setEmail] = useState("");
   const [price, setPrice] = useState(0);
+  const [type, setType] = useState('compra') */
 
   useEffect(() => {
     const calculateTotalPrice = () => {
       let totalPrice;
-      if (tour.reservation) {
+      if (orderData.type === 'reserva' && tour.reservation) {
         totalPrice =
-          tour.adultsReservationPrice * adults + tour.childrenReservationPrice * children;
+          tour.price.usd.adultsReservationPrice * orderData.adults + tour.price.usd.childrenReservationPrice * orderData.children;
       } else {
-        totalPrice = tour.adultsPrice * adults + tour.childrenPrice * children;
+        totalPrice = tour.price.usd.adultsPrice * orderData.adults + tour.price.usd.childrenPrice * orderData.children;
       }
-      setPrice(totalPrice);
+      setOrderData({...orderData, price: totalPrice});
     };
 
     calculateTotalPrice(); 
 
-  }, [adults, children, tour]);
+  }, [orderData.adults, orderData.children, tour, orderData.type]);
 
-  async function goToPayment(e) {
+ /*  async function goToPayment(e) {
     e.preventDefault();
     const response = await axios.post("/api/reservationcheckout", {
       kind: "Reserva",
@@ -158,13 +203,33 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
   const logSelectedDate = (date) => {
     console.log("Fecha seleccionada:", date);
   };
+ */
+  const handleTypeClick = (type) => {
+    setOrderData({ ...orderData, type: type });
+  };
 
+  console.log(cartTours)
   return (
-    <form onSubmit={goToPayment} ref={reservationsRef}>
-      <ReservationBox sticky={sticky ? "sticky" : ""}>
+    
+      <ReservationBox sticky={sticky ? "sticky" : ""} ref={reservationsRef}>
         <ResercaTitle>RESERVA AHORA!</ResercaTitle>
+        {tour.reservation ?
+          <TypeBox>
+          <Types active={orderData.type === 'reserva'}
+                 onClick={() => handleTypeClick('reserva')}>
+                  Reserva
+          </Types>
+          <Types active={orderData.type === 'compra'}
+                 onClick={() => handleTypeClick('compra')}>
+                  Compra
+          </Types>
+      </TypeBox>
+      : <TypeBox padding> 
+          Compra
+        </TypeBox>}
+        
         <Box>
-          <Titles>Nombre</Titles>
+{/*           <Titles>Nombre</Titles>
           <InputRes
             type="text"
             placeholder="Nombre"
@@ -187,24 +252,25 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
             value={email}
             name="email"
             onChange={(ev) => setEmail(ev.target.value)}
-          />
+          /> */}
+          
           <Titles>Adultos</Titles>
           <InputRes
             placeholder="Cantidad de personas"
             type="number"
-            value={adults}
-            onChange={(e) => setAdults(e.target.value)}
+            value={orderData.adults}
+            onChange={(e) => setOrderData({...orderData, adults: e.target.value})}
             min={1}
           />
           <Titles>Niños</Titles>
           <InputRes
             placeholder="Cantidad de niños"
             type="number"
-            value={children}
-            onChange={(e) => setChildren(e.target.value)}
+            value={orderData.children}
+            onChange={(e) => setOrderData({...orderData, children: e.target.value})}
             min={0}
           />
-          <Date>
+          
             {/* <MyDatePicker
               inline={true}
               value={date}
@@ -214,26 +280,28 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
                 logSelectedDate(date);
               }}
             /> */}
-            <DatePicker
+            <Titles>Elige una fecha</Titles>
+            <Date
             disablePast
-            label='Elige una fecha'
+            format="DD/MM/YYYY"
+            /* label='Elige una fecha' */
             views={['year', 'month', 'day']}
-            value={date}
-            onChange={date => {setDate(dayjs(date).format('DD/MM/YYYY'))}}/>
-          </Date>
+            value={orderData.date}
+            onChange={date => {setOrderData({...orderData, date })}}/>
+          
           <Price>
             <label>Total</label>
             <div>
-              ${price}
+              ${orderData.price}
               <span>USD</span>
             </div>
           </Price>
-          {tour.reservation ? 
-          <ButtonR type="submit" green>Reserva</ButtonR>
-          : <ButtonR type="submit" green>Compra</ButtonR>}
+          {orderData.type === 'reserva' ? 
+            <ButtonR type="submit" green onClick={() => addTour(orderData)}>Reserva</ButtonR>
+          : <ButtonR type="submit" green onClick={() => addTour(orderData)}>Compra</ButtonR>}
           
         </Box>
       </ReservationBox>
-    </form>
+   
   );
 }

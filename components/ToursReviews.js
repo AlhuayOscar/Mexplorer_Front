@@ -7,10 +7,6 @@ import Button from "./Button";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const Title = styled.h2`
-font-size:1.2rem;
-margin-bottom: 5px;
-`;
 
 const Subtitle = styled.h3`
 font-size: 1.2rem;
