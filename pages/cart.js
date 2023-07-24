@@ -75,7 +75,7 @@ export default function CartPage() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [hasProducts, setHasProducts] = useState(false);
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (cartTours.length > 0) {
       axios.post("/api/cart", { ids: cartTours }).then((response) => {
         setTours(response.data);
@@ -85,7 +85,7 @@ export default function CartPage() {
       setTours([]);
       setHasProducts(false); // Actualiza el estado hasProducts a false
     }
-  }, [cartTours]);
+  }, [cartTours]); */
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -108,7 +108,7 @@ export default function CartPage() {
       name,
       lastname,
       email,
-      cartTours,
+      cartTours, 
     });
     if (response.data.url) {
       window.location = response.data.url;
@@ -116,7 +116,7 @@ export default function CartPage() {
   }
   let total = 0;
   for (const tourId of cartTours) {
-    const price = tours.find((p) => p._id === tourId)?.price || 0;
+    const price = tours.find((p) => p._id === tourId)?.price.usd.adultsPrice || 0;
     total += price;
   }
   total = total.toFixed(2); //Para redondear a 2 decimales
@@ -163,7 +163,7 @@ export default function CartPage() {
                         <TourImageBox>
                           <img src={tour.images[0]} alt="" />
                         </TourImageBox>
-                        {tour.title}
+                        {tour.name}
                       </TourInfoCell>
                       <td>
                         <Button onClick={() => lessOfThisTour(tour._id)}>

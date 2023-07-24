@@ -18,7 +18,7 @@ import ToursReviews from "@/components/ToursReviews";
 import Footer from "@/components/Footer";
 import ToursGrid from "@/components/ToursGrid";
 import NavTour from "@/components/NavTour";
-import { CancelPresentationOutlined, Reviews } from "@mui/icons-material";
+import { CancelPresentationOutlined, Diversity1Sharp, Reviews } from "@mui/icons-material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import TelegramIcon from "@mui/icons-material/Telegram";
@@ -537,17 +537,11 @@ export default function TourPage({ tour, promoTours }) {
                 </Points>
               </InfoBox>
             )}
-            {/* <PriceRow>
-              <div>
-                <Price>${tour.price}</Price>
-              </div>
-              <div>
-                <Button primary onClick={() => addTour(tour._id)}>
-                  <CartIcon />
+            <div>
+                <button onClick={() => addTour(tour._id)}>
                   Añadir al carrito
-                </Button>
-              </div>
-            </PriceRow> */}
+                </button>
+            </div>
           </TourInfoBox>
           <Reservation tour={tour} sticky={true} />
         </ColWrapper>

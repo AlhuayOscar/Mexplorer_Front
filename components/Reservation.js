@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { CartContext } from "@/components/CartContext";
 import styled, { css } from "styled-components";
 import CartIcon from "@/components/icons/CartIcon";
 import MyDatePicker from "./DatePicker";
@@ -8,7 +9,7 @@ import axios from "axios";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 
-const ReservationStyle = css`
+const ReservationBox = styled.div`
   overflow: hidden;
   border-radius: 7px;
   width: 100hv;
@@ -16,6 +17,7 @@ const ReservationStyle = css`
   background-color: #fff;
   box-shadow: 2px 2px 4px #47556955;
   text-decoration: none;
+  height: fit-content;
   ${(props) =>
     props.sticky &&
     css`
@@ -28,9 +30,9 @@ const ReservationStyle = css`
   }
 `;
 
-const ReservationBox = styled.div`
+/* const ReservationBox = styled.div`
   ${ReservationStyle}
-`;
+`; */
 
 const ResercaTitle = styled.div`
   text-align: center;
@@ -147,32 +149,40 @@ const Types = styled.div`
 `;
 
 export default function Reservation({ tour, sticky, reservationsRef }) {
-  const [adults, setAdults] = useState(1);
+  const { addTour } = useContext(CartContext);
+  const { cartTours } = useContext(CartContext);
+  const [orderData, setOrderData] = useState({
+    id: tour._id,
+    type: 'compra',
+    adults: 1,
+    children: 0,
+    date: '',
+    hour: '',
+    price: 0
+  })
+  /* const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
   const [date, setDate] = useState();
-/*   const [name, setName] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [email, setEmail] = useState(""); */
   const [price, setPrice] = useState(0);
-  const [type, setType] = useState('compra')
+  const [type, setType] = useState('compra') */
 
   useEffect(() => {
     const calculateTotalPrice = () => {
       let totalPrice;
-      if (type === 'reserva' && tour.reservation) {
+      if (orderData.type === 'reserva' && tour.reservation) {
         totalPrice =
-          tour.price.usd.adultsReservationPrice * adults + tour.price.usd.childrenReservationPrice * children;
+          tour.price.usd.adultsReservationPrice * orderData.adults + tour.price.usd.childrenReservationPrice * orderData.children;
       } else {
-        totalPrice = tour.price.usd.adultsPrice * adults + tour.price.usd.childrenPrice * children;
+        totalPrice = tour.price.usd.adultsPrice * orderData.adults + tour.price.usd.childrenPrice * orderData.children;
       }
-      setPrice(totalPrice);
+      setOrderData({...orderData, price: totalPrice});
     };
 
     calculateTotalPrice(); 
 
-  }, [adults, children, tour, type]);
+  }, [orderData.adults, orderData.children, tour, orderData.type]);
 
-  async function goToPayment(e) {
+ /*  async function goToPayment(e) {
     e.preventDefault();
     const response = await axios.post("/api/reservationcheckout", {
       kind: "Reserva",
@@ -193,27 +203,24 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
   const logSelectedDate = (date) => {
     console.log("Fecha seleccionada:", date);
   };
-
-  const handleTypeClick = (e) => {
-    event.preventDefault
-    const type = e.target.getAttribute('name')
-    setType(type);
+ */
+  const handleTypeClick = (type) => {
+    setOrderData({ ...orderData, type: type });
   };
 
+  console.log(cartTours)
   return (
-    <form onSubmit={goToPayment} ref={reservationsRef}>
-      <ReservationBox sticky={sticky ? "sticky" : ""}>
+    
+      <ReservationBox sticky={sticky ? "sticky" : ""} ref={reservationsRef}>
         <ResercaTitle>RESERVA AHORA!</ResercaTitle>
         {tour.reservation ?
           <TypeBox>
-          <Types name='reserva' 
-                 active={type === 'reserva'}
-                 onClick={handleTypeClick}>
+          <Types active={orderData.type === 'reserva'}
+                 onClick={() => handleTypeClick('reserva')}>
                   Reserva
           </Types>
-          <Types name='compra' 
-                 active={type === 'compra'}
-                 onClick={handleTypeClick}>
+          <Types active={orderData.type === 'compra'}
+                 onClick={() => handleTypeClick('compra')}>
                   Compra
           </Types>
       </TypeBox>
@@ -251,16 +258,16 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
           <InputRes
             placeholder="Cantidad de personas"
             type="number"
-            value={adults}
-            onChange={(e) => setAdults(e.target.value)}
+            value={orderData.adults}
+            onChange={(e) => setOrderData({...orderData, adults: e.target.value})}
             min={1}
           />
           <Titles>Niños</Titles>
           <InputRes
             placeholder="Cantidad de niños"
             type="number"
-            value={children}
-            onChange={(e) => setChildren(e.target.value)}
+            value={orderData.children}
+            onChange={(e) => setOrderData({...orderData, children: e.target.value})}
             min={0}
           />
           
@@ -279,22 +286,22 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
             format="DD/MM/YYYY"
             /* label='Elige una fecha' */
             views={['year', 'month', 'day']}
-            value={date}
-            onChange={date => {setDate(date)}}/>
+            value={orderData.date}
+            onChange={date => {setOrderData({...orderData, date })}}/>
           
           <Price>
             <label>Total</label>
             <div>
-              ${price}
+              ${orderData.price}
               <span>USD</span>
             </div>
           </Price>
-          {type === 'reserva' ? 
-            <ButtonR type="submit" green>Reserva</ButtonR>
-          : <ButtonR type="submit" green>Compra</ButtonR>}
+          {orderData.type === 'reserva' ? 
+            <ButtonR type="submit" green onClick={() => addTour(orderData)}>Reserva</ButtonR>
+          : <ButtonR type="submit" green onClick={() => addTour(orderData)}>Compra</ButtonR>}
           
         </Box>
       </ReservationBox>
-    </form>
+   
   );
 }
