@@ -151,20 +151,27 @@ const Types = styled.div`
 export default function Reservation({ tour, sticky, reservationsRef }) {
   const { addTour } = useContext(CartContext);
   const { cartTours } = useContext(CartContext);
-  const [orderData, setOrderData] = useState({
-    id: tour._id,
-    type: 'compra',
-    adults: 1,
-    children: 0,
-    date: '',
-    hour: '',
-    price: 0
-  })
+  
   /* const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
   const [date, setDate] = useState();
   const [price, setPrice] = useState(0);
   const [type, setType] = useState('compra') */
+  const [date, setDate] = useState();
+  
+  const initialOrderData = {
+    id: tour._id,
+    name: tour.name,
+    type: 'compra',
+    adults: 1,
+    children: 0,
+    date: dayjs(date).format('DD/MM/YYYY'),
+    hour: '10:00 a.m',
+    price: tour.price.usd.adultsPrice
+  }; 
+
+  const [orderData, setOrderData] = useState(initialOrderData)
+
 
   useEffect(() => {
     const calculateTotalPrice = () => {
@@ -181,6 +188,11 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
     calculateTotalPrice(); 
 
   }, [orderData.adults, orderData.children, tour, orderData.type]);
+
+  useEffect(() => {
+    setOrderData(initialOrderData);
+    setDate('')
+  }, [tour]);
 
  /*  async function goToPayment(e) {
     e.preventDefault();
@@ -286,8 +298,8 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
             format="DD/MM/YYYY"
             /* label='Elige una fecha' */
             views={['year', 'month', 'day']}
-            value={orderData.date}
-            onChange={date => {setOrderData({...orderData, date })}}/>
+            value={date}
+            onChange={date => {setDate(date)}}/>
           
           <Price>
             <label>Total</label>
