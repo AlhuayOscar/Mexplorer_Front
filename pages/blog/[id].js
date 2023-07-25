@@ -29,6 +29,10 @@ const BlogDescription = styled.div`
     font-size: 3em;
     color: your-other-color;
   }
+  span {
+    width: 750px;
+    word-wrap: break-word;
+  }
 `;
 
 const ToursCards = styled.div``;
