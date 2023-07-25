@@ -20,9 +20,13 @@ export function CartContextProvider({ children }) {
 
 
   function addTour(orderDataTour) {
-    setCartTours((prev) => [...prev, orderDataTour]);
-  }
-
+    const isTourAlreadyInCart = cartTours.some((tour) => tour.id === orderDataTour.id);
+  
+    if (!isTourAlreadyInCart) {
+      setCartTours((prev) => [...prev, orderDataTour]);
+    }
+  };
+  
 
   function removeTour(tourId) {
     setCartTours((prev) => {
@@ -37,6 +41,7 @@ export function CartContextProvider({ children }) {
 
   function clearCart() {
     setCartTours([]);
+    ls.removeItem("cart");
   }
   return (
     <CartContext.Provider
