@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import { Blog } from "@/models/Blog";
 import { Tour } from "@/models/Tour";
 import TimeIcon from "@mui/icons-material/AccessTime";
-
+import InfoIcon from "@mui/icons-material/Info";
 const BlogContainer = styled.div`
   text-align: center;
   display: flex;
@@ -25,6 +25,10 @@ const BlogDescription = styled.div`
   font-size: x-large;
   color: #1a1a1a;
   text-align: left;
+  padding-inline: 20px;
+  @media (max-width: 768px) {
+    padding-inline: 10px;
+  }
   &:first-of-type::first-letter {
     font-size: 3em;
     color: your-other-color;
@@ -38,6 +42,7 @@ const BlogDescription = styled.div`
 const ToursCards = styled.div``;
 const ImageContainer = styled.div`
   overflow: hidden;
+
   @media (max-width: 1140px) {
     height: 250px; // Ajustar la altura para pantallas más pequeñas
   }
@@ -50,28 +55,28 @@ const ImageContainer = styled.div`
     height: 200px; // Ajustar la altura para pantallas más pequeñas
   }
   @media (max-width: 300px) {
-    height: 150px; // Ajustar la altura para pantallas más pequeñas
+    height: 250px; // Ajustar la altura para pantallas más pequeñas
   }
 `;
 
 const BlogImage = styled.img`
-  width: 100%; // Ajustar el ancho de la imagen al 100% del contenedor
-  height: 100%; // Ajustar la altura de la imagen al 100% del contenedor
+  min-height: 250px;
+  max-height: 400px;
   object-fit: cover;
   cursor: pointer;
   @media (max-width: 1140px) {
     width: 100%; // Ajustar el ancho de la imagen al 100% del contenedor
-    height: 100%; // Ajustar la altura de la imagen al 100% del contenedor
+    height: 250px;
   }
 
   @media (max-width: 600px) {
     width: 100%; // Ajustar el ancho de la imagen al 100% del contenedor
-    height: 100%; // Ajustar la altura de la imagen al 100% del contenedor
+    height: 250px;
   }
 
   @media (max-width: 290px) {
     width: 100%; // Ajustar el ancho de la imagen al 100% del contenedor
-    height: 100%; // Ajustar la altura de la imagen al 100% del contenedor
+    height: 250px;
   }
 `;
 
@@ -103,14 +108,22 @@ const ModalImage = styled.img`
 `;
 const BlogSection = styled.section`
   display: flex;
+  @media (max-width: 960px) {
+    flex-direction: column;
+  }
+  @media (max-width: 400px) {
+    max-width: 280px;
+  }
 `;
 const PromoTitle = styled.div`
   background-color: #ee2743;
+  width: 195px;
   padding: 3px 3px;
   color: #1f2937;
   text-decoration: none;
   color: #fff;
-  transform: translateX(6rem) translateY(-13.2rem) rotate(45deg);
+  transform: translateX(13rem) translateY(-13rem) rotate(45deg);
+  overflow: hidden;
 `;
 
 const BlogInfoTours = styled.div`
@@ -120,17 +133,34 @@ const BlogInfoTours = styled.div`
   }
 
   ul {
-    list-style: none;
-  }
-
-  li {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    gap: 20px;
+    list-style: none;
+  }
+
+  @media screen and (max-width: 300px) {
+    ul {
+      padding: unset;
+    }
+  }
+
+  li {
+    background-color: white;
+    border-radius: 20px 20px 20px 20px;
+    box-shadow: 2px 2px 4px #47556955;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow: hidden;
+    cursor: pointer;
   }
 
   img {
-    width: 300px;
+    width: 360px;
+    min-height: 250px;
     max-height: 250px;
     object-fit: cover;
   }
@@ -144,14 +174,21 @@ const BlogInfoTours = styled.div`
     text-decoration: none;
     margin: 0;
     position: absolute;
-    transform: translateX(-18.8rem) translateY(1rem);
+    transform: translateX(0rem) translateY(1rem);
   }
 
   .tour-info {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: start;
-    padding: 10px;
+    padding: 0px 0px 25px 15px;
+    position: relative; /* Asegura que el posicionamiento absoluto sea relativo a este contenedor */
+  }
+
+  .tour-info svg {
+    position: absolute; /* Posicionamiento absoluto */
+    left: 320px; /* Desplaza el SVG 200px hacia la derecha */
+    font-size: 30px;
   }
 
   .time-box {
@@ -220,6 +257,9 @@ const BlogInfoTours = styled.div`
       height: 2.5rem;
     }
   }
+  @media (max-width: 400px) {
+    transform: scale(0.65);
+  }
 `;
 const BlogPage = ({ blog, tours }) => {
   const [showModal, setShowModal] = useState(false);
@@ -269,18 +309,19 @@ const BlogPage = ({ blog, tours }) => {
               <h2>Revisa nuestros últimos tours:</h2>
               {tours.map((tour) => (
                 <li key={tour._id}>
-                  <ImageContainer>
-                    <BlogImage src={tour.images[0]} alt="Tour Image" />
-                    <strong>{tour.name}</strong>
-                    {tour.promo && <PromoTitle>¡Promo Exclusiva!</PromoTitle>}
-                  </ImageContainer>
+                  <BlogImage src={tour.images[0]} alt="Tour Image" />
+                  <strong>{tour.name}</strong>
+                  {(tour.promo && (
+                    <PromoTitle>¡Promo Exclusiva!</PromoTitle>
+                  )) || <div style={{ height: "18px" }}></div>}
                   <div className="tour-info">
                     <div className="prices">
                       {tour.withoutPromoPrice && (
                         <span className="promo">${tour.withoutPromoPrice}</span>
                       )}
-                      <span className="price">${tour.price}USD</span>
+                      <span className="price">${tour.price}USD </span>
                     </div>
+                    <InfoIcon />
                   </div>
                 </li>
               ))}
