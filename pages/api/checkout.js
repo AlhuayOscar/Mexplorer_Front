@@ -10,10 +10,17 @@ export default async function handler(req, res) {
   }
   const { kind, name, lastname, email, cartTours } = req.body;
   await mongooseConnect();
-  const toursIds = cartTours;
+  const toursIds = cartTours.map((tour) => tour.id);
   const uniqueIds = [...new Set(toursIds)];
   const toursInfos = await Tour.find({ _id: uniqueIds });
-
+  function sumarPreciosTours(cartTours) {
+    const total = cartTours.reduce((acumulador, tour) => {
+      return acumulador + tour.price;
+    }, 0);
+    return total;
+  }
+  const price = sumarPreciosTours(cartTours);
+  console.log(price);
   let line_items = [];
   for (const tourId of uniqueIds) {
     const tourInfo = toursInfos.find((p) => p._id.toString() === tourId);
@@ -24,7 +31,7 @@ export default async function handler(req, res) {
         price_data: {
           currency: "USD",
           product_data: { name: tourInfo.name },
-          unit_amount: tourInfo.price * 100,
+          unit_amount: price * 100,
         },
       });
     }
@@ -46,7 +53,11 @@ export default async function handler(req, res) {
     customer_email: email,
     success_url: process.env.PUBLIC_URL + "/cart?success=1",
     cancel_url: process.env.PUBLIC_URL + "/cart?canceled=1",
-    metadata: { orderId: orderDoc._id.toString(), test: "ok" },
+    metadata: {
+      orderId: orderDoc._id.toString(),
+      test: "ok",
+      cartTours: JSON.stringify(cartTours),
+    },
   });
 
   res.json({
