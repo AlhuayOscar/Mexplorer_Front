@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from "react";
 import { CartContext } from "@/components/CartContext";
 import styled, { css } from "styled-components";
 import CartIcon from "@/components/icons/CartIcon";
@@ -8,6 +8,7 @@ import Input from "@/components/Input";
 import axios from "axios";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
+import Swal from "sweetalert2";
 
 const ReservationBox = styled.div`
   overflow: hidden;
@@ -80,18 +81,18 @@ const Price = styled.div`
   font-size: 1.8rem;
   font-weight: 400;
   color: #fff;
-  
+
   label {
     font-size: 0.8rem;
     align-self: start;
     justify-self: flex-start;
   }
-  
+
   div {
     display: flex;
     align-items: center;
   }
-  
+
   span {
     font-size: 0.9rem;
     align-self: flex-start;
@@ -122,7 +123,7 @@ const TypeBox = styled.div`
   display: flex;
   width: 100%;
   color: #fff;
-  background-color: #84C441;
+  background-color: #84c441;
   align-items: center;
   justify-content: center;
   height: 40px;
@@ -141,7 +142,7 @@ const Types = styled.div`
   ${(props) =>
     props.active &&
     css`
-      background-color: #84C441;
+      background-color: #84c441;
       /* border: 2px solid #fff; */
       scale: 1.1;
       color: #fff;
@@ -151,50 +152,51 @@ const Types = styled.div`
 export default function Reservation({ tour, sticky, reservationsRef }) {
   const { addTour } = useContext(CartContext);
   const { cartTours } = useContext(CartContext);
-  
+
   /* const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
   const [date, setDate] = useState();
   const [price, setPrice] = useState(0);
   const [type, setType] = useState('compra') */
   const [date, setDate] = useState();
-  
+
   const initialOrderData = {
     id: tour._id,
     name: tour.name,
-    type: 'compra',
+    type: "compra",
     adults: 1,
     children: 0,
-    date: dayjs(date).format('DD/MM/YYYY'),
-    hour: '10:00 a.m',
-    price: tour.price.usd.adultsPrice
-  }; 
+    date: dayjs(date).format("DD/MM/YYYY"),
+    hour: "10:00 a.m",
+    price: tour.price?.usd?.adultsPrice, // ? added for validation
+  };
 
-  const [orderData, setOrderData] = useState(initialOrderData)
-
+  const [orderData, setOrderData] = useState(initialOrderData);
 
   useEffect(() => {
     const calculateTotalPrice = () => {
       let totalPrice;
-      if (orderData.type === 'reserva' && tour.reservation) {
+      if (orderData.type === "reserva" && tour.reservation) {
         totalPrice =
-          tour.price.usd.adultsReservationPrice * orderData.adults + tour.price.usd.childrenReservationPrice * orderData.children;
+          tour.price?.usd?.adultsReservationPrice * orderData.adults +
+          tour.price?.usd?.childrenReservationPrice * orderData.children; // ? added for validation
       } else {
-        totalPrice = tour.price.usd.adultsPrice * orderData.adults + tour.price.usd.childrenPrice * orderData.children;
+        totalPrice =
+          tour.price?.usd?.adultsPrice * orderData.adults +
+          tour.price?.usd?.childrenPrice * orderData.children; // ? added for validation
       }
-      setOrderData({...orderData, price: totalPrice});
+      setOrderData({ ...orderData, price: totalPrice });
     };
 
-    calculateTotalPrice(); 
-
+    calculateTotalPrice();
   }, [orderData.adults, orderData.children, tour, orderData.type]);
 
   useEffect(() => {
     setOrderData(initialOrderData);
-    setDate('')
+    setDate("");
   }, [tour]);
 
- /*  async function goToPayment(e) {
+  /*  async function goToPayment(e) {
     e.preventDefault();
     const response = await axios.post("/api/reservationcheckout", {
       kind: "Reserva",
@@ -220,28 +222,31 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
     setOrderData({ ...orderData, type: type });
   };
 
-  console.log(cartTours)
+  console.log(cartTours);
   return (
-    
-      <ReservationBox sticky={sticky ? "sticky" : ""} ref={reservationsRef}>
-        <ResercaTitle>RESERVA AHORA!</ResercaTitle>
-        {tour.reservation ?
-          <TypeBox>
-          <Types active={orderData.type === 'reserva'}
-                 onClick={() => handleTypeClick('reserva')}>
-                  Reserva
+    <ReservationBox sticky={sticky ? "sticky" : ""} ref={reservationsRef}>
+      <ResercaTitle>RESERVA AHORA!</ResercaTitle>
+      {tour.reservation ? (
+        <TypeBox>
+          <Types
+            active={orderData.type === "reserva"}
+            onClick={() => handleTypeClick("reserva")}
+          >
+            Reserva
           </Types>
-          <Types active={orderData.type === 'compra'}
-                 onClick={() => handleTypeClick('compra')}>
-                  Compra
+          <Types
+            active={orderData.type === "compra"}
+            onClick={() => handleTypeClick("compra")}
+          >
+            Compra
           </Types>
-      </TypeBox>
-      : <TypeBox padding> 
-          Compra
-        </TypeBox>}
-        
-        <Box>
-{/*           <Titles>Nombre</Titles>
+        </TypeBox>
+      ) : (
+        <TypeBox padding>Compra</TypeBox>
+      )}
+
+      <Box>
+        {/*           <Titles>Nombre</Titles>
           <InputRes
             type="text"
             placeholder="Nombre"
@@ -265,25 +270,29 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
             name="email"
             onChange={(ev) => setEmail(ev.target.value)}
           /> */}
-          
-          <Titles>Adultos</Titles>
-          <InputRes
-            placeholder="Cantidad de personas"
-            type="number"
-            value={orderData.adults}
-            onChange={(e) => setOrderData({...orderData, adults: e.target.value})}
-            min={1}
-          />
-          <Titles>Niños</Titles>
-          <InputRes
-            placeholder="Cantidad de niños"
-            type="number"
-            value={orderData.children}
-            onChange={(e) => setOrderData({...orderData, children: e.target.value})}
-            min={0}
-          />
-          
-            {/* <MyDatePicker
+
+        <Titles>Adultos</Titles>
+        <InputRes
+          placeholder="Cantidad de personas"
+          type="number"
+          value={orderData.adults}
+          onChange={(e) =>
+            setOrderData({ ...orderData, adults: e.target.value })
+          }
+          min={1}
+        />
+        <Titles>Niños</Titles>
+        <InputRes
+          placeholder="Cantidad de niños"
+          type="number"
+          value={orderData.children}
+          onChange={(e) =>
+            setOrderData({ ...orderData, children: e.target.value })
+          }
+          min={0}
+        />
+
+        {/* <MyDatePicker
               inline={true}
               value={date}
               satHighlight={true}
@@ -292,28 +301,35 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
                 logSelectedDate(date);
               }}
             /> */}
-            <Titles>Elige una fecha</Titles>
-            <Date
-            disablePast
-            format="DD/MM/YYYY"
-            /* label='Elige una fecha' */
-            views={['year', 'month', 'day']}
-            value={date}
-            onChange={date => {setDate(date)}}/>
-          
-          <Price>
-            <label>Total</label>
-            <div>
-              ${orderData.price}
-              <span>USD</span>
-            </div>
-          </Price>
-          {orderData.type === 'reserva' ? 
-            <ButtonR type="submit" green onClick={() => addTour(orderData)}>Reserva</ButtonR>
-          : <ButtonR type="submit" green onClick={() => addTour(orderData)}>Compra</ButtonR>}
-          
-        </Box>
-      </ReservationBox>
-   
+        <Titles>Elige una fecha</Titles>
+        <Date
+          disablePast
+          format="DD/MM/YYYY"
+          /* label='Elige una fecha' */
+          views={["year", "month", "day"]}
+          value={date}
+          onChange={(date) => {
+            setDate(date);
+          }}
+        />
+
+        <Price>
+          <label>Total</label>
+          <div>
+            ${orderData.price}
+            <span>USD</span>
+          </div>
+        </Price>
+        {orderData.type === "reserva" ? (
+          <ButtonR type="submit" green onClick={() => addTour(orderData)}>
+            Reserva
+          </ButtonR>
+        ) : (
+          <ButtonR type="submit" green onClick={() => addTour(orderData)}>
+            Compra
+          </ButtonR>
+        )}
+      </Box>
+    </ReservationBox>
   );
 }

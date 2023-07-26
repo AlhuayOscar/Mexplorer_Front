@@ -153,8 +153,8 @@ function TourBoxH({ _id, name, subtitle, duration, promo, review, price, images 
         {/* <TypeT>Todo en uno</TypeT> */}
         <TimeBox duration={duration}/>
         <Prices>
-          {price.usd.withoutPromoAdultsPrice && <Promo>${price.usd.withoutPromoAdultsPrice}</Promo>}
-          <Price>${price.usd.adultsPrice}USD</Price>
+          {price.usd?.withoutPromoAdultsPrice && <Promo>${price.usd?.withoutPromoAdultsPrice}</Promo>}
+          <Price>${price.usd?.adultsPrice}USD</Price>
         </Prices>
         <ButtonG onClick={handleButtonClick} green>
           Reserva ahora!!
