@@ -9,6 +9,10 @@ const endpointSecret = "whsec_sO0s7656H1Raj4jfhjkLKqqYTq2wKo37";
 
 export default async function handler(req, res) {
   await mongooseConnect();
+  console.log(
+    req.headers,
+    "--------------------------HEADERS---------------------------------"
+  );
   const sig = req.headers["stripe-signature"];
 
   let event;
@@ -23,10 +27,13 @@ export default async function handler(req, res) {
     res.status(400).send(`Webhook Error: ${err.message}`);
     return;
   }
-
+  
   // Handle the event
   switch (event.type) {
     case "checkout.session.completed":
+      console.log(
+        "-----------------------------------------------------------"
+      );
       const data = event.data.object;
       const orderId = data.metadata.orderId;
       const paid = data.payment_status === "paid";
@@ -90,7 +97,7 @@ export default async function handler(req, res) {
       console.log(`Unhandled event type ${event.type}`);
   }
 
-  res.status(200).send("ok");
+  return res.status(200).send("ok");
 }
 
 export const config = {

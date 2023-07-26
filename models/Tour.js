@@ -1,4 +1,4 @@
-import { model, models, Schema } from "mongoose";
+import { model, models, Schema, mongoose } from "mongoose";
 
 const TourSchema = new Schema({
   name: { type: String, required: true },
@@ -26,6 +26,8 @@ const TourSchema = new Schema({
   },
   images: { type: [String] },
   includes: { type: [String] },
+  doesntIncludes: { type: [String] },
+  currency: { type: String },
   requirements: { type: [String] },
   doesntIncludes: { type: [String] },
   review: { 

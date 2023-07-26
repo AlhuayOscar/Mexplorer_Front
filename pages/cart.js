@@ -115,6 +115,7 @@ export default function CartPage() {
       name,
       lastname,
       email,
+      currency: 'USD',
       cartTours,
     });
     console.log(response.kind);
