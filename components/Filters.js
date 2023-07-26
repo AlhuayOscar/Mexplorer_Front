@@ -202,7 +202,7 @@ export default function Filters({ tours, onFiltersChange, setCurrentPage }) {
 
       if (values) {
         const [min, max] = values;
-        if (tour.price.usd.adultsPrice < min || tour.price.usd.adultsPrice > max) {
+        if (tour.price?.usd?.adultsPrice < min || tour.price?.usd?.adultsPrice > max) {
           meetsPriceRangeFilter = false;
         }
       }

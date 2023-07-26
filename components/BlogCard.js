@@ -24,6 +24,7 @@ const Title = styled.h2`
   text-align: center;
   display: flex;
   align-items: center;
+  justify-content: center;
 `;
 
 const Subtitle = styled.h3`

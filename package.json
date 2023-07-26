@@ -39,6 +39,7 @@
     "react-wavify": "^1.8.3",
     "slick-carousel": "^1.8.1",
     "stripe": "^11.16.0",
-    "styled-components": "^5.3.9"
+    "styled-components": "^5.3.9",
+    "sweetalert2": "^11.7.20"
   }
 }
