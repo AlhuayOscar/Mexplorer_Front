@@ -5,7 +5,6 @@ import { styled as muiStyled } from '@mui/material/styles';
 
 
 const BoxContainer = styled.div`
-  position: sticky;
   top: 20px;
   height: 40rem;
   display: flex;
@@ -18,6 +17,7 @@ const BoxContainer = styled.div`
   margin-bottom: 2rem;
   @media screen and (min-width: 768px) {
     width: 25%;
+    position: sticky;
   }
 `;
 
@@ -202,7 +202,7 @@ export default function Filters({ tours, onFiltersChange, setCurrentPage }) {
 
       if (values) {
         const [min, max] = values;
-        if (tour.price < min || tour.price > max) {
+        if (tour.price.usd.adultsPrice < min || tour.price.usd.adultsPrice > max) {
           meetsPriceRangeFilter = false;
         }
       }

@@ -7,10 +7,6 @@ import Button from "./Button";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const Title = styled.h2`
-font-size:1.2rem;
-margin-bottom: 5px;
-`;
 
 const Subtitle = styled.h3`
 font-size: 1.2rem;
@@ -98,7 +94,7 @@ const WhiteBoxC = styled.div`
 export default function ToursReviews({ tour }) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [stars, setStars] = useState(0);
+    const [stars, setStars] = useState(1);
     const [reviews, setReviews] = useState([]);
     const [showAllReviews, setShowAllReviews] = useState(false);
     const [expandedComments, setExpandedComments] = useState([]);
@@ -110,12 +106,12 @@ export default function ToursReviews({ tour }) {
 
     function submitReview() {
         const data = { title, description, stars, tour: tour._id }
-        axios.post('/api/reviews', data).then(res => {
+        axios.post('/api/reviews', data)
             setTitle('');
             setDescription('');
             setStars(0);
             loadReviews();
-        });
+       
     }
 
     useEffect(() => {

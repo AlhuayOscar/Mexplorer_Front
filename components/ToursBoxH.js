@@ -3,8 +3,11 @@ import Button from "@/components/Button";
 import React, { useContext } from 'react'
 import { CartContext } from './CartContext'
 import Link from "next/link";
+import Image from "next/image";
 import TimeIcon from '@mui/icons-material/AccessTime';
 import { useRouter } from 'next/router';
+import TimeBox from "./TimeBox";
+import ReviewBox from "./ReviewBox";
 
 const TourWrapper = styled.div`
 /* Por ahora no hay nada acá */
@@ -73,46 +76,17 @@ const PromoTitle = styled.div`
 const TourInfoBox = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   height: 50%;
   padding: 20px;
   @media screen and (min-width: 768px) {
     width: 65%;
-    
-  
   }
 `;
 
-const TimeT = styled.div`
-  color: #888888;
-  font-size: 1rem;
-  font-weight: 600;
-  margin-left: 0.5rem;
-`;
-
-const TimeI = styled(TimeIcon)`
-  color: #888888;
-`;
-
-const TimeBox = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const Review = styled.div`
-  font-size: 1rem;
-  font-weight: 400;
-  margin: 8px 0;
-  justify-items: end;
-  align-self: start;
-  /* @media screen and (min-width: 768px) {
-    font-size: 1.2rem;
-    font-weight: 600;
-    text-align: left;
-  } */
-`;
 
 const Prices = styled.div`
-  text-align: right;
+  align-self: flex-end;
   margin: 2px 0;
 `;
 
@@ -156,7 +130,7 @@ const ButtonG = styled(Button)`
 `;
 
 
-function TourBoxH({ _id, name, subtitle, duration, price, promo, withoutPromoPrice, images }) {
+function TourBoxH({ _id, name, subtitle, duration, promo, review, price, images }) {
   const url = `/tour/${_id}`
   const router = useRouter();
   const handleButtonClick = () => {
@@ -165,18 +139,22 @@ function TourBoxH({ _id, name, subtitle, duration, price, promo, withoutPromoPri
   return (
     <TourWrapper>
       <WhiteBox href={url}>
-        <img src={images?.[0]} alt="" />
+      <Image src={images?.[0]} 
+               alt={`imagen del tour ${name}`} 
+               width={350}
+               height={310}
+                />
         {promo && <PromoTitle>¡Promo Exclusiva!</PromoTitle>}
       </WhiteBox>
       <TourInfoBox>
         <Title href={url}>{name}</Title>
-        <Review>⭐⭐⭐⭐ <b>4</b></Review>
+        <ReviewBox review={review} opinions={true} />
         <Description>{subtitle?.length <= 100 ? subtitle : subtitle?.substring(0, 100) + "..."}</Description>
         {/* <TypeT>Todo en uno</TypeT> */}
-        <TimeBox><TimeI/> <TimeT>{duration} hrs</TimeT></TimeBox>
+        <TimeBox duration={duration}/>
         <Prices>
-          {withoutPromoPrice && <Promo>${withoutPromoPrice}</Promo>}
-          <Price>${price}USD</Price>
+          {price.usd.withoutPromoAdultsPrice && <Promo>${price.usd.withoutPromoAdultsPrice}</Promo>}
+          <Price>${price.usd.adultsPrice}USD</Price>
         </Prices>
         <ButtonG onClick={handleButtonClick} green>
           Reserva ahora!!

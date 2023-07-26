@@ -3,30 +3,27 @@ import Header from "@/components/Header";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Tour } from "@/models/Tour";
 import styled, { css } from "styled-components";
-import WhiteBox from "@/components/WhiteBox";
-import TourImages from "@/components/TourImages";
-import Button from "@/components/Button";
-import CartIcon from "@/components/icons/CartIcon";
 import { useContext, useState, useEffect, useRef } from "react";
 import { CartContext } from "@/components/CartContext";
-import { Carousel } from "react-responsive-carousel";
 import CheckIcon from "@mui/icons-material/DoneOutlineRounded";
+import CancelIcon from '@mui/icons-material/CloseRounded';
 import Link from "next/link";
 import ArrowIcon from "@mui/icons-material/KeyboardDoubleArrowLeftRounded";
 import ToursImageCarousel from "@/components/ToursImageCarousel";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import TimeIcon from "@mui/icons-material/AccessTime";
 import Reservation from "@/components/Reservation";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import ToursReviews from "@/components/ToursReviews";
 import Footer from "@/components/Footer";
 import ToursGrid from "@/components/ToursGrid";
 import NavTour from "@/components/NavTour";
-import { Reviews } from "@mui/icons-material";
+import { CancelPresentationOutlined, Diversity1Sharp, Reviews } from "@mui/icons-material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import TelegramIcon from "@mui/icons-material/Telegram";
+import ReviewBox from "@/components/ReviewBox";
+import TimeBox from "@/components/TimeBox";
 const AsyncImageCarousel = ({ images }) => {
   const [loaded, setLoaded] = useState(false);
 
@@ -124,6 +121,13 @@ const Check = styled(CheckIcon)`
   font-size: medium;
 `;
 
+const Cancel = styled(CancelIcon)`
+  color: #ee2743;
+  padding: 0;
+  margin-right: 5px;
+ 
+`;
+
 const MovilHeader = styled.div`
   @media screen and (min-width: 768px) {
     display: none;
@@ -194,11 +198,11 @@ const HeaderInfo = styled.div`
 const IconShow = styled.div``;
 
 const InfoBox = styled.div`
-  padding: 20px;
+  padding: 30px;
   @media screen and (min-width: 768px) {
     display: flex;
     align-items: start;
-    padding: 20px;
+    padding: 50px 20px;
     border-bottom: 1px solid #47556966;
   }
 `;
@@ -216,20 +220,33 @@ const Points = styled.div`
   @media screen and (min-width: 768px) {
     display: flex;
     flex-direction: column;
-    width: 80%;
+    h4{
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+    ${(props) =>
+    props.long &&
+    css`
+      width: 80%;
+    `}
+    ${(props) =>
+    props.short &&
+    css`
+      width: 40%;
+    `}
   }
 `;
 
 const Point = styled.div`
-  margin: 10px;
+  display: flex;
+  align-items: start;
+  margin: 10px 0;
   line-height: 1.5;
+  font-size: 0.9rem;
 `;
 
-const PriceRow = styled.div`
-  display: flex;
-  gap: 20px;
-  align-items: center;
-`;
+
 const OverflowProtection = styled.div`
   overflow: hidden;
 `;
@@ -256,38 +273,9 @@ const ToursLink = styled(Link)`
   }
 `;
 
-const Review = styled.div`
-  font-size: 1rem;
-  font-weight: 400;
-  margin: 8px 0;
-  justify-items: end;
-  align-self: start;
-  /* @media screen and (min-width: 768px) {
-    font-size: 1.2rem;
-    font-weight: 600;
-    text-align: left;
-  } */
-`;
-
 const ArrowI = styled(ArrowIcon)`
   color: #84c441;
   font-size: medium;
-`;
-
-const TimeT = styled.div`
-  color: #888888;
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-left: 0.5rem;
-`;
-
-const TimeI = styled(TimeIcon)`
-  color: #888888;
-`;
-
-const TimeBox = styled.div`
-  display: flex;
-  align-items: center;
 `;
 
 const ReservationBtn = styled.button`
@@ -304,7 +292,7 @@ const ReservationBtn = styled.button`
 `;
 
 export default function TourPage({ tour, promoTours }) {
-  console.log(promoTours);
+  console.log(tour)
   const { addTour } = useContext(CartContext);
   const [showDescription, setShowDescription] = useState(true);
   const [showIncludes, setShowIncludes] = useState(false);
@@ -352,9 +340,7 @@ export default function TourPage({ tour, promoTours }) {
       <TitleTour>
         <div>
           <Title>{tour.name}</Title>
-          <TimeBox>
-            <TimeI /> <TimeT>{tour.duration} hrs</TimeT>
-          </TimeBox>
+          <TimeBox duration={tour.duration}/>
         </div>
         <div>
           {/* Facebook Share Button */}
@@ -397,9 +383,7 @@ export default function TourPage({ tour, promoTours }) {
             <TelegramIcon />
           </a>
         </div>
-        <Review>
-          ⭐⭐⭐⭐ <b>4</b>
-        </Review>
+        <ReviewBox review={tour.review}/>
       </TitleTour>
       <NavTour
         includesRef={includesRef}
@@ -433,6 +417,13 @@ export default function TourPage({ tour, promoTours }) {
                 <Point>
                   <Check />
                   {include}
+                </Point>
+              ))}
+              <Subtitle yellow>Este tour no incluye:</Subtitle>
+              {tour.doesntIncludes?.map((doesntInclude) => (
+                <Point>
+                  <Cancel />
+                  {doesntInclude}
                 </Point>
               ))}
             </Points>
@@ -495,7 +486,8 @@ export default function TourPage({ tour, promoTours }) {
             {tour.includes && (
               <InfoBox ref={includesRef}>
                 <Subtitle yellow>Que incluye</Subtitle>
-                <Points>
+                <Points short>
+                  <h4>Este tour incluye:</h4>
                   {tour.includes?.map((include) => (
                     <Point>
                       <Check />
@@ -503,12 +495,25 @@ export default function TourPage({ tour, promoTours }) {
                     </Point>
                   ))}
                 </Points>
+                {tour.doesntIncludes && (
+                  <>
+                    <Points short>
+                      <h4>Este tour no incluye:</h4>
+                      {tour.doesntIncludes?.map((doesntInclude) => (
+                        <Point>
+                          <Cancel />
+                          {doesntInclude}
+                        </Point>
+                      ))}
+                    </Points>
+                  </>
+                )}
               </InfoBox>
             )}
             {tour.requirements && (
               <InfoBox ref={requirementsRef}>
                 <Subtitle purple>Que Llevar</Subtitle>
-                <Points>
+                <Points long>
                   {tour.requirements?.map((requirement) => (
                     <Point>
                       <Check />
@@ -522,7 +527,7 @@ export default function TourPage({ tour, promoTours }) {
             {tour.notes && (
               <InfoBox ref={notesRef}>
                 <Subtitle green>Notas</Subtitle>
-                <Points>
+                <Points long>
                   {tour.notes?.map((note) => (
                     <Point>
                       <Check />
@@ -532,17 +537,11 @@ export default function TourPage({ tour, promoTours }) {
                 </Points>
               </InfoBox>
             )}
-            {/* <PriceRow>
-              <div>
-                <Price>${tour.price}</Price>
-              </div>
-              <div>
-                <Button primary onClick={() => addTour(tour._id)}>
-                  <CartIcon />
+            <div>
+                <button onClick={() => addTour(tour._id)}>
                   Añadir al carrito
-                </Button>
-              </div>
-            </PriceRow> */}
+                </button>
+            </div>
           </TourInfoBox>
           <Reservation tour={tour} sticky={true} />
         </ColWrapper>

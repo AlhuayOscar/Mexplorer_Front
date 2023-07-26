@@ -15,23 +15,33 @@ export function CartContextProvider({ children }) {
     if (ls && ls.getItem("cart")) {
       setCartTours(JSON.parse(ls.getItem("cart")));
       1
-
     }
   }, []);
-  function addTour(tourId) {
-    setCartTours((prev) => [...prev, tourId]);
-  }
+
+
+  function addTour(orderDataTour) {
+    const isTourAlreadyInCart = cartTours.some((tour) => tour.id === orderDataTour.id);
+  
+    if (!isTourAlreadyInCart) {
+      setCartTours((prev) => [...prev, orderDataTour]);
+    }
+  };
+  
+
   function removeTour(tourId) {
     setCartTours((prev) => {
-      const pos = prev.indexOf(tourId);
+      const pos = prev.findIndex((tour) => tour.id === tourId);
+  
       if (pos !== -1) {
-        return prev.filter((value, index) => index !== pos);
+        return prev.filter((tour) => tour.id !== tourId);
       }
       return prev;
     });
   }
+
   function clearCart() {
     setCartTours([]);
+    ls.removeItem("cart");
   }
   return (
     <CartContext.Provider
