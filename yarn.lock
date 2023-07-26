@@ -2958,6 +2958,11 @@
   "resolved" "https://registry.npmjs.org/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz"
   "version" "1.0.0"
 
+"sweetalert2@^11.7.20":
+  "integrity" "sha512-GdU1TkiLpGGC0mcPV8bKmS7G0MR7caxambPkEU8zyepRSNR9EaEvIjNhX5QNkL0VFVzHbI3l12NtuEklkJ0D4Q=="
+  "resolved" "https://registry.npmjs.org/sweetalert2/-/sweetalert2-11.7.20.tgz"
+  "version" "11.7.20"
+
 "synckit@^0.8.4":
   "integrity" "sha512-L1dapNV6vu2s/4Sputv8xGsCdAVlb5nRDMFU/E27D44l5U6cw1g0dGd45uLc+OXjNMmF4ntiMdCimzcjFKQI8Q=="
   "resolved" "https://registry.npmjs.org/synckit/-/synckit-0.8.5.tgz"
