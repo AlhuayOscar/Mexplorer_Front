@@ -4,6 +4,7 @@ import { CartContext } from "@/components/CartContext";
 import { Carousel } from "react-responsive-carousel";
 import Searchbar from "../pages/Searchbar";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { useTranslation } from "react-i18next";
 
 const Bg = styled.div`
   background-color: #222;
@@ -60,6 +61,7 @@ const Subtitle = styled.h2`
 `;
 
 export default function Featured() {
+  const { t } = useTranslation();
   const [portadaUrls, setPortadaUrls] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchValue, setSearchValue] = useState("");
@@ -108,7 +110,7 @@ export default function Featured() {
   return (
     <Bg>
       {loading ? (
-        <div>Cargando...</div>
+        <div>{t("Cargando")}</div>
       ) : (
         <Carousel
           interval={4500}
@@ -123,16 +125,16 @@ export default function Featured() {
             <div key={index}>
               <video autoPlay loop muted width="100%" height="100%">
                 <source src={urls} type="video/mp4" />
-                Tu navegador no admite la reproducción de videos.
+                {t("Tu navegador no admite la reproducción de videos.")}
               </video>
             </div>
           ))}
         </Carousel>
       )}
       <Overlay>
-        <Title>Vive experiencias únicas en paisajes únicos</Title>
+        <Title>{t("Vive experiencias únicas en paisajes únicos")}</Title>
         <Subtitle>
-          ¡El mejor lugar para disfrutar tus vacaciones en todo Cancún!
+          {t("El mejor lugar para disfrutar tus vacaciones en todo Cancún")}
         </Subtitle>
         <Searchbar value={searchValue} setPhrase={setSearchValue} />
       </Overlay>

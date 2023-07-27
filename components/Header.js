@@ -198,24 +198,23 @@ export default function Header() {
               Blog
             </NavLink>
             <NavLink href={"/tours"} color="#ED2286">
-              Tours
+              {t("Tours")}
             </NavLink>
             <NavLink href={"/car"} color="#EEB547">
-              Renta de Autos
+              {t("Renta de Autos")}
             </NavLink>
             <NavLink href={"/jetski"} color="#AC2484">
-              Renta de Jetski
+              {t("Renta de Jetski")}
             </NavLink>
             <NavLink href={"/"} color="#84C441">
-              Promociones
+              {t("Promociones")}
             </NavLink>
             <NavLink href={"/about"} color="#00ABBD">
-              Sobre nosotros
+              {t("Sobre nosotros")}
             </NavLink>
           </StyledNav>
-          {/* Aquí se encuentran los botones
           <button onClick={() => handleLanguageChange('es')}>Español</button>
-          <button onClick={() => handleLanguageChange('en')}>Inglés</button> */}
+          <button onClick={() => handleLanguageChange('en')}>Inglés</button>
           <NavLink href={socialUrls.tripadvisor} color="#00ABBD">
             <StyledIcon
               src="/icons/trip.png"

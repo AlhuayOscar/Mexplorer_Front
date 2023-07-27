@@ -120,7 +120,7 @@ export default function CartPage() {
       name,
       lastname,
       email,
-      cartTours, 
+      cartTours,
     });
     if (response.data.url) {
       window.location = response.data.url;
@@ -179,18 +179,47 @@ export default function CartPage() {
                         </TourImageBox>
                         {tour.name}
                       </TourInfoCell>
-                      {<td>
-                        {/* <p>{tour.name}</p> */}
-                        <p>Adultos: {cartTours.find(item => item.id === tour._id)?.adults}</p>
-                        <p>Niños: {cartTours.find(item => item.id === tour._id)?.children}</p>
-                        <p>Fecha: {cartTours.find(item => item.id === tour._id)?.date}  
-                                  ({cartTours.find(item => item.id === tour._id)?.hour})</p>
-                        <p>Tipo: {cartTours.find(item => item.id === tour._id)?.type}</p>
-
-                      </td>}
+                      {
+                        <td>
+                          <p>{tour.name}</p>
+                          <p>
+                            Adultos:{" "}
+                            {
+                              cartTours.find((item) => item.id === tour._id)
+                                ?.adults
+                            }
+                          </p>
+                          <p>
+                            Niños:{" "}
+                            {
+                              cartTours.find((item) => item.id === tour._id)
+                                ?.children
+                            }
+                          </p>
+                          <p>
+                            Fecha:{" "}
+                            {
+                              cartTours.find((item) => item.id === tour._id)
+                                ?.date
+                            }
+                            (
+                            {
+                              cartTours.find((item) => item.id === tour._id)
+                                ?.hour
+                            }
+                            )
+                          </p>
+                          <p>
+                            Tipo:{" "}
+                            {
+                              cartTours.find((item) => item.id === tour._id)
+                                ?.type
+                            }
+                          </p>
+                        </td>
+                      }
                       <td>
-                        $
-                        {cartTours.find(item => item.id === tour._id)?.price}
+                        ${cartTours.find((item) => item.id === tour._id)?.price}
                       </td>
                     </tr>
                   ))}

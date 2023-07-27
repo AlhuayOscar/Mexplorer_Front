@@ -1,6 +1,15 @@
 {
-    "title": "Multilingual Page",
-    "welcome": "Welcome!",
-    "buttonText": "Click Here",
-    "bot": "tours"
+    "Tours": "Tours",
+    "Renta de Autos": "Car Rental",
+    "Renta de Jetski": "Jetski Rental",
+    "Promociones": "Promotions",
+    "Sobre nosotros": "About Us",
+    "Encuentra tu lugar en cancún": "Find Your Spot in Cancun",
+    "No te pierdas estas promos": "Don't Miss Out on These Promos",
+    "Crea recuerdos inolvidables": "Create Unforgettable Memories",
+    "Cargando": "Loading...",
+    "Tu navegador no admite la reproducción de videos.": "Your browser does not support video playback.",
+    "Vive experiencias únicas en paisajes únicos": "Live Unique Experiences in Unparalleled Landscapes",
+    "El mejor lugar para disfrutar tus vacaciones en todo Cancún": "The Best Place to Enjoy Your Vacation in All of Cancun!",
+    "": ""
 }

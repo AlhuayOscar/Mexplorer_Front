@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Center from "@/components/Center";
 import ToursGrid from "@/components/ToursGrid";
+import { useTranslation } from "react-i18next";
 
 const Title = styled.h2`
   font-size: 1.5rem;
@@ -26,13 +27,14 @@ const YellowTitle = styled(Title)`
 `;
 
 export default function NewTours({ tours, promo }) {
+  const { t } = useTranslation();
   return (
     <Center>
-      <PurpleTitle>Encuentra tu lugar en cancún</PurpleTitle>
+      <PurpleTitle>{t("Encuentra tu lugar en cancún")}</PurpleTitle>
       <ToursGrid tours={tours} />
-      <RedTitle>No te pierdas estas promos </RedTitle>
+      <RedTitle>{t("No te pierdas estas promos")}</RedTitle>
       <ToursGrid tours={promo} />
-      <YellowTitle>Crea recuerdos inolvidables</YellowTitle>
+      <YellowTitle>{t("Crea recuerdos inolvidables")}</YellowTitle>
       <ToursGrid tours={tours} />
     </Center>
   );

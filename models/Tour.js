@@ -13,7 +13,7 @@ const TourSchema = new Schema({
       adultsReservationPrice: { type: Number },
       childrenReservationPrice: { type: Number },
       withoutPromoAdultsPrice: { type: Number },
-      currency: { type: String, required: true, default: "MXN" },
+      currency: { type: String, default: "MXN" },
     },
     usd: {
       adultsPrice: { type: Number},
@@ -21,7 +21,7 @@ const TourSchema = new Schema({
       adultsReservationPrice: { type: Number },
       childrenReservationPrice: { type: Number },
       withoutPromoAdultsPrice: { type: Number },
-      currency: { type: String, required: true, default: "USD" },
+      currency: { type: String, default: "USD" },
     },
   },
   images: { type: [String] },
@@ -34,7 +34,8 @@ const TourSchema = new Schema({
   notes: { type: [String] },
   promo: { type: Boolean, required: true },
   createdAt: { type: Date, default: Date.now },
+  unavailableDays: {type: [Number]},
+  schedule: {type: [String]}
 });
 
 export const Tour = models?.Tour || model("Tour", TourSchema);
-
