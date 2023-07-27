@@ -1,6 +1,8 @@
 {
-    "title": "Página Multilingüe",
-    "welcome": "¡Bienvenido!",
-    "buttonText": "Haz clic aquí",
-    "bot": "Excursiones"
+    "Tours": "Excursiones",
+    "Renta de Autos": "Renta de Autos",
+    "Renta de Jetski": "Renta de Jetski",
+    "Promociones": "Promociones",
+    "Sobre nosotros": "Sobre nosotros",
+    "": ""
 }
