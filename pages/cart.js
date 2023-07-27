@@ -7,6 +7,8 @@ import { CartContext } from "@/components/CartContext";
 import axios from "axios";
 import Table from "@/components/Table";
 import Input from "@/components/Input";
+import Image from "next/image";
+import Link from "next/link";
 
 const ColumnsWrapper = styled.div`
   display: grid;
@@ -26,28 +28,31 @@ const Box = styled.div`
 
 const TourInfoCell = styled.td`
   padding: 10px 0;
+  font-size: 1.2rem;
+  color: #84C441;
 `;
 
-const TourImageBox = styled.div`
+const TourImageBox = styled(Link)`
   width: 70px;
   height: 100px;
   padding: 2px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  /* border: 1px solid rgba(0, 0, 0, 0.1); */
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
+  overflow: hidden;
   img {
-    max-width: 60px;
+    max-width: 80px;
     max-height: 60px;
   }
   @media screen and (min-width: 768px) {
-    padding: 10px;
+    padding: 5px;
     width: 100px;
     height: 100px;
     img {
-      max-width: 80px;
-      max-height: 80px;
+      max-width: 100px;
+      max-height: 70px;
     }
   }
 `;
@@ -167,13 +172,15 @@ export default function CartPage() {
                   {tours.map((tour) => (
                     <tr key={tour._id}>
                       <TourInfoCell>
-                        <TourImageBox>
-                          <img src={tour.images[0]} alt="" />
+                        <TourImageBox href={`/tour/${tour._id}`}>
+                          <Image width={140}
+                                 height={90} 
+                                 src={tour.images[0]} alt="" />
                         </TourImageBox>
-                        {/* {tour.name} */}
+                        {tour.name}
                       </TourInfoCell>
                       {<td>
-                        <p>{tour.name}</p>
+                        {/* <p>{tour.name}</p> */}
                         <p>Adultos: {cartTours.find(item => item.id === tour._id)?.adults}</p>
                         <p>Niños: {cartTours.find(item => item.id === tour._id)?.children}</p>
                         <p>Fecha: {cartTours.find(item => item.id === tour._id)?.date}  
@@ -195,7 +202,7 @@ export default function CartPage() {
                 </tbody>
               </Table>
             )}
-            {hasProducts && <Button onClick={clearCart}>Vaciar Carrito</Button>}
+            {hasProducts && <Button green onClick={clearCart}>Vaciar Carrito</Button>}
           </Box>
           {!!cartTours?.length && (
             <Box>
@@ -206,6 +213,7 @@ export default function CartPage() {
                 value={name}
                 name="name"
                 onChange={(ev) => setName(ev.target.value)}
+                margin
               />
               <Input
                 type="text"
@@ -213,6 +221,7 @@ export default function CartPage() {
                 value={lastname}
                 name="lastname"
                 onChange={(ev) => setLastname(ev.target.value)}
+                margin
               />
               <Input
                 type="text"
@@ -220,8 +229,9 @@ export default function CartPage() {
                 value={email}
                 name="email"
                 onChange={(ev) => setEmail(ev.target.value)}
+                margin
               />
-              <Button black block onClick={goToPayment}>
+              <Button block green onClick={goToPayment}>
                 Realizar el pago
               </Button>
             </Box>

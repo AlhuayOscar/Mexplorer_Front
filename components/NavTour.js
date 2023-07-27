@@ -8,6 +8,7 @@ const BoxNav = styled.div`
     height: 60px;
     background-color: #fff;
     box-shadow: 2px 2px 4px #47556955;
+    margin-bottom: 30px;
   }
 `;
 
