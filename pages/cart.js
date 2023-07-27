@@ -115,10 +115,8 @@ export default function CartPage() {
       name,
       lastname,
       email,
-      currency: 'USD',
       cartTours,
     });
-    console.log(response.kind);
     if (response.data.url) {
       window.location = response.data.url;
     }

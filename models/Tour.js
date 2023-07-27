@@ -1,4 +1,4 @@
-import { model, models, Schema, mongoose } from "mongoose";
+import { model, models, Schema } from "mongoose";
 
 const TourSchema = new Schema({
   name: { type: String, required: true },
@@ -13,7 +13,7 @@ const TourSchema = new Schema({
       adultsReservationPrice: { type: Number },
       childrenReservationPrice: { type: Number },
       withoutPromoAdultsPrice: { type: Number },
-      currency: { type: String, required: true, default: "MXN" },
+      currency: { type: String, default: "MXN" },
     },
     usd: {
       adultsPrice: { type: Number},
@@ -21,13 +21,11 @@ const TourSchema = new Schema({
       adultsReservationPrice: { type: Number },
       childrenReservationPrice: { type: Number },
       withoutPromoAdultsPrice: { type: Number },
-      currency: { type: String, required: true, default: "USD" },
+      currency: { type: String, default: "USD" },
     },
   },
   images: { type: [String] },
   includes: { type: [String] },
-  doesntIncludes: { type: [String] },
-  currency: { type: String },
   requirements: { type: [String] },
   doesntIncludes: { type: [String] },
   review: { 
@@ -36,7 +34,8 @@ const TourSchema = new Schema({
   notes: { type: [String] },
   promo: { type: Boolean, required: true },
   createdAt: { type: Date, default: Date.now },
+  unavailableDays: {type: [Number]},
+  schedule: {type: [String]}
 });
 
 export const Tour = models?.Tour || model("Tour", TourSchema);
-
