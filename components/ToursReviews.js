@@ -133,6 +133,9 @@ const InfoBox = styled.div`
 const White = styled(WhiteBox)`
   height: fit-content;
   padding: 20px 30px;
+  @media screen and (min-width: 768px) {
+  height: 536px;
+}
 `;
 
 export default function ToursReviews({ tour }) {
