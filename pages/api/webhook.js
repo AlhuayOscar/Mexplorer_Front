@@ -9,10 +9,7 @@ const endpointSecret = "whsec_sO0s7656H1Raj4jfhjkLKqqYTq2wKo37";
 
 export default async function handler(req, res) {
   await mongooseConnect();
-  console.log(
-    req.headers,
-    "--------------------------HEADERS---------------------------------"
-  );
+  
   const sig = req.headers["stripe-signature"];
 
   let event;
@@ -44,7 +41,7 @@ export default async function handler(req, res) {
 
         let cartToursHTML = "";
         cartTours.forEach((tour) => {
-          cartToursHTML += `<li>Nombre: ${tour.name}, Tipo: ${tour.type}, Adultos: ${tour.adults}, Niños: ${tour.children}, Fecha: ${tour.date}, Hora: ${tour.hour}, Precio: ${tour.price}</li>`;
+          cartToursHTML += `<li>Nombre: ${tour.name}, Tipo: ${tour.type}, Adultos: ${tour.adults}, Niños: ${tour.children}, Fecha: ${order.date}, Hora: ${tour.hour}, Precio: ${tour.price}</li>`;
         });
         console.log(cartToursHTML)
 
