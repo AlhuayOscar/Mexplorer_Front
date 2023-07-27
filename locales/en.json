@@ -1,6 +1,8 @@
 {
-    "title": "Multilingual Page",
-    "welcome": "Welcome!",
-    "buttonText": "Click Here",
-    "bot": "tours"
+    "Tours": "Tours",
+    "Renta de Autos": "Car Rental",
+    "Renta de Jetski": "Jetski Rental",
+    "Promociones": "Promotions",
+    "Sobre nosotros": "About Us",
+    "": ""
 }
