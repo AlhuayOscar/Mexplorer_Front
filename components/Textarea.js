@@ -4,7 +4,7 @@ const StyledArea = styled.textarea`
   width: 100%;
   /* min-height: 6rem;
   max-height: 15rem; */
-  font-size: 1rem;
+  font-size: 0.8rem;
   height: 9.5rem;
   padding: 5px;
   margin-bottom: 10px;
@@ -19,6 +19,9 @@ const StyledArea = styled.textarea`
   &:focus {
     border: 2px solid #84C441;
     outline: none;
+  }
+  @media screen and (min-width: 768px) {
+    font-size: 1rem;
   }
 `;
 
