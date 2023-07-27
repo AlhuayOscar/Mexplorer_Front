@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 
 const SearchbarContainer = styled.div`
   display: flex;
@@ -31,6 +32,7 @@ const SubmitButton = styled.button`
 `;
 
 const Searchbar = (props) => {
+  const { t } = useTranslation();
 
 
 
@@ -42,14 +44,13 @@ const Searchbar = (props) => {
         value={props.value}
         onChange={ev => props.setPhrase(ev.target.value)}
         type="text"
-        placeholder="¿Qué lugar quisieras visitar?" />
+        placeholder="Busca tu próxima aventura" />
       <Link href={{
         pathname: '/search/[[...name]]',
         query: { name: props.value },
       }} as={`/search?name=${props.value}`}>
 
-        <SubmitButton
-        >Buscar</SubmitButton>
+        <SubmitButton>{t("Buscar")}</SubmitButton>
       </Link>
     </SearchbarContainer>
   );
