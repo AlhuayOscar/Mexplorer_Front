@@ -56,14 +56,18 @@ const TitleTour = styled.div`
   display: flex;
   justify-content: space-between;
   align-self: center;
-  padding: 40px 20px;
+  background-color: #fff;
+  padding: 30px 20px;
   @media screen and (min-width: 768px) {
-    justify-content: space-around;
+    /* justify-content: space-around; */
+    padding: 20px 8rem;
+    border-bottom: 2px solid #ccc;
   }
 `;
 
 const Title = styled.div`
   font-size: 2.3rem;
+ /*  color: #fff; */
 `;
 
 const SubtitleStyle = css`
@@ -99,6 +103,9 @@ const SubtitleStyle = css`
      margin: 20px 0;
      font-size: 1.3rem;
      text-align: center;
+     @media screen and (min-width: 768px) {
+      text-align: left;
+    }
   `}
     @media screen and (min-width: 768px) {
     width: 12rem;
@@ -195,8 +202,6 @@ const HeaderInfo = styled.div`
     `}
 `;
 
-const IconShow = styled.div``;
-
 const InfoBox = styled.div`
   padding: 30px;
   @media screen and (min-width: 768px) {
@@ -251,10 +256,6 @@ const OverflowProtection = styled.div`
   overflow: hidden;
 `;
 
-const Price = styled.span`
-  font-size: 1.4rem;
-`;
-
 const Recomendations = styled.div`
   /* background-color: #ee2743; */
   max-width: 1300px;
@@ -290,6 +291,19 @@ const ReservationBtn = styled.button`
     display: none;
   }
 `;
+
+const commonStyles = `
+  color: #00abbd;
+  text-decoration: none;
+`;
+
+const getStyledComponent = (component) => styled(component)`
+  ${commonStyles}
+`;
+
+const StyledWhatsapp = getStyledComponent(WhatsAppIcon);
+const StyledTwitter = getStyledComponent(TwitterIcon);
+const StyledTelegram = getStyledComponent(TelegramIcon);
 
 export default function TourPage({ tour, promoTours }) {
   console.log(tour)
@@ -340,9 +354,10 @@ export default function TourPage({ tour, promoTours }) {
       <TitleTour>
         <div>
           <Title>{tour.name}</Title>
-          <TimeBox duration={tour.duration}/>
+          <TimeBox duration={tour.duration} /* white *//>
         </div>
         <div>
+          <ReviewBox review={tour.review}/>
           {/* Facebook Share Button */}
           {/* <a
             href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
@@ -355,35 +370,34 @@ export default function TourPage({ tour, promoTours }) {
           </a> */}
           {/* FUNCIONA EL DE FACEBOOK PERO CON UNA URL REAL */}
           {/* WhatsApp Share Button */}
-          <a
+          <Link
             href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
               currentUrl
             )}`}
             target="_blank"
             rel="noopener noreferrer"
           >
-            <WhatsAppIcon />
-          </a>
-          <a
+            <StyledWhatsapp />
+          </Link>
+          <Link
             href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
               currentUrl
             )}&text=${encodeURIComponent("Echa un vistazo a este tour!")}`}
             target="_blank"
             rel="noopener noreferrer"
           >
-            <TwitterIcon />
-          </a>
-          <a
+            <StyledTwitter />
+          </Link>
+          <Link
             href={`https://t.me/share/url?url=${encodeURIComponent(
               currentUrl
             )}&text=${encodeURIComponent("Echa un vistazo a este tour!")}`}
             target="_blank"
             rel="noopener noreferrer"
           >
-            <TelegramIcon />
-          </a>
+            <StyledTelegram />
+          </Link>
         </div>
-        <ReviewBox review={tour.review}/>
       </TitleTour>
       <NavTour
         includesRef={includesRef}
@@ -398,30 +412,30 @@ export default function TourPage({ tour, promoTours }) {
       <MovilHeader>
         <HeaderInfo pink>
           Descripción general
-          <IconShow onClick={handleShowDescription}>
+          <div onClick={handleShowDescription}>
             {showDescription ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </IconShow>
+          </div>
         </HeaderInfo>
         {showDescription && <Description>{tour.description}</Description>}
         <HeaderInfo yellow>
           Que incluye
-          <IconShow onClick={handleShowIncludes}>
+          <div onClick={handleShowIncludes}>
             {showIncludes ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </IconShow>
+          </div>
         </HeaderInfo>
         {showIncludes && (
           <InfoBox>
             <Subtitle yellow>Este tour incluye:</Subtitle>
             <Points>
               {tour.includes?.map((include) => (
-                <Point>
+                <Point key={include}>
                   <Check />
                   {include}
                 </Point>
               ))}
               <Subtitle yellow>Este tour no incluye:</Subtitle>
               {tour.doesntIncludes?.map((doesntInclude) => (
-                <Point>
+                <Point key={doesntInclude}>
                   <Cancel />
                   {doesntInclude}
                 </Point>
@@ -431,16 +445,16 @@ export default function TourPage({ tour, promoTours }) {
         )}
         <HeaderInfo purple>
           Que llevar
-          <IconShow onClick={handleShowRequirements}>
+          <div onClick={handleShowRequirements}>
             {showRequirements ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </IconShow>
+          </div>
         </HeaderInfo>
         {showRequirements && (
           <InfoBox>
             <Subtitle purple>A este tour recomendamos llevar:</Subtitle>
             <Points>
               {tour.requirements?.map((requirement) => (
-                <Point>
+                <Point key={requeriment}>
                   <Check />
                   {requirement}
                 </Point>
@@ -450,16 +464,16 @@ export default function TourPage({ tour, promoTours }) {
         )}
         <HeaderInfo green>
           Notas
-          <IconShow onClick={handleShowNotes}>
+          <div onClick={handleShowNotes}>
             {showNotes ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </IconShow>
+          </div>
         </HeaderInfo>
         {showNotes && (
           <InfoBox>
             <Subtitle green>Notas y recomendaciones:</Subtitle>
             <Points>
               {tour.notes?.map((note) => (
-                <Point>
+                <Point key={note}>
                   <Check />
                   {note}
                 </Point>
@@ -489,7 +503,7 @@ export default function TourPage({ tour, promoTours }) {
                 <Points short>
                   <h4>Este tour incluye:</h4>
                   {tour.includes?.map((include) => (
-                    <Point>
+                    <Point key={include}>
                       <Check />
                       {include}
                     </Point>
@@ -500,7 +514,7 @@ export default function TourPage({ tour, promoTours }) {
                     <Points short>
                       <h4>Este tour no incluye:</h4>
                       {tour.doesntIncludes?.map((doesntInclude) => (
-                        <Point>
+                        <Point key={doesntInclude}>
                           <Cancel />
                           {doesntInclude}
                         </Point>
@@ -515,7 +529,7 @@ export default function TourPage({ tour, promoTours }) {
                 <Subtitle purple>Que Llevar</Subtitle>
                 <Points long>
                   {tour.requirements?.map((requirement) => (
-                    <Point>
+                    <Point key={requirement}>
                       <Check />
                       {requirement}
                     </Point>
@@ -529,7 +543,7 @@ export default function TourPage({ tour, promoTours }) {
                 <Subtitle green>Notas</Subtitle>
                 <Points long>
                   {tour.notes?.map((note) => (
-                    <Point>
+                    <Point key={note}>
                       <Check />
                       {note}
                     </Point>
@@ -537,11 +551,11 @@ export default function TourPage({ tour, promoTours }) {
                 </Points>
               </InfoBox>
             )}
-            <div>
+            {/* <div>
                 <button onClick={() => addTour(tour._id)}>
                   Añadir al carrito
                 </button>
-            </div>
+            </div> */}
           </TourInfoBox>
           <Reservation tour={tour} sticky={true} />
         </ColWrapper>
@@ -551,7 +565,7 @@ export default function TourPage({ tour, promoTours }) {
         <ToursReviews tour={tour}/>  
       </Center>
       <Recomendations>
-        <Subtitle purple margin ref={recomendationsRef}>Recomendaciones</Subtitle>
+          <Subtitle purple margin ref={recomendationsRef}>Recomendaciones</Subtitle>
         <ToursGrid tours={promoTours}/>
       </Recomendations>
       <Footer />
