@@ -7,6 +7,8 @@ import { CartContext } from "@/components/CartContext";
 import axios from "axios";
 import Table from "@/components/Table";
 import Input from "@/components/Input";
+import Image from "next/image";
+import Link from "next/link";
 
 const ColumnsWrapper = styled.div`
   display: grid;
@@ -24,30 +26,33 @@ const Box = styled.div`
   padding: 30px;
 `;
 
-const ProductInfoCell = styled.td`
+const TourInfoCell = styled.td`
   padding: 10px 0;
+  font-size: 1.2rem;
+  color: #84C441;
 `;
 
-const ProductImageBox = styled.div`
+const TourImageBox = styled(Link)`
   width: 70px;
   height: 100px;
   padding: 2px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  /* border: 1px solid rgba(0, 0, 0, 0.1); */
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
+  overflow: hidden;
   img {
-    max-width: 60px;
+    max-width: 80px;
     max-height: 60px;
   }
   @media screen and (min-width: 768px) {
-    padding: 10px;
+    padding: 5px;
     width: 100px;
     height: 100px;
     img {
-      max-width: 80px;
-      max-height: 80px;
+      max-width: 100px;
+      max-height: 70px;
     }
   }
 `;
@@ -67,26 +72,30 @@ const CityHolder = styled.div`
 `;
 
 export default function CartPage() {
-  const { cartProducts, addProduct, removeProduct, clearCart } =
-    useContext(CartContext);
-  const [products, setProducts] = useState([]);
+  const { cartTours, addTour, removeTour, clearCart } = useContext(CartContext);
+  const [tours, setTours] = useState([]);
   const [name, setName] = useState("");
+  const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
-  const [city, setCity] = useState("");
-  const [postalCode, setPostalCode] = useState("");
-  const [streetAddress, setStreetAddress] = useState("");
-  const [country, setCountry] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+  const [hasProducts, setHasProducts] = useState(false);
 
   useEffect(() => {
-    if (cartProducts.length > 0) {
-      axios.post("/api/cart", { ids: cartProducts }).then((response) => {
-        setProducts(response.data);
-      });
+    if (cartTours.length > 0) {
+      axios
+        .post("/api/cart", { ids: cartTours.map((tour) => tour.id) })
+        .then((response) => {
+          setTours(response.data);
+          setHasProducts(true);
+        })
+        .catch((error) => {
+          console.error("Error fetching cart tours:", error);
+        });
     } else {
-      setProducts([]);
+      setTours([]);
+      setHasProducts(false);
     }
-  }, [cartProducts]);
+  }, [cartTours]);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -97,32 +106,32 @@ export default function CartPage() {
       clearCart();
     }
   }, []);
-  function moreOfThisProduct(id) {
-    addProduct(id);
+
+  /* function moreOfThisTour(id) {
+    addTour(id);
   }
-  function lessOfThisProduct(id) {
-    removeProduct(id);
-  }
+  function lessOfThisTour(id) {
+    removeTour(id);
+  } */
+
   async function goToPayment() {
     const response = await axios.post("/api/checkout", {
+      kind: cartTours.type,
       name,
+      lastname,
       email,
-      city,
-      postalCode,
-      streetAddress,
-      country,
-      cartProducts,
+      cartTours,
     });
     if (response.data.url) {
       window.location = response.data.url;
     }
   }
   let total = 0;
-  for (const productId of cartProducts) {
-    const price = products.find((p) => p._id === productId)?.price || 0;
+  for (const tours of cartTours) {
+    const price = tours?.price || 0;
     total += price;
   }
-
+  total = total.toFixed(2); //Para redondear a 2 decimales
   if (isSuccess) {
     return (
       <>
@@ -130,8 +139,8 @@ export default function CartPage() {
         <Center>
           <ColumnsWrapper>
             <Box>
-              <h1>Thanks for your order!</h1>
-              <p>We will email you when your order will be sent.</p>
+              <h1>Gracias por la orden!</h1>
+              <p>Se enviará un correo con la confirmación de su compra.</p>
             </Box>
           </ColumnsWrapper>
         </Center>
@@ -144,44 +153,73 @@ export default function CartPage() {
       <Center>
         <ColumnsWrapper>
           <Box>
-            <h2>Cart</h2>
-            {!cartProducts?.length && <div>Your cart is empty</div>}
-            {products?.length > 0 && (
+            <h2>Carrito</h2>
+            {!cartTours?.length && (
+              <div>
+                Tu carrito actualmente está vacio, probá agregando tours!
+              </div>
+            )}
+            {tours?.length > 0 && (
               <Table>
                 <thead>
                   <tr>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
+                    <th>Item</th>
+                    <th>Info</th>
+                    <th>Precio</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {products.map((product) => (
-                    <tr key={product._id}>
-                      <ProductInfoCell>
-                        <ProductImageBox>
-                          <img src={product.images[0]} alt="" />
-                        </ProductImageBox>
-                        {product.title}
-                      </ProductInfoCell>
+                  {tours.map((tour) => (
+                    <tr key={tour._id}>
+                      <TourInfoCell>
+                        <TourImageBox href={`/tour/${tour._id}`}>
+                          <Image width={140}
+                                 height={90} 
+                                 src={tour.images[0]} alt="" />
+                        </TourImageBox>
+                        {tour.name}
+                      </TourInfoCell>
+                      {
+                        <td>
+                          <p>{tour.name}</p>
+                          <p>
+                            Adultos:{" "}
+                            {
+                              cartTours.find((item) => item.id === tour._id)
+                                ?.adults
+                            }
+                          </p>
+                          <p>
+                            Niños:{" "}
+                            {
+                              cartTours.find((item) => item.id === tour._id)
+                                ?.children
+                            }
+                          </p>
+                          <p>
+                            Fecha:{" "}
+                            {
+                              cartTours.find((item) => item.id === tour._id)
+                                ?.date
+                            }
+                            (
+                            {
+                              cartTours.find((item) => item.id === tour._id)
+                                ?.hour
+                            }
+                            )
+                          </p>
+                          <p>
+                            Tipo:{" "}
+                            {
+                              cartTours.find((item) => item.id === tour._id)
+                                ?.type
+                            }
+                          </p>
+                        </td>
+                      }
                       <td>
-                        <Button onClick={() => lessOfThisProduct(product._id)}>
-                          -
-                        </Button>
-                        <QuantityLabel>
-                          {
-                            cartProducts.filter((id) => id === product._id)
-                              .length
-                          }
-                        </QuantityLabel>
-                        <Button onClick={() => moreOfThisProduct(product._id)}>
-                          +
-                        </Button>
-                      </td>
-                      <td>
-                        $
-                        {cartProducts.filter((id) => id === product._id)
-                          .length * product.price}
+                        ${cartTours.find((item) => item.id === tour._id)?.price}
                       </td>
                     </tr>
                   ))}
@@ -193,16 +231,26 @@ export default function CartPage() {
                 </tbody>
               </Table>
             )}
+            {hasProducts && <Button green onClick={clearCart}>Vaciar Carrito</Button>}
           </Box>
-          {!!cartProducts?.length && (
+          {!!cartTours?.length && (
             <Box>
-              <h2>Order information</h2>
+              <h2>Información de la orden</h2>
               <Input
                 type="text"
-                placeholder="Name"
+                placeholder="Nombre"
                 value={name}
                 name="name"
                 onChange={(ev) => setName(ev.target.value)}
+                margin
+              />
+              <Input
+                type="text"
+                placeholder="Apellido"
+                value={lastname}
+                name="lastname"
+                onChange={(ev) => setLastname(ev.target.value)}
+                margin
               />
               <Input
                 type="text"
@@ -210,39 +258,10 @@ export default function CartPage() {
                 value={email}
                 name="email"
                 onChange={(ev) => setEmail(ev.target.value)}
+                margin
               />
-              <CityHolder>
-                <Input
-                  type="text"
-                  placeholder="City"
-                  value={city}
-                  name="city"
-                  onChange={(ev) => setCity(ev.target.value)}
-                />
-                <Input
-                  type="text"
-                  placeholder="Postal Code"
-                  value={postalCode}
-                  name="postalCode"
-                  onChange={(ev) => setPostalCode(ev.target.value)}
-                />
-              </CityHolder>
-              <Input
-                type="text"
-                placeholder="Street Address"
-                value={streetAddress}
-                name="streetAddress"
-                onChange={(ev) => setStreetAddress(ev.target.value)}
-              />
-              <Input
-                type="text"
-                placeholder="Country"
-                value={country}
-                name="country"
-                onChange={(ev) => setCountry(ev.target.value)}
-              />
-              <Button black block onClick={goToPayment}>
-                Continue to payment
+              <Button block green onClick={goToPayment}>
+                Realizar el pago
               </Button>
             </Box>
           )}

@@ -5,43 +5,51 @@ export const CartContext = createContext({});
 export function CartContextProvider({ children }) {
   const ls = typeof window !== "undefined" ? window.localStorage : null;
   //Probablemente para las rentas de autos usemos la misma lógica y estructura:
-  const [cartProducts, setCartProducts] = useState([]);
+  const [cartTours, setCartTours] = useState([]);
   useEffect(() => {
-    if (cartProducts?.length > 0) {
-      ls?.setItem("cart", JSON.stringify(cartProducts));
+    if (cartTours?.length > 0) {
+      ls?.setItem("cart", JSON.stringify(cartTours));
     }
-  }, [cartProducts]);
+  }, [cartTours]);
   useEffect(() => {
     if (ls && ls.getItem("cart")) {
-      setCartProducts(JSON.parse(ls.getItem("cart")));
+      setCartTours(JSON.parse(ls.getItem("cart")));
       1
-
     }
-
-
   }, []);
-  function addProduct(productId) {
-    setCartProducts((prev) => [...prev, productId]);
-  }
-  function removeProduct(productId) {
-    setCartProducts((prev) => {
-      const pos = prev.indexOf(productId);
+
+
+  function addTour(orderDataTour) {
+    const isTourAlreadyInCart = cartTours.some((tour) => tour.id === orderDataTour.id);
+  
+    if (!isTourAlreadyInCart) {
+      setCartTours((prev) => [...prev, orderDataTour]);
+    }
+  };
+  
+
+  function removeTour(tourId) {
+    setCartTours((prev) => {
+      const pos = prev.findIndex((tour) => tour.id === tourId);
+  
       if (pos !== -1) {
-        return prev.filter((value, index) => index !== pos);
+        return prev.filter((tour) => tour.id !== tourId);
       }
       return prev;
     });
   }
+
   function clearCart() {
-    setCartProducts([]);
+    setCartTours([]);
+    ls.removeItem("cart");
   }
   return (
     <CartContext.Provider
       value={{
-        cartProducts,
-        setCartProducts,
-        addProduct,
-        removeProduct,
+        cartTours,
+        setCartTours,
+        addTour,
+        removeTour,
         clearCart,
       }}
     >

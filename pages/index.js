@@ -1,28 +1,35 @@
 import Header from "@/components/Header";
 import Featured from "@/components/Featured";
-import {Product} from "@/models/Product";
-import {mongooseConnect} from "@/lib/mongoose";
-import NewProducts from "@/components/NewProducts";
+import Footer from "@/components/Footer";
+import { Tour } from "@/models/Tour";
+import { mongooseConnect } from "@/lib/mongoose";
+import NewTours from "@/components/NewTours";
 
-export default function HomePage({featuredProduct,newProducts}) {
+export default function HomePage({ featuredTour, newTours, promoTours }) {
   return (
     <div>
       <Header />
-      <Featured product={featuredProduct} />
-      <NewProducts products={newProducts} />
+      <Featured tour={featuredTour} />
+      <NewTours tours={newTours} promo={promoTours} />
+      <Footer />
     </div>
   );
 }
 
 export async function getServerSideProps() {
-  const featuredProductId = '640de2b12aa291ebdf213d48';
+  const featuredTourId = "640de2b12aa291ebdf213d48";
   await mongooseConnect();
-  const featuredProduct = await Product.findById(featuredProductId);
-  const newProducts = await Product.find({}, null, {sort: {'_id':-1}, limit:10});
+  const featuredTour = await Tour.findById(featuredTourId);
+  const newTours = await Tour.find({}, null, {
+    sort: { _id: -1 },
+    limit: 10,
+  });
+  const promoTours = await Tour.find({ promo: true }, null);
   return {
     props: {
-      featuredProduct: JSON.parse(JSON.stringify(featuredProduct)),
-      newProducts: JSON.parse(JSON.stringify(newProducts)),
+      featuredTour: JSON.parse(JSON.stringify(featuredTour)),
+      newTours: JSON.parse(JSON.stringify(newTours)),
+      promoTours: JSON.parse(JSON.stringify(promoTours)),
     },
   };
 }

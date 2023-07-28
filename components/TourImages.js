@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import {useState} from "react";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const Image = styled.img`
     max-width: 100%;
@@ -31,7 +33,7 @@ const BigImageWrapper = styled.div`
   text-align: center;
 `;
 
-export default function ProductImages({images}) {
+export default function TourImages({images}) {
   const [activeImage,setActiveImage] = useState(images?.[0]);
   return (
     <>

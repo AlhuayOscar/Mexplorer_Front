@@ -4,6 +4,12 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
-}
+  experiments: {
+    topLevelAwait: true,
+  },
+  images: {
+    domains: ['mexplorer.s3.amazonaws.com']
+  }
+};
 
 module.exports = nextConfig
