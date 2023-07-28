@@ -12,6 +12,7 @@ const Subtitle = styled.h3`
 font-size: 1.2rem;
 margin: 0;
 margin-bottom: 20px;
+color: #84C441;
 `;
 
 const Box = styled.div`
@@ -23,19 +24,22 @@ const Box = styled.div`
 `;
 
 const ColsWrapper = styled.div`
+margin: 30px 0;
 display: grid;
 grid-template-columns: 1fr;
 gap: 20px;
 @media screen and (min-width: 768px) {
     grid-template-columns: 1fr 1fr;
-    gap: 40px;
+    /* gap: 40px; */
+   
 }
 `;
 
 const ReviewWrapper = styled.div`
-border-radius: 10px;
+/* border-radius: 10px; */
 margin-bottom: 10px;
-border: 1px solid #ccc;
+/* border: 1px solid #ccc; */
+border-bottom: 1px solid #ccc;
 padding: 15px;
 
 
@@ -84,11 +88,54 @@ const ButtonC = styled.button`
 `;
 
 const WhiteBoxC = styled.div`
-  max-height: 600px;
+  max-height: 540px;
   overflow-y: scroll;
   ::-webkit-scrollbar {
     display: none;
   }
+  @media screen and (min-width: 768px) {
+    max-height: 470px;
+}
+`;
+
+const ReviewBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 30px;
+  div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    h3{
+      margin: 0;
+    }
+  }
+  h2{
+    font-size: 3.6rem;
+    color: #84C441;
+    margin: 5px;
+    font-weight: 400;
+  }
+  span{
+    font-size: 1rem;
+    color: #84C441;
+  }
+`;
+
+const InfoBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+const White = styled(WhiteBox)`
+  height: fit-content;
+  padding: 20px 30px;
+  @media screen and (min-width: 768px) {
+  height: 536px;
+}
 `;
 
 export default function ToursReviews({ tour }) {
@@ -138,13 +185,23 @@ export default function ToursReviews({ tour }) {
     return (
         
             <ColsWrapper>
-                <div>
+                <InfoBox>
+                  <ReviewBox>
+                    <div>
+                      <Subtitle>{tour.name}</Subtitle>
+                      <StarsRanting size={'sm'} disabled={true} defaulHowMany={tour.review.total}/>
+                    </div>
+                    <h2>{tour.review.total} / 5</h2>
+                    <span>{tour.review.quantity} Reseñas</span>
+                  </ReviewBox>
+                  
                     <Box>
                         <Subtitle>Agrega una reseña</Subtitle>
                       
                         <StarsRanting onChange={setStars} />
                         
                         <Input
+                            margin
                             value={title}
                             onChange={ev => setTitle(ev.target.value)}
                             placeholder="Titulo" />
@@ -156,10 +213,10 @@ export default function ToursReviews({ tour }) {
                         <ButtonRev green block onClick={submitReview} >Enviar</ButtonRev>
                         
                     </Box>
-                </div>
-                <div>
-                    <WhiteBox>
-                    <Subtitle>Reseña</Subtitle>
+                </InfoBox>
+                
+                    <White>
+                    <Subtitle>Reseñas</Subtitle>
                     <WhiteBoxC>
                       {reviews.length === 0 ? (
                         <p>No tiene reseña</p>
@@ -175,10 +232,10 @@ export default function ToursReviews({ tour }) {
                               <div>
                                 {expandedComments.includes(review._id)
                                   ? <p>{review.description}</p>
-                                  : review.description.length <= 100
+                                  : review.description.length <= 160
                                   ? <p>{review.description}</p>
-                                  : <p>{review.description.substring(0, 100)}</p>}
-                                {review.description.length > 100 && (
+                                  : <p>{review.description.substring(0, 160)}</p>}
+                                {review.description.length > 160 && (
                                   <ButtonC onClick={() => handleToggleDescription(review._id)}>
                                     {expandedComments.includes(review._id) ? 'Mostrar menos' : 'Mostrar más'}
                                   </ButtonC>
@@ -199,10 +256,10 @@ export default function ToursReviews({ tour }) {
                                 <div>
                                   {expandedComments.includes(review.id)
                                     ? <p>{review.description}</p>
-                                    : review.description.length <= 100
+                                    : review.description.length <= 160
                                     ? <p>{review.description}</p>
-                                    : <p>{review.description.substring(0, 100)}</p>}
-                                  {review.description.length > 100 && (
+                                    : <p>{review.description.substring(0, 160)}</p>}
+                                  {review.description.length > 160 && (
                                     <ButtonC onClick={() => handleToggleDescription(review.id)}>
                                       {expandedComments.includes(review.id) ? 'Mostrar menos' : 'Mostrar más'}
                                     </ButtonC>
@@ -218,8 +275,8 @@ export default function ToursReviews({ tour }) {
                       {reviews.length > 3 && (
                           <ButtonC onClick={handleShowAllReviews}>{!showAllReviews ? 'Más comentarios' : 'Menos comentarios'}</ButtonC>
                           )}
-                    </WhiteBox>
-                </div>
+                    </White>
+            
             </ColsWrapper>
        
     );

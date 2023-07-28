@@ -53,7 +53,7 @@ const ResultSearch = ({ tours, name, totalPages }) => {
                     value={phrase}
                     onChange={ev => setPhrase(ev.target.value)}
                     type="text"
-                    placeholder="Lugares para visitar..." />
+                    placeholder="Busca una actividad..." />
                 <SearchTours tours={tours} />
                 <PaginationControls
                     currentPage={currentPage}

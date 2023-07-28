@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { CartContext } from "@/components/CartContext";
 import styled, { css } from "styled-components";
-import CartIcon from "@/components/icons/CartIcon";
-import MyDatePicker from "./DatePicker";
+import CartIcon from '@mui/icons-material/ShoppingCartRounded';
 import Button from "@/components/Button";
 import Input from "@/components/Input";
-import axios from "axios";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import Swal from "sweetalert2";
@@ -50,7 +48,7 @@ const Box = styled.div`
   align-items: center;
 `;
 
-const InputRes = styled.input`
+/* const InputRes = styled.input`
   width: 95%;
   padding: 10px;
   border-radius: 7px;
@@ -65,7 +63,7 @@ const InputRes = styled.input`
     border: 2px solid #00abbd;
     outline: none;
   }
-`;
+`; */
 
 const Price = styled.div`
   display: flex;
@@ -149,6 +147,23 @@ const Types = styled.div`
     `}
 `;
 
+const Select = styled.select`
+  width: 100%;
+  padding: 10px;
+  border-radius: 7px;
+  margin: 10px;
+  font-size: 0.9rem;
+  border: 1px solid #0006;
+  &:hover {
+    border: 1px solid #000;
+    outline: none;
+  }
+  &:focus {
+    border: 2px solid #84C441;
+    outline: none;
+  }
+`;
+
 export default function Reservation({ tour, sticky, reservationsRef }) {
   const { addTour } = useContext(CartContext);
   const { cartTours } = useContext(CartContext);
@@ -222,6 +237,11 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
     setOrderData({ ...orderData, type: type });
   };
 
+  const handleSelect = (e) => {
+    const schedule = e.target.value
+     setOrderData({ ...orderData, hour: schedule})
+  }
+
   console.log(cartTours);
   return (
     <ReservationBox sticky={sticky ? "sticky" : ""} ref={reservationsRef}>
@@ -263,7 +283,7 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
             onChange={(ev) => setLastname(ev.target.value)}
           />
           <Titles>Email</Titles>
-          <InputRes
+          <Input
             type="text"
             placeholder="Email"
             value={email}
@@ -272,7 +292,7 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
           /> */}
 
         <Titles>Adultos</Titles>
-        <InputRes
+        <Input
           placeholder="Cantidad de personas"
           type="number"
           value={orderData.adults}
@@ -282,15 +302,22 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
           min={1}
         />
         <Titles>Niños</Titles>
-        <InputRes
+        <Input
           placeholder="Cantidad de niños"
           type="number"
           value={orderData.children}
+          min={0}
           onChange={(e) =>
             setOrderData({ ...orderData, children: e.target.value })
           }
-          min={0}
         />
+
+        <Titles>Hora</Titles>
+        <Select onChange={handleSelect}>
+          {tour.schedule?.map(schedule => (
+                <option key={schedule.id}value={schedule}>{schedule}</option>
+                ))}
+        </Select>
 
         {/* <MyDatePicker
               inline={true}
@@ -322,10 +349,12 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
         </Price>
         {orderData.type === "reserva" ? (
           <ButtonR type="submit" green onClick={() => addTour(orderData)}>
+            <CartIcon/>
             Reserva
           </ButtonR>
         ) : (
           <ButtonR type="submit" green onClick={() => addTour(orderData)}>
+            <CartIcon/>
             Compra
           </ButtonR>
         )}
