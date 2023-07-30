@@ -6,7 +6,7 @@ import styled, { css } from "styled-components";
 import { useContext, useState, useEffect, useRef } from "react";
 import { CartContext } from "@/components/CartContext";
 import CheckIcon from "@mui/icons-material/DoneOutlineRounded";
-import CancelIcon from '@mui/icons-material/CloseRounded';
+import CancelIcon from "@mui/icons-material/CloseRounded";
 import Link from "next/link";
 import ArrowIcon from "@mui/icons-material/KeyboardDoubleArrowLeftRounded";
 import ToursImageCarousel from "@/components/ToursImageCarousel";
@@ -18,7 +18,11 @@ import ToursReviews from "@/components/ToursReviews";
 import Footer from "@/components/Footer";
 import ToursGrid from "@/components/ToursGrid";
 import NavTour from "@/components/NavTour";
-import { CancelPresentationOutlined, Diversity1Sharp, Reviews } from "@mui/icons-material";
+import {
+  CancelPresentationOutlined,
+  Diversity1Sharp,
+  Reviews,
+} from "@mui/icons-material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import TelegramIcon from "@mui/icons-material/Telegram";
@@ -67,7 +71,7 @@ const TitleTour = styled.div`
 
 const Title = styled.div`
   font-size: 2.3rem;
- /*  color: #fff; */
+  /*  color: #fff; */
 `;
 
 const SubtitleStyle = css`
@@ -93,20 +97,20 @@ const SubtitleStyle = css`
       color: #84c441;
     `}
   ${(props) =>
-  props.pink &&
-  css`
-     color: #e73a78;
-  `}
+    props.pink &&
+    css`
+      color: #e73a78;
+    `}
   ${(props) =>
-  props.margin &&
-  css`
-     margin: 20px 0;
-     font-size: 1.3rem;
-     text-align: center;
-     @media screen and (min-width: 768px) {
-      text-align: left;
-    }
-  `}
+    props.margin &&
+    css`
+      margin: 20px 0;
+      font-size: 1.3rem;
+      text-align: center;
+      @media screen and (min-width: 768px) {
+        text-align: left;
+      }
+    `}
     @media screen and (min-width: 768px) {
     width: 12rem;
     font-size: 1.5rem;
@@ -132,7 +136,6 @@ const Cancel = styled(CancelIcon)`
   color: #ee2743;
   padding: 0;
   margin-right: 5px;
- 
 `;
 
 const MovilHeader = styled.div`
@@ -225,21 +228,21 @@ const Points = styled.div`
   @media screen and (min-width: 768px) {
     display: flex;
     flex-direction: column;
-    h4{
+    h4 {
       margin: 0;
       font-size: 1.1rem;
       font-weight: 500;
     }
     ${(props) =>
-    props.long &&
-    css`
-      width: 80%;
-    `}
+      props.long &&
+      css`
+        width: 80%;
+      `}
     ${(props) =>
-    props.short &&
-    css`
-      width: 40%;
-    `}
+      props.short &&
+      css`
+        width: 40%;
+      `}
   }
 `;
 
@@ -250,7 +253,6 @@ const Point = styled.div`
   line-height: 1.5;
   font-size: 0.9rem;
 `;
-
 
 const OverflowProtection = styled.div`
   overflow: hidden;
@@ -305,8 +307,9 @@ const StyledWhatsapp = getStyledComponent(WhatsAppIcon);
 const StyledTwitter = getStyledComponent(TwitterIcon);
 const StyledTelegram = getStyledComponent(TelegramIcon);
 
-export default function TourPage({ tour, promoTours }) {
-  console.log(tour)
+export default function TourPage({ tour}) {
+  // , promoTours Añadir luego
+  console.log(tour);
   const { addTour } = useContext(CartContext);
   const [showDescription, setShowDescription] = useState(true);
   const [showIncludes, setShowIncludes] = useState(false);
@@ -354,10 +357,10 @@ export default function TourPage({ tour, promoTours }) {
       <TitleTour>
         <div>
           <Title>{tour.name}</Title>
-          <TimeBox duration={tour.duration} /* white *//>
+          <TimeBox duration={tour.duration} /* white */ />
         </div>
         <div>
-          <ReviewBox review={tour.review}/>
+          <ReviewBox review={tour.review} />
           {/* Facebook Share Button */}
           {/* <a
             href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
@@ -561,12 +564,16 @@ export default function TourPage({ tour, promoTours }) {
         </ColWrapper>
       </Desktop>
       <Center>
-        <Subtitle red margin ref={reviewsRef}>Reseñas</Subtitle>
-        <ToursReviews tour={tour}/>  
+        <Subtitle red margin ref={reviewsRef}>
+          Reseñas
+        </Subtitle>
+        <ToursReviews tour={tour} />
       </Center>
       <Recomendations>
-          <Subtitle purple margin ref={recomendationsRef}>Recomendaciones</Subtitle>
-        <ToursGrid tours={promoTours}/>
+        <Subtitle purple margin ref={recomendationsRef}>
+          Recomendaciones
+        </Subtitle>
+        {/* <ToursGrid tours={promoTours} /> */}
       </Recomendations>
       <Footer />
     </>
@@ -576,12 +583,12 @@ export default function TourPage({ tour, promoTours }) {
 export async function getServerSideProps(context) {
   await mongooseConnect();
   const { id } = context.query;
-  const tour = await Tour.findById(id);
+  // const tour = await Tour.findById(id);
   const promoTours = await Tour.find({ promo: true }, null, { limit: 3 });
   return {
     props: {
       tour: JSON.parse(JSON.stringify(tour)),
-      promoTours: JSON.parse(JSON.stringify(promoTours)),
+      // promoTours: JSON.parse(JSON.stringify(promoTours)),
     },
   };
 }
