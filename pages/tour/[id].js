@@ -6,7 +6,7 @@ import styled, { css } from "styled-components";
 import { useContext, useState, useEffect, useRef } from "react";
 import { CartContext } from "@/components/CartContext";
 import CheckIcon from "@mui/icons-material/DoneOutlineRounded";
-import CancelIcon from '@mui/icons-material/CloseRounded';
+import CancelIcon from "@mui/icons-material/CloseRounded";
 import Link from "next/link";
 import ArrowIcon from "@mui/icons-material/KeyboardDoubleArrowLeftRounded";
 import ToursImageCarousel from "@/components/ToursImageCarousel";
@@ -18,34 +18,38 @@ import ToursReviews from "@/components/ToursReviews";
 import Footer from "@/components/Footer";
 import ToursGrid from "@/components/ToursGrid";
 import NavTour from "@/components/NavTour";
-import { CancelPresentationOutlined, Diversity1Sharp, Reviews } from "@mui/icons-material";
+import {
+  CancelPresentationOutlined,
+  Diversity1Sharp,
+  Reviews,
+} from "@mui/icons-material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import ReviewBox from "@/components/ReviewBox";
 import TimeBox from "@/components/TimeBox";
-const AsyncImageCarousel = ({ images }) => {
-  const [loaded, setLoaded] = useState(false);
+// const AsyncImageCarousel = ({ images }) => {
+//   const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => {
-    const loadImage = async (src) => {
-      const image = new Image();
-      image.src = src;
-      await image.decode();
-      setLoaded(true);
-    };
+//   useEffect(() => {
+//     const loadImage = async (src) => {
+//       const image = new Image();
+//       image.src = src;
+//       await image.decode();
+//       setLoaded(true);
+//     };
 
-    const loadImages = async () => {
-      const imagePromises = images.map((src) => loadImage(src));
-      await Promise.all(imagePromises);
-      setLoaded(true);
-    };
+//     const loadImages = async () => {
+//       const imagePromises = images.map((src) => loadImage(src));
+//       await Promise.all(imagePromises);
+//       setLoaded(true);
+//     };
 
-    loadImages();
-  }, [images]);
+//     loadImages();
+//   }, [images]);
 
-  return loaded ? <ToursImageCarousel images={images} /> : <div></div>;
-};
+//   return loaded ? <ToursImageCarousel images={images} /> : <div></div>;
+// };
 
 const ColWrapper = styled.div`
   display: flex;
@@ -67,7 +71,7 @@ const TitleTour = styled.div`
 
 const Title = styled.div`
   font-size: 2.3rem;
- /*  color: #fff; */
+  /*  color: #fff; */
 `;
 
 const SubtitleStyle = css`
@@ -93,20 +97,20 @@ const SubtitleStyle = css`
       color: #84c441;
     `}
   ${(props) =>
-  props.pink &&
-  css`
-     color: #e73a78;
-  `}
+    props.pink &&
+    css`
+      color: #e73a78;
+    `}
   ${(props) =>
-  props.margin &&
-  css`
-     margin: 20px 0;
-     font-size: 1.3rem;
-     text-align: center;
-     @media screen and (min-width: 768px) {
-      text-align: left;
-    }
-  `}
+    props.margin &&
+    css`
+      margin: 20px 0;
+      font-size: 1.3rem;
+      text-align: center;
+      @media screen and (min-width: 768px) {
+        text-align: left;
+      }
+    `}
     @media screen and (min-width: 768px) {
     width: 12rem;
     font-size: 1.5rem;
@@ -132,7 +136,6 @@ const Cancel = styled(CancelIcon)`
   color: #ee2743;
   padding: 0;
   margin-right: 5px;
- 
 `;
 
 const MovilHeader = styled.div`
@@ -225,21 +228,21 @@ const Points = styled.div`
   @media screen and (min-width: 768px) {
     display: flex;
     flex-direction: column;
-    h4{
+    h4 {
       margin: 0;
       font-size: 1.1rem;
       font-weight: 500;
     }
     ${(props) =>
-    props.long &&
-    css`
-      width: 80%;
-    `}
+      props.long &&
+      css`
+        width: 80%;
+      `}
     ${(props) =>
-    props.short &&
-    css`
-      width: 40%;
-    `}
+      props.short &&
+      css`
+        width: 40%;
+      `}
   }
 `;
 
@@ -250,7 +253,6 @@ const Point = styled.div`
   line-height: 1.5;
   font-size: 0.9rem;
 `;
-
 
 const OverflowProtection = styled.div`
   overflow: hidden;
@@ -297,291 +299,52 @@ const commonStyles = `
   text-decoration: none;
 `;
 
-const getStyledComponent = (component) => styled(component)`
-  ${commonStyles}
-`;
+// const getStyledComponent = (component) => styled(component)`
+//   ${commonStyles}
+// `;
 
-const StyledWhatsapp = getStyledComponent(WhatsAppIcon);
-const StyledTwitter = getStyledComponent(TwitterIcon);
-const StyledTelegram = getStyledComponent(TelegramIcon);
+// const StyledWhatsapp = getStyledComponent(WhatsAppIcon);
+// const StyledTwitter = getStyledComponent(TwitterIcon);
+// const StyledTelegram = getStyledComponent(TelegramIcon);
 
-export default function TourPage({ tour, promoTours }) {
-  console.log(tour)
-  const { addTour } = useContext(CartContext);
-  const [showDescription, setShowDescription] = useState(true);
-  const [showIncludes, setShowIncludes] = useState(false);
-  const [showRequirements, setShowRequirements] = useState(false);
-  const [showNotes, setShowNotes] = useState(false);
-  const includesRef = useRef(null);
-  const requirementsRef = useRef(null);
-  const notesRef = useRef(null);
-  const reviewsRef = useRef(null);
-  const recomendationsRef = useRef(null);
-  const reservationsRef = useRef(null);
-  const [currentUrl, setCurrentUrl] = useState("");
-
-  useEffect(() => {
-    // Get the current URL only when the component mounts (client-side).
-    setCurrentUrl(window.location.href);
-  }, []);
-
-  const handleShowDescription = () => {
-    setShowDescription(!showDescription);
+export default function TourPage({ promoTours }) {
+  const randomTour = {
+    _id: "random_id",
+    name: "Tour Aleatorio",
+    description: "Esta es una descripción aleatoria del tour.",
+    duration: "2 horas",
+    images: ["random_image_1", "random_image_2", "random_image_3"],
+    includes: ["Transporte", "Guía turístico", "Entradas"],
+    doesntIncludes: ["Comida", "Bebidas"],
+    requirements: ["Protector solar", "Ropa cómoda", "Cámara"],
+    notes: ["Llevar efectivo", "No olvidar sombrero"],
+    review: 4.5,
   };
 
-  const handleShowIncludes = () => {
-    setShowIncludes(!showIncludes);
-  };
+  // useEffect(() => {
+  //   // Get the current URL only when the component mounts (client-side).
+  //   setCurrentUrl(window.location.href);
+  // }, []);
 
-  const handleShowRequirements = () => {
-    setShowRequirements(!showRequirements);
-  };
-
-  const handleShowNotes = () => {
-    setShowNotes(!showNotes);
-  };
-
-  const scrollToreservations = () => {
-    reservationsRef.current.scrollIntoView({ behavior: "smooth" });
-  };
+ const tour = randomTour;
 
   return (
     <>
       <Header />
-      <OverflowProtection>
-        <ToursImageCarousel images={tour.images} />
-      </OverflowProtection>
-      <TitleTour>
-        <div>
-          <Title>{tour.name}</Title>
-          <TimeBox duration={tour.duration} /* white *//>
-        </div>
-        <div>
-          <ReviewBox review={tour.review}/>
-          {/* Facebook Share Button */}
-          {/* <a
-            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-              currentUrl
-            )}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FacebookIcon />
-          </a> */}
-          {/* FUNCIONA EL DE FACEBOOK PERO CON UNA URL REAL */}
-          {/* WhatsApp Share Button */}
-          <Link
-            href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
-              currentUrl
-            )}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <StyledWhatsapp />
-          </Link>
-          <Link
-            href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
-              currentUrl
-            )}&text=${encodeURIComponent("Echa un vistazo a este tour!")}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <StyledTwitter />
-          </Link>
-          <Link
-            href={`https://t.me/share/url?url=${encodeURIComponent(
-              currentUrl
-            )}&text=${encodeURIComponent("Echa un vistazo a este tour!")}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <StyledTelegram />
-          </Link>
-        </div>
-      </TitleTour>
-      <NavTour
-        includesRef={includesRef}
-        requirementsRef={requirementsRef}
-        notesRef={notesRef}
-        reviewsRef={reviewsRef}
-        recomendationsRef={recomendationsRef}
-      />
-      <ReservationBtn onClick={scrollToreservations}>
-        Reserva ahora!!!
-      </ReservationBtn>
-      <MovilHeader>
-        <HeaderInfo pink>
-          Descripción general
-          <div onClick={handleShowDescription}>
-            {showDescription ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </div>
-        </HeaderInfo>
-        {showDescription && <Description>{tour.description}</Description>}
-        <HeaderInfo yellow>
-          Que incluye
-          <div onClick={handleShowIncludes}>
-            {showIncludes ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </div>
-        </HeaderInfo>
-        {showIncludes && (
-          <InfoBox>
-            <Subtitle yellow>Este tour incluye:</Subtitle>
-            <Points>
-              {tour.includes?.map((include) => (
-                <Point key={include}>
-                  <Check />
-                  {include}
-                </Point>
-              ))}
-              <Subtitle yellow>Este tour no incluye:</Subtitle>
-              {tour.doesntIncludes?.map((doesntInclude) => (
-                <Point key={doesntInclude}>
-                  <Cancel />
-                  {doesntInclude}
-                </Point>
-              ))}
-            </Points>
-          </InfoBox>
-        )}
-        <HeaderInfo purple>
-          Que llevar
-          <div onClick={handleShowRequirements}>
-            {showRequirements ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </div>
-        </HeaderInfo>
-        {showRequirements && (
-          <InfoBox>
-            <Subtitle purple>A este tour recomendamos llevar:</Subtitle>
-            <Points>
-              {tour.requirements?.map((requirement) => (
-                <Point key={requeriment}>
-                  <Check />
-                  {requirement}
-                </Point>
-              ))}
-            </Points>
-          </InfoBox>
-        )}
-        <HeaderInfo green>
-          Notas
-          <div onClick={handleShowNotes}>
-            {showNotes ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </div>
-        </HeaderInfo>
-        {showNotes && (
-          <InfoBox>
-            <Subtitle green>Notas y recomendaciones:</Subtitle>
-            <Points>
-              {tour.notes?.map((note) => (
-                <Point key={note}>
-                  <Check />
-                  {note}
-                </Point>
-              ))}
-            </Points>
-          </InfoBox>
-        )}
-        <Center>
-          <Reservation tour={tour} reservationsRef={reservationsRef} />
-        </Center>
-      </MovilHeader>
-      <Desktop>
-        <ColWrapper>
-          <TourInfoBox>
-            <Subtitle title>Descripción general</Subtitle>
-            <ToursLink href={"/tours"}>
-              <div>
-                <ArrowI />
-                Ver todos los tours en Cancun
-              </div>
-            </ToursLink>
-            <Description>{tour.description}</Description>
-
-            {tour.includes && (
-              <InfoBox ref={includesRef}>
-                <Subtitle yellow>Que incluye</Subtitle>
-                <Points short>
-                  <h4>Este tour incluye:</h4>
-                  {tour.includes?.map((include) => (
-                    <Point key={include}>
-                      <Check />
-                      {include}
-                    </Point>
-                  ))}
-                </Points>
-                {tour.doesntIncludes && (
-                  <>
-                    <Points short>
-                      <h4>Este tour no incluye:</h4>
-                      {tour.doesntIncludes?.map((doesntInclude) => (
-                        <Point key={doesntInclude}>
-                          <Cancel />
-                          {doesntInclude}
-                        </Point>
-                      ))}
-                    </Points>
-                  </>
-                )}
-              </InfoBox>
-            )}
-            {tour.requirements && (
-              <InfoBox ref={requirementsRef}>
-                <Subtitle purple>Que Llevar</Subtitle>
-                <Points long>
-                  {tour.requirements?.map((requirement) => (
-                    <Point key={requirement}>
-                      <Check />
-                      {requirement}
-                    </Point>
-                  ))}
-                </Points>
-              </InfoBox>
-            )}
-
-            {tour.notes && (
-              <InfoBox ref={notesRef}>
-                <Subtitle green>Notas</Subtitle>
-                <Points long>
-                  {tour.notes?.map((note) => (
-                    <Point key={note}>
-                      <Check />
-                      {note}
-                    </Point>
-                  ))}
-                </Points>
-              </InfoBox>
-            )}
-            {/* <div>
-                <button onClick={() => addTour(tour._id)}>
-                  Añadir al carrito
-                </button>
-            </div> */}
-          </TourInfoBox>
-          <Reservation tour={tour} sticky={true} />
-        </ColWrapper>
-      </Desktop>
-      <Center>
-        <Subtitle red margin ref={reviewsRef}>Reseñas</Subtitle>
-        <ToursReviews tour={tour}/>  
-      </Center>
-      <Recomendations>
-          <Subtitle purple margin ref={recomendationsRef}>Recomendaciones</Subtitle>
-        <ToursGrid tours={promoTours}/>
-      </Recomendations>
       <Footer />
     </>
   );
 }
 
-export async function getServerSideProps(context) {
-  await mongooseConnect();
-  const { id } = context.query;
-  const tour = await Tour.findById(id);
-  const promoTours = await Tour.find({ promo: true }, null, { limit: 3 });
-  return {
-    props: {
-      tour: JSON.parse(JSON.stringify(tour)),
-      promoTours: JSON.parse(JSON.stringify(promoTours)),
-    },
-  };
-}
+// export async function getServerSideProps(context) {
+//   await mongooseConnect();
+//   const { id } = context.query;
+//   const tour = await Tour.findById(id);
+//   const promoTours = await Tour.find({ promo: true }, null, { limit: 3 });
+//   return {
+//     props: {
+//       tour: JSON.parse(JSON.stringify(tour)),
+//       promoTours: JSON.parse(JSON.stringify(promoTours)),
+//     },
+//   };
+// }
