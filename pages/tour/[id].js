@@ -567,7 +567,7 @@ export default function TourPage({ tour}) {
         <Subtitle red margin ref={reviewsRef}>
           Reseñas
         </Subtitle>
-        <ToursReviews tour={tour} />
+          {/* <ToursReviews tour={tour} /> */}
       </Center>
       <Recomendations>
         <Subtitle purple margin ref={recomendationsRef}>
