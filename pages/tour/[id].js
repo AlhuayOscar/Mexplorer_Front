@@ -28,28 +28,28 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import ReviewBox from "@/components/ReviewBox";
 import TimeBox from "@/components/TimeBox";
-const AsyncImageCarousel = ({ images }) => {
-  const [loaded, setLoaded] = useState(false);
+// const AsyncImageCarousel = ({ images }) => {
+//   const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => {
-    const loadImage = async (src) => {
-      const image = new Image();
-      image.src = src;
-      await image.decode();
-      setLoaded(true);
-    };
+//   useEffect(() => {
+//     const loadImage = async (src) => {
+//       const image = new Image();
+//       image.src = src;
+//       await image.decode();
+//       setLoaded(true);
+//     };
 
-    const loadImages = async () => {
-      const imagePromises = images.map((src) => loadImage(src));
-      await Promise.all(imagePromises);
-      setLoaded(true);
-    };
+//     const loadImages = async () => {
+//       const imagePromises = images.map((src) => loadImage(src));
+//       await Promise.all(imagePromises);
+//       setLoaded(true);
+//     };
 
-    loadImages();
-  }, [images]);
+//     loadImages();
+//   }, [images]);
 
-  return loaded ? <ToursImageCarousel images={images} /> : <div></div>;
-};
+//   return loaded ? <ToursImageCarousel images={images} /> : <div></div>;
+// };
 
 const ColWrapper = styled.div`
   display: flex;
@@ -299,75 +299,52 @@ const commonStyles = `
   text-decoration: none;
 `;
 
-const getStyledComponent = (component) => styled(component)`
-  ${commonStyles}
-`;
+// const getStyledComponent = (component) => styled(component)`
+//   ${commonStyles}
+// `;
 
-const StyledWhatsapp = getStyledComponent(WhatsAppIcon);
-const StyledTwitter = getStyledComponent(TwitterIcon);
-const StyledTelegram = getStyledComponent(TelegramIcon);
+// const StyledWhatsapp = getStyledComponent(WhatsAppIcon);
+// const StyledTwitter = getStyledComponent(TwitterIcon);
+// const StyledTelegram = getStyledComponent(TelegramIcon);
 
-export default function TourPage({ tour }) {
-  // , promoTours Añadir luego
-  console.log(tour);
-  const { addTour } = useContext(CartContext);
-  const [showDescription, setShowDescription] = useState(true);
-  const [showIncludes, setShowIncludes] = useState(false);
-  const [showRequirements, setShowRequirements] = useState(false);
-  const [showNotes, setShowNotes] = useState(false);
-  const includesRef = useRef(null);
-  const requirementsRef = useRef(null);
-  const notesRef = useRef(null);
-  const reviewsRef = useRef(null);
-  const recomendationsRef = useRef(null);
-  const reservationsRef = useRef(null);
-  const [currentUrl, setCurrentUrl] = useState("");
-
-  useEffect(() => {
-    // Get the current URL only when the component mounts (client-side).
-    setCurrentUrl(window.location.href);
-  }, []);
-
-  const handleShowDescription = () => {
-    setShowDescription(!showDescription);
+export default function TourPage({ promoTours }) {
+  const randomTour = {
+    _id: "random_id",
+    name: "Tour Aleatorio",
+    description: "Esta es una descripción aleatoria del tour.",
+    duration: "2 horas",
+    images: ["random_image_1", "random_image_2", "random_image_3"],
+    includes: ["Transporte", "Guía turístico", "Entradas"],
+    doesntIncludes: ["Comida", "Bebidas"],
+    requirements: ["Protector solar", "Ropa cómoda", "Cámara"],
+    notes: ["Llevar efectivo", "No olvidar sombrero"],
+    review: 4.5,
   };
 
-  const handleShowIncludes = () => {
-    setShowIncludes(!showIncludes);
-  };
+  // useEffect(() => {
+  //   // Get the current URL only when the component mounts (client-side).
+  //   setCurrentUrl(window.location.href);
+  // }, []);
 
-  const handleShowRequirements = () => {
-    setShowRequirements(!showRequirements);
-  };
-
-  const handleShowNotes = () => {
-    setShowNotes(!showNotes);
-  };
-
-  const scrollToreservations = () => {
-    reservationsRef.current.scrollIntoView({ behavior: "smooth" });
-  };
+ const tour = randomTour;
 
   return (
     <>
       <Header />
-      {/* <OverflowProtection>
-        <ToursImageCarousel images={tour.images} />
-      </OverflowProtection> */}
       <Footer />
     </>
   );
 }
 
-export async function getServerSideProps(context) {
-  await mongooseConnect();
-  const { id } = context.query;
-  const tour = await Tour.findById(id);
-  const promoTours = await Tour.find({ promo: true }, null, { limit: 3 });
-  return {
-    props: {
-      tour: JSON.parse(JSON.stringify(tour)),
-      // promoTours: JSON.parse(JSON.stringify(promoTours)),
-    },
-  };
-}
+// export async function getServerSideProps(context) {
+//   await mongooseConnect();
+//   const { id } = context.query;
+//   const tour = await Tour.findById(id);
+//   const promoTours = await Tour.find({ promo: true }, null, { limit: 3 });
+//   return {
+//     props: {
+//       tour: JSON.parse(JSON.stringify(tour)),
+//       promoTours: JSON.parse(JSON.stringify(promoTours)),
+//     },
+//   };
+// }
