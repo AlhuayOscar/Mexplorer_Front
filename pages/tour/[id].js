@@ -351,9 +351,9 @@ export default function TourPage({ tour}) {
   return (
     <>
       <Header />
-      <OverflowProtection>
+      {/* <OverflowProtection>
         <ToursImageCarousel images={tour.images} />
-      </OverflowProtection>
+      </OverflowProtection> */}
       <TitleTour>
         <div>
           <Title>{tour.name}</Title>
