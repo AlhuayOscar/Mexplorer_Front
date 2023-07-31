@@ -19,42 +19,52 @@ const MexplorerLogoAnimation = () => {
 
   // Styled components for each group element with complete IDs
   const StyledOur_M = styled.g`
+    opacity: 0;
     animation: ${slideIn} 0.24s ease forwards;
   `;
 
   const StyledOur_E = styled.g`
+    opacity: 0;
     animation: ${slideIn} 0.24s ease forwards 0.24s;
   `;
 
   const StyledOur_X = styled.g`
+    opacity: 0;
     animation: ${slideIn} 0.24s ease forwards 0.48s;
   `;
 
   const StyledOur_P = styled.g`
+    opacity: 0;
     animation: ${slideIn} 0.24s ease forwards 0.72s;
   `;
 
   const StyledOur_L = styled.g`
+    opacity: 0;
     animation: ${slideIn} 0.24s ease forwards 0.96s;
   `;
 
   const StyledOur_O = styled.g`
+    opacity: 0;
     animation: ${slideIn} 0.24s ease forwards 1.2s;
   `;
 
   const StyledOur_R_2 = styled.g`
+    opacity: 0;
     animation: ${slideIn} 0.24s ease forwards 1.44s;
   `;
 
   const StyledOur_E_2 = styled.g`
+    opacity: 0;
     animation: ${slideIn} 0.24s ease forwards 1.68s;
   `;
 
   const StyledOur_R = styled.g`
+    opacity: 0;
     animation: ${slideIn} 0.24s ease forwards 1.92s;
   `;
 
   const StyledSlogan = styled.g`
+    opacity: 0;
     animation: ${slideIn} 0.936s ease forwards 2.16s;
   `;
 
