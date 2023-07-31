@@ -11,11 +11,11 @@ import LoadingComponent from "@/components/LoadingComponent";
 
 const slideDownAnimation = keyframes`
   0% {
-    opacity:0.9;
+    opacity: 0.9;
     transform: translateY(0%);
   }
   100% {
-        opacity:1;
+    opacity: 1;
     transform: translateY(0);
   }
 `;
@@ -59,25 +59,36 @@ const LoadingContainer = styled.div`
       props.loading ? slideDownAnimation : fadeOutAnimation}
     0.5s linear;
   animation-fill-mode: forwards;
-  opacity: ${(props) => (props.loading ? 1 : 0)};
+  opacity: ${(props) => (props.show ? 1 : 0)};
+  visibility: ${(props) => (props.show ? "visible" : "hidden")};
 `;
 
 export default function HomePage({ featuredTour, newTours, promoTours }) {
   const [loading, setLoading] = useState(true);
+  const [showLoadingContainer, setShowLoadingContainer] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
     }, 6000);
 
-    return () => clearTimeout(timer);
+    const hideLoadingTimer = setTimeout(() => {
+      setShowLoadingContainer(false);
+    }, 6500);
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(hideLoadingTimer);
+    };
   }, []);
 
   return (
     <div>
-      <LoadingContainer loading={loading}>
-        <LoadingComponent />
-      </LoadingContainer>
+      {showLoadingContainer && (
+        <LoadingContainer loading={loading} show={showLoadingContainer}>
+          <LoadingComponent />
+        </LoadingContainer>
+      )}
       <AnimatedHeaderWrapper>
         <Header />
       </AnimatedHeaderWrapper>
