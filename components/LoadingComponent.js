@@ -86,51 +86,81 @@ const StyledSVG = styled.svg`
 const StyledOur_M = styled.g`
   opacity: 0;
   animation: ${slideIn} 0.24s ease forwards;
+  filter: drop-shadow(
+    2px 10px 8px rgba(0, 0, 0, 0.5)
+  ); 
 `;
 
 const StyledOur_E = styled.g`
   opacity: 0;
   animation: ${slideIn} 0.24s ease forwards 0.24s;
+  filter: drop-shadow(
+    2px 10px 8px rgba(0, 0, 0, 0.5)
+  ); 
 `;
 
 const StyledOur_X = styled.g`
   opacity: 0;
   animation: ${slideIn} 0.24s ease forwards 0.48s;
+  filter: drop-shadow(
+    2px 10px 8px rgba(0, 0, 0, 0.5)
+  ); 
 `;
 
 const StyledOur_P = styled.g`
   opacity: 0;
   animation: ${slideIn} 0.24s ease forwards 0.72s;
+  filter: drop-shadow(
+    2px 10px 8px rgba(0, 0, 0, 0.5)
+  ); 
 `;
 
 const StyledOur_L = styled.g`
   opacity: 0;
   animation: ${slideIn} 0.24s ease forwards 0.96s;
+  filter: drop-shadow(
+    2px 10px 8px rgba(0, 0, 0, 0.5)
+  ); 
 `;
 
 const StyledOur_O = styled.g`
   opacity: 0;
   animation: ${slideIn} 0.24s ease forwards 1.2s;
+  filter: drop-shadow(
+    2px 10px 8px rgba(0, 0, 0, 0.5)
+  ); 
 `;
 
 const StyledOur_R_2 = styled.g`
   opacity: 0;
   animation: ${slideIn} 0.24s ease forwards 1.44s;
+  filter: drop-shadow(
+    2px 10px 8px rgba(0, 0, 0, 0.5)
+  ); 
 `;
 
 const StyledOur_E_2 = styled.g`
   opacity: 0;
   animation: ${slideIn} 0.24s ease forwards 1.68s;
+  filter: drop-shadow(
+    2px 10px 8px rgba(0, 0, 0, 0.5)
+  ); 
 `;
 
 const StyledOur_R = styled.g`
   opacity: 0;
   animation: ${slideIn} 0.24s ease forwards 1.92s;
+  filter: drop-shadow(
+    2px 10px 8px rgba(0, 0, 0, 0.5)
+  ); 
 `;
 
 const StyledSlogan = styled.g`
   opacity: 0;
   animation: ${slideIn} 0.936s ease forwards 2.16s;
+  filter: drop-shadow(
+    2px 4px 6px rgba(0, 0, 0, 0.3)
+  ); 
 `;
 const MexplorerLogoAnimation = () => {
   const [changeColor, setChangeColor] = useState(false);

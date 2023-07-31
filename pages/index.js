@@ -54,6 +54,7 @@ const ButtonAboveFeatured = styled.button`
   transition: opacity 0.3s ease 1.3s; /* Agregamos la transición de opacidad */
   transition: 0.4s ease;
   opacity: 0.2; /* Establecemos la opacidad inicial */
+  outline: none;
 
   &:hover {
     transform: scale(1.2);
@@ -101,11 +102,11 @@ export default function HomePage({ featuredTour, newTours, promoTours }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 6000);
+    }, 60000);
 
     const hideLoadingTimer = setTimeout(() => {
       setShowLoadingContainer(false);
-    }, 6500);
+    }, 65000);
 
     return () => {
       clearTimeout(timer);
