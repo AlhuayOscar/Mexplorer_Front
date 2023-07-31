@@ -41,6 +41,7 @@ const StyledImage = styled.img`
 
 const AnimatedHeaderWrapper = styled.div`
   position: relative;
+  transition: 0.5s ease;
   animation: ${slideDownAnimation} 5.5s ease;
 `;
 
@@ -66,6 +67,8 @@ const LoadingContainer = styled.div`
 export default function HomePage({ featuredTour, newTours, promoTours }) {
   const [loading, setLoading] = useState(true);
   const [showLoadingContainer, setShowLoadingContainer] = useState(true);
+  const [headerVisible, setHeaderVisible] = useState(false);
+  const [buttonText, setButtonText] = useState("^");
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -82,6 +85,11 @@ export default function HomePage({ featuredTour, newTours, promoTours }) {
     };
   }, []);
 
+  const handleShowHeader = () => {
+    setHeaderVisible(!headerVisible);
+    setButtonText(headerVisible ? "^" : "v");
+  };
+
   return (
     <div>
       {showLoadingContainer && (
@@ -89,15 +97,52 @@ export default function HomePage({ featuredTour, newTours, promoTours }) {
           <LoadingComponent />
         </LoadingContainer>
       )}
-      <AnimatedHeaderWrapper>
-        <Header />
-      </AnimatedHeaderWrapper>
+
+      {headerVisible && (
+        <AnimatedHeaderWrapper>
+          <Header />
+        </AnimatedHeaderWrapper>
+      )}
+
+      <ButtonAboveFeatured onClick={handleShowHeader}>
+        {buttonText}
+      </ButtonAboveFeatured>
+
       <Featured tour={featuredTour} />
       <NewTours tours={newTours} promo={promoTours} />
       <Footer />
     </div>
   );
 }
+
+const ButtonAboveFeatured = styled.button`
+  position: absolute;
+  top: 5px;
+  left: 45%;
+  padding: 10px 20px;
+  background-color: #00abbd01;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  z-index: 17;
+  transition: opacity 0.3s ease 1.3s; /* Agregamos la transición de opacidad */
+  transition: 0.4s ease;
+  opacity: 0.2; /* Establecemos la opacidad inicial */
+
+  &:hover {
+    transform: scale(1.2);
+    transition: 0.4s ease;
+    background-color: #00abbd05;
+    opacity: 0.8; /* Cambiamos la opacidad cuando el cursor esté cerca */
+  }
+
+  /* Esta parte es opcional, si deseas que el botón esté siempre semi-transparente */
+  /* &:not(:hover) {
+    opacity: 0.5;
+  } */
+`;
 
 export async function getServerSideProps() {
   const featuredTourId = "640de2b12aa291ebdf213d48";
