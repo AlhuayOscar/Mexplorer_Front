@@ -7,6 +7,7 @@ import { Tour } from "@/models/Tour";
 import { mongooseConnect } from "@/lib/mongoose";
 import NewTours from "@/components/NewTours";
 import Spinner from "react-spinner";
+import LoadingComponent from "@/components/LoadingComponent";
 
 // Definimos una animación de deslizamiento hacia abajo
 const slideDownAnimation = keyframes`
@@ -65,33 +66,7 @@ export default function HomePage({ featuredTour, newTours, promoTours }) {
     <div>
       {loading && (
         <LoadingContainer>
-          <svg>
-            <g xmlns="http://www.w3.org/2000/svg" id="Mexplorer Logo">
-              <g id="Mexplorer LOGO">
-                <g id="Our X">
-                </g>
-                <g id="our O">
-                </g>
-                <g id="our L">
-                </g>
-                <g id="our M">
-                </g>
-                <g id="our E">
-                </g>
-                <g id="our R">
-                </g>
-                <g id="our E_2">
-                </g>
-                <g id="Slogan">
-                </g>
-                <g id="our R_2">
-                </g>
-                <g id="our P">
-                </g>
-              </g>
-            </g>
-          </svg>
-          <Spinner color="#007BFF" />
+          <LoadingComponent />
         </LoadingContainer>
       )}
       <AnimatedHeaderWrapper>
