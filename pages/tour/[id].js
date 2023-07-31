@@ -1,33 +1,55 @@
 import Center from "@/components/Center";
-import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import NavTour from "@/components/NavTour";
-import Reservation from "@/components/Reservation";
-import ReviewBox from "@/components/ReviewBox";
-import ToursGrid from "@/components/ToursGrid";
-import ToursImageCarousel from "@/components/ToursImageCarousel";
-import ToursReviews from "@/components/ToursReviews";
-import ArrowIcon from "@mui/icons-material/KeyboardDoubleArrowLeftRounded";
-import CancelIcon from "@mui/icons-material/CloseRounded";
-import CheckIcon from "@mui/icons-material/DoneOutlineRounded";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import Reviews from "@mui/icons-material/Reviews";
-import TelegramIcon from "@mui/icons-material/Telegram";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import { mongooseConnect } from "@/lib/mongoose";
+import { Tour } from "@/models/Tour";
+import styled, { css } from "styled-components";
+import { useContext, useState, useEffect, useRef } from "react";
 import { CartContext } from "@/components/CartContext";
+import CheckIcon from "@mui/icons-material/DoneOutlineRounded";
+import CancelIcon from "@mui/icons-material/CloseRounded";
+import Link from "next/link";
+import ArrowIcon from "@mui/icons-material/KeyboardDoubleArrowLeftRounded";
+import ToursImageCarousel from "@/components/ToursImageCarousel";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import Reservation from "@/components/Reservation";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import ToursReviews from "@/components/ToursReviews";
+import Footer from "@/components/Footer";
+import ToursGrid from "@/components/ToursGrid";
+import NavTour from "@/components/NavTour";
 import {
   CancelPresentationOutlined,
   Diversity1Sharp,
+  Reviews,
 } from "@mui/icons-material";
-import { useContext, useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import { mongooseConnect } from "@/lib/mongoose";
-import styled, { css } from "styled-components";
-import { Tour } from "@/models/Tour";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import TelegramIcon from "@mui/icons-material/Telegram";
+import ReviewBox from "@/components/ReviewBox";
 import TimeBox from "@/components/TimeBox";
+const AsyncImageCarousel = ({ images }) => {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const loadImage = async (src) => {
+      const image = new Image();
+      image.src = src;
+      await image.decode();
+      setLoaded(true);
+    };
+
+    const loadImages = async () => {
+      const imagePromises = images.map((src) => loadImage(src));
+      await Promise.all(imagePromises);
+      setLoaded(true);
+    };
+
+    loadImages();
+  }, [images]);
+
+  return loaded ? <ToursImageCarousel images={images} /> : <div></div>;
+};
 
 const ColWrapper = styled.div`
   display: flex;
@@ -434,7 +456,7 @@ export default function TourPage({ tour, promoTours }) {
             <Subtitle purple>A este tour recomendamos llevar:</Subtitle>
             <Points>
               {tour.requirements?.map((requirement) => (
-                <Point key={requirements}>
+                <Point key={requeriment}>
                   <Check />
                   {requirement}
                 </Point>
@@ -465,14 +487,100 @@ export default function TourPage({ tour, promoTours }) {
           <Reservation tour={tour} reservationsRef={reservationsRef} />
         </Center>
       </MovilHeader>
+      <Desktop>
+        <ColWrapper>
+          <TourInfoBox>
+            <Subtitle title>Descripción general</Subtitle>
+            <ToursLink href={"/tours"}>
+              <div>
+                <ArrowI />
+                Ver todos los tours en Cancun
+              </div>
+            </ToursLink>
+            <Description>{tour.description}</Description>
+
+            {tour.includes && (
+              <InfoBox ref={includesRef}>
+                <Subtitle yellow>Que incluye</Subtitle>
+                <Points short>
+                  <h4>Este tour incluye:</h4>
+                  {tour.includes?.map((include) => (
+                    <Point key={include}>
+                      <Check />
+                      {include}
+                    </Point>
+                  ))}
+                </Points>
+                {tour.doesntIncludes && (
+                  <>
+                    <Points short>
+                      <h4>Este tour no incluye:</h4>
+                      {tour.doesntIncludes?.map((doesntInclude) => (
+                        <Point key={doesntInclude}>
+                          <Cancel />
+                          {doesntInclude}
+                        </Point>
+                      ))}
+                    </Points>
+                  </>
+                )}
+              </InfoBox>
+            )}
+            {tour.requirements && (
+              <InfoBox ref={requirementsRef}>
+                <Subtitle purple>Que Llevar</Subtitle>
+                <Points long>
+                  {tour.requirements?.map((requirement) => (
+                    <Point key={requirement}>
+                      <Check />
+                      {requirement}
+                    </Point>
+                  ))}
+                </Points>
+              </InfoBox>
+            )}
+
+            {tour.notes && (
+              <InfoBox ref={notesRef}>
+                <Subtitle green>Notas</Subtitle>
+                <Points long>
+                  {tour.notes?.map((note) => (
+                    <Point key={note}>
+                      <Check />
+                      {note}
+                    </Point>
+                  ))}
+                </Points>
+              </InfoBox>
+            )}
+            {/* <div>
+                <button onClick={() => addTour(tour._id)}>
+                  Añadir al carrito
+                </button>
+            </div> */}
+          </TourInfoBox>
+          <Reservation tour={tour} sticky={true} />
+        </ColWrapper>
+      </Desktop>
+      <Center>
+        <Subtitle red margin ref={reviewsRef}>
+          Reseñas
+        </Subtitle>
+        <ToursReviews tour={tour} />
+      </Center>
+      <Recomendations>
+        <Subtitle purple margin ref={recomendationsRef}>
+          Recomendaciones
+        </Subtitle>
+        <ToursGrid tours={promoTours} />
+      </Recomendations>
       <Footer />
     </>
   );
 }
-
-export async function getServerSideProps(context) {
+export async function getStaticProps({ params }) {
   await mongooseConnect();
-  const { id } = context.query;
+  const { id } = params;
   const tour = await Tour.findById(id);
   const promoTours = await Tour.find({ promo: true }, null, { limit: 3 });
   return {
@@ -481,4 +589,14 @@ export async function getServerSideProps(context) {
       promoTours: JSON.parse(JSON.stringify(promoTours)),
     },
   };
+}
+
+// Asegúrate de tener también la siguiente función para generar las rutas estáticas
+export async function getStaticPaths() {
+  await mongooseConnect();
+  const tours = await Tour.find({}, { _id: 1 });
+  const paths = tours.map((tour) => ({
+    params: { id: tour._id.toString() },
+  }));
+  return { paths, fallback: false };
 }
