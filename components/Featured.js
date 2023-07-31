@@ -92,13 +92,6 @@ export default function Featured() {
         // Setear el valor del estado portadaUrls
         setPortadaUrls(portadaUrls);
 
-        // Mostrar el listado de URLs de "Portada"
-        if (portadaIndex !== -1) {
-          console.log("URLs de 'Portada':", portadaUrls);
-        } else {
-          console.log("No se encontraron URLs de 'Portada'.");
-        }
-
         setLoading(false);
       })
       .catch((error) => {

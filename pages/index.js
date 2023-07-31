@@ -9,17 +9,26 @@ import NewTours from "@/components/NewTours";
 import Spinner from "react-spinner";
 import LoadingComponent from "@/components/LoadingComponent";
 
-// Definimos una animación de deslizamiento hacia abajo
 const slideDownAnimation = keyframes`
   0% {
-    transform: translateY(-100%);
+    opacity: 0.9;
+    transform: translateY(0%);
   }
   100% {
+    opacity: 1;
     transform: translateY(0);
   }
 `;
 
-// Creamos un nuevo componente estilizado para la imagen
+const fadeOutAnimation = keyframes`
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+`;
+
 const StyledImage = styled.img`
   position: absolute;
   top: 50%;
@@ -27,16 +36,43 @@ const StyledImage = styled.img`
   transform: translate(-50%, -50%);
   width: auto;
   height: 120px;
-  z-index: 25; /* Colocamos la imagen encima de todo */
+  z-index: 25;
 `;
 
-// Creamos un nuevo componente estilizado con la animación aplicada
+const ButtonAboveFeatured = styled.button`
+  position: absolute; //Encontrar la forma de volverlo stickya todo el header y el boton
+  top: 5px;
+  left: 45%;
+  padding: 10px 20px;
+  background-color: #00abbd01;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  z-index: 17;
+  transition: opacity 0.3s ease 1.3s; /* Agregamos la transición de opacidad */
+  transition: 0.4s ease;
+  opacity: 0.2; /* Establecemos la opacidad inicial */
+
+  &:hover {
+    transform: scale(1.2);
+    transition: 0.4s ease;
+    background-color: #00abbd05;
+    opacity: 0.8; /* Cambiamos la opacidad cuando el cursor esté cerca */
+  }
+
+  /* Esta parte es opcional, si deseas que el botón esté siempre semi-transparente */
+  /* &:not(:hover) {
+    opacity: 0.5;
+  } */
+`;
 const AnimatedHeaderWrapper = styled.div`
-  position: relative; /* Aseguramos que la posición sea relativa para que la imagen con posición absoluta esté contenida en este div */
+  position: relative;
+  transition: 0.5s ease;
   animation: ${slideDownAnimation} 5.5s ease;
 `;
 
-// Estilos para el contenedor de la pantalla de carga
 const LoadingContainer = styled.div`
   position: fixed;
   top: 0;
@@ -46,32 +82,57 @@ const LoadingContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 1); /* Color marrón/negro opaco */
-  z-index: 30; /* Colocamos la pantalla de carga por encima del resto del contenido */
+  background-color: rgba(0, 0, 0, 1);
+  z-index: 30;
+  animation: ${(props) =>
+      props.loading ? slideDownAnimation : fadeOutAnimation}
+    0.5s linear;
+  animation-fill-mode: forwards;
+  opacity: ${(props) => (props.show ? 1 : 0)};
+  visibility: ${(props) => (props.show ? "visible" : "hidden")};
 `;
 
 export default function HomePage({ featuredTour, newTours, promoTours }) {
   const [loading, setLoading] = useState(true);
+  const [showLoadingContainer, setShowLoadingContainer] = useState(true);
+  const [headerVisible, setHeaderVisible] = useState(false);
+  const [buttonText, setButtonText] = useState("^");
 
   useEffect(() => {
-    // Simulamos una carga de datos, por ejemplo, espera 3 segundos
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 7000);
+    }, 6000);
 
-    return () => clearTimeout(timer);
+    const hideLoadingTimer = setTimeout(() => {
+      setShowLoadingContainer(false);
+    }, 6500);
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(hideLoadingTimer);
+    };
   }, []);
+
+  const handleShowHeader = () => {
+    setHeaderVisible(!headerVisible);
+    setButtonText(headerVisible ? "^" : "v");
+  };
 
   return (
     <div>
-      {loading && (
-        <LoadingContainer>
+      {showLoadingContainer && (
+        <LoadingContainer loading={loading} show={showLoadingContainer}>
           <LoadingComponent />
         </LoadingContainer>
       )}
-      <AnimatedHeaderWrapper>
-        <Header />
-      </AnimatedHeaderWrapper>
+      {headerVisible && (
+        <AnimatedHeaderWrapper>
+          <Header />
+        </AnimatedHeaderWrapper>
+      )}
+      <ButtonAboveFeatured onClick={handleShowHeader}>
+        {buttonText}
+      </ButtonAboveFeatured>
       <Featured tour={featuredTour} />
       <NewTours tours={newTours} promo={promoTours} />
       <Footer />

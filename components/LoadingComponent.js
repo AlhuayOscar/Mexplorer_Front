@@ -156,8 +156,8 @@ const MexplorerLogoAnimation = () => {
     >
       <StyledSVG
         xmlns="http://www.w3.org/2000/svg"
-        width="800"
-        height="auto"
+        width="60vw"
+        height="100vh"
         viewBox="0 0 500 500"
         id="logoSVG"
       >
