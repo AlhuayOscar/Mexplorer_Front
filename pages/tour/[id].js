@@ -336,9 +336,9 @@ export default function TourPage({ tour, promoTours }) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getStaticProps({ params }) {
   await mongooseConnect();
-  const { id } = context.query;
+  const { id } = params;
   const tour = await Tour.findById(id);
   const promoTours = await Tour.find({ promo: true }, null, { limit: 3 });
   return {
@@ -347,4 +347,14 @@ export async function getServerSideProps(context) {
       promoTours: JSON.parse(JSON.stringify(promoTours)),
     },
   };
+}
+
+// Asegúrate de tener también la siguiente función para generar las rutas estáticas
+export async function getStaticPaths() {
+  await mongooseConnect();
+  const tours = await Tour.find({}, { _id: 1 });
+  const paths = tours.map((tour) => ({
+    params: { id: tour._id.toString() },
+  }));
+  return { paths, fallback: false };
 }
