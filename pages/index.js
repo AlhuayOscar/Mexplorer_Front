@@ -70,7 +70,7 @@ const ButtonAboveFeatured = styled.button`
 const AnimatedHeaderWrapper = styled.div`
   position: relative;
   transition: 0.5s ease;
-  animation: ${slideDownAnimation} 5.5s ease;
+  animation: ${slideDownAnimation} 0.5s ease;
 `;
 
 const LoadingContainer = styled.div`
