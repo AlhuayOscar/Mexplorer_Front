@@ -298,7 +298,20 @@ const commonStyles = `
   color: #00abbd;
   text-decoration: none;
 `;
-
+const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 435px;
+  background-color: rgba(0, 0, 0, 0); /* Puedes ajustar la opacidad aquí */
+  pointer-events: none; /* Evitamos que el overlay capture eventos del mouse */
+  z-index: 1; /* Aseguramos que el overlay esté por encima del carousel */
+  display: ${(props) =>
+    props.show
+      ? "block"
+      : "none"}; /* Mostramos u ocultamos el overlay según el valor de "show" */
+`;
 const getStyledComponent = (component) => styled(component)`
   ${commonStyles}
 `;
@@ -321,6 +334,7 @@ export default function TourPage({ tour, promoTours }) {
   const recomendationsRef = useRef(null);
   const reservationsRef = useRef(null);
   const [currentUrl, setCurrentUrl] = useState("");
+  const [showOverlay, setShowOverlay] = useState(false);
 
   useEffect(() => {
     // Get the current URL only when the component mounts (client-side).
@@ -347,9 +361,24 @@ export default function TourPage({ tour, promoTours }) {
     reservationsRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      setShowOverlay(window.innerWidth < 768);
+    };
+
+    handleResize(); // Verificamos el tamaño al cargar el componente
+
+    window.addEventListener("resize", handleResize); // Agregamos el evento para cambios en el tamaño de la pantalla
+
+    return () => {
+      window.removeEventListener("resize", handleResize); // Eliminamos el evento al desmontar el componente
+    };
+  }, []);
+
   return (
     <>
       <Header />
+      <Overlay show={showOverlay} />
       <OverflowProtection>
         <ToursImageCarousel images={tour.images} />
       </OverflowProtection>
@@ -360,18 +389,6 @@ export default function TourPage({ tour, promoTours }) {
         </div>
         <div>
           <ReviewBox review={tour.review} />
-          {/* Facebook Share Button */}
-          {/* <a
-            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-              currentUrl
-            )}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FacebookIcon />
-          </a> */}
-          {/* FUNCIONA EL DE FACEBOOK PERO CON UNA URL REAL */}
-          {/* WhatsApp Share Button */}
           <Link
             href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
               currentUrl

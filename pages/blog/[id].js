@@ -321,8 +321,8 @@ const BlogPage = ({ blog, tours }) => {
                       )}
                       <span className="price">
                         $
-                        {tour.price.usd.adultsPrice ||
-                          tour.price.mxn.adultsPrice}
+                        {tour.price?.usd?.adultsPrice ||
+                          tour.price?.mxn?.adultsPrice}
                         USD
                       </span>
                     </div>
