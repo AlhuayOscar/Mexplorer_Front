@@ -456,7 +456,7 @@ export default function TourPage({ tour, promoTours }) {
             <Subtitle purple>A este tour recomendamos llevar:</Subtitle>
             <Points>
               {tour.requirements?.map((requirement) => (
-                <Point key={requeriment}>
+                <Point key={requirement}>
                   <Check />
                   {requirement}
                 </Point>
