@@ -17,14 +17,6 @@ const PaginatedTourList = ({ tours, setCurrentPage, currentPage }) => {
 
   return (
     <>
-      <PaginationControls
-        currentPage={currentPage}
-        totalPages={Math.ceil(tours.length / toursPerPage)}
-        onPreviousPage={handlePreviousPage}
-        onNextPage={handleNextPage}
-        disablePreviousPage={currentPage === 1}
-        disableNextPage={currentPage === Math.ceil(tours.length / toursPerPage)}
-      />
       {currentTours.map((product) => (
         <TourBoxH key={product._id} {...product} />
       ))}
