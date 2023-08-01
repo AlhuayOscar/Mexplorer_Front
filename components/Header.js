@@ -78,6 +78,7 @@ const StyledNav = styled.nav`
     display: flex;
     position: static;
     padding: 0;
+    align-items: center;  
   }
 `;
 
@@ -116,6 +117,7 @@ const LanguageButton = styled.button`
   outline: none;
   border: none;
   cursor: pointer;
+  margin-top: 3px;
   display: ${(props) => (props.selected ? "none" : "block")};
   transition: transform 0.4s ease; /* Adding the transition property */
   &:hover {
@@ -225,27 +227,28 @@ export default function Header() {
             <NavLink href={"/about"} color="#00ABBD">
               {t("Sobre nosotros")}
             </NavLink>
+            <LanguageButton
+              selected={selectedLanguage === "es"}
+              onClick={() => handleLanguageChange("es")}
+            >
+              <StyledIcon
+                src="/icons/spain.png"
+                alt="Traducción a español"
+                fill="true"
+              />
+            </LanguageButton>
+            <LanguageButton
+              selected={selectedLanguage === "en"}
+              onClick={() => handleLanguageChange("en")}
+            >
+              <StyledIcon
+                src="/icons/united-states.png"
+                alt="Traducción a inglés"
+                fill="true"
+              />
+            </LanguageButton>
           </StyledNav>
-          <LanguageButton
-            selected={selectedLanguage === "es"}
-            onClick={() => handleLanguageChange("es")}
-          >
-            <StyledIcon
-              src="/icons/spain.png"
-              alt="Traducción a español"
-              fill="true"
-            />
-          </LanguageButton>
-          <LanguageButton
-            selected={selectedLanguage === "en"}
-            onClick={() => handleLanguageChange("en")}
-          >
-            <StyledIcon
-              src="/icons/united-states.png"
-              alt="Traducción a inglés"
-              fill="true"
-            />
-          </LanguageButton>
+
           <NavLink href={socialUrls.tripadvisor} color="#00ABBD">
             <StyledIcon
               src="/icons/trip.png"
