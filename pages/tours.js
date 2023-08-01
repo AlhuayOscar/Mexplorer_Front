@@ -6,7 +6,7 @@ import { Tour } from "@/models/Tour";
 import Filters from "@/components/Filters";
 import { useState } from "react";
 import PaginatedTourList from "@/components/PaginatedTourList";
-
+import Footer from "@/components/Footer";
 const ImageBox = styled.div`
   background: url("https://res.cloudinary.com/simpleview/image/upload/v1571158080/clients/quintanaroo/Intercontinental_Cancun_3_231b1843-c2bd-4fa8-b4b6-56cb64a30f39.jpg")
     no-repeat center;
@@ -18,7 +18,7 @@ const ImageBox = styled.div`
   text-align: center;
   margin: auto;
   text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Agregado efecto de sombra de texto */
-  
+
   /* position: relative; */
   img {
     width: 100%;
@@ -65,12 +65,21 @@ export default function ToursPage({ tours }) {
       <Center>
         <h2>Todos los tours</h2>
         <Main>
-          <Filters tours={tours} onFiltersChange={handleFiltersChange} setCurrentPage={setCurrentPage} />
+          <Filters
+            tours={tours}
+            onFiltersChange={handleFiltersChange}
+            setCurrentPage={setCurrentPage}
+          />
           <ToursBox>
-            <PaginatedTourList tours={filteredTours} setCurrentPage={setCurrentPage} currentPage={currentPage} />
+            <PaginatedTourList
+              tours={filteredTours}
+              setCurrentPage={setCurrentPage}
+              currentPage={currentPage}
+            />
           </ToursBox>
         </Main>
       </Center>
+      <Footer />
     </>
   );
 }
