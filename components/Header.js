@@ -221,9 +221,6 @@ export default function Header() {
             <NavLink href={"/jetski"} color="#AC2484">
               {t("Renta de Jetski")}
             </NavLink>
-            <NavLink href={"/"} color="#84C441">
-              {t("Promociones")}
-            </NavLink>
             <NavLink href={"/about"} color="#00ABBD">
               {t("Sobre nosotros")}
             </NavLink>
