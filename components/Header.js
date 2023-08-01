@@ -65,7 +65,7 @@ const StyledNav = styled.nav`
       : `
     display: none;
   `}
-  gap: 35px;
+  gap: 10px;
   position: fixed;
   top: 0;
   bottom: 0;
