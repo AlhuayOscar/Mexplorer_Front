@@ -111,6 +111,18 @@ const NavButton = styled.button`
   }
 `;
 
+const LanguageButton = styled.button`
+  background: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  display: ${(props) => (props.selected ? "none" : "block")};
+  transition: transform 0.4s ease; /* Adding the transition property */
+  &:hover {
+    transform: scale(1.25); /* Scaling the button on hover */
+  }
+`;
+
 export default function Header() {
   const { t } = useTranslation();
   const { cartTours } = useContext(CartContext);
@@ -123,8 +135,10 @@ export default function Header() {
     instagram: "",
     tripadvisor: "",
   });
+  const [selectedLanguage, setSelectedLanguage] = useState("es");
   const handleLanguageChange = (language) => {
     i18n.changeLanguage(language);
+    setSelectedLanguage(language);
   };
 
   const handleNavButtonClick = () => {
@@ -166,7 +180,6 @@ export default function Header() {
           (item) => item === "Trip"
         );
 
-        // Set the corresponding URLs in the state variable socialUrls
         setSocialUrls({
           whatsapp:
             whatsappIndex !== -1 ? data[0].videoUrls[whatsappIndex] : "",
@@ -213,8 +226,26 @@ export default function Header() {
               {t("Sobre nosotros")}
             </NavLink>
           </StyledNav>
-          <button onClick={() => handleLanguageChange('es')}>Español</button>
-          <button onClick={() => handleLanguageChange('en')}>Inglés</button>
+          <LanguageButton
+            selected={selectedLanguage === "es"}
+            onClick={() => handleLanguageChange("es")}
+          >
+            <StyledIcon
+              src="/icons/spain.png"
+              alt="Traducción a español"
+              fill="true"
+            />
+          </LanguageButton>
+          <LanguageButton
+            selected={selectedLanguage === "en"}
+            onClick={() => handleLanguageChange("en")}
+          >
+            <StyledIcon
+              src="/icons/united-states.png"
+              alt="Traducción a inglés"
+              fill="true"
+            />
+          </LanguageButton>
           <NavLink href={socialUrls.tripadvisor} color="#00ABBD">
             <StyledIcon
               src="/icons/trip.png"
