@@ -2,6 +2,7 @@ import Center from "@/components/Center";
 import Header from "@/components/Header";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Tour } from "@/models/Tour";
+const { URL_BACK } = process.env;
 import styled, { css } from "styled-components";
 import { useContext, useState, useEffect, useRef } from "react";
 import { CartContext } from "@/components/CartContext";
@@ -24,6 +25,9 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import ReviewBox from "@/components/ReviewBox";
 import TimeBox from "@/components/TimeBox";
+import axios from "axios";
+
+
 const AsyncImageCarousel = ({ images }) => {
   const [loaded, setLoaded] = useState(false);
 
@@ -306,7 +310,9 @@ const StyledTwitter = getStyledComponent(TwitterIcon);
 const StyledTelegram = getStyledComponent(TelegramIcon);
 
 export default function TourPage({ tour, promoTours }) {
-  console.log(tour)
+
+  console.log('Tour:', tour);
+  console.log('Promo Tours:', promoTours);
   const { addTour } = useContext(CartContext);
   const [showDescription, setShowDescription] = useState(true);
   const [showIncludes, setShowIncludes] = useState(false);
@@ -573,11 +579,38 @@ export default function TourPage({ tour, promoTours }) {
   );
 }
 
+/* export async function getServerSideProps(context) {
+  const { id } = context.query;
+  const tour = await axios.get(`http://localhost:3000/detail/${id}`);
+  const promoTours = await axios.get(`http://localhost:3000/detail/promo`);
+
+  return {
+    props: {
+      tour: tour.data,
+      promoTours: promoTours.data,
+    },
+  };
+} */
+
+const tourCache = new Map();
+
 export async function getServerSideProps(context) {
   await mongooseConnect();
   const { id } = context.query;
+
+  if (tourCache.has(id)) {
+    return {
+      props: {
+        tour: tourCache.get(id),
+      },
+    };
+  }
+
   const tour = await Tour.findById(id);
+  tourCache.set(id, tour);
+
   const promoTours = await Tour.find({ promo: true }, null, { limit: 3 });
+
   return {
     props: {
       tour: JSON.parse(JSON.stringify(tour)),
@@ -585,3 +618,4 @@ export async function getServerSideProps(context) {
     },
   };
 }
+
