@@ -178,11 +178,11 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
   const initialOrderData = {
     id: tour._id,
     name: tour.name,
-    type: "compra",
+    type: "Compra",
     adults: 1,
     children: 0,
     date: dayjs(date).format("DD/MM/YYYY"),
-    hour: "10:00 a.m",
+    hour: "",
     price: tour.price?.usd?.adultsPrice, // ? added for validation
   };
 
@@ -249,14 +249,14 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
       {tour.reservation ? (
         <TypeBox>
           <Types
-            active={orderData.type === "reserva"}
-            onClick={() => handleTypeClick("reserva")}
+            active={orderData.type === "Reserva"}
+            onClick={() => handleTypeClick("Reserva")}
           >
             Reserva
           </Types>
           <Types
-            active={orderData.type === "compra"}
-            onClick={() => handleTypeClick("compra")}
+            active={orderData.type === "Compra"}
+            onClick={() => handleTypeClick("Compra")}
           >
             Compra
           </Types>
