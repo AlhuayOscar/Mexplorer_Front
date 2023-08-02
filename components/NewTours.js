@@ -35,7 +35,7 @@ export default function NewTours({ tours, promo }) {
       <ToursGrid tours={tours} />
       <RedTitle>{t("No te pierdas estas promos")}</RedTitle>
       <ToursGrid tours={promo} />
-      <YellowTitle>{t("Crea recuerdos inolvidables")}</YellowTitle>
+      <YellowTitle>{t("Mira estas últimas publicaciónes")}</YellowTitle>
       <BlogGrid />
     </Center>
   );
