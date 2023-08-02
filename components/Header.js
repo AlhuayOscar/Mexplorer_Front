@@ -12,6 +12,14 @@ const StyledHeader = styled.header`
   background-color: #1a1a1a;
   position: relative;
   z-index: 3;
+  ${(props) =>
+    props.mobileNavActive
+      ? `
+    z-index: 20;
+  `
+      : `
+    z-index: 17;
+  `}
 `;
 
 const Logo = styled(Link)`
@@ -27,15 +35,24 @@ const Logo = styled(Link)`
       : "block"}; // Use a conditional expression to hide or show the logo
 
   @media screen and (max-width: 1300px) {
-    transform: scale(0.5);
+    transform: scale(0.48);
     transition: 0.4s ease;
     width: 10%;
   }
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 1000px) {
     transform: scale(0.4);
+  }
+  @media screen and (max-width: 980px) {
+    transform: scale(0.6);
     transition: 0.4s ease;
     width: 15%;
     font-size: 15px;
+  }
+  @media screen and (max-width: 400px) {
+    transform: scale(0.4);
+  }
+  @media screen and (max-width: 350px) {
+    transform: scale(0.25);
   }
 `;
 
@@ -48,10 +65,6 @@ const StyledIcon = styled.img`
   width: auto;
   height: 25px;
   padding: 0px 0px;
-
-  @media screen and (max-width: 600px) {
-    display: none;
-  }
 `;
 
 const Wrapper = styled.div`
@@ -87,6 +100,7 @@ const StyledNav = styled.nav`
     align-items: center;
     transition: 0.4s ease;
   }
+
   @media screen and (max-width: 1090px) {
     font-size: 12px;
     transition: 0.4s ease;
@@ -113,7 +127,7 @@ const NavButton = styled.button`
   border: 0;
   color: white;
   cursor: pointer;
-  position: ${(props) => (props.isFixed ? "sticky" : "static")};
+  position: ${(props) => (props.isFixed ? "fixed" : "static")};
   z-index: 3;
   top: 20px;
   right: 20px;
@@ -138,8 +152,16 @@ const LanguageButton = styled.button`
 const StyledLinks = styled.div`
   display: flex;
   gap: 15px;
+  transition: 0.4s ease;
   @media screen and (max-width: 980px) {
     gap: 25px;
+    transition: 0.4s ease;
+  }
+  @media screen and (max-width: 600px) {
+    gap: 5px;
+  }
+  @media screen and (max-width: 540px) {
+    display: none;
   }
 `;
 export default function Header() {
@@ -147,6 +169,7 @@ export default function Header() {
   const { cartTours } = useContext(CartContext);
   const [mobileNavActive, setMobileNavActive] = useState(false);
   const [isNavButtonFixed, setIsNavButtonFixed] = useState(false);
+  const [showLinks, setShowLinks] = useState(false);
   const [loading, setLoading] = useState(true);
   const [socialUrls, setSocialUrls] = useState({
     whatsapp: "",
@@ -155,6 +178,7 @@ export default function Header() {
     tripadvisor: "",
   });
   const [selectedLanguage, setSelectedLanguage] = useState("es");
+
   const handleLanguageChange = (language) => {
     i18n.changeLanguage(language);
     setSelectedLanguage(language);
@@ -162,7 +186,8 @@ export default function Header() {
 
   const handleNavButtonClick = () => {
     setMobileNavActive((prev) => !prev);
-    setIsNavButtonFixed(false);
+    setIsNavButtonFixed((prev) => !prev); // Toggle the state
+    setShowLinks(false); 
   };
 
   const handleNavMenuClose = () => {
@@ -225,7 +250,7 @@ export default function Header() {
           <Logo href={"/"} hidelogo={mobileNavActive ? "false" : "true"}>
             <StyledImage src="/mex_logo.png" alt="Logo de México" fill="true" />
           </Logo>
-          <StyledNav mobileNavActive={mobileNavActive}>
+          <StyledNav mobileNavActive={mobileNavActive} showLinks={showLinks}>
             <NavLink href={"/blog"} color="#00ABBD">
               Blog
             </NavLink>
