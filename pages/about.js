@@ -37,13 +37,15 @@ const ImageWrapper = styled.div`
 
 const StyledSpan = styled.span`
   font-size: 20px;
-  padding-inline: 1%;
+  padding-inline: 3%;
   h1 {
     font-size: 35px;
   }
   @media (max-width: 1100px) {
     padding-block: 5%;
+    padding-inline: 5vw;
   }
+
   h3 span {
     color: #ff5733; /* M */
     &:nth-child(2) {
