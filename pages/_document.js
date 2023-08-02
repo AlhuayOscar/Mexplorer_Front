@@ -11,6 +11,15 @@ export default class MyDocument extends Document {
                 #detach-button-host {
                   display: none !important;
                 }
+                body {
+                  opacity: 0;
+                  animation: fadeIn 100ms ease 100ms forwards;
+                }
+                @keyframes fadeIn {
+                  to {
+                    opacity: 1;
+                  }
+                }
               `,
             }}
           />
