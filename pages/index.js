@@ -50,7 +50,7 @@ const slideDownAndBackAutoAnimation = keyframes`
     transition: 0.2s ease 4.5s;
     opacity: 0.2;
     transform: scale(0.5);
-    transform: translateY(50%); 
+    transform: translateY(15%); 
   }
 `;
 //NO COLOCAR SLIDEDOWN ADELANTE DE BUTTONABOVEFEATURED.
