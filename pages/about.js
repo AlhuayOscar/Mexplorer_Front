@@ -29,6 +29,9 @@ const ImageWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     text-align: center;
+    &:nth-child(2n) {
+      flex-direction: column-reverse;
+    }
   }
 `;
 
@@ -42,7 +45,12 @@ const StyledSpan = styled.span`
     padding-block: 5%;
   }
 `;
-
+const StyledSalute = styled.h1`
+  padding-inline: 5%;
+  @media (max-width: 1100px) {
+    padding-block: 5%;
+  }
+`;
 const ResponsiveImage = styled.img`
   max-width: 700px;
   height: auto;
@@ -133,13 +141,14 @@ const About = () => {
             />
           </ImageWrapper>
           <br />
-          <h2>
-            Gracias por elegir Mexplorer. Te invitamos a explorar nuestro sitio
-            web, navegar por nuestras ofertas y comenzar a planificar tus
-            vacaciones de ensueño en Cancún. Permítenos ayudarte a crear una
-            experiencia que te dejará recuerdos para toda la vida. ¡Prepárate
-            para descubrir la magia de Cancún con Mexplorer!
-          </h2>
+          <StyledSalute>
+            Gracias por elegir Mexplorer. <br />
+            Te invitamos a explorar nuestro sitio web, navegar por nuestras
+            ofertas y comenzar a planificar tus vacaciones de ensueño en Cancún.
+            Permítenos ayudarte a crear una experiencia que te dejará recuerdos
+            para toda la vida. ¡Prepárate para descubrir la magia de Cancún con
+            Mexplorer!
+          </StyledSalute>
         </Content>
       </Wrapper>
       <Footer />
