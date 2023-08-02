@@ -4,7 +4,7 @@ const moveRotateIn1 = keyframes`
   from {
     transform: translate(-50px, -150px) rotate(-90deg);
   }
-  to {
+  to {  
     transform: translate(50px, 50px) rotate(90deg);
   }
 `;
@@ -80,7 +80,8 @@ const HojasImage = styled.img`
 `;
 
 const StyledSVG = styled.svg`
-  margin: 25vw;
+  margin: 20vw;
+  overflow: hidden;
   @media (max-width: 450px) {
     margin: 20vw;
     /* Add any other styles you want for 850 pixels or below */

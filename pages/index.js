@@ -138,15 +138,29 @@ export default function HomePage({ featuredTour, newTours, promoTours }) {
   const [showLoadingContainer, setShowLoadingContainer] = useState(true);
   const [headerVisible, setHeaderVisible] = useState(false);
   const [buttonText, setButtonText] = useState("^");
+  useEffect(() => {
+    // Función para cambiar el estilo del elemento "body"
+    const updateBodyOverflow = () => {
+      document.body.style.overflow = loading ? "hidden" : "visible";
+    };
+
+    // Llamamos a la función al montar el componente
+    updateBodyOverflow();
+
+    // Llamamos a la función cada vez que el estado "loading" cambie
+    return () => {
+      updateBodyOverflow();
+    };
+  }, [loading]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 55000);
+    }, 5500);
 
     const hideLoadingTimer = setTimeout(() => {
       setShowLoadingContainer(false);
-    }, 60000);
+    }, 6000);
 
     return () => {
       clearTimeout(timer);
