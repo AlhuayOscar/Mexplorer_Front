@@ -19,7 +19,6 @@ const SearchContainer = styled.div`
   padding-block: 20px;
   padding-inline: 10px;
   justify-content: end;
-  max-width: 1130px;
   gap: 10px;
   overflow: hidden;
 `;

@@ -13,7 +13,10 @@ const Wrapper = styled.div`
 `;
 
 const Content = styled.div`
+  display: flex;
   text-align: center;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const ImageWrapper = styled.div`
@@ -21,16 +24,34 @@ const ImageWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  max-width: 1300px;
+  @media (max-width: 1100px) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
 `;
 
 const StyledSpan = styled.span`
   font-size: 20px;
-  padding-inline: 40px;
+  padding-inline: 5%;
   h1 {
     font-size: 35px; /* Establece el tamaño de fuente base para los elementos h1 dentro de los span */
   }
+  @media (max-width: 1100px) {
+    padding-block: 5%;
+  }
 `;
 
+const ResponsiveImage = styled.img`
+  max-width: 700px;
+
+  height: auto;
+  @media (max-width: 1100px) {
+    width: 1090px;
+    max-width: 100%;
+  }
+`;
 const About = () => {
   return (
     <>
@@ -45,17 +66,15 @@ const About = () => {
               ciudad. Mexplorer te invita a explorar y disfrutar de todo lo que
               Cancún tiene para ofrecer.
             </StyledSpan>
-            <img
-              src="https://res.cloudinary.com/dipn8zmq3/image/upload/v1689523265/4682_afcejf.jpg"
+            <ResponsiveImage
+              src="https://res.cloudinary.com/dipn8zmq3/image/upload/w_700/v1689523265/4682_afcejf.jpg"
               alt="Logo de Mexplorer"
-              style={{ maxHeight: "100vh", minWidth: "60vw" }}
             />
           </ImageWrapper>
           <ImageWrapper>
-            <img
-              src="https://res.cloudinary.com/dipn8zmq3/image/upload/v1689566787/2b9099e1-cefb-4d8e-976d-07589d62702a_theg2m.webp"
+            <ResponsiveImage
+              src="https://res.cloudinary.com/dipn8zmq3/image/upload/w_700/v1689566787/2b9099e1-cefb-4d8e-976d-07589d62702a_theg2m.webp"
               alt="Imagen 2"
-              style={{ maxHeight: "100vh", minWidth: "60vw" }}
             />
             <StyledSpan>
               <h1>Cancún es un paraíso tropical </h1>ubicado en la costa noreste
@@ -76,17 +95,15 @@ const About = () => {
               todos. En Mexplorer, te ayudaremos a planificar una experiencia
               única y personalizada que se ajuste a tus intereses y presupuesto.
             </StyledSpan>
-            <img
-              src="https://res.cloudinary.com/dipn8zmq3/image/upload/v1689566895/arrecife_de_coral_1_nyw8in.jpg"
+            <ResponsiveImage
+              src="https://res.cloudinary.com/dipn8zmq3/image/upload/w_700/v1689566895/arrecife_de_coral_1_nyw8in.jpg"
               alt="Imagen 3"
-              style={{ maxHeight: "100vh", minWidth: "60vw" }}
             />
           </ImageWrapper>
           <ImageWrapper>
-            <img
-              src="https://res.cloudinary.com/dipn8zmq3/image/upload/v1689566955/guia-de-viaje-a-cancun_fp4zex.jpg"
+            <ResponsiveImage
+              src="https://res.cloudinary.com/dipn8zmq3/image/upload/w_700/v1689566955/guia-de-viaje-a-cancun_fp4zex.jpg"
               alt="Imagen 4"
-              style={{ maxHeight: "100vh", minWidth: "60vw" }}
             />
             <StyledSpan>
               <h1>Nuestro equipo de entusiastas</h1>
@@ -111,10 +128,9 @@ const About = () => {
               impresionante destino. Únete a nosotros y sé parte del turismo
               responsable en Cancún.
             </StyledSpan>
-            <img
-              src="https://res.cloudinary.com/dipn8zmq3/image/upload/v1689567973/cancun-beach-ee4fb41c2f544d71807b371f6116ee56_ratbac.jpg"
+            <ResponsiveImage
+              src="https://res.cloudinary.com/dipn8zmq3/image/upload/w_700/v1689567973/cancun-beach-ee4fb41c2f544d71807b371f6116ee56_ratbac.jpg"
               alt="Imagen 5"
-              style={{ maxHeight: "100vh", minWidth: "60vw" }}
             />
           </ImageWrapper>
           <br />
