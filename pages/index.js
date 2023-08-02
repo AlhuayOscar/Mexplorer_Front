@@ -64,7 +64,12 @@ const ButtonAboveFeatured = styled.button`
   }
   @media (max-width: 600px) {
     /* Aplicamos el cambio de tamaño para pantallas menores o iguales a 768px */
-    padding: 1px 0px;
+    padding: 1px 20px;
+    left: 37%;
+  }
+  @media (max-width: 400px) {
+    /* Aplicamos el cambio de tamaño para pantallas menores o iguales a 768px */
+    left: 41%;
   }
   &:hover {
     transform: scale(1.15);
@@ -106,8 +111,11 @@ const LoadingContainer = styled.div`
 const ArrowIcon = styled(KeyboardDoubleArrowDownIcon)`
   font-size: 24px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 600px) {
     font-size: 54px;
+  }
+  @media (max-width: 400px) {
+    font-size: 24px;
   }
 `;
 
