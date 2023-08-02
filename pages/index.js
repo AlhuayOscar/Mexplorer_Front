@@ -142,11 +142,11 @@ export default function HomePage({ featuredTour, newTours, promoTours }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 5500);
+    }, 55000);
 
     const hideLoadingTimer = setTimeout(() => {
       setShowLoadingContainer(false);
-    }, 6000);
+    }, 60000);
 
     return () => {
       clearTimeout(timer);
