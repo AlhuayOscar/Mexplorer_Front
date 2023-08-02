@@ -8,7 +8,7 @@ import { useState } from "react";
 import PaginatedTourList from "@/components/PaginatedTourList";
 import Footer from "@/components/Footer";
 const ImageBox = styled.div`
-  background: url("https://res.cloudinary.com/simpleview/image/upload/v1571158080/clients/quintanaroo/Intercontinental_Cancun_3_231b1843-c2bd-4fa8-b4b6-56cb64a30f39.jpg")
+  background: url("https://res.cloudinary.com/dipn8zmq3/image/upload/v1690990359/Tours_Background_Optimized_fovkvm.webp")
     no-repeat center;
   display: flex;
   justify-content: center;
