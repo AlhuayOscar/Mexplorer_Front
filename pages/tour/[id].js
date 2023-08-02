@@ -2,6 +2,7 @@ import Center from "@/components/Center";
 import Header from "@/components/Header";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Tour } from "@/models/Tour";
+const { URL_BACK } = process.env;
 import styled, { css } from "styled-components";
 import { useContext, useState, useEffect, useRef } from "react";
 import { CartContext } from "@/components/CartContext";
@@ -28,28 +29,7 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import ReviewBox from "@/components/ReviewBox";
 import TimeBox from "@/components/TimeBox";
-const AsyncImageCarousel = ({ images }) => {
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    const loadImage = async (src) => {
-      const image = new Image();
-      image.src = src;
-      await image.decode();
-      setLoaded(true);
-    };
-
-    const loadImages = async () => {
-      const imagePromises = images.map((src) => loadImage(src));
-      await Promise.all(imagePromises);
-      setLoaded(true);
-    };
-
-    loadImages();
-  }, [images]);
-
-  return loaded ? <ToursImageCarousel images={images} /> : <div></div>;
-};
+import axios from "axios";
 
 const ColWrapper = styled.div`
   display: flex;
@@ -595,11 +575,30 @@ export default function TourPage({ tour, promoTours }) {
     </>
   );
 }
-export async function getStaticProps({ params }) {
+
+/* export async function getServerSideProps(context) {
+  const { id } = context.query;
+  const tour = await axios.get(`http://localhost:3000/detail/${id}`);
+  const promoTours = await axios.get(`http://localhost:3000/detail/promo`);
+
+  return {
+    props: {
+      tour: tour.data,
+      promoTours: promoTours.data,
+    },
+  };
+} */
+
+const tourCache = new Map();
+
+export async function getServerSideProps(context) {
   await mongooseConnect();
-  const { id } = params;
+  const { id } = context.query;
   const tour = await Tour.findById(id);
+  tourCache.set(id, tour);
+
   const promoTours = await Tour.find({ promo: true }, null, { limit: 3 });
+
   return {
     props: {
       tour: JSON.parse(JSON.stringify(tour)),
@@ -608,12 +607,3 @@ export async function getStaticProps({ params }) {
   };
 }
 
-// Asegúrate de tener también la siguiente función para generar las rutas estáticas
-export async function getStaticPaths() {
-  await mongooseConnect();
-  const tours = await Tour.find({}, { _id: 1 });
-  const paths = tours.map((tour) => ({
-    params: { id: tour._id.toString() },
-  }));
-  return { paths, fallback: false };
-}
