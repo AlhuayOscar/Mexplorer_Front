@@ -582,22 +582,39 @@ export default function TourPage({ tour, promoTours }) {
     },
   };
 } */
-
 const tourCache = new Map();
 
 export async function getServerSideProps(context) {
-  await mongooseConnect();
-  const { id } = context.query;
-  const tour = await Tour.findById(id);
-  tourCache.set(id, tour);
+  try {
+    await mongooseConnect(); // Esperar a que se establezca la conexión con la base de datos
 
-  const promoTours = await Tour.find({ promo: true }, null, { limit: 3 });
+    const { id } = context.query;
+    console.log("ID del tour:", id);
 
-  return {
-    props: {
-      tour: JSON.parse(JSON.stringify(tour)),
-      promoTours: JSON.parse(JSON.stringify(promoTours)),
-    },
-  };
+    const tour = await Tour.findById(id);
+    if (!tour) {
+      console.log("No se encontró ningún tour con el ID proporcionado.");
+    } else {
+      console.log("Información del tour encontrado:", tour);
+      tourCache.set(id, tour);
+    }
+
+    const promoTours = await Tour.find({ promo: true }, null, { limit: 3 });
+    console.log("Información de los tours promocionales:", promoTours);
+
+    return {
+      props: {
+        tour: JSON.parse(JSON.stringify(tour)),
+        promoTours: JSON.parse(JSON.stringify(promoTours)),
+      },
+    };
+  } catch (error) {
+    console.error("Error al obtener los datos del tour:", error);
+    return {
+      props: {
+        tour: null,
+        promoTours: null,
+      },
+    };
+  }
 }
-
