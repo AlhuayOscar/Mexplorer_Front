@@ -113,6 +113,7 @@ export default function Featured() {
           showStatus={false}
           showArrows={false}
           showIndicators={false}
+          swipeable={false} 
         >
           {portadaUrls.map((urls, index) => (
             <div key={index}>

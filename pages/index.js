@@ -8,6 +8,7 @@ import { mongooseConnect } from "@/lib/mongoose";
 import NewTours from "@/components/NewTours";
 import Spinner from "react-spinner";
 import LoadingComponent from "@/components/LoadingComponent";
+import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 
 const slideDownAnimation = keyframes`
   0% {
@@ -43,23 +44,32 @@ const ButtonAboveFeatured = styled.button`
   position: absolute; //Encontrar la forma de volverlo stickya todo el header y el boton
   top: 5px;
   left: 45%;
-  padding: 10px 20px;
-  background-color: #00abbd01;
+  padding: 6px 20px;
+  background-color: #ffffff02;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 24px;
   z-index: 17;
   transition: opacity 0.3s ease 1.3s; /* Agregamos la transición de opacidad */
   transition: 0.4s ease;
   opacity: 0.2; /* Establecemos la opacidad inicial */
   outline: none;
 
+  @media (max-width: 768px) {
+    /* Aplicamos el cambio de tamaño para pantallas menores o iguales a 768px */
+    font-size: 40px;
+    padding: 1px 20px;
+  }
+  @media (max-width: 600px) {
+    /* Aplicamos el cambio de tamaño para pantallas menores o iguales a 768px */
+    padding: 1px 0px;
+  }
   &:hover {
-    transform: scale(1.2);
+    transform: scale(1.15);
     transition: 0.4s ease;
-    background-color: #00abbd05;
+    background-color: #fdffff05;
     opacity: 0.8; /* Cambiamos la opacidad cuando el cursor esté cerca */
   }
 
@@ -91,6 +101,14 @@ const LoadingContainer = styled.div`
   animation-fill-mode: forwards;
   opacity: ${(props) => (props.show ? 1 : 0)};
   visibility: ${(props) => (props.show ? "visible" : "hidden")};
+`;
+
+const ArrowIcon = styled(KeyboardDoubleArrowDownIcon)`
+  font-size: 24px;
+
+  @media (max-width: 768px) {
+    font-size: 54px;
+  }
 `;
 
 export default function HomePage({ featuredTour, newTours, promoTours }) {
@@ -132,7 +150,7 @@ export default function HomePage({ featuredTour, newTours, promoTours }) {
         </AnimatedHeaderWrapper>
       )}
       <ButtonAboveFeatured onClick={handleShowHeader}>
-        {buttonText}
+        <ArrowIcon />
       </ButtonAboveFeatured>
       <Featured tour={featuredTour} />
       <NewTours tours={newTours} promo={promoTours} />
