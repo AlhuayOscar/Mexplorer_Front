@@ -250,7 +250,6 @@ const Blog = () => {
           />
         </SearchContainer>
         {isLoading ? (
-          // Render the loading spinner if isLoading is true
           <LoadingSpinner />
         ) : searchTerm !== "" ? (
           <BlogCards blogs={filteredBlogs} />
