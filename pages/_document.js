@@ -12,13 +12,20 @@ export default class MyDocument extends Document {
                   display: none !important;
                 }
                 body {
-                  opacity: 0;
-                  animation: fadeIn 100ms ease 100ms forwards;
+                  background-color: black; /* Fondo negro inicial */
                 }
                 @keyframes fadeIn {
+                  from {
+                    opacity: 0;
+                  }
                   to {
                     opacity: 1;
+                    background-color: transparent; /* Cambio a fondo transparente al final de la animación */
                   }
+                }
+                body {
+                  opacity: 0;
+                  animation: fadeIn 200ms ease-in 200ms forwards;
                 }
               `,
             }}
