@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Center from "@/components/Center";
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,7 +23,8 @@ const ImageWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  max-width: 1300px;
+  max-width: 1500px;
+
   @media (max-width: 1100px) {
     flex-direction: column;
     align-items: center;
@@ -36,7 +36,7 @@ const StyledSpan = styled.span`
   font-size: 20px;
   padding-inline: 5%;
   h1 {
-    font-size: 35px; /* Establece el tamaño de fuente base para los elementos h1 dentro de los span */
+    font-size: 35px;
   }
   @media (max-width: 1100px) {
     padding-block: 5%;
@@ -45,13 +45,12 @@ const StyledSpan = styled.span`
 
 const ResponsiveImage = styled.img`
   max-width: 700px;
-
   height: auto;
   @media (max-width: 1100px) {
-    width: 1090px;
-    max-width: 100%;
+    width: 100%;
   }
 `;
+
 const About = () => {
   return (
     <>
