@@ -3,10 +3,9 @@ import styled from "styled-components";
 import Waves from "react-wavify";
 
 const StyledFooter = styled.footer`
-  min-height: 430px;
   background-color: #0b0000;
   padding: 20px;
-  margin-top: 290px;
+  margin-top: 230px;
   color: white;
   position: relative; /* Añade esta propiedad para posicionar correctamente las ondas */
 `;
@@ -73,7 +72,7 @@ const WavesContainer7 = styled.div`
 const FooterContent = styled.div`
   display: flex;
   align-items: center;
-
+  justify-content: space-between;
   @media (max-width: 968px) {
     flex-direction: column;
   }
@@ -81,6 +80,7 @@ const FooterContent = styled.div`
 
 const FooterDescription = styled.div`
   text-align: center;
+  max-width: 600px;
 `;
 
 const Logo = styled.a`
@@ -90,10 +90,13 @@ const Logo = styled.a`
 
 const StyledImage = styled.img`
   width: auto;
-  max-height: 370px;
+  max-height: 350px;
   max-width: 100%;
   @media (max-width: 968px) {
-    max-height: 200px;
+    max-height: 450px;
+  }
+  @media (max-width: 468px) {
+    max-height: 20%;
   }
 `;
 
@@ -303,7 +306,6 @@ const Footer = () => {
             />
           </Logo>
         </FooterContent>
-        <hr />
         <FooterText>
           <FooterLink href="/politica_privacidad">
             Política de Privacidad
@@ -313,6 +315,7 @@ const Footer = () => {
             Política de Cancelación
           </FooterLink>
         </FooterText>
+        <hr />
         <FooterText>
           Copyright© 2023 All Rights Reserved. Desarrollado por CtoP.
         </FooterText>
