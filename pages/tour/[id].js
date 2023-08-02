@@ -18,12 +18,6 @@ import ToursReviews from "@/components/ToursReviews";
 import Footer from "@/components/Footer";
 import ToursGrid from "@/components/ToursGrid";
 import NavTour from "@/components/NavTour";
-import {
-  CancelPresentationOutlined,
-  Diversity1Sharp,
-  Reviews,
-} from "@mui/icons-material";
-import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import ReviewBox from "@/components/ReviewBox";
