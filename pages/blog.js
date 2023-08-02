@@ -6,6 +6,7 @@ import styled, { keyframes } from "styled-components";
 import Footer from "@/components/Footer";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { Loader } from "react-spinner"; // Importa el componente Loader de react-spinner
+import PaginationControls from "@/components/Pagination";
 
 const BlogContainer = styled.div`
   display: flex;
@@ -148,6 +149,17 @@ const Blog = () => {
   const [filteredBlogs, setFilteredBlogs] = useState([]);
   const [recentSearches, setRecentSearches] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Nuevo estado para controlar la animación de carga
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 6;
+
+  const indexOfLastBlog = currentPage * postsPerPage;
+  const indexOfFirstBlog = indexOfLastBlog - postsPerPage;
+  const currentBlogs = isLoading
+    ? []
+    : searchTerm !== ""
+      ? filteredBlogs.slice(indexOfFirstBlog, indexOfLastBlog)
+      : blogs.slice(indexOfFirstBlog, indexOfLastBlog);
+
 
   useEffect(() => {
     fetchBlogs();
@@ -218,8 +230,37 @@ const Blog = () => {
 
   const clearRecentSearches = () => {
     setRecentSearches([]);
+    setSearchTerm("");
     localStorage.removeItem("recentSearches");
+    fetchBlogs();
   };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+  const handleNextPage = () => {
+    const totalPages = Math.ceil(
+      searchTerm !== "" ? filteredBlogs.length / postsPerPage : blogs.length / postsPerPage
+    );
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  // Calcular totalPages para los blogs filtrados
+  const totalPagesFiltered = Math.ceil(filteredBlogs.length / postsPerPage);
+  // Calcular totalPages para los blogs sin filtrar
+  const totalPagesUnfiltered = Math.ceil(blogs.length / postsPerPage);
+  // Total de páginas dependiendo del caso (filtrado o sin filtrar)
+  const totalPages = searchTerm !== "" ? totalPagesFiltered : totalPagesUnfiltered;
+
+  // ... (resto del código existente)
+
+  useEffect(() => {
+    setCurrentPage(1); // página 1 al cambiar el nombre de búsqueda
+  }, [searchTerm]);
 
   return (
     <>
@@ -251,9 +292,19 @@ const Blog = () => {
         {isLoading ? (
           <LoadingSpinner />
         ) : searchTerm !== "" ? (
-          <BlogCards blogs={filteredBlogs} />
+          <BlogCards blogs={currentBlogs} />
         ) : (
-          <BlogCards blogs={blogs} />
+          <BlogCards blogs={currentBlogs} />
+        )}
+        {totalPages > 1 && (
+          <PaginationControls
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPreviousPage={handlePreviousPage}
+            onNextPage={handleNextPage}
+            disablePreviousPage={currentPage === 1}
+            disableNextPage={currentPage === totalPages}
+          />
         )}
       </BlogContainer>
       <Footer />
