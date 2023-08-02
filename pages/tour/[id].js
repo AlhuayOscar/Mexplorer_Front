@@ -7,7 +7,7 @@ import styled, { css } from "styled-components";
 import { useContext, useState, useEffect, useRef } from "react";
 import { CartContext } from "@/components/CartContext";
 import CheckIcon from "@mui/icons-material/DoneOutlineRounded";
-import CancelIcon from '@mui/icons-material/CloseRounded';
+import CancelIcon from "@mui/icons-material/CloseRounded";
 import Link from "next/link";
 import ArrowIcon from "@mui/icons-material/KeyboardDoubleArrowLeftRounded";
 import ToursImageCarousel from "@/components/ToursImageCarousel";
@@ -19,37 +19,17 @@ import ToursReviews from "@/components/ToursReviews";
 import Footer from "@/components/Footer";
 import ToursGrid from "@/components/ToursGrid";
 import NavTour from "@/components/NavTour";
-import { CancelPresentationOutlined, Diversity1Sharp, Reviews } from "@mui/icons-material";
+import {
+  CancelPresentationOutlined,
+  Diversity1Sharp,
+  Reviews,
+} from "@mui/icons-material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import ReviewBox from "@/components/ReviewBox";
 import TimeBox from "@/components/TimeBox";
 import axios from "axios";
-
-
-const AsyncImageCarousel = ({ images }) => {
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    const loadImage = async (src) => {
-      const image = new Image();
-      image.src = src;
-      await image.decode();
-      setLoaded(true);
-    };
-
-    const loadImages = async () => {
-      const imagePromises = images.map((src) => loadImage(src));
-      await Promise.all(imagePromises);
-      setLoaded(true);
-    };
-
-    loadImages();
-  }, [images]);
-
-  return loaded ? <ToursImageCarousel images={images} /> : <div></div>;
-};
 
 const ColWrapper = styled.div`
   display: flex;
@@ -71,7 +51,7 @@ const TitleTour = styled.div`
 
 const Title = styled.div`
   font-size: 2.3rem;
- /*  color: #fff; */
+  /*  color: #fff; */
 `;
 
 const SubtitleStyle = css`
@@ -97,20 +77,20 @@ const SubtitleStyle = css`
       color: #84c441;
     `}
   ${(props) =>
-  props.pink &&
-  css`
-     color: #e73a78;
-  `}
+    props.pink &&
+    css`
+      color: #e73a78;
+    `}
   ${(props) =>
-  props.margin &&
-  css`
-     margin: 20px 0;
-     font-size: 1.3rem;
-     text-align: center;
-     @media screen and (min-width: 768px) {
-      text-align: left;
-    }
-  `}
+    props.margin &&
+    css`
+      margin: 20px 0;
+      font-size: 1.3rem;
+      text-align: center;
+      @media screen and (min-width: 768px) {
+        text-align: left;
+      }
+    `}
     @media screen and (min-width: 768px) {
     width: 12rem;
     font-size: 1.5rem;
@@ -136,7 +116,6 @@ const Cancel = styled(CancelIcon)`
   color: #ee2743;
   padding: 0;
   margin-right: 5px;
- 
 `;
 
 const MovilHeader = styled.div`
@@ -229,21 +208,21 @@ const Points = styled.div`
   @media screen and (min-width: 768px) {
     display: flex;
     flex-direction: column;
-    h4{
+    h4 {
       margin: 0;
       font-size: 1.1rem;
       font-weight: 500;
     }
     ${(props) =>
-    props.long &&
-    css`
-      width: 80%;
-    `}
+      props.long &&
+      css`
+        width: 80%;
+      `}
     ${(props) =>
-    props.short &&
-    css`
-      width: 40%;
-    `}
+      props.short &&
+      css`
+        width: 40%;
+      `}
   }
 `;
 
@@ -254,7 +233,6 @@ const Point = styled.div`
   line-height: 1.5;
   font-size: 0.9rem;
 `;
-
 
 const OverflowProtection = styled.div`
   overflow: hidden;
@@ -300,7 +278,20 @@ const commonStyles = `
   color: #00abbd;
   text-decoration: none;
 `;
-
+const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 435px;
+  background-color: rgba(0, 0, 0, 0); /* Puedes ajustar la opacidad aquí */
+  pointer-events: none; /* Evitamos que el overlay capture eventos del mouse */
+  z-index: 1; /* Aseguramos que el overlay esté por encima del carousel */
+  display: ${(props) =>
+    props.show
+      ? "block"
+      : "none"}; /* Mostramos u ocultamos el overlay según el valor de "show" */
+`;
 const getStyledComponent = (component) => styled(component)`
   ${commonStyles}
 `;
@@ -310,9 +301,7 @@ const StyledTwitter = getStyledComponent(TwitterIcon);
 const StyledTelegram = getStyledComponent(TelegramIcon);
 
 export default function TourPage({ tour, promoTours }) {
-
-  console.log('Tour:', tour);
-  console.log('Promo Tours:', promoTours);
+  console.log(tour);
   const { addTour } = useContext(CartContext);
   const [showDescription, setShowDescription] = useState(true);
   const [showIncludes, setShowIncludes] = useState(false);
@@ -325,6 +314,7 @@ export default function TourPage({ tour, promoTours }) {
   const recomendationsRef = useRef(null);
   const reservationsRef = useRef(null);
   const [currentUrl, setCurrentUrl] = useState("");
+  const [showOverlay, setShowOverlay] = useState(false);
 
   useEffect(() => {
     // Get the current URL only when the component mounts (client-side).
@@ -351,31 +341,34 @@ export default function TourPage({ tour, promoTours }) {
     reservationsRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      setShowOverlay(window.innerWidth < 768);
+    };
+
+    handleResize(); // Verificamos el tamaño al cargar el componente
+
+    window.addEventListener("resize", handleResize); // Agregamos el evento para cambios en el tamaño de la pantalla
+
+    return () => {
+      window.removeEventListener("resize", handleResize); // Eliminamos el evento al desmontar el componente
+    };
+  }, []);
+
   return (
     <>
       <Header />
+      <Overlay show={showOverlay} />
       <OverflowProtection>
         <ToursImageCarousel images={tour.images} />
       </OverflowProtection>
       <TitleTour>
         <div>
           <Title>{tour.name}</Title>
-          <TimeBox duration={tour.duration} /* white *//>
+          <TimeBox duration={tour.duration} /* white */ />
         </div>
         <div>
-          <ReviewBox review={tour.review}/>
-          {/* Facebook Share Button */}
-          {/* <a
-            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-              currentUrl
-            )}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FacebookIcon />
-          </a> */}
-          {/* FUNCIONA EL DE FACEBOOK PERO CON UNA URL REAL */}
-          {/* WhatsApp Share Button */}
+          <ReviewBox review={tour.review} />
           <Link
             href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
               currentUrl
@@ -460,7 +453,7 @@ export default function TourPage({ tour, promoTours }) {
             <Subtitle purple>A este tour recomendamos llevar:</Subtitle>
             <Points>
               {tour.requirements?.map((requirement) => (
-                <Point key={requeriment}>
+                <Point key={requirement}>
                   <Check />
                   {requirement}
                 </Point>
@@ -567,12 +560,16 @@ export default function TourPage({ tour, promoTours }) {
         </ColWrapper>
       </Desktop>
       <Center>
-        <Subtitle red margin ref={reviewsRef}>Reseñas</Subtitle>
-        <ToursReviews tour={tour}/>  
+        <Subtitle red margin ref={reviewsRef}>
+          Reseñas
+        </Subtitle>
+        <ToursReviews tour={tour} />
       </Center>
       <Recomendations>
-          <Subtitle purple margin ref={recomendationsRef}>Recomendaciones</Subtitle>
-        <ToursGrid tours={promoTours}/>
+        <Subtitle purple margin ref={recomendationsRef}>
+          Recomendaciones
+        </Subtitle>
+        <ToursGrid tours={promoTours} />
       </Recomendations>
       <Footer />
     </>
@@ -597,15 +594,6 @@ const tourCache = new Map();
 export async function getServerSideProps(context) {
   await mongooseConnect();
   const { id } = context.query;
-
-  if (tourCache.has(id)) {
-    return {
-      props: {
-        tour: tourCache.get(id),
-      },
-    };
-  }
-
   const tour = await Tour.findById(id);
   tourCache.set(id, tour);
 

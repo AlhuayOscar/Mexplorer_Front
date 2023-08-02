@@ -17,7 +17,7 @@ const SlideImage = styled.img`
   object-fit: cover; /* Aplica el recorte */
   object-position: center; /* Centra la imagen en el recorte */
   transition: 0.4s ease 0.15s;
-  
+
   @media screen and (min-width: 768px) {
     height: 380px;
   }
@@ -58,7 +58,6 @@ const Carousel = ({ images }) => {
 
   const settings = {
     dots: false,
-    infinite: true,
     speed: 550,
     slidesToShow: showCards,
     slidesToScroll: 1,

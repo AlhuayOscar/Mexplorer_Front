@@ -5,7 +5,7 @@ import { buffer } from "micro";
 import { Order } from "@/models/Order";
 const { EMAIL_ADDRESS, PASSWORD_EMAIL, ENDPOINT_SECRET } = process.env;
 
-const endpointSecret = "whsec_sO0s7656H1Raj4jfhjkLKqqYTq2wKo37";
+const endpointSecret = "whsec_IzVMDMPDBjuMm3tFJLOKytDsVPY3lieB";
 
 export default async function handler(req, res) {
   await mongooseConnect();

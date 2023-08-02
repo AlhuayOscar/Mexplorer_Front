@@ -1,0 +1,68 @@
+/* MexplorerLogoAnimation.css */
+
+.mexplorer-logo-animation {
+  margin-top: 75vh;
+}
+
+/* Define the slideIn animation for the desplazamiento horizontal */
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-80px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Define the changeColor animation for the change of background color */
+@keyframes changeColor {
+  0% {
+    background-color: rgb(0, 0, 0);
+  }
+  100% {
+    background-color: #1a1a1a;
+  }
+}
+
+/* Apply the animations sequentially to each letter with a delay */
+#our_M {
+  animation: slideIn 0.24s ease forwards;
+}
+
+#our_E {
+  animation: slideIn 0.24s ease forwards 0.24s;
+}
+
+#Our_X {
+  animation: slideIn 0.24s ease forwards 0.48s;
+}
+
+#our_P {
+  animation: slideIn 0.24s ease forwards 0.72s;
+}
+
+#our_L {
+  animation: slideIn 0.24s ease forwards 0.96s;
+}
+
+#our_O {
+  animation: slideIn 0.24s ease forwards 1.2s;
+}
+
+#our_R_2 {
+  animation: slideIn 0.24s ease forwards 1.44s;
+}
+
+#our_E_2 {
+  animation: slideIn 0.24s ease forwards 1.68s;
+}
+
+#our_R {
+  animation: slideIn 0.24s ease forwards 1.92s;
+}
+
+#Slogan {
+  animation: slideIn 0.936s ease forwards 2.16s;
+}

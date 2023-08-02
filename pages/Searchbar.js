@@ -1,5 +1,4 @@
-
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import styled from "styled-components";
@@ -8,6 +7,13 @@ import { useTranslation } from "react-i18next";
 const SearchbarContainer = styled.div`
   display: flex;
   align-items: center;
+  transition: 0.4s ease;
+  @media (max-width: 500px) {
+    transform: scale(0.84);
+  }
+  @media (max-width: 270px) {
+    transform: scale(0.54);
+  }
 `;
 
 const Input = styled.input`
@@ -19,7 +25,6 @@ const Input = styled.input`
   border-color: #ccc;
   outline: none;
 `;
-
 
 const SubmitButton = styled.button`
   background-color: #ee2743;
@@ -34,22 +39,22 @@ const SubmitButton = styled.button`
 const Searchbar = (props) => {
   const { t } = useTranslation();
 
-
-
-
   return (
     <SearchbarContainer>
       <Input
         autoFocus
         value={props.value}
-        onChange={ev => props.setPhrase(ev.target.value)}
+        onChange={(ev) => props.setPhrase(ev.target.value)}
         type="text"
-        placeholder="Busca tu próxima aventura" />
-      <Link href={{
-        pathname: '/search/[[...name]]',
-        query: { name: props.value },
-      }} as={`/search?name=${props.value}`}>
-
+        placeholder="Busca tu próxima aventura"
+      />
+      <Link
+        href={{
+          pathname: "/search/[[...name]]",
+          query: { name: props.value },
+        }}
+        as={`/search?name=${props.value}`}
+      >
         <SubmitButton>{t("Buscar")}</SubmitButton>
       </Link>
     </SearchbarContainer>

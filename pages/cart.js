@@ -9,7 +9,7 @@ import Table from "@/components/Table";
 import Input from "@/components/Input";
 import Image from "next/image";
 import Link from "next/link";
-
+import Footer from "@/components/Footer";
 const ColumnsWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr;
@@ -29,7 +29,7 @@ const Box = styled.div`
 const TourInfoCell = styled.td`
   padding: 10px 0;
   font-size: 1.2rem;
-  color: #84C441;
+  color: #84c441;
 `;
 
 const TourImageBox = styled(Link)`
@@ -173,9 +173,12 @@ export default function CartPage() {
                     <tr key={tour._id}>
                       <TourInfoCell>
                         <TourImageBox href={`/tour/${tour._id}`}>
-                          <Image width={140}
-                                 height={90} 
-                                 src={tour.images[0]} alt="" />
+                          <Image
+                            width={140}
+                            height={90}
+                            src={tour.images[0]}
+                            alt=""
+                          />
                         </TourImageBox>
                         {tour.name}
                       </TourInfoCell>
@@ -231,7 +234,11 @@ export default function CartPage() {
                 </tbody>
               </Table>
             )}
-            {hasProducts && <Button green onClick={clearCart}>Vaciar Carrito</Button>}
+            {hasProducts && (
+              <Button green onClick={clearCart}>
+                Vaciar Carrito
+              </Button>
+            )}
           </Box>
           {!!cartTours?.length && (
             <Box>
@@ -267,6 +274,7 @@ export default function CartPage() {
           )}
         </ColumnsWrapper>
       </Center>
+      <Footer />
     </>
   );
 }

@@ -319,7 +319,12 @@ const BlogPage = ({ blog, tours }) => {
                       {tour.withoutPromoPrice && (
                         <span className="promo">${tour.withoutPromoPrice}</span>
                       )}
-                      <span className="price">${tour.price}USD </span>
+                      <span className="price">
+                        $
+                        {tour.price?.usd?.adultsPrice ||
+                          tour.price?.mxn?.adultsPrice}
+                        USD
+                      </span>
                     </div>
                     <InfoIcon />
                   </div>
