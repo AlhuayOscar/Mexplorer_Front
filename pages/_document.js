@@ -12,7 +12,7 @@ export default class MyDocument extends Document {
                   display: none !important;
                 }
                 body {
-                  background-color: black; /* Fondo negro inicial */
+                  background-color: black;
                 }
                 @keyframes fadeIn {
                   from {
@@ -20,7 +20,7 @@ export default class MyDocument extends Document {
                   }
                   to {
                     opacity: 1;
-                    background-color: transparent; /* Cambio a fondo transparente al final de la animación */
+                    background-color: rgb(238, 238, 238);
                   }
                 }
                 body {
