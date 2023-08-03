@@ -147,9 +147,16 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
   const [date, setDate] = useState();
 
   const initialOrderData = {
-    /* (estado inicial existente) */
+    id: tour._id,
+    name: tour.name,
+    type: "Compra",
+    adults: 1,
+    children: 0,
+    date: dayjs(date).format("DD/MM/YYYY"),
+    hour: "",
+    price: tour.price?.usd?.adultsPrice, // ? added for validation
   };
-
+  
   const [orderData, setOrderData] = useState(initialOrderData);
 
   // Paso 1: Estado para alternar entre precio en dólares y pesos
@@ -157,20 +164,23 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
 
   // Paso 2: Calcula el precio en pesos mexicanos
   const priceInMXN =
-    tour.price.mxn.adultsPrice * orderData.adults +
-    tour.price.mxn.childrenPrice * orderData.children;
+    tour.price?.mxn?.adultsPrice * orderData.adults +
+      tour.price?.mxn?.childrenPrice * orderData.children || 0;
+  const priceInUSD =
+    tour.price?.usd?.adultsPrice * orderData.adults +
+      tour.price?.usd?.childrenPrice * orderData.children || 0;
 
   useEffect(() => {
     const calculateTotalPrice = () => {
       let totalPrice;
       if (orderData.type === "reserva" && tour.reservation) {
         totalPrice =
-          tour.price.mxn.adultsReservationPrice * orderData.adults +
-          tour.price.mxn.childrenReservationPrice * orderData.children;
+          tour.price?.mxn?.adultsReservationPrice * orderData.adults +
+            tour.price?.mxn?.childrenReservationPrice * orderData.children || 0;
       } else {
         totalPrice =
-          tour.price.usd.adultsPrice * orderData.adults +
-          tour.price.usd.childrenPrice * orderData.children;
+          tour.price?.usd?.adultsPrice * orderData.adults +
+            tour.price?.usd?.childrenPrice * orderData.children || 0;
       }
       setOrderData({ ...orderData, price: totalPrice });
     };
@@ -249,7 +259,6 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
         <Date
           disablePast
           format="DD/MM/YYYY"
-          /* label='Elige una fecha' */
           views={["year", "month", "day"]}
           value={date}
           onChange={(date) => {
@@ -260,8 +269,8 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
         <Price>
           <label>Total</label>
           <div>
-            {showPriceInMXN ? `${priceInMXN} MXN` : `${orderData.price} USD`}
-            <span>USD</span>
+            {showPriceInMXN ? `$ ${priceInMXN}` : `$ ${priceInUSD}`}
+            <span>{showPriceInMXN ? "MXN" : "USD"}</span>
           </div>
         </Price>
         {/* Botón para cambiar entre USD y MXN */}
