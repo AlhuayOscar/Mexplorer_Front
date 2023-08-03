@@ -5,6 +5,7 @@ export default async function handle(req, res) {
   const { method } = req;
   await mongooseConnect();
   const { _id } = req.query;
+  
   try {
     if (method === "GET") {
       if (_id) {
