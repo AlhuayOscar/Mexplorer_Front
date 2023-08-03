@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Slider from '@mui/material/Slider';
 import { styled as muiStyled } from '@mui/material/styles';
+import { useTranslation } from "react-i18next";
 
 
 const BoxContainer = styled.div`
@@ -138,6 +139,7 @@ const marks = [
 
 
 export default function Filters({ tours, onFiltersChange, setCurrentPage }) {
+  const { t } = useTranslation();
   const [selectedReserva, setSelectedReserva] = useState("");
   const [selectedPromo, setSelectedPromo] = useState("");
   const [durationOptions, setDurationOptions] = useState(null);
@@ -216,21 +218,21 @@ export default function Filters({ tours, onFiltersChange, setCurrentPage }) {
   return (
     <BoxContainer>
       <TitleLabel>
-        Reservas
+        {t("Reservas")}
       </TitleLabel>
       <select onChange={handleReservaChange} value={selectedReserva}>
-        <option value="false">Sin reservas</option>
-        <option value="true">Con reservas</option>
+        <option value="false">{t("Sin reservas")}</option>
+        <option value="true">{t("Con reservas")}</option>
       </select>
       <TitleLabel>
-        Promociones
+        {t("Promociones")}
       </TitleLabel>
       <select onChange={handlePromoChange} value={selectedPromo}>
-        <option value="false">Sin promociones</option>
-        <option value="true">Con promociones</option>
+        <option value="false">{t("Sin promociones")}</option>
+        <option value="true">{t("Con promociones")}</option>
       </select>
       <TitleLabel>
-        Duración
+        {t("Duración")}
       </TitleLabel>
       <DurationSlider
         value={durationOptions}
@@ -242,7 +244,7 @@ export default function Filters({ tours, onFiltersChange, setCurrentPage }) {
         marks={marks}
       />
       <TitleLabel>
-        Rango De Precio
+        {t("Rango De Precio")}
       </TitleLabel>
       <PriceSlider
         value={values}
@@ -253,7 +255,7 @@ export default function Filters({ tours, onFiltersChange, setCurrentPage }) {
       />
       <ButtonContainer>
         {/* <button onClick={filterTours}>Aplicar filtros</button> */}
-        <ClearButton onClick={clearFilters}>Limpiar filtros</ClearButton>
+        <ClearButton onClick={clearFilters}>{t("Limpiar filtros")}</ClearButton>
       </ButtonContainer>
     </BoxContainer>
   );

@@ -8,6 +8,7 @@ import { Tour } from "@/models/Tour";
 import ToursGrid from "@/components/ToursGrid";
 import Title from "@/components/Title";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import { useTranslation } from "react-i18next";
 
 const AsyncImageCarousel = ({ images }) => {
   const [loaded, setLoaded] = useState(false);
@@ -109,6 +110,7 @@ const TitleOverlay = styled(Title)`
 `;
 
 export default function ToursPage({ tours }) {
+  const { t } = useTranslation();
   const images = [
     "./car1.jpg",
     "./car2.jpg",
@@ -125,10 +127,10 @@ export default function ToursPage({ tours }) {
       <BackgroundImage>
         <AsyncImageCarousel images={images} />
         <TitleOverlay>
-          Autos de todos los modelos
+          {t("Autos de todos los modelos")}
           <Subtitle>
             <WhatsAppButton href="https://wa.me/+5493794663468?text=Muy%20buenas!%20Te%20contacto%20desde%20MexplorerTours%20Para%20conocer%20la%20disponibilidad%20de%20los%20vehiculos%20%3A%29.">
-              Necesita un vehículo? Contáctenos personalmenteㅤ
+              {t("Necesita un vehículo? Contáctenos personalmente")}ㅤ
               <WhatsAppIcon />
             </WhatsAppButton>
           </Subtitle>

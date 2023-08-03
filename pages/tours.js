@@ -7,6 +7,7 @@ import Filters from "@/components/Filters";
 import { useState } from "react";
 import PaginatedTourList from "@/components/PaginatedTourList";
 import Footer from "@/components/Footer";
+import { useTranslation } from "react-i18next";
 const ImageBox = styled.div`
   background: url("https://res.cloudinary.com/dipn8zmq3/image/upload/v1690990359/Tours_Background_Optimized_fovkvm.webp")
     no-repeat center;
@@ -49,6 +50,7 @@ const ToursBox = styled.div`
 `;
 
 export default function ToursPage({ tours }) {
+  const { t } = useTranslation();
   const [filteredTours, setFilteredTours] = useState(tours);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -63,7 +65,7 @@ export default function ToursPage({ tours }) {
         <Title>Cancún</Title>
       </ImageBox>
       <Center>
-        <h2>Todos los tours</h2>
+        <h2>{t("Todos los tours")}</h2>
         <Main>
           <Filters
             tours={tours}
