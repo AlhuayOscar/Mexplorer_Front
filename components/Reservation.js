@@ -95,6 +95,20 @@ const ButtonR = styled(Button)`
   }
 `;
 
+const ButtonC = styled(Button)`
+  font-size: 1.4rem;
+  padding: 0.2rem 2rem;
+  text-align: center;
+  margin-block: 0.5rem;
+  transition: 0.4s ease;
+  &:hover {
+    scale: 1.05;
+    background-color: #699c34;
+    color: #fff;
+    transition: 0.4s ease;
+  }
+`;
+
 const TypeBox = styled.div`
   display: flex;
   width: 100%;
@@ -156,7 +170,7 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
     hour: "",
     price: tour.price?.usd?.adultsPrice, // ? added for validation
   };
-  
+
   const [orderData, setOrderData] = useState(initialOrderData);
 
   // Paso 1: Estado para alternar entre precio en dólares y pesos
@@ -274,14 +288,14 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
           </div>
         </Price>
         {/* Botón para cambiar entre USD y MXN */}
-        <ButtonR onClick={() => setShowPriceInMXN(!showPriceInMXN)}>
+        <ButtonC onClick={() => setShowPriceInMXN(!showPriceInMXN)}>
           Mostrar en {showPriceInMXN ? "USD" : "MXN"}
-        </ButtonR>
+        </ButtonC>
         {orderData.type === "reserva" ? (
-          <ButtonR type="submit" green onClick={() => addTour(orderData)}>
+          <ButtonC type="submit" green onClick={() => addTour(orderData)}>
             <CartIcon />
             Reserva
-          </ButtonR>
+          </ButtonC>
         ) : (
           <ButtonR type="submit" green onClick={() => addTour(orderData)}>
             <CartIcon />
