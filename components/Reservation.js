@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { CartContext } from "@/components/CartContext";
 import styled, { css } from "styled-components";
-import CartIcon from '@mui/icons-material/ShoppingCartRounded';
+import CartIcon from "@mui/icons-material/ShoppingCartRounded";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { DatePicker } from "@mui/x-date-pickers";
@@ -28,11 +28,6 @@ const ReservationBox = styled.div`
     box-shadow: 2px 2px 4px #47556966;
   }
 `;
-
-/* const ReservationBox = styled.div`
-  ${ReservationStyle}
-`; */
-
 const ResercaTitle = styled.div`
   text-align: center;
   background-color: #00abbd;
@@ -47,23 +42,6 @@ const Box = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-
-/* const InputRes = styled.input`
-  width: 95%;
-  padding: 10px;
-  border-radius: 7px;
-  margin: 10px;
-  font-size: 0.9rem;
-  border: 1px solid #0006;
-  &:hover {
-    border: 1px solid #000;
-    outline: none;
-  }
-  &:focus {
-    border: 2px solid #00abbd;
-    outline: none;
-  }
-`; */
 
 const Price = styled.div`
   display: flex;
@@ -117,6 +95,20 @@ const ButtonR = styled(Button)`
   }
 `;
 
+const ButtonC = styled(Button)`
+  font-size: 1.4rem;
+  padding: 0.2rem 2rem;
+  text-align: center;
+  margin-block: 0.5rem;
+  transition: 0.4s ease;
+  &:hover {
+    scale: 1.05;
+    background-color: #699c34;
+    color: #fff;
+    transition: 0.4s ease;
+  }
+`;
+
 const TypeBox = styled.div`
   display: flex;
   width: 100%;
@@ -141,7 +133,6 @@ const Types = styled.div`
     props.active &&
     css`
       background-color: #84c441;
-      /* border: 2px solid #fff; */
       scale: 1.1;
       color: #fff;
     `}
@@ -159,7 +150,7 @@ const Select = styled.select`
     outline: none;
   }
   &:focus {
-    border: 2px solid #84C441;
+    border: 2px solid #84c441;
     outline: none;
   }
 `;
@@ -167,12 +158,6 @@ const Select = styled.select`
 export default function Reservation({ tour, sticky, reservationsRef }) {
   const { addTour } = useContext(CartContext);
   const { cartTours } = useContext(CartContext);
-
-  /* const [adults, setAdults] = useState(1);
-  const [children, setChildren] = useState(0);
-  const [date, setDate] = useState();
-  const [price, setPrice] = useState(0);
-  const [type, setType] = useState('compra') */
   const [date, setDate] = useState();
 
   const initialOrderData = {
@@ -188,17 +173,28 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
 
   const [orderData, setOrderData] = useState(initialOrderData);
 
+  // Paso 1: Estado para alternar entre precio en dólares y pesos
+  const [showPriceInMXN, setShowPriceInMXN] = useState(false);
+
+  // Paso 2: Calcula el precio en pesos mexicanos
+  const priceInMXN =
+    tour.price?.mxn?.adultsPrice * orderData.adults +
+      tour.price?.mxn?.childrenPrice * orderData.children || 0;
+  const priceInUSD =
+    tour.price?.usd?.adultsPrice * orderData.adults +
+      tour.price?.usd?.childrenPrice * orderData.children || 0;
+
   useEffect(() => {
     const calculateTotalPrice = () => {
       let totalPrice;
       if (orderData.type === "reserva" && tour.reservation) {
         totalPrice =
-          tour.price?.usd?.adultsReservationPrice * orderData.adults +
-          tour.price?.usd?.childrenReservationPrice * orderData.children; // ? added for validation
+          tour.price?.mxn?.adultsReservationPrice * orderData.adults +
+            tour.price?.mxn?.childrenReservationPrice * orderData.children || 0;
       } else {
         totalPrice =
           tour.price?.usd?.adultsPrice * orderData.adults +
-          tour.price?.usd?.childrenPrice * orderData.children; // ? added for validation
+            tour.price?.usd?.childrenPrice * orderData.children || 0;
       }
       setOrderData({ ...orderData, price: totalPrice });
     };
@@ -211,36 +207,14 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
     setDate("");
   }, [tour]);
 
-  /*  async function goToPayment(e) {
-    e.preventDefault();
-    const response = await axios.post("/api/reservationcheckout", {
-      kind: "Reserva",
-      name,
-      lastname,
-      email,
-      tour,
-      adults,
-      children,
-      price,
-      date,
-    });
-    if (response.data.url) {
-      window.location = response.data.url;
-    }
-  }
-
-  const logSelectedDate = (date) => {
-    console.log("Fecha seleccionada:", date);
-  };
- */
   const handleTypeClick = (type) => {
     setOrderData({ ...orderData, type: type });
   };
 
   const handleSelect = (e) => {
-    const schedule = e.target.value
-     setOrderData({ ...orderData, hour: schedule})
-  }
+    const schedule = e.target.value;
+    setOrderData({ ...orderData, hour: schedule });
+  };
 
   console.log(cartTours);
   return (
@@ -266,31 +240,6 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
       )}
 
       <Box>
-        {/*           <Titles>Nombre</Titles>
-          <InputRes
-            type="text"
-            placeholder="Nombre"
-            value={name}
-            name="name"
-            onChange={(ev) => setName(ev.target.value)}
-          />
-          <Titles>Apellido</Titles>
-          <InputRes
-            type="text"
-            placeholder="Apellido"
-            value={lastname}
-            name="lastname"
-            onChange={(ev) => setLastname(ev.target.value)}
-          />
-          <Titles>Email</Titles>
-          <Input
-            type="text"
-            placeholder="Email"
-            value={email}
-            name="email"
-            onChange={(ev) => setEmail(ev.target.value)}
-          /> */}
-
         <Titles>Adultos</Titles>
         <Input
           placeholder="Cantidad de personas"
@@ -314,25 +263,16 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
 
         <Titles>Hora</Titles>
         <Select onChange={handleSelect}>
-          {tour.schedule?.map(schedule => (
-                <option key={schedule.id}value={schedule}>{schedule}</option>
-                ))}
+          {tour.schedule?.map((schedule) => (
+            <option key={schedule.id} value={schedule}>
+              {schedule}
+            </option>
+          ))}
         </Select>
-
-        {/* <MyDatePicker
-              inline={true}
-              value={date}
-              satHighlight={true}
-              onChange={(date) => {
-                setDate(date);
-                logSelectedDate(date);
-              }}
-            /> */}
         <Titles>Elige una fecha</Titles>
         <Date
           disablePast
           format="DD/MM/YYYY"
-          /* label='Elige una fecha' */
           views={["year", "month", "day"]}
           value={date}
           onChange={(date) => {
@@ -343,18 +283,22 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
         <Price>
           <label>Total</label>
           <div>
-            ${orderData.price}
-            <span>USD</span>
+            {showPriceInMXN ? `$ ${priceInMXN}` : `$ ${priceInUSD}`}
+            <span>{showPriceInMXN ? "MXN" : "USD"}</span>
           </div>
         </Price>
+        {/* Botón para cambiar entre USD y MXN */}
+        <ButtonC onClick={() => setShowPriceInMXN(!showPriceInMXN)}>
+          Mostrar en {showPriceInMXN ? "USD" : "MXN"}
+        </ButtonC>
         {orderData.type === "reserva" ? (
-          <ButtonR type="submit" green onClick={() => addTour(orderData)}>
-            <CartIcon/>
+          <ButtonC type="submit" green onClick={() => addTour(orderData)}>
+            <CartIcon />
             Reserva
-          </ButtonR>
+          </ButtonC>
         ) : (
           <ButtonR type="submit" green onClick={() => addTour(orderData)}>
-            <CartIcon/>
+            <CartIcon />
             Compra
           </ButtonR>
         )}
