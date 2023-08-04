@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import BlogDate from "./BlogDate";
 
 const CardContainer = styled.div`
   background-color: #f5f5f5;
   border-radius: 8px;
   padding: 8px;
-  box-shadow: 0 0 5px #888;
+  box-shadow: 2px 2px 4px #47556955;
   width: 350px;
   height: 525px;
   padding-bottom: 25px;
@@ -40,17 +40,6 @@ const Description = styled.p`
   padding-inline: 20px;
 `;
 
-const BlogDate = styled.span`
-  text-align: start;
-
-  p {
-    padding-inline: 20px;
-    display: flex;
-    align-items: center;
-    gap: 3px;
-  }
-`;
-
 const Image = styled.img`
   width: 100%;
   height: 200px;
@@ -67,13 +56,6 @@ const GlobalLinkStyles = styled.a`
 `;
 
 const BlogCard = ({ blog }) => {
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const year = date.getFullYear().toString().slice(-2);
-    return `${day}-${month}-${year}`;
-  };
 
   const truncateDescription = (description, maxLength) => {
     if (description.length <= maxLength) {
@@ -92,12 +74,7 @@ const BlogCard = ({ blog }) => {
       <CardContainer>
         <Image src={blog.images[0]} alt="Blog Image" />
         <Title>{blog.title}</Title>
-        <BlogDate>
-          <p>
-            <CalendarMonthIcon />
-            {formatDate(blog.date)}
-          </p>
-        </BlogDate>
+        <BlogDate date={blog.date}padding/>
         <Subtitle>{blog.subtitle}</Subtitle>
         <Description>{truncatedDescription}</Description>
         <style jsx global>{`

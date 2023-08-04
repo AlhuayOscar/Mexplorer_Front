@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { Loader } from "react-spinner"; // Importa el componente Loader de react-spinner
 import PaginationControls from "@/components/Pagination";
+import Center from "@/components/Center";
 
 const BlogContainer = styled.div`
   display: flex;
@@ -265,6 +266,7 @@ const Blog = () => {
   return (
     <>
       <Header />
+    <Center>
       <BlogContainer>
         <SearchContainer>
           {recentSearches.map((search, index) => (
@@ -289,24 +291,25 @@ const Blog = () => {
             onKeyPress={handleEnterKeyPress}
           />
         </SearchContainer>
-        {isLoading ? (
-          <LoadingSpinner />
-        ) : searchTerm !== "" ? (
-          <BlogCards blogs={currentBlogs} />
-        ) : (
-          <BlogCards blogs={currentBlogs} />
-        )}
+          {isLoading ? (
+            <LoadingSpinner />
+          ) : searchTerm !== "" ? (
+            <BlogCards blogs={currentBlogs} />
+          ) : (
+            <BlogCards blogs={currentBlogs} />
+          )}
         {totalPages > 1 && (
           <PaginationControls
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPreviousPage={handlePreviousPage}
-            onNextPage={handleNextPage}
-            disablePreviousPage={currentPage === 1}
-            disableNextPage={currentPage === totalPages}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPreviousPage={handlePreviousPage}
+          onNextPage={handleNextPage}
+          disablePreviousPage={currentPage === 1}
+          disableNextPage={currentPage === totalPages}
           />
-        )}
+          )}
       </BlogContainer>
+          </Center>
       <Footer />
     </>
   );
