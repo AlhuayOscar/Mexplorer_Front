@@ -180,14 +180,7 @@ export default function HomePage({ featuredTour, newTours, promoTours }) {
           <LoadingComponent />
         </LoadingContainer>
       )}
-      {headerVisible && (
-        <AnimatedHeaderWrapper>
-          <Header />
-        </AnimatedHeaderWrapper>
-      )}
-      <ButtonAboveFeatured onClick={handleShowHeader}>
-        <ArrowIcon />
-      </ButtonAboveFeatured>
+      <Header />
       <Featured tour={featuredTour} />
       <NewTours tours={newTours} promo={promoTours} />
       <Footer />
