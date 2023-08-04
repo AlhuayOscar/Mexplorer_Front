@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Waves from "react-wavify";
+import Link from "next/link";
 
 const StyledFooter = styled.footer`
   background-color: #0b0000;
@@ -269,24 +270,24 @@ const Footer = () => {
             <p>(© Mexplorer 2023)</p>
             <CenteredContainer>
               <p>Síguenos</p>
-              <a href={socialUrls.facebook}>
+              <Link href={socialUrls.facebook}>
                 <Icon
                   src="https://res.cloudinary.com/dipn8zmq3/image/upload/v1689651875/facy_toglrc.png"
                   alt="Facebook"
                 />
-              </a>
-              <a href={socialUrls.instagram}>
+              </Link>
+              <Link href={socialUrls.instagram}>
                 <Icon
                   src="https://res.cloudinary.com/dipn8zmq3/image/upload/v1689651875/insy_lcdcik.png"
                   alt="Instagram"
                 />
-              </a>
-              <a href={socialUrls.tripadvisor}>
+              </Link>
+              <Link href={socialUrls.tripadvisor}>
                 <Icon
                   src="https://res.cloudinary.com/dipn8zmq3/image/upload/v1689651875/trippy_gpvp7q.png"
                   alt="TripAdvisor"
                 />
-              </a>
+              </Link>
             </CenteredContainer>
             <p>
               Av. Bonampak 73, SM.3, M.10, Edificio Global Cancún Torre “B”. CP.

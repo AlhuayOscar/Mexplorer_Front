@@ -3,11 +3,11 @@ import styled from "styled-components";
 import BlogCard from "@/components/BlogCard";
 
 const CardsContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  justify-content: center;
-  
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 23rem), 1fr));
+  gap: 2rem 1rem;
+  place-items: center;
 `;
 
 const BlogCards = ({ blogs }) => {

@@ -2,7 +2,7 @@ import Center from "@/components/Center";
 import Header from "@/components/Header";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Tour } from "@/models/Tour";
-const { URL_BACK } = process.env;
+
 import styled, { css } from "styled-components";
 import { useContext, useState, useEffect, useRef } from "react";
 import { CartContext } from "@/components/CartContext";
@@ -14,16 +14,17 @@ import ToursImageCarousel from "@/components/ToursImageCarousel";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import Reservation from "@/components/Reservation";
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import ToursReviews from "@/components/ToursReviews";
 import Footer from "@/components/Footer";
 import ToursGrid from "@/components/ToursGrid";
 import NavTour from "@/components/NavTour";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import ReviewBox from "@/components/ReviewBox";
 import TimeBox from "@/components/TimeBox";
-import axios from "axios";
+
+import Links from "@/components/Links";
 
 const ColWrapper = styled.div`
   display: flex;
@@ -193,6 +194,7 @@ const Description = styled.div`
   line-height: 1.5;
   padding: 20px;
   text-align: justify;
+ 
   @media screen and (min-width: 768px) {
     padding: 0;
   }
@@ -268,10 +270,7 @@ const ReservationBtn = styled.button`
   }
 `;
 
-const commonStyles = `
-  color: #00abbd;
-  text-decoration: none;
-`;
+
 const Overlay = styled.div`
   position: absolute;
   top: 0;
@@ -286,16 +285,64 @@ const Overlay = styled.div`
       ? "block"
       : "none"}; /* Mostramos u ocultamos el overlay según el valor de "show" */
 `;
-const getStyledComponent = (component) => styled(component)`
-  ${commonStyles}
-`;
 
-const StyledWhatsapp = getStyledComponent(WhatsAppIcon);
-const StyledTwitter = getStyledComponent(TwitterIcon);
-const StyledTelegram = getStyledComponent(TelegramIcon);
 
 export default function TourPage({ tour, promoTours }) {
+export default function TourPage({ tour, promoTours }) {
   console.log(tour);
+  const { addTour } = useContext(CartContext);
+  const [showDescription, setShowDescription] = useState(true);
+  const [showIncludes, setShowIncludes] = useState(false);
+  const [showRequirements, setShowRequirements] = useState(false);
+  const [showNotes, setShowNotes] = useState(false);
+  const includesRef = useRef(null);
+  const requirementsRef = useRef(null);
+  const notesRef = useRef(null);
+  const reviewsRef = useRef(null);
+  const recomendationsRef = useRef(null);
+  const reservationsRef = useRef(null);
+  const [currentUrl, setCurrentUrl] = useState("");
+  const [showOverlay, setShowOverlay] = useState(false);
+
+  useEffect(() => {
+    // Get the current URL only when the component mounts (client-side).
+    setCurrentUrl(window.location.href);
+  }, []);
+
+  const handleShowDescription = () => {
+    setShowDescription(!showDescription);
+  };
+
+  const handleShowIncludes = () => {
+    setShowIncludes(!showIncludes);
+  };
+
+  const handleShowRequirements = () => {
+    setShowRequirements(!showRequirements);
+  };
+
+  const handleShowNotes = () => {
+    setShowNotes(!showNotes);
+  };
+
+  const scrollToreservations = () => {
+    reservationsRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setShowOverlay(window.innerWidth < 768);
+    };
+
+    handleResize(); // Verificamos el tamaño al cargar el componente
+
+    window.addEventListener("resize", handleResize); // Agregamos el evento para cambios en el tamaño de la pantalla
+
+    return () => {
+      window.removeEventListener("resize", handleResize); // Eliminamos el evento al desmontar el componente
+    };
+  }, []);
+
   const { addTour } = useContext(CartContext);
   const [showDescription, setShowDescription] = useState(true);
   const [showIncludes, setShowIncludes] = useState(false);
@@ -363,33 +410,7 @@ export default function TourPage({ tour, promoTours }) {
         </div>
         <div>
           <ReviewBox review={tour.review} />
-          <Link
-            href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
-              currentUrl
-            )}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <StyledWhatsapp />
-          </Link>
-          <Link
-            href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
-              currentUrl
-            )}&text=${encodeURIComponent("Echa un vistazo a este tour!")}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <StyledTwitter />
-          </Link>
-          <Link
-            href={`https://t.me/share/url?url=${encodeURIComponent(
-              currentUrl
-            )}&text=${encodeURIComponent("Echa un vistazo a este tour!")}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <StyledTelegram />
-          </Link>
+          <Links currentUrl={currentUrl} />
         </div>
       </TitleTour>
       <NavTour
@@ -409,7 +430,16 @@ export default function TourPage({ tour, promoTours }) {
             {showDescription ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </div>
         </HeaderInfo>
-        {showDescription && <Description>{tour.description}</Description>}
+        {showDescription && 
+        <Description>
+          <ToursLink href={"/tours"}>
+              <div>
+                <ArrowI />
+                Ver todos los tours en Cancun
+              </div>
+            </ToursLink>
+          {tour.description}
+          </Description>}
         <HeaderInfo yellow>
           Que incluye
           <div onClick={handleShowIncludes}>
