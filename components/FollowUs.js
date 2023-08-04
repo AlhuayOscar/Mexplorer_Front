@@ -34,7 +34,7 @@ const LinkStyled = styled(Link)`
   place-items: center;
   background-color: #84c441;
   padding: 10px;
-  border-radius: 50%;
+  border-radius: 25%;
   &:hover {
     background-color: #699c34;
     scale: 1.02;

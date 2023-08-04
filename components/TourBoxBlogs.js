@@ -18,19 +18,22 @@ const TourWrapper = styled(Link)`
   color: #000;
   border-radius: 7px;
   overflow: hidden;
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
     height: fit-content;
-    width: 20rem;
+    width: 70%;
     box-shadow: 2px 2px 4px #47556966;
+  }
+  @media screen and (min-width: 768px) {
     &:hover {
     scale: 1.02;
-    transition: 0.5s ease-in-out ;
-  }
+    transition: 0.5s ease-in-out;
+    }
   }
 `;
 
 const WhiteBox = styled.div`
   width: 100%;
+  height: 16rem;
   text-align: center;
   display: flex;
   align-items: center;
@@ -41,6 +44,9 @@ const WhiteBox = styled.div`
   img {
     width: 100%;
     height: 100%;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    height: 19rem;
   }
 `;
 
@@ -116,8 +122,8 @@ export default function TourBoxBlog({ _id, name, promo, price, images }) {
       <WhiteBox>
         <Image src={images?.[0]} 
                alt={`imagen del tour ${name}`} 
-               width={250}
-               height={110}
+               width={450}
+               height={310}
                 />
         <Title>{name}</Title>
         { promo && <PromoTitle>¡Promo Exclusiva!</PromoTitle> }

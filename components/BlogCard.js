@@ -1,40 +1,45 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState, useEffect } from "react";
+import styled, {css} from "styled-components";
 import Link from "next/link";
 import BlogDate from "./BlogDate";
+import Image from "next/image";
+import dayjs from "dayjs";
 
 const CardContainer = styled.div`
   background-color: #f5f5f5;
   border-radius: 8px;
   padding: 8px;
   box-shadow: 2px 2px 4px #47556955;
-  width: 350px;
-  height: 525px;
-  padding-bottom: 25px;
+  min-width: 350px;
+  max-width: 400px;
+  height: fit-content;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 
-  @media (max-width: 400px) {
+
+  /* @media (max-width: 400px) {
     width: 95%;
-  }
+  } */
 `;
 
 const Title = styled.h2`
   font-size: 24px;
   font-weight: bold;
-  min-height: 60px;
-  color: #103f54;
+  margin: 0;
+  padding: 20px;
+  color: #00abbd;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #eee;
 `;
 
 const Subtitle = styled.h3`
   font-size: 18px;
-  margin-bottom: 8px;
-  text-align: center;
+  font-weight: 600;
+  margin: 5px 20px;
+  text-align: left;
   max-height: 20px;
   overflow: hidden;
 `;
@@ -42,16 +47,39 @@ const Subtitle = styled.h3`
 const Description = styled.p`
   font-size: 16px;
   padding-inline: 20px;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 10px;
+  text-align: justify;
+  margin: 0;
 `;
 
-const Image = styled.img`
+const ImageBox = styled.div`
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  overflow: hidden;
+  position: relative;
+img{
   width: 100%;
-  height: 200px;
-  max-height: 200px;
+  height: 250px;
   object-fit: cover;
   filter: blur(
     0.4px
-  ); /* Puedes ajustar el valor de blur según tus preferencias */
+  ); 
+}
+
+`;
+
+const SpanStyled = styled.span`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 10px;
+  background-color: #00abbd;
+  border-radius: 7px;
+  color: #fff;
+  ${props => props.new && css`
+    background-color: #eeb547;
+  `}
 `;
 
 const GlobalLinkStyles = styled.a`
@@ -60,6 +88,18 @@ const GlobalLinkStyles = styled.a`
 `;
 
 const BlogCard = ({ blog }) => {
+
+  const [isNew, setIsNew] = useState(false)
+
+  useEffect(() => {
+    const today = new Date();
+    console.log(today)
+    const dateBlog = new Date(dayjs(blog.date).format("DD-MM-YYYY"));
+    const dateDiff = (today - dateBlog) / (1000 * 60 * 60 * 24);
+    if(dateDiff < 30) setIsNew(true)
+  },[])
+
+  
 
   const truncateDescription = (description, maxLength) => {
     if (description.length <= maxLength) {
@@ -76,9 +116,11 @@ const BlogCard = ({ blog }) => {
   return (
     <Link href={`/blog/${blog._id}`} passHref>
       <CardContainer>
-        <Image src={blog.images[0]} alt="Blog Image" />
+        <ImageBox>
+          <Image src={blog.images[0]} alt="Blog Image" width={350} height={290}/> 
+          <SpanStyled new={isNew ? 'new' : ''}>{isNew ? 'Nuevo Blog' : 'Blog'}</SpanStyled>
+        </ImageBox>
         <Title>{blog.title}</Title>
-        <BlogDate date={blog.date}padding/>
         <Subtitle>{blog.subtitle}</Subtitle>
         <Description>{truncatedDescription}</Description>
         <style jsx global>{`
@@ -86,7 +128,8 @@ const BlogCard = ({ blog }) => {
             text-decoration: none;
             color: inherit;
           }
-        `}</style>
+          `}</style>
+          <BlogDate date={blog.date} padding/>
       </CardContainer>
     </Link>
   );

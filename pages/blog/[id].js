@@ -44,20 +44,20 @@ width: 100%;
 overflow: hidden;
 height: auto;
 
-@media screen and (min-width: 768px) {
-    height: 20rem;
+@media screen and (min-width: 1023px) {
+    height: 30rem;
     width: auto;
   }
 img{
   width: 100%;
   height: auto;
   object-fit: cover;
-  min-height: 250px;
-  max-height: 400px;
+ /*  min-height: 250px;
+  max-height: 400px; */
   cursor: pointer;
 
-  @media screen and (min-width: 768px) {
-    height: 100%;
+  @media screen and (min-width: 1023px) {
+    height: 120%;
     width: auto;
   }
 }
@@ -66,7 +66,7 @@ img{
 const BlogSection = styled.section`
   display: grid;
   gap: 80px;
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 1023px) {
     grid-template-columns: 3fr auto;
   }
 `;
@@ -127,7 +127,7 @@ const InfoSetionn = styled.aside`
   }
   
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 1023px) {
     padding: 30px 20px 0 20px;
   }
 `;
@@ -173,8 +173,8 @@ const BlogPage = ({ blog, tours, urls }) => {
           <Image 
             src={blog.images[0]}
             alt="Blog Image"
-            height={420}
-            width={420}
+            height={500}
+            width={500}
             sizes="(max-width: 768px) 100vw"
             onClick={handleImageClick}
           />

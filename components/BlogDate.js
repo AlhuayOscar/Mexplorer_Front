@@ -6,7 +6,8 @@ const DateContainer = styled.div`
   display: flex;
   align-items: center;
   ${props => props.padding && css`
-    padding-left: 20px;
+    padding: 10px 20px;
+    align-self: flex-end;
   `}
   
 `;
