@@ -58,9 +58,12 @@ const ImageBox = styled.div`
   border-top-right-radius: 7px;
   overflow: hidden;
   position: relative;
-img{
   width: 100%;
   height: 250px;
+
+img{
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   filter: blur(
     0.4px
