@@ -5,17 +5,18 @@ import BlogDate from "./BlogDate";
 import Image from "next/image";
 import dayjs from "dayjs";
 
-const CardContainer = styled.div`
+const CardContainer = styled(Link)`
   background-color: #f5f5f5;
   border-radius: 8px;
   padding: 8px;
   box-shadow: 2px 2px 4px #47556955;
-  min-width: 350px;
-  max-width: 400px;
+  min-width: 320px;
+  max-width: 390px;
   height: fit-content;
   display: flex;
   flex-direction: column;
-
+  text-decoration: none;
+  color: #000;
 
   /* @media (max-width: 400px) {
     width: 95%;
@@ -27,6 +28,7 @@ const Title = styled.h2`
   font-weight: bold;
   height: 6rem;
   margin: 0;
+  margin-top: 5px;
   color: #00abbd;
   text-align: center;
   display: flex;
@@ -85,10 +87,6 @@ const SpanStyled = styled.span`
   `}
 `;
 
-const GlobalLinkStyles = styled.a`
-  text-decoration: none;
-  color: inherit;
-`;
 
 const BlogCard = ({ blog }) => {
 
@@ -99,7 +97,7 @@ const BlogCard = ({ blog }) => {
     console.log(today)
     const dateBlog = new Date(dayjs(blog.date).format("DD-MM-YYYY"));
     const dateDiff = (today - dateBlog) / (1000 * 60 * 60 * 24);
-    if(dateDiff < 30) setIsNew(true)
+    if(dateDiff < 8) setIsNew(true)
   },[])
 
   
@@ -117,8 +115,7 @@ const BlogCard = ({ blog }) => {
   const truncatedDescription = truncateDescription(blog.description, 160);
 
   return (
-    <Link href={`/blog/${blog._id}`} passHref>
-      <CardContainer>
+      <CardContainer href={`/blog/${blog._id}`} passHref>
         <ImageBox>
           <Image src={blog.images[0]} alt="Blog Image" width={350} height={290}/> 
           <SpanStyled new={isNew ? 'new' : ''}>{isNew ? 'Nuevo Blog' : 'Blog'}</SpanStyled>
@@ -126,15 +123,8 @@ const BlogCard = ({ blog }) => {
         <Title>{blog.title}</Title>
         <Subtitle>{blog.subtitle}</Subtitle>
         <Description>{truncatedDescription}</Description>
-        <style jsx global>{`
-          a {
-            text-decoration: none;
-            color: inherit;
-          }
-          `}</style>
-          <BlogDate date={blog.date} padding/>
-      </CardContainer>
-    </Link>
+        <BlogDate date={blog.date} padding/>
+      </CardContainer> 
   );
 };
 
