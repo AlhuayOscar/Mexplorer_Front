@@ -25,8 +25,8 @@ const CardContainer = styled.div`
 const Title = styled.h2`
   font-size: 24px;
   font-weight: bold;
+  height: 6rem;
   margin: 0;
-  padding: 20px;
   color: #00abbd;
   text-align: center;
   display: flex;
