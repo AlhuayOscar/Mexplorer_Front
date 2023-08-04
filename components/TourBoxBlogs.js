@@ -10,7 +10,8 @@ import InfoIcon from "@mui/icons-material/Info";
 const TourWrapper = styled(Link)`
 /* Por ahora no hay nada acá */
   height: fit-content;
-  width: 21rem;
+  min-width: 17rem;
+  max-width: 20rem;
   background-color: #84c441;
   /* border: 2px solid #47556955; */
   box-shadow: 2px 2px 4px #47556955;
@@ -18,6 +19,7 @@ const TourWrapper = styled(Link)`
   color: #000;
   border-radius: 7px;
   overflow: hidden;
+  margin: 0 10px;
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     height: fit-content;
     width: 70%;
@@ -33,7 +35,7 @@ const TourWrapper = styled(Link)`
 
 const WhiteBox = styled.div`
   width: 100%;
-  height: 16rem;
+  height: 15rem;
   text-align: center;
   display: flex;
   align-items: center;
