@@ -110,6 +110,9 @@ export default function ToursGrid({ tours }) {
         showThumbs={false}
         selectedItem={activeSlide}
         showStatus={false} // Quita los números de navegación
+        preventMovementUntilSwipeScrollTolerance={true}
+        swipeScrollTolerance={60}
+        verticalSwipe={'standar'}
         onChange={handleSlideChange}
       >
         {renderTours()}
