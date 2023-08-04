@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { useTranslation } from "react-i18next";
 
 const Wrapper = styled.div`
   display: flex;
@@ -146,6 +147,7 @@ const StyledExclamation = styled.span`
 `;
 
 const About = () => {
+  const { t } = useTranslation();
   return (
     <>
       <Header />
@@ -153,11 +155,7 @@ const About = () => {
         <Content>
           <ImageWrapper>
             <StyledSpan>
-              <h1>Bienvenidos a Mexplorer</h1> tu puerta de entrada para
-              descubrir las maravillas de Cancún. Estamos dedicados a promover
-              el turismo y ofrecer experiencias inolvidables en esta vibrante
-              ciudad. Mexplorer te invita a explorar y disfrutar de todo lo que
-              Cancún tiene para ofrecer.
+              <h1>{t("Bienvenidos a Mexplorer")}</h1> {t("Descripcion1")}
             </StyledSpan>
             <ResponsiveImage
               src="https://res.cloudinary.com/dipn8zmq3/image/upload/w_700/v1689523265/4682_afcejf.jpg"
@@ -170,23 +168,12 @@ const About = () => {
               alt="Imagen 2"
             />
             <StyledSpan>
-              <h1>Cancún es un paraíso tropical </h1>ubicado en la costa noreste
-              de la Península de Yucatán, en México. Con sus aguas cristalinas
-              de color turquesa, playas de arena blanca y una abundante vida
-              marina, Cancún se ha convertido en uno de los destinos turísticos
-              más solicitados en el mundo. Ven y descubre la belleza natural y
-              cultural de Cancún con Mexplorer.
+              <h1>{t("Cancún es un paraíso tropical")} </h1> {t("Descripcion2")}
             </StyledSpan>
           </ImageWrapper>
           <ImageWrapper>
             <StyledSpan>
-              <h1>Creemos que viajar </h1>no se trata solo de hacer turismo,
-              sino de sumergirse en la cultura local y crear recuerdos para toda
-              la vida. Ya sea que estés interesado en explorar antiguas ruinas
-              mayas, hacer snorkel en el Gran Arrecife Mesoamericano o disfrutar
-              de la deliciosa gastronomía mexicana, Cancún ofrece algo para
-              todos. En Mexplorer, te ayudaremos a planificar una experiencia
-              única y personalizada que se ajuste a tus intereses y presupuesto.
+              <h1>{t("Creemos que viajar")}</h1> {t("Descripcion3")}
             </StyledSpan>
             <ResponsiveImage
               src="https://res.cloudinary.com/dipn8zmq3/image/upload/w_700/v1689566895/arrecife_de_coral_1_nyw8in.jpg"
@@ -199,27 +186,12 @@ const About = () => {
               alt="Imagen 4"
             />
             <StyledSpan>
-              <h1>Nuestro equipo de entusiastas</h1>
-              está dedicado a crear experiencias únicas y personalizadas para
-              nuestros visitantes. Hemos seleccionado cuidadosamente una amplia
-              gama de actividades, tours y alojamientos para satisfacer
-              diferentes intereses y presupuestos. Permítenos ser tu guía
-              mientras descubres los tesoros escondidos de Cancún y te embarcas
-              en aventuras inolvidables. Mexplorer te ofrece una variedad de
-              opciones emocionantes para que disfrutes al máximo de tu visita a
-              Cancún.
+              <h1>{t("Nuestro equipo de entusiastas")}</h1> {t("Descripcion4")}
             </StyledSpan>
           </ImageWrapper>
           <ImageWrapper>
             <StyledSpan>
-              <h1>Como parte de nuestro compromiso </h1>con el turismo
-              sostenible, Mexplorer apoya a las comunidades locales e
-              iniciativas respetuosas con el medio ambiente. Creemos en
-              preservar la belleza natural de Cancún para las futuras
-              generaciones. Al elegir Mexplorer, no solo te embarcas en un viaje
-              memorable, sino que también contribuyes a la preservación de este
-              impresionante destino. Únete a nosotros y sé parte del turismo
-              responsable en Cancún.
+              <h1>{t("Como parte de nuestro compromiso")}</h1> {t("Descripcion5")}
             </StyledSpan>
             <ResponsiveImage
               src="https://res.cloudinary.com/dipn8zmq3/image/upload/w_700/v1689567973/cancun-beach-ee4fb41c2f544d71807b371f6116ee56_ratbac.jpg"
@@ -228,12 +200,9 @@ const About = () => {
           </ImageWrapper>
           <br />
           <StyledSalute>
-            Gracias por elegirnos. <br />
-            Te invitamos a explorar nuestro sitio web, navegar por nuestras
-            ofertas y comenzar a planificar tus vacaciones de ensueño en Cancún.
-            Permítenos ayudarte a crear una experiencia que te dejará recuerdos
-            para toda la vida. <br />
-            ¡Prepárate para descubrir la magia de Cancún con
+            {t("Gracias por elegirnos.")} <br />
+            {t("Descripcion6")} <br />
+            {t("¡Prepárate para descubrir la magia de Cancún con")}
             <br />
             <br />
             <br />

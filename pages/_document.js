@@ -11,6 +11,22 @@ export default class MyDocument extends Document {
                 #detach-button-host {
                   display: none !important;
                 }
+                body {
+                  background-color: black;
+                }
+                @keyframes fadeIn {
+                  from {
+                    opacity: 0;
+                  }
+                  to {
+                    opacity: 1;
+                    background-color: rgb(238, 238, 238);
+                  }
+                }
+                body {
+                  opacity: 0;
+                  animation: fadeIn 200ms ease-in 200ms forwards;
+                }
               `,
             }}
           />

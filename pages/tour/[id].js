@@ -2,7 +2,7 @@ import Center from "@/components/Center";
 import Header from "@/components/Header";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Tour } from "@/models/Tour";
-const { URL_BACK } = process.env;
+
 import styled, { css } from "styled-components";
 import { useContext, useState, useEffect, useRef } from "react";
 import { CartContext } from "@/components/CartContext";
@@ -23,7 +23,7 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import ReviewBox from "@/components/ReviewBox";
 import TimeBox from "@/components/TimeBox";
-import axios from "axios";
+
 import Links from "@/components/Links";
 
 const ColWrapper = styled.div`
@@ -288,7 +288,61 @@ const Overlay = styled.div`
 
 
 export default function TourPage({ tour, promoTours }) {
+export default function TourPage({ tour, promoTours }) {
   console.log(tour);
+  const { addTour } = useContext(CartContext);
+  const [showDescription, setShowDescription] = useState(true);
+  const [showIncludes, setShowIncludes] = useState(false);
+  const [showRequirements, setShowRequirements] = useState(false);
+  const [showNotes, setShowNotes] = useState(false);
+  const includesRef = useRef(null);
+  const requirementsRef = useRef(null);
+  const notesRef = useRef(null);
+  const reviewsRef = useRef(null);
+  const recomendationsRef = useRef(null);
+  const reservationsRef = useRef(null);
+  const [currentUrl, setCurrentUrl] = useState("");
+  const [showOverlay, setShowOverlay] = useState(false);
+
+  useEffect(() => {
+    // Get the current URL only when the component mounts (client-side).
+    setCurrentUrl(window.location.href);
+  }, []);
+
+  const handleShowDescription = () => {
+    setShowDescription(!showDescription);
+  };
+
+  const handleShowIncludes = () => {
+    setShowIncludes(!showIncludes);
+  };
+
+  const handleShowRequirements = () => {
+    setShowRequirements(!showRequirements);
+  };
+
+  const handleShowNotes = () => {
+    setShowNotes(!showNotes);
+  };
+
+  const scrollToreservations = () => {
+    reservationsRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setShowOverlay(window.innerWidth < 768);
+    };
+
+    handleResize(); // Verificamos el tamaño al cargar el componente
+
+    window.addEventListener("resize", handleResize); // Agregamos el evento para cambios en el tamaño de la pantalla
+
+    return () => {
+      window.removeEventListener("resize", handleResize); // Eliminamos el evento al desmontar el componente
+    };
+  }, []);
+
   const { addTour } = useContext(CartContext);
   const [showDescription, setShowDescription] = useState(true);
   const [showIncludes, setShowIncludes] = useState(false);

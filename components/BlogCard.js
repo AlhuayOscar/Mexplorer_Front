@@ -14,6 +14,10 @@ const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  @media (max-width: 400px) {
+    width: 95%;
+  }
 `;
 
 const Title = styled.h2`

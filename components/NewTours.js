@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Center from "@/components/Center";
+import BlogGrid from "@/components/BlogGrid";
 import ToursGrid from "@/components/ToursGrid";
 import { useTranslation } from "react-i18next";
 
@@ -34,8 +35,8 @@ export default function NewTours({ tours, promo }) {
       <ToursGrid tours={tours} />
       <RedTitle>{t("No te pierdas estas promos")}</RedTitle>
       <ToursGrid tours={promo} />
-      <YellowTitle>{t("Crea recuerdos inolvidables")}</YellowTitle>
-      <ToursGrid tours={tours} />
+      <YellowTitle>{t("Mira estas últimas publicaciónes")}</YellowTitle>
+      <BlogGrid />
     </Center>
   );
 }
