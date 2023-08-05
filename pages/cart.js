@@ -96,7 +96,6 @@ export default function CartPage() {
       setHasProducts(false);
     }
   }, [cartTours]);
-
   useEffect(() => {
     if (typeof window === "undefined") {
       return;
@@ -106,14 +105,7 @@ export default function CartPage() {
       clearCart();
     }
   }, []);
-
-  /* function moreOfThisTour(id) {
-    addTour(id);
-  }
-  function lessOfThisTour(id) {
-    removeTour(id);
-  } */
-
+  console.log(cartTours);
   async function goToPayment() {
     const response = await axios.post("/api/checkout", {
       kind: cartTours.type,
@@ -121,6 +113,7 @@ export default function CartPage() {
       lastname,
       email,
       cartTours,
+      currency: cartTours.currency,
     });
     if (response.data.url) {
       window.location = response.data.url;
@@ -217,6 +210,13 @@ export default function CartPage() {
                             {
                               cartTours.find((item) => item.id === tour._id)
                                 ?.type
+                            }
+                          </p>
+                          <p>
+                            Moneda:{" "}
+                            {
+                              cartTours.find((item) => item.id === tour._id)
+                                ?.currency
                             }
                           </p>
                         </td>

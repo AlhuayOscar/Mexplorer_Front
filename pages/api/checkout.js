@@ -12,6 +12,7 @@ export default async function handler(req, res) {
     return;
   }
   const { kind, name, lastname, email, cartTours, currency } = req.body;
+  console.log(req.body)
   await mongooseConnect();
   const toursIds = cartTours.map((tour) => tour.id);
   const uniqueIds = [...new Set(toursIds)];

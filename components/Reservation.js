@@ -159,6 +159,7 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
   const { addTour } = useContext(CartContext);
   const { cartTours } = useContext(CartContext);
   const [date, setDate] = useState();
+  const [showPriceInMXN, setShowPriceInMXN] = useState(false);
 
   const initialOrderData = {
     id: tour._id,
@@ -168,15 +169,11 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
     children: 0,
     date: dayjs(date).format("DD/MM/YYYY"),
     hour: "",
-    price: tour.price?.usd?.adultsPrice, // ? added for validation
+    price: tour.price?.usd?.adultsPrice,
+    currency: "USD",
   };
 
   const [orderData, setOrderData] = useState(initialOrderData);
-
-  // Paso 1: Estado para alternar entre precio en dólares y pesos
-  const [showPriceInMXN, setShowPriceInMXN] = useState(false);
-
-  // Paso 2: Calcula el precio en pesos mexicanos
   const priceInMXN =
     tour.price?.mxn?.adultsPrice * orderData.adults +
       tour.price?.mxn?.childrenPrice * orderData.children || 0;
@@ -201,6 +198,12 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
 
     calculateTotalPrice();
   }, [orderData.adults, orderData.children, tour, orderData.type]);
+  const handleCurrencyChange = () => {
+    const newCurrency = !showPriceInMXN ? "MXN" : "USD";
+    setShowPriceInMXN(!showPriceInMXN);
+    setOrderData({ ...orderData, currency: newCurrency });
+    console.log(orderData);
+  };
 
   useEffect(() => {
     setOrderData(initialOrderData);
@@ -216,7 +219,6 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
     setOrderData({ ...orderData, hour: schedule });
   };
 
-  console.log(cartTours);
   return (
     <ReservationBox sticky={sticky ? "sticky" : ""} ref={reservationsRef}>
       <ResercaTitle>RESERVA AHORA!</ResercaTitle>
@@ -287,8 +289,7 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
             <span>{showPriceInMXN ? "MXN" : "USD"}</span>
           </div>
         </Price>
-        {/* Botón para cambiar entre USD y MXN */}
-        <ButtonC onClick={() => setShowPriceInMXN(!showPriceInMXN)}>
+        <ButtonC onClick={handleCurrencyChange}>
           Mostrar en {showPriceInMXN ? "USD" : "MXN"}
         </ButtonC>
         {orderData.type === "reserva" ? (
