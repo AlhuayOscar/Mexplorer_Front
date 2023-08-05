@@ -125,7 +125,8 @@ export default function CartPage() {
       console.error("No se recibió la URL de pago en la respuesta.");
     }
   } catch (error) {
-    console.error("Error al hacer el post en el carrito:", error);
+    console.log("Error al hacer el post en el carrito:", error);
+    console.log("Error al hacer el post en el carrito:", error.message);
   }
 }
 
