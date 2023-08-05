@@ -8,6 +8,7 @@ export default async function handler(req, res) {
   if (req.method !== "POST") {
     console.log("ESTO NO ES UN POST AAAAAAAAAAAAAAAAA");
     res.json("should be a POST request");
+    res.status(405).send("Esto no es!!!"); // This line sends the 405 status with your custom message
     return;
   }
 
