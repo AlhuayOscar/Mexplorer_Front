@@ -5,18 +5,18 @@ const stripe = require("stripe")(process.env.STRIPE_SK);
 const nodemailer = require("nodemailer");
 const { EMAIL_ADDRESS, PASSWORD_EMAIL } = process.env;
 
-
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.json("should be a POST request");
     return;
   }
-  const { kind, name, lastname, email, cartTours, currency } = req.body;
-  console.log(req.body)
+  const { kind, name, lastname, email, cartTours } = req.body;
+  console.log(req.body);
   await mongooseConnect();
   const toursIds = cartTours.map((tour) => tour.id);
   const uniqueIds = [...new Set(toursIds)];
   const toursInfos = await Tour.find({ _id: uniqueIds });
+  const currency = cartTours[0].currency;
   function sumarPreciosTours(cartTours) {
     const total = cartTours.reduce((acumulador, tour) => {
       return acumulador + tour.price;
@@ -24,7 +24,6 @@ export default async function handler(req, res) {
     return total;
   }
   const price = sumarPreciosTours(cartTours);
-  
   let line_items = [];
   for (const tourId of uniqueIds) {
     const tourInfo = toursInfos.find((p) => p._id.toString() === tourId);
@@ -33,7 +32,7 @@ export default async function handler(req, res) {
       line_items.push({
         quantity,
         price_data: {
-          currency: "USD",
+          currency: currency,
           product_data: { name: tourInfo.name },
           unit_amount: price * 100,
         },
@@ -64,8 +63,7 @@ export default async function handler(req, res) {
     },
   });
 
-    return res.json({
-      url: session.url,
-    });
-  }
-
+  return res.json({
+    url: session.url,
+  });
+}
