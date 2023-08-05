@@ -198,13 +198,13 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
 
     calculateTotalPrice();
   }, [orderData.adults, orderData.children, tour, orderData.type]);
+
   const handleCurrencyChange = () => {
     const newCurrency = !showPriceInMXN ? "MXN" : "USD";
+    const newPrice = !showPriceInMXN ? priceInMXN : priceInUSD;
     setShowPriceInMXN(!showPriceInMXN);
-    setOrderData({ ...orderData, currency: newCurrency });
-    console.log(orderData);
+    setOrderData({ ...orderData, currency: newCurrency, price: newPrice });
   };
-
   useEffect(() => {
     setOrderData(initialOrderData);
     setDate("");
