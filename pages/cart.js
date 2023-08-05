@@ -126,14 +126,18 @@ async function goToPayment() {
 
   try {
     const response = await fetch('/api/checkout', requestOptions);
+    if (!response.ok) {
+      throw new Error('Error al procesar el pago: ' + response.status);
+    }
     const data = await response.json();
     if (data.url) {
       window.location = data.url;
     }
   } catch (error) {
-    console.error('Error al procesar el pago:', error);
+    console.error(error.message);
   }
 }
+
 
 
   let total = 0;
