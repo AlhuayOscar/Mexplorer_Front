@@ -83,7 +83,7 @@ export default function CartPage() {
   useEffect(() => {
     if (cartTours.length > 0) {
       axios
-        .post("/api/cart/", { ids: cartTours.map((tour) => tour.id) })
+        .post("/api/cart", { ids: cartTours.map((tour) => tour.id) })
         .then((response) => {
           setTours(response.data);
           setHasProducts(true);
@@ -96,7 +96,6 @@ export default function CartPage() {
       setHasProducts(false);
     }
   }, [cartTours]);
-
   useEffect(() => {
     if (typeof window === "undefined") {
       return;
@@ -107,39 +106,20 @@ export default function CartPage() {
     }
   }, []);
   console.log(cartTours);
-  
-async function goToPayment() {
-  const requestOptions = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
+  async function goToPayment() {
+    const response = await axios.post("/api/checkout", {
       kind: cartTours.type,
       name,
       lastname,
       email,
       cartTours,
       currency: cartTours.currency,
-    }),
-  };
-
-  try {
-    const response = await fetch('/api/checkout', requestOptions);
-    if (!response.ok) {
-      throw new Error('Error al procesar el pago: ' + response.status);
+    });
+      console.log(response);
+    if (response.data.url) {
+      window.location = response.data.url;
     }
-    const data = await response.json();
-    if (data.url) {
-      window.location = data.url;
-    }
-  } catch (error) {
-    console.error(error.message);
   }
-}
-
-
-
   let total = 0;
   for (const tours of cartTours) {
     const price = tours?.price || 0;
