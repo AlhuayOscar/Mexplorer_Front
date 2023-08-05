@@ -107,6 +107,7 @@ export default function CartPage() {
   }, []);
   console.log(cartTours);
   async function goToPayment() {
+  try {
     const response = await axios.post("/api/checkout", {
       kind: cartTours.type,
       name,
@@ -115,10 +116,17 @@ export default function CartPage() {
       cartTours,
       currency: cartTours.currency,
     });
+
     if (response.data.url) {
       window.location = response.data.url;
+    } else {
+      console.error("No se recibió la URL de pago en la respuesta.");
     }
+  } catch (error) {
+    console.error("Error al hacer el post en el carrito:", error);
   }
+}
+
   let total = 0;
   for (const tours of cartTours) {
     const price = tours?.price || 0;
