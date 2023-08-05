@@ -49,13 +49,13 @@ export default async function handler(req, res) {
           host: "smtp.gmail.com",
           port: 587,
           auth: {
-            user: EMAIL_ADDRESS,
-            pass: PASSWORD_EMAIL,
+            user: "alanquimeywinkler@gmail.com",
+            pass: "dyfxenijhfbyxtqt",
           },
         };
 
         const mensaje = {
-          from: EMAIL_ADDRESS,
+          from: "alanquimeywinkler@gmail.com",
           to: email,
           subject: "Confirmación de compra",
           html: `
