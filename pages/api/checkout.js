@@ -2,14 +2,15 @@ import { mongooseConnect } from "@/lib/mongoose";
 import { Tour } from "@/models/Tour";
 import { Order } from "@/models/Order";
 const stripe = require("stripe")(process.env.STRIPE_SK);
-const nodemailer = require("nodemailer");
-const { EMAIL_ADDRESS, PASSWORD_EMAIL } = process.env;
 
 export default async function handler(req, res) {
+  console.log("Estoy en checkout.js", req, res);
   if (req.method !== "POST") {
+    console.log("ESTO NO ES UN POST AAAAAAAAAAAAAAAAA");
     res.json("should be a POST request");
     return;
   }
+
   const { kind, name, lastname, email, cartTours } = req.body;
   console.log(req.body);
   await mongooseConnect();
