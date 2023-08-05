@@ -5,7 +5,7 @@ import { buffer } from "micro";
 import { Order } from "@/models/Order";
 const { EMAIL_ADDRESS, PASSWORD_EMAIL, ENDPOINT_SECRET } = process.env;
 
-const endpointSecret = "whsec_IzVMDMPDBjuMm3tFJLOKytDsVPY3lieB";
+const endpointSecret = "whsec_QAruocsrzd3asSYxKwtrkImnfBbX3nNX";
 
 export default async function handler(req, res) {
   await mongooseConnect();
@@ -49,13 +49,13 @@ export default async function handler(req, res) {
           host: "smtp.gmail.com",
           port: 587,
           auth: {
-            user: EMAIL_ADDRESS,
-            pass: PASSWORD_EMAIL,
+            user: "alanquimeywinkler@gmail.com",
+            pass: "dyfxenijhfbyxtqt",
           },
         };
 
         const mensaje = {
-          from: EMAIL_ADDRESS,
+          from: "alanquimeywinkler@gmail.com",
           to: email,
           subject: "Confirmación de compra",
           html: `
