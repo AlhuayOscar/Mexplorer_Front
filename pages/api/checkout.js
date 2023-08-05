@@ -1,7 +1,7 @@
 import { mongooseConnect } from "@/lib/mongoose";
 import { Tour } from "@/models/Tour";
 import { Order } from "@/models/Order";
-const stripe = require("stripe")(process.env.STRIPE_SK);
+const stripe = require("stripe")(sk_test_51MQ0hpCbAa1Q88fb5eUuLdeBoowNToEHhonRAtuKOV9zpjVSyHBKevTDKKS1WtPSCJANWaufAeUeYvrwy38kjg4H00pt9LO8x7);
 
 export default async function handler(req, res) {
   console.log("Estoy en checkout.js", req, res);
