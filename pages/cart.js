@@ -83,7 +83,7 @@ export default function CartPage() {
   useEffect(() => {
     if (cartTours.length > 0) {
       axios
-        .post("/api/cart/", { ids: cartTours.map((tour) => tour.id) })
+        .post("/api/cart", { ids: cartTours.map((tour) => tour.id) })
         .then((response) => {
           setTours(response.data);
           setHasProducts(true);
@@ -96,7 +96,6 @@ export default function CartPage() {
       setHasProducts(false);
     }
   }, [cartTours]);
-
   useEffect(() => {
     if (typeof window === "undefined") {
       return;
@@ -107,7 +106,6 @@ export default function CartPage() {
     }
   }, []);
   console.log(cartTours);
-  
   async function goToPayment() {
     const response = await axios.post("/api/checkout", {
       kind: cartTours.type,
@@ -117,6 +115,7 @@ export default function CartPage() {
       cartTours,
       currency: cartTours.currency,
     });
+      console.log(response);
     if (response.data.url) {
       window.location = response.data.url;
     }
