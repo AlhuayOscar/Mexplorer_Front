@@ -108,27 +108,33 @@ export default function CartPage() {
   }, []);
   console.log(cartTours);
   
-  async function goToPayment() {
-  try {
-    const response = await axios.post("/api/checkout", {
+async function goToPayment() {
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
       kind: cartTours.type,
       name,
       lastname,
       email,
       cartTours,
       currency: cartTours.currency,
-    });
+    }),
+  };
 
-    if (response.data.url) {
-      window.location = response.data.url;
-    } else {
-      console.error("No se recibió la URL de pago en la respuesta.");
+  try {
+    const response = await fetch('/api/checkout', requestOptions);
+    const data = await response.json();
+    if (data.url) {
+      window.location = data.url;
     }
   } catch (error) {
-    console.log("Error al hacer el post en el carrito:", error);
-    console.log("Error al hacer el post en el carrito:", error.message);
+    console.error('Error al procesar el pago:', error);
   }
 }
+
 
   let total = 0;
   for (const tours of cartTours) {
