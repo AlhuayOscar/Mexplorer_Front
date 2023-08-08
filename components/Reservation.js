@@ -212,6 +212,12 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
     setDate("");
   }, [tour]);
 
+
+  const isAvailable = (date) => {
+    const day = date.day();
+    return tour.unavailableDays.includes(day);
+  };
+
   const handleTypeClick = (type) => {
     setOrderData({ ...orderData, type: type });
   };
@@ -276,6 +282,7 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
         <Titles>{t("Elige una fecha")}</Titles>
         <Date
           disablePast
+          shouldDisableDate={(date) => !isAvailable(date)}
           format="DD/MM/YYYY"
           views={["year", "month", "day"]}
           value={date}
