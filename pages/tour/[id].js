@@ -25,6 +25,8 @@ import ReviewBox from "@/components/ReviewBox";
 import TimeBox from "@/components/TimeBox";
 
 import Links from "@/components/Links";
+import { useTranslation } from "react-i18next";
+import i18n from "@/i18n";
 
 const ColWrapper = styled.div`
   display: flex;
@@ -90,8 +92,8 @@ const SubtitleStyle = css`
     width: 12rem;
     font-size: 1.5rem;
     ${(props) =>
-      props.title &&
-      css`
+    props.title &&
+    css`
         width: auto;
       `}
   }
@@ -210,13 +212,13 @@ const Points = styled.div`
       font-weight: 500;
     }
     ${(props) =>
-      props.long &&
-      css`
+    props.long &&
+    css`
         width: 80%;
       `}
     ${(props) =>
-      props.short &&
-      css`
+    props.short &&
+    css`
         width: 40%;
       `}
   }
@@ -289,7 +291,7 @@ const Overlay = styled.div`
 
 export default function TourPage({ tour, promoTours }) {
   console.log(tour);
- 
+
   const { addTour } = useContext(CartContext);
   const [showDescription, setShowDescription] = useState(true);
   const [showIncludes, setShowIncludes] = useState(false);
@@ -343,6 +345,22 @@ export default function TourPage({ tour, promoTours }) {
     };
   }, []);
 
+  // Cambia el idioma con i18n
+  const { t } = useTranslation();
+  const currentLanguage = i18n.language;
+
+  useEffect(() => {
+    console.log("currentLanguage", currentLanguage);
+  }, [currentLanguage]);
+
+  // Se Obtiene los valores en español e inglés basados en el idioma actual
+  const displayName = currentLanguage === 'es' ? tour.name : tour.nameEng;
+  const displayDescription = currentLanguage === 'es' ? tour.description : tour.descriptionEng;
+  const displayIncludes = currentLanguage === 'es' ? tour.includes : tour.includesEng;
+  const displayDoesntIncludes = currentLanguage === 'es' ? tour.doesntIncludes : tour.doesntIncludesEng;
+  const displayRequirements = currentLanguage === 'es' ? tour.requirements : tour.requirementsEng;
+  const displayNotes = currentLanguage === 'es' ? tour.notes : tour.notesEng;
+
   return (
     <>
       <Header />
@@ -352,7 +370,7 @@ export default function TourPage({ tour, promoTours }) {
       </OverflowProtection>
       <TitleTour>
         <div>
-          <Title>{tour.name}</Title>
+          <Title>{displayName}</Title>
           <TimeBox duration={tour.duration} /* white */ />
         </div>
         <div>
@@ -377,15 +395,15 @@ export default function TourPage({ tour, promoTours }) {
             {showDescription ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </div>
         </HeaderInfo>
-        {showDescription && 
-        <Description>
-          <ToursLink href={"/tours"}>
+        {showDescription &&
+          <Description>
+            <ToursLink href={"/tours"}>
               <div>
                 <ArrowI />
                 Ver todos los tours en Cancun
               </div>
             </ToursLink>
-          {tour.description}
+            {tour.description}
           </Description>}
         <HeaderInfo yellow>
           Que incluye
@@ -458,35 +476,35 @@ export default function TourPage({ tour, promoTours }) {
       <Desktop>
         <ColWrapper>
           <TourInfoBox>
-            <Subtitle title>Descripción general</Subtitle>
+            <Subtitle title>{t("Descripción general")}</Subtitle>
             <ToursLink href={"/tours"}>
               <div>
                 <ArrowI />
-                Ver todos los tours en Cancun
+                {t("Ver todos los tours en Cancun")}
               </div>
             </ToursLink>
-            <Description>{tour.description}</Description>
+            <Description>{displayDescription}</Description>
 
             {tour.includes && (
               <InfoBox ref={includesRef}>
-                <Subtitle yellow>Que incluye</Subtitle>
+                <Subtitle yellow>{t("Que incluye")}</Subtitle>
                 <Points short>
-                  <h4>Este tour incluye:</h4>
+                  <h4>{t("Este tour incluye")}:</h4>
                   {tour.includes?.map((include) => (
                     <Point key={include}>
                       <Check />
-                      {include}
+                      {displayIncludes}
                     </Point>
                   ))}
                 </Points>
                 {tour.doesntIncludes && (
                   <>
                     <Points short>
-                      <h4>Este tour no incluye:</h4>
+                      <h4>{t("Este tour no incluye")}:</h4>
                       {tour.doesntIncludes?.map((doesntInclude) => (
                         <Point key={doesntInclude}>
                           <Cancel />
-                          {doesntInclude}
+                          {displayDoesntIncludes}
                         </Point>
                       ))}
                     </Points>
@@ -496,12 +514,12 @@ export default function TourPage({ tour, promoTours }) {
             )}
             {tour.requirements && (
               <InfoBox ref={requirementsRef}>
-                <Subtitle purple>Que Llevar</Subtitle>
+                <Subtitle purple>{t("Que llevar")}</Subtitle>
                 <Points long>
                   {tour.requirements?.map((requirement) => (
                     <Point key={requirement}>
                       <Check />
-                      {requirement}
+                      {displayRequirements}
                     </Point>
                   ))}
                 </Points>
@@ -510,12 +528,12 @@ export default function TourPage({ tour, promoTours }) {
 
             {tour.notes && (
               <InfoBox ref={notesRef}>
-                <Subtitle green>Notas</Subtitle>
+                <Subtitle green>{t("Notas")}</Subtitle>
                 <Points long>
                   {tour.notes?.map((note) => (
                     <Point key={note}>
                       <Check />
-                      {note}
+                      {displayNotes}
                     </Point>
                   ))}
                 </Points>
@@ -532,13 +550,13 @@ export default function TourPage({ tour, promoTours }) {
       </Desktop>
       <Center>
         <Subtitle red margin ref={reviewsRef}>
-          Reseñas
+          {t("Reseñas")}
         </Subtitle>
         <ToursReviews tour={tour} />
       </Center>
       <Recomendations>
         <Subtitle purple margin ref={recomendationsRef}>
-          Recomendaciones
+          {t("Recomendaciones")}
         </Subtitle>
         <ToursGrid tours={promoTours} />
       </Recomendations>

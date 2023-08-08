@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import Button from "@/components/Button";
-import React, { useContext, useEffect, useState } from 'react'
-import { CartContext } from './CartContext'
+import React, { useEffect } from 'react'
+//import { CartContext } from './CartContext'
 import Link from "next/link";
 import Image from "next/image";
-import TimeIcon from '@mui/icons-material/AccessTime';
+//import TimeIcon from '@mui/icons-material/AccessTime';
 import { useRouter } from 'next/router';
 import TimeBox from "./TimeBox";
 import ReviewBox from "./ReviewBox";
@@ -133,31 +133,25 @@ const ButtonG = styled(Button)`
 
 
 function TourBoxH({ _id, name, nameEng, subtitleEng, subtitle, duration, promo, review, price, images }) {
-  const { t } = useTranslation();
-  //const [currentLanguage, setCurrentLanguage] = useState('es'); // Estado para el idioma actual
-  //console.log("currentLanguage", currentLanguage);
   const url = `/tour/${_id}`
   const router = useRouter();
   const handleButtonClick = () => {
     router.push(url);
   };
 
+  // Cambia el idioma con i18n
+  const { t } = useTranslation();
   const currentLanguage = i18n.language;
-  // Función para cambiar el idioma
-  // const handleChangeLanguage = (language) => {
-  //   i18n.changeLanguage(language);
-  //   setCurrentLanguage(currentLanguage === 'es' ? 'en' : 'es');
-  // };
 
   useEffect(() => {
     console.log("currentLanguage", currentLanguage);
   }, [currentLanguage]);
 
-  // Obtener los valores en español e inglés basados en el idioma actual
+  // Se Obtiene los valores en español e inglés basados en el idioma actual
   const displayName = currentLanguage === 'es' ? name : nameEng;
   const displaySubtitle = currentLanguage === 'es' ? subtitle : subtitleEng;
   const displayPrince = currentLanguage === 'es' ? price.mxn?.adultsPrice : price.usd?.adultsPrice;
-
+  const displayPromo = currentLanguage === 'es' ? price.mxn?.withoutPromoAdultsPrice : price.usd?.withoutPromoAdultsPrice;
 
   return (
     <TourWrapper>
@@ -176,7 +170,7 @@ function TourBoxH({ _id, name, nameEng, subtitleEng, subtitle, duration, promo, 
         {/* <TypeT>Todo en uno</TypeT> */}
         <TimeBox duration={duration} />
         <Prices>
-          {price.usd?.withoutPromoAdultsPrice && <Promo>${price.usd?.withoutPromoAdultsPrice}</Promo>}
+          {displayPromo && <Promo>${displayPromo}{t("Moneda")}</Promo>}
           <Price>${displayPrince}{t("Moneda")}</Price>
         </Prices>
         <ButtonG onClick={handleButtonClick} green>
