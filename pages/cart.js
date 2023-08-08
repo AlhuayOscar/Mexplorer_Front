@@ -10,14 +10,15 @@ import Input from "@/components/Input";
 import Image from "next/image";
 import Link from "next/link";
 import Footer from "@/components/Footer";
+
 const ColumnsWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr;
+  gap: 40px;
+  margin-top: 40px;
   @media screen and (min-width: 768px) {
     grid-template-columns: 1.2fr 0.8fr;
   }
-  gap: 40px;
-  margin-top: 40px;
 `;
 
 const Box = styled.div`
@@ -27,9 +28,14 @@ const Box = styled.div`
 `;
 
 const TourInfoCell = styled.td`
-  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  padding: 5px 0;
   font-size: 1.2rem;
   color: #84c441;
+  text-align: center;
+  margin: auto auto;
 `;
 
 const TourImageBox = styled(Link)`
@@ -184,7 +190,7 @@ export default function CartPage() {
                       </TourInfoCell>
                       {
                         <td>
-                          <p>{tour.name}</p>
+                          {/* <p>{tour.name}</p> */}
                           <p>
                             Adultos:{" "}
                             {
