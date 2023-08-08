@@ -70,46 +70,56 @@ const ResultSearch = ({ tours, name, totalPages }) => {
 
 
 export async function getServerSideProps(context) {
-    await mongooseConnect();
-    const { name, categories, sort, page, pageSize, ...filters } = context.query;
-    let [sortField, sortOrder] = (sort || '_id-desc').split('-');
+    try {
+        await mongooseConnect();
+        const { name, sort, page, ...filters } = context.query;
+        let [sortField, sortOrder] = (sort || '_id-desc').split('-');
 
-    const toursQuery = {};
-    if (categories) {
-        toursQuery.category = categories.split(',');
-    }
-    if (name) {
-        toursQuery['$or'] = [
-            { name: { $regex: name, $options: 'i' } },
-            { description: { $regex: name, $options: 'i' } },
-        ];
-    }
-    if (Object.keys(filters).length > 0) {
-        Object.keys(filters).forEach(filterName => {
-            toursQuery['properties.' + filterName] = filters[filterName];
+        const toursQuery = {};
+        if (name) {
+            toursQuery['$or'] = [
+                { name: { $regex: name, $options: 'i' } },
+                { nameEng: { $regex: name, $options: 'i' } },
+                { description: { $regex: name, $options: 'i' } },
+            ];
+        }
+        if (Object.keys(filters).length > 0) {
+            Object.keys(filters).forEach(filterName => {
+                toursQuery['properties.' + filterName] = filters[filterName];
+            });
+        }
+        const limit = 9; // Establece el límite a 9 productos por página
+        const skip = (Number(page) - 1) * limit;
+        const resultsQuery = Tour.find(toursQuery, null, {
+            sort: { [sortField]: sortOrder === "asc" ? 1 : -1 },
+            skip,
+            limit,
         });
+
+        const results = await resultsQuery.exec();
+
+        // Obtener el recuento total de paginas
+        const totalCount = await Tour.countDocuments(toursQuery);
+
+        const totalPages = Math.ceil(totalCount / limit); // Calcular el número total de páginas.
+
+        return {
+            props: {
+                tours: JSON.parse(JSON.stringify(results)),
+                name: name,
+                totalPages: totalPages, // Pasa el valor totalPages al componente
+            },
+        };
+    } catch (error) {
+        console.error("Error al obtener los datos del tour:", error);
+        return {
+            props: {
+                tour: null,
+                name: null,
+                totalPages: null,
+            },
+        };
     }
-    const limit = 3; // Establece el límite a 3 productos por página
-    const skip = (Number(page) - 1) * limit;
-    const resultsQuery = Tour.find(toursQuery, null, {
-        sort: { [sortField]: sortOrder === "asc" ? 1 : -1 },
-        skip,
-        limit,
-    });
-
-    const results = await resultsQuery.exec();
-
-    // Obtener el recuento total de paginas
-    const totalCount = await Tour.countDocuments(toursQuery);
-
-    const totalPages = Math.ceil(totalCount / limit); // Calcular el número total de páginas.
-
-    return {
-        props: {
-            tours: JSON.parse(JSON.stringify(results)),
-            name: name,
-            totalPages: totalPages, // Pasa el valor totalPages al componente
-        },
-    };
 }
+
 export default ResultSearch;
