@@ -7,6 +7,7 @@ import Input from "@/components/Input";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import Swal from "sweetalert2";
+import { useTranslation } from "react-i18next";
 
 const ReservationBox = styled.div`
   overflow: hidden;
@@ -156,6 +157,7 @@ const Select = styled.select`
 `;
 
 export default function Reservation({ tour, sticky, reservationsRef }) {
+  const { t } = useTranslation();
   const { addTour } = useContext(CartContext);
   const { cartTours } = useContext(CartContext);
   const [date, setDate] = useState();
@@ -176,10 +178,10 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
   const [orderData, setOrderData] = useState(initialOrderData);
   const priceInMXN =
     tour.price?.mxn?.adultsPrice * orderData.adults +
-      tour.price?.mxn?.childrenPrice * orderData.children || 0;
+    tour.price?.mxn?.childrenPrice * orderData.children || 0;
   const priceInUSD =
     tour.price?.usd?.adultsPrice * orderData.adults +
-      tour.price?.usd?.childrenPrice * orderData.children || 0;
+    tour.price?.usd?.childrenPrice * orderData.children || 0;
 
   useEffect(() => {
     const calculateTotalPrice = () => {
@@ -187,11 +189,11 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
       if (orderData.type === "reserva" && tour.reservation) {
         totalPrice =
           tour.price?.mxn?.adultsReservationPrice * orderData.adults +
-            tour.price?.mxn?.childrenReservationPrice * orderData.children || 0;
+          tour.price?.mxn?.childrenReservationPrice * orderData.children || 0;
       } else {
         totalPrice =
           tour.price?.usd?.adultsPrice * orderData.adults +
-            tour.price?.usd?.childrenPrice * orderData.children || 0;
+          tour.price?.usd?.childrenPrice * orderData.children || 0;
       }
       setOrderData({ ...orderData, price: totalPrice });
     };
@@ -221,28 +223,28 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
 
   return (
     <ReservationBox sticky={sticky ? "sticky" : ""} ref={reservationsRef}>
-      <ResercaTitle>RESERVA AHORA!</ResercaTitle>
+      <ResercaTitle>{t("Reserva ahora!!")}!</ResercaTitle>
       {tour.reservation ? (
         <TypeBox>
           <Types
             active={orderData.type === "Reserva"}
             onClick={() => handleTypeClick("Reserva")}
           >
-            Reserva
+            {t("Reserva")}
           </Types>
           <Types
             active={orderData.type === "Compra"}
             onClick={() => handleTypeClick("Compra")}
           >
-            Compra
+            {t("Compra")}
           </Types>
         </TypeBox>
       ) : (
-        <TypeBox padding>Compra</TypeBox>
+        <TypeBox padding>{t("Compra")}</TypeBox>
       )}
 
       <Box>
-        <Titles>Adultos</Titles>
+        <Titles>{t("Adultos")}</Titles>
         <Input
           placeholder="Cantidad de personas"
           type="number"
@@ -252,7 +254,7 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
           }
           min={1}
         />
-        <Titles>Niños</Titles>
+        <Titles>{t("Niños")}</Titles>
         <Input
           placeholder="Cantidad de niños"
           type="number"
@@ -263,7 +265,7 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
           }
         />
 
-        <Titles>Hora</Titles>
+        <Titles>{t("Hora")}</Titles>
         <Select onChange={handleSelect}>
           {tour.schedule?.map((schedule) => (
             <option key={schedule.id} value={schedule}>
@@ -271,7 +273,7 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
             </option>
           ))}
         </Select>
-        <Titles>Elige una fecha</Titles>
+        <Titles>{t("Elige una fecha")}</Titles>
         <Date
           disablePast
           format="DD/MM/YYYY"
@@ -283,24 +285,24 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
         />
 
         <Price>
-          <label>Total</label>
+          <label>{t("Total")}</label>
           <div>
             {showPriceInMXN ? `$ ${priceInMXN}` : `$ ${priceInUSD}`}
             <span>{showPriceInMXN ? "MXN" : "USD"}</span>
           </div>
         </Price>
         <ButtonC onClick={handleCurrencyChange}>
-          Mostrar en {showPriceInMXN ? "USD" : "MXN"}
+          {t("Mostrar en")} {showPriceInMXN ? "USD" : "MXN"}
         </ButtonC>
         {orderData.type === "reserva" ? (
           <ButtonC type="submit" green onClick={() => addTour(orderData)}>
             <CartIcon />
-            Reserva
+            {t("Añadir a mi carrito de compras")}!!
           </ButtonC>
         ) : (
           <ButtonR type="submit" green onClick={() => addTour(orderData)}>
             <CartIcon />
-            Compra
+            {t("Añadir a mi carrito de compras")}
           </ButtonR>
         )}
       </Box>

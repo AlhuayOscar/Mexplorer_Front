@@ -6,6 +6,7 @@ import Textarea from "./Textarea";
 import Button from "./Button";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 
 const Subtitle = styled.h3`
@@ -139,145 +140,146 @@ const White = styled(WhiteBox)`
 `;
 
 export default function ToursReviews({ tour }) {
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [stars, setStars] = useState(1);
-    const [reviews, setReviews] = useState([]);
-    const [showAllReviews, setShowAllReviews] = useState(false);
-    const [expandedComments, setExpandedComments] = useState([]);
+  const { t } = useTranslation();
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [stars, setStars] = useState(1);
+  const [reviews, setReviews] = useState([]);
+  const [showAllReviews, setShowAllReviews] = useState(false);
+  const [expandedComments, setExpandedComments] = useState([]);
 
-  
-  
+
+
 
   const limitedReviews = reviews.slice(0, 3);
 
-    function submitReview() {
-        const data = { title, description, stars, tour: tour._id }
-        axios.post('/api/reviews', data)
-            setTitle('');
-            setDescription('');
-            setStars(0);
-            loadReviews();
-       
+  function submitReview() {
+    const data = { title, description, stars, tour: tour._id }
+    axios.post('/api/reviews', data)
+    setTitle('');
+    setDescription('');
+    setStars(0);
+    loadReviews();
+
+  }
+
+  useEffect(() => {
+    loadReviews();
+  }, []);
+
+  function loadReviews() {
+    axios.get('/api/reviews?tour=' + tour._id).then(res => {
+      setReviews(res.data);
+    });
+  }
+
+  const handleShowAllReviews = () => {
+    setShowAllReviews(!showAllReviews);
+  };
+
+  const handleToggleDescription = (commentId) => {
+    if (expandedComments.includes(commentId)) {
+      setExpandedComments(expandedComments.filter((id) => id !== commentId));
+    } else {
+      setExpandedComments([...expandedComments, commentId]);
     }
+  };
+  return (
 
-    useEffect(() => {
-        loadReviews();
-    }, []);
+    <ColsWrapper>
+      <InfoBox>
+        <ReviewBox>
+          <div>
+            <Subtitle>{tour.name}</Subtitle>
+            <StarsRanting size={'sm'} disabled={true} defaulHowMany={tour.review.total} />
+          </div>
+          <h2>{tour.review.total} / 5</h2>
+          <span>{tour.review.quantity} {t("Reseñas")}</span>
+        </ReviewBox>
 
-    function loadReviews() {
-        axios.get('/api/reviews?tour=' + tour._id).then(res => {
-            setReviews(res.data);
-        });
-    }
+        <Box>
+          <Subtitle>{t("Agrega una reseña")}</Subtitle>
 
-    const handleShowAllReviews = () => {
-        setShowAllReviews(!showAllReviews);
-      };
+          <StarsRanting onChange={setStars} />
 
-      const handleToggleDescription = (commentId) => {
-        if (expandedComments.includes(commentId)) {
-          setExpandedComments(expandedComments.filter((id) => id !== commentId));
-        } else {
-          setExpandedComments([...expandedComments, commentId]);
-        }
-      };
-    return (
-        
-            <ColsWrapper>
-                <InfoBox>
-                  <ReviewBox>
+          <Input
+            margin
+            value={title}
+            onChange={ev => setTitle(ev.target.value)}
+            placeholder="Titulo" />
+          <Textarea
+            value={description}
+            onChange={ev => setDescription(ev.target.value)}
+            placeholder="Deja tu opinión" />
+
+          <ButtonRev green block onClick={submitReview} >{t("Enviar")}</ButtonRev>
+
+        </Box>
+      </InfoBox>
+
+      <White>
+        <Subtitle>{t("Reseñas")}</Subtitle>
+        <WhiteBoxC>
+          {reviews.length === 0 ? (
+            <p>{t("No tiene reseña")}</p>
+          ) : (
+            <>
+              {limitedReviews.map(review => (
+                <ReviewWrapper key={review.id}>
+                  <ReviewHeader>
+                    <h3>{review.title}</h3>
+                    <time>{(new Date(review.createdAt)).toLocaleString('sv-SE')}</time>
+                  </ReviewHeader>
+                  <StarsRanting size={'sm'} disabled={true} defaulHowMany={review.stars} />
+                  <div>
+                    {expandedComments.includes(review._id)
+                      ? <p>{review.description}</p>
+                      : review.description.length <= 160
+                        ? <p>{review.description}</p>
+                        : <p>{review.description.substring(0, 160)}</p>}
+                    {review.description.length > 160 && (
+                      <ButtonC onClick={() => handleToggleDescription(review._id)}>
+                        {expandedComments.includes(review._id) ? 'Mostrar menos' : 'Mostrar más'}
+                      </ButtonC>
+                    )}
+                  </div>
+
+                </ReviewWrapper>
+              ))}
+
+              {showAllReviews && (
+                reviews.slice(3).map(review => (
+                  <ReviewWrapper key={review.id}>
+                    <ReviewHeader>
+                      <h3>{review.title}</h3>
+                      <time>{(new Date(review.createdAt)).toLocaleString('sv-SE')}</time>
+                    </ReviewHeader>
+                    <StarsRanting size={'sm'} disabled={true} defaulHowMany={review.stars} />
                     <div>
-                      <Subtitle>{tour.name}</Subtitle>
-                      <StarsRanting size={'sm'} disabled={true} defaulHowMany={tour.review.total}/>
-                    </div>
-                    <h2>{tour.review.total} / 5</h2>
-                    <span>{tour.review.quantity} Reseñas</span>
-                  </ReviewBox>
-                  
-                    <Box>
-                        <Subtitle>Agrega una reseña</Subtitle>
-                      
-                        <StarsRanting onChange={setStars} />
-                        
-                        <Input
-                            margin
-                            value={title}
-                            onChange={ev => setTitle(ev.target.value)}
-                            placeholder="Titulo" />
-                        <Textarea
-                            value={description}
-                            onChange={ev => setDescription(ev.target.value)}
-                            placeholder="Deja tu opinión" />
-                        
-                        <ButtonRev green block onClick={submitReview} >Enviar</ButtonRev>
-                        
-                    </Box>
-                </InfoBox>
-                
-                    <White>
-                    <Subtitle>Reseñas</Subtitle>
-                    <WhiteBoxC>
-                      {reviews.length === 0 ? (
-                        <p>No tiene reseña</p>
-                      ) : (
-                        <>
-                          {limitedReviews.map(review => (
-                            <ReviewWrapper key={review.id}>
-                              <ReviewHeader>
-                                <h3>{review.title}</h3>
-                                <time>{(new Date(review.createdAt)).toLocaleString('sv-SE')}</time>
-                              </ReviewHeader>
-                              <StarsRanting size={'sm'} disabled={true} defaulHowMany={review.stars} />
-                              <div>
-                                {expandedComments.includes(review._id)
-                                  ? <p>{review.description}</p>
-                                  : review.description.length <= 160
-                                  ? <p>{review.description}</p>
-                                  : <p>{review.description.substring(0, 160)}</p>}
-                                {review.description.length > 160 && (
-                                  <ButtonC onClick={() => handleToggleDescription(review._id)}>
-                                    {expandedComments.includes(review._id) ? 'Mostrar menos' : 'Mostrar más'}
-                                  </ButtonC>
-                                )}
-                              </div>
-                              
-                            </ReviewWrapper>
-                          ))}
-                          
-                          {showAllReviews && (
-                            reviews.slice(3).map(review => (
-                              <ReviewWrapper key={review.id}>
-                                <ReviewHeader>
-                                  <h3>{review.title}</h3>
-                                  <time>{(new Date(review.createdAt)).toLocaleString('sv-SE')}</time>
-                                </ReviewHeader>
-                                  <StarsRanting size={'sm'} disabled={true} defaulHowMany={review.stars} />
-                                <div>
-                                  {expandedComments.includes(review.id)
-                                    ? <p>{review.description}</p>
-                                    : review.description.length <= 160
-                                    ? <p>{review.description}</p>
-                                    : <p>{review.description.substring(0, 160)}</p>}
-                                  {review.description.length > 160 && (
-                                    <ButtonC onClick={() => handleToggleDescription(review.id)}>
-                                      {expandedComments.includes(review.id) ? 'Mostrar menos' : 'Mostrar más'}
-                                    </ButtonC>
-                                    )}
-                                </div>
-                              </ReviewWrapper>
-                            ))
-                          )}
-                        </>
+                      {expandedComments.includes(review.id)
+                        ? <p>{review.description}</p>
+                        : review.description.length <= 160
+                          ? <p>{review.description}</p>
+                          : <p>{review.description.substring(0, 160)}</p>}
+                      {review.description.length > 160 && (
+                        <ButtonC onClick={() => handleToggleDescription(review.id)}>
+                          {expandedComments.includes(review.id) ? 'Mostrar menos' : 'Mostrar más'}
+                        </ButtonC>
                       )}
-                      
-                      </WhiteBoxC>
-                      {reviews.length > 3 && (
-                          <ButtonC onClick={handleShowAllReviews}>{!showAllReviews ? 'Más comentarios' : 'Menos comentarios'}</ButtonC>
-                          )}
-                    </White>
-            
-            </ColsWrapper>
-       
-    );
+                    </div>
+                  </ReviewWrapper>
+                ))
+              )}
+            </>
+          )}
+
+        </WhiteBoxC>
+        {reviews.length > 3 && (
+          <ButtonC onClick={handleShowAllReviews}>{!showAllReviews ? 'Más comentarios' : 'Menos comentarios'}</ButtonC>
+        )}
+      </White>
+
+    </ColsWrapper>
+
+  );
 }

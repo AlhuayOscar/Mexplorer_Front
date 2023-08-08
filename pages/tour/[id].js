@@ -385,11 +385,11 @@ export default function TourPage({ tour, promoTours }) {
         recomendationsRef={recomendationsRef}
       />
       <ReservationBtn onClick={scrollToreservations}>
-        Reserva ahora!!!
+        {t("Reserva ahora")}!!!
       </ReservationBtn>
       <MovilHeader>
         <HeaderInfo pink>
-          Descripción general
+          {t("Descripción general")}
           <div onClick={handleShowDescription}>
             {showDescription ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </div>
@@ -399,70 +399,70 @@ export default function TourPage({ tour, promoTours }) {
             <ToursLink href={"/tours"}>
               <div>
                 <ArrowI />
-                Ver todos los tours en Cancun
+                {t("Ver todos los tours en Cancun")}
               </div>
             </ToursLink>
-            {tour.description}
+            {displayDescription}
           </Description>}
         <HeaderInfo yellow>
-          Que incluye
+          {t("Que incluye")}
           <div onClick={handleShowIncludes}>
             {showIncludes ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </div>
         </HeaderInfo>
         {showIncludes && (
           <InfoBox>
-            <Subtitle yellow>Este tour incluye:</Subtitle>
+            <Subtitle yellow>{t("Este tour incluye")}:</Subtitle>
             <Points>
               {tour.includes?.map((include) => (
                 <Point key={include}>
                   <Check />
-                  {include}
+                  {displayIncludes}
                 </Point>
               ))}
-              <Subtitle yellow>Este tour no incluye:</Subtitle>
+              <Subtitle yellow>{t("Este tour no incluye")}:</Subtitle>
               {tour.doesntIncludes?.map((doesntInclude) => (
                 <Point key={doesntInclude}>
                   <Cancel />
-                  {doesntInclude}
+                  {displayDoesntIncludes}
                 </Point>
               ))}
             </Points>
           </InfoBox>
         )}
         <HeaderInfo purple>
-          Que llevar
+          {t("Que llevar")}
           <div onClick={handleShowRequirements}>
             {showRequirements ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </div>
         </HeaderInfo>
         {showRequirements && (
           <InfoBox>
-            <Subtitle purple>A este tour recomendamos llevar:</Subtitle>
+            <Subtitle purple>{t("A este tour recomendamos llevar")}:</Subtitle>
             <Points>
               {tour.requirements?.map((requirement) => (
                 <Point key={requirement}>
                   <Check />
-                  {requirement}
+                  {displayRequirements}
                 </Point>
               ))}
             </Points>
           </InfoBox>
         )}
         <HeaderInfo green>
-          Notas
+          {t("Notas")}
           <div onClick={handleShowNotes}>
             {showNotes ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </div>
         </HeaderInfo>
         {showNotes && (
           <InfoBox>
-            <Subtitle green>Notas y recomendaciones:</Subtitle>
+            <Subtitle green>{t("Notas y recomendaciones")}:</Subtitle>
             <Points>
               {tour.notes?.map((note) => (
                 <Point key={note}>
                   <Check />
-                  {note}
+                  {displayNotes}
                 </Point>
               ))}
             </Points>
