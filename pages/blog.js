@@ -8,6 +8,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import { Loader } from "react-spinner"; // Importa el componente Loader de react-spinner
 import PaginationControls from "@/components/Pagination";
 import Center from "@/components/Center";
+import { useTranslation } from "react-i18next";
 
 const BlogContainer = styled.div`
   display: flex;
@@ -145,6 +146,7 @@ const LoadingSpinner = styled.div`
   margin: 0 auto;
 `;
 const Blog = () => {
+  const { t } = useTranslation();
   const [blogs, setBlogs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredBlogs, setFilteredBlogs] = useState([]);
@@ -266,31 +268,31 @@ const Blog = () => {
   return (
     <>
       <Header />
-    <Center>
-      <BlogContainer>
-        <SearchContainer>
-          {recentSearches.map((search, index) => (
-            <RecentSearchItem
-              key={index}
-              onClick={() => handleRecentSearchClick(search)}
-            >
-              <RemoveSearchItem
-                onClick={() => handleRemoveRecentSearch(search)}
+      <Center>
+        <BlogContainer>
+          <SearchContainer>
+            {recentSearches.map((search, index) => (
+              <RecentSearchItem
+                key={index}
+                onClick={() => handleRecentSearchClick(search)}
               >
-                <CancelIcon />
-              </RemoveSearchItem>
-              {search.split(" ")[0]}
-            </RecentSearchItem>
-          ))}
-          <CleanSearch onClick={clearRecentSearches}>Limpiar</CleanSearch>
-          <SearchInput
-            type="text"
-            placeholder="Buscar..."
-            value={searchTerm}
-            onChange={handleSearch}
-            onKeyPress={handleEnterKeyPress}
-          />
-        </SearchContainer>
+                <RemoveSearchItem
+                  onClick={() => handleRemoveRecentSearch(search)}
+                >
+                  <CancelIcon />
+                </RemoveSearchItem>
+                {search.split(" ")[0]}
+              </RecentSearchItem>
+            ))}
+            <CleanSearch onClick={clearRecentSearches}>{t("Limpiar")}</CleanSearch>
+            <SearchInput
+              type="text"
+              placeholder="Buscar..."
+              value={searchTerm}
+              onChange={handleSearch}
+              onKeyPress={handleEnterKeyPress}
+            />
+          </SearchContainer>
           {isLoading ? (
             <LoadingSpinner />
           ) : searchTerm !== "" ? (
@@ -298,18 +300,18 @@ const Blog = () => {
           ) : (
             <BlogCards blogs={currentBlogs} />
           )}
-        {totalPages > 1 && (
-          <PaginationControls
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPreviousPage={handlePreviousPage}
-          onNextPage={handleNextPage}
-          disablePreviousPage={currentPage === 1}
-          disableNextPage={currentPage === totalPages}
-          />
+          {totalPages > 1 && (
+            <PaginationControls
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPreviousPage={handlePreviousPage}
+              onNextPage={handleNextPage}
+              disablePreviousPage={currentPage === 1}
+              disableNextPage={currentPage === totalPages}
+            />
           )}
-      </BlogContainer>
-          </Center>
+        </BlogContainer>
+      </Center>
       <Footer />
     </>
   );
