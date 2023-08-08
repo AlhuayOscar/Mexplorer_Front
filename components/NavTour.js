@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { useTranslation } from "react-i18next";
 
 const BoxNav = styled.div`
   display: none;
@@ -12,14 +13,14 @@ const BoxNav = styled.div`
   }
 `;
 
-const ItemsScroll =  styled.ul`
+const ItemsScroll = styled.ul`
   display: flex;
   max-width: 1300px;
   margin: 0 auto;
   padding: 0 20px;
 `;
 
-const ItemScroll =  styled.li`
+const ItemScroll = styled.li`
   list-style: none;
   padding: 15px 25px;
   margin: 5px 0;
@@ -78,38 +79,38 @@ const ItemScroll =  styled.li`
 
 
 
-export default function NavTour({includesRef, requirementsRef, notesRef, reviewsRef, recomendationsRef}) {
+export default function NavTour({ includesRef, requirementsRef, notesRef, reviewsRef, recomendationsRef }) {
+  const { t } = useTranslation();
 
 
+  const scrollToincludes = () => {
+    includesRef.current.scrollIntoView({ behavior: "smooth" });
+  };
 
-const scrollToincludes = () => {
-  includesRef.current.scrollIntoView({ behavior: "smooth" });
-};
+  const scrollTorequirements = () => {
+    requirementsRef.current.scrollIntoView({ behavior: "smooth" });
+  };
 
-const scrollTorequirements = () => {
-  requirementsRef.current.scrollIntoView({ behavior: "smooth" });
-};
+  const scrollTonotes = () => {
+    notesRef.current.scrollIntoView({ behavior: "smooth" });
+  };
 
-const scrollTonotes = () => {
-  notesRef.current.scrollIntoView({ behavior: "smooth" });
-};
+  const scrollToreviews = () => {
+    reviewsRef.current.scrollIntoView({ behavior: "smooth" });
+  };
 
-const scrollToreviews = () => {
-  reviewsRef.current.scrollIntoView({ behavior: "smooth" });
-};
-
-const scrollTorecomendations = () => {
-  recomendationsRef.current.scrollIntoView({ behavior: "smooth" });
-};
+  const scrollTorecomendations = () => {
+    recomendationsRef.current.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <BoxNav>
       <ItemsScroll>
-        <ItemScroll onClick={scrollToincludes} yellow>Que incluye</ItemScroll>
-        <ItemScroll onClick={scrollTorequirements} purple> Que llevar</ItemScroll>
-        <ItemScroll onClick={scrollTonotes} green>Notas</ItemScroll>
-        <ItemScroll onClick={scrollToreviews} blue>Reseña</ItemScroll>
-        <ItemScroll onClick={scrollTorecomendations} red>Recomendaciones</ItemScroll>
+        <ItemScroll onClick={scrollToincludes} yellow>{t("Que incluye")}</ItemScroll>
+        <ItemScroll onClick={scrollTorequirements} purple>{t("Que llevar")}</ItemScroll>
+        <ItemScroll onClick={scrollTonotes} green>{t("Notas")}</ItemScroll>
+        <ItemScroll onClick={scrollToreviews} blue>{t("Reseñas")}</ItemScroll>
+        <ItemScroll onClick={scrollTorecomendations} red>{t("Recomendaciones")}</ItemScroll>
       </ItemsScroll>
     </BoxNav>
   );
