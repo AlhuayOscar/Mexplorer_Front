@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import styled from "styled-components";
 import Footer from "@/components/Footer";
@@ -11,7 +11,8 @@ import TourBoxBlog from "@/components/TourBoxBlogs";
 import BlogDate from "@/components/BlogDate";
 import Link from "next/link";
 import FollowUs from "@/components/FollowUs";
-
+import { useTranslation } from "react-i18next";
+import i18n from "@/i18n";
 
 
 const BlogContainer = styled.div`
@@ -22,7 +23,7 @@ const BlogContainer = styled.div`
   align-items: center;
   `;
 
-  const BlogTitle = styled.div`
+const BlogTitle = styled.div`
     background-color: #84c441;
     color: #fff;
     font-size: 40px;
@@ -163,14 +164,36 @@ const BlogPage = ({ blog, tours, urls }) => {
     setShowModal(false);
   };
 
-  const paragraphs = blog.description.split("\n");
+  // Cambia el idioma con i18n
+  const { t } = useTranslation();
+  const currentLanguage = i18n.language;
+
+  useEffect(() => {
+  }, [currentLanguage]);
+
+  // Se Obtiene los valores en español e inglés basados en el idioma actual
+  const displayTitle = currentLanguage === 'es' ? blog.title : blog.titleEng;
+
+
+
+  const paragraphs = currentLanguage === 'es' ? blog.description.split("\n") : blog.descriptionEng.split("\n");
+
+  const formattedParagraphs = paragraphs.map((paragraph, index) => {
+    const formattedParagraph =
+      index === 0
+        ? paragraph.charAt(0).toUpperCase() + paragraph.slice(1)
+        : paragraph;
+
+    return currentLanguage === "es" ? formattedParagraph : paragraph;
+  });
+
 
   return (
     <>
       <Header />
       <BlogContainer>
         <ImageContainer>
-          <Image 
+          <Image
             src={blog.images[0]}
             alt="Blog Image"
             height={500}
@@ -180,7 +203,7 @@ const BlogPage = ({ blog, tours, urls }) => {
           />
         </ImageContainer>
         <BlogTitle>
-          <h1>{blog.title}</h1>
+          <h1>{displayTitle}</h1>
         </BlogTitle>
         <Center>
           <BlogSection>
@@ -198,29 +221,29 @@ const BlogPage = ({ blog, tours, urls }) => {
                   )}
                 </p>
               ))}
-              <BlogDate date={blog.date}/>
+              <BlogDate date={blog.date} />
             </BlogDescription>
-          
-          <InfoSetionn>
-           <h2>Revisa nuestros últimos tours:</h2> 
-            {tours?.map(tour => (
-              <TourBoxBlog key={tour._id} {...tour}/>
-            ))
-            } 
-            <BlogLink href={"/tours"}>
-                Ver más
-            </BlogLink>
-            <FollowUs socialUrls={"social"}/>
-          </InfoSetionn>
 
-          
-        </BlogSection>
+            <InfoSetionn>
+              <h2>{t("Revisa nuestros últimos tours")}:</h2>
+              {tours?.map(tour => (
+                <TourBoxBlog key={tour._id} {...tour} />
+              ))
+              }
+              <BlogLink href={"/tours"}>
+                {t("Ver más")}
+              </BlogLink>
+              <FollowUs socialUrls={"social"} />
+            </InfoSetionn>
+
+
+          </BlogSection>
         </Center>
       </BlogContainer>
       {showModal && (
         <ModalOverlay onClick={handleCloseModal}>
           <ModalContent>
-            <Image src={blog.images[0]} alt="Blog Image" height={500} width={500}/>
+            <Image src={blog.images[0]} alt="Blog Image" height={500} width={500} />
           </ModalContent>
         </ModalOverlay>
       )}

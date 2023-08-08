@@ -3,6 +3,7 @@ import Link from "next/link";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import TelegramIcon from "@mui/icons-material/Telegram";
+import { useTranslation } from "react-i18next";
 
 const CenteredContainer = styled.div`
   display: flex;
@@ -42,10 +43,11 @@ const LinkStyled = styled(Link)`
   }
 `;
 const FollowUs = ({ socialUrls }) => {
+  const { t } = useTranslation();
 
   return (
     <CenteredContainer>
-      <p>Síguenos:</p>
+      <p>{t("Síguenos")}:</p>
       <div>
         <LinkStyled href={'https://mexplorer-front-three.vercel.app/'}>
           <Icon

@@ -350,7 +350,6 @@ export default function TourPage({ tour, promoTours }) {
   const currentLanguage = i18n.language;
 
   useEffect(() => {
-    console.log("currentLanguage", currentLanguage);
   }, [currentLanguage]);
 
   // Se Obtiene los valores en español e inglés basados en el idioma actual
