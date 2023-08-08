@@ -87,8 +87,8 @@ const Date = styled(DatePicker)`
 `;
 
 const ButtonR = styled(Button)`
-  font-size: 1.4rem;
-  padding: 1rem 7rem;
+  font-size: 1.1rem;
+  padding: 1rem;
   text-align: center;
   &:hover {
     scale: 1.05;
