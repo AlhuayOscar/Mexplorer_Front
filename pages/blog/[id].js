@@ -43,8 +43,7 @@ const BlogTitle = styled.div`
   `;
 
 const ImageContainer = styled.div`
-height:400px;    
-height:500px;
+height:500px;    
 overflow:hidden;
   #container {
     overflow:hidden;
@@ -77,10 +76,12 @@ overflow:hidden;
   @media screen and (max-width: 600px) {  
     height:280px;
     #container {
-    width:450px;height:280px;
+    width:280px;
+    height:280px;
   }
     .slick-list {
-      width:450px;height:280px;
+      width:280px;
+      height:280px;
     }
   }
   @media screen and (max-width: 450px) { 

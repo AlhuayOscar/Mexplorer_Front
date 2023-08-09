@@ -21,6 +21,7 @@ const SlideImage = styled.img`
   height: 500px;
   min-width:200px;
   min-height:200px;
+  max-height:500px;
   object-fit: cover; /* Aplica el recorte */
   object-position: center; /* Centra la imagen en el recorte */
   transition: 0.4s ease;
