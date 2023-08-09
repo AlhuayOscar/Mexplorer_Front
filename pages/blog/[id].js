@@ -193,7 +193,6 @@ const BlogLink = styled(Link)`
 
 const BlogPage = ({ blog, tours, urls }) => {
 
-  console.log(urls)
   const [showModal, setShowModal] = useState(false);
 
   const handleImageClick = () => {
@@ -298,7 +297,6 @@ export async function getServerSideProps(context) {
     }
     const tours = await Tour.find({}).sort({ _id: -1 }).limit(3).exec();
     const portadaUrls = await Settings.find({ urlName: "Portada" });
-    console.log("Últimos 3 Tours:", tours); // Agregamos el console.log aquí
     return {
       props: {
         blog: JSON.parse(JSON.stringify(blog)),
