@@ -126,10 +126,6 @@ export async function getServerSideProps(context) {
         console.log("skip:", skip);
         console.log("### FIN DE PAGINACIÓN ###");
 
-        console.log("### INICIO DE RESULTADOS ###");
-        console.log("results:", results);
-        console.log("### FIN DE RESULTADOS ###");
-
         console.log("### INICIO DE TOTAL ###");
         console.log("totalCount:", totalCount);
         console.log("totalPages:", totalPages);
