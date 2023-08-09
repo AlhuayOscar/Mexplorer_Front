@@ -13,7 +13,10 @@ import Link from "next/link";
 import FollowUs from "@/components/FollowUs";
 import { useTranslation } from "react-i18next";
 import i18n from "@/i18n";
-
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import ImageCarousel from "@/components/BlogImageCarousel";
 
 const BlogContainer = styled.div`
   text-align: center;
@@ -40,29 +43,65 @@ const BlogTitle = styled.div`
   `;
 
 const ImageContainer = styled.div`
-/* border: 2px solid red; */
-width: 100%;
-overflow: hidden;
-height: auto;
-
-@media screen and (min-width: 1023px) {
-    height: 30rem;
-    width: auto;
+height:400px;    
+height:500px;
+overflow:hidden;
+  #container {
+    overflow:hidden;
+    height:500px;
   }
-img{
-  width: 100%;
-  height: auto;
-  object-fit: cover;
- /*  min-height: 250px;
-  max-height: 400px; */
-  cursor: pointer;
-
-  @media screen and (min-width: 1023px) {
-    height: 120%;
-    width: auto;
+    .slick-list {
+      width:1200px;
+      height:500px;
+    }
+    @media screen and (max-width: 1390px) { 
+    height:400px;
+    #container {
+    width:800px;
+    height:400px;
   }
-}
+    .slick-list {
+      width:800px;
+      height:400px;
+    }
+  }
+  @media screen and (max-width: 1024px) { 
+    height:350px;
+    #container {
+    width:600px; height:350px;
+  }
+    .slick-list {
+      width:600px; height:350px;
+    }
+  }
+  @media screen and (max-width: 600px) {  
+    height:280px;
+    #container {
+    width:450px;height:280px;
+  }
+    .slick-list {
+      width:450px;height:280px;
+    }
+  }
+  @media screen and (max-width: 450px) { 
+    #container {
+    width:350px;
+  }
+    .slick-list {
+      width:350px;
+    }
+  }
+  @media screen and (max-width: 350px) { 
+    width:280px;
+    #container {
+      width:280px;
+  }
+    .slick-list {
+      width:280px;
+    }
+  }
 `;
+
 
 const BlogSection = styled.section`
   display: grid;
@@ -192,16 +231,11 @@ const BlogPage = ({ blog, tours, urls }) => {
     <>
       <Header />
       <BlogContainer>
-        <ImageContainer>
-          <Image
-            src={blog.images[0]}
-            alt="Blog Image"
-            height={500}
-            width={500}
-            sizes="(max-width: 768px) 100vw"
-            onClick={handleImageClick}
-          />
-        </ImageContainer>
+        {blog.images && (
+          <ImageContainer>
+            <ImageCarousel images={blog.images} />
+          </ImageContainer>
+        )}
         <BlogTitle>
           <h1>{displayTitle}</h1>
         </BlogTitle>
@@ -235,8 +269,6 @@ const BlogPage = ({ blog, tours, urls }) => {
               </BlogLink>
               <FollowUs socialUrls={"social"} />
             </InfoSetionn>
-
-
           </BlogSection>
         </Center>
       </BlogContainer>
