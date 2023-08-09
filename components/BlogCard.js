@@ -49,12 +49,15 @@ const Subtitle = styled.h3`
 `;
 
 const Description = styled.p`
-  font-size: 16px;
+  font-size: 0.8rem;
   padding-inline: 20px;
   border-bottom: 2px solid #ccc;
   padding-bottom: 10px;
   text-align: justify;
   margin: 0;
+  @media screen and (min-width: 768px) {
+    font-size: 0.9rem;
+  }
 `;
 
 const ImageBox = styled.div`

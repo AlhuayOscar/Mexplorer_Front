@@ -87,8 +87,8 @@ const Date = styled(DatePicker)`
 `;
 
 const ButtonR = styled(Button)`
-  font-size: 1.4rem;
-  padding: 1rem 7rem;
+  font-size: 1.1rem;
+  padding: 1rem;
   text-align: center;
   &:hover {
     scale: 1.05;
@@ -212,6 +212,12 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
     setDate("");
   }, [tour]);
 
+
+  const isAvailable = (date) => {
+    const day = date.day();
+    return tour.unavailableDays.includes(day);
+  };
+
   const handleTypeClick = (type) => {
     setOrderData({ ...orderData, type: type });
   };
@@ -276,6 +282,7 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
         <Titles>{t("Elige una fecha")}</Titles>
         <Date
           disablePast
+          shouldDisableDate={(date) => !isAvailable(date)}
           format="DD/MM/YYYY"
           views={["year", "month", "day"]}
           value={date}
