@@ -33,15 +33,18 @@ const ResultSearch = ({ tours, name, totalPages }) => {
     };
 
     useEffect(() => {
-        router.push({
-            pathname: "/search/",
-            query: { name: phrase, page: currentPage },
-        });
+        // Agregamos el setTimeout aquí
+        const timeoutId = setTimeout(() => {
+            router.push({
+                pathname: "/search/",
+                query: { name: phrase, page: currentPage },
+            });
+        }, 1200); // 2 segundos
+
+        // Limpiamos el timeout si se desmonta el componente o cambian los valores
+        return () => clearTimeout(timeoutId);
     }, [phrase, currentPage]);
 
-    useEffect(() => {
-        setCurrentPage(1); // página 1 al cambiar el nombre de búsqueda
-    }, [name]);
 
 
     return (
