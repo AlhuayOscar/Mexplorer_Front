@@ -45,6 +45,9 @@ const ResultSearch = ({ tours, name, totalPages }) => {
         return () => clearTimeout(timeoutId);
     }, [phrase, currentPage]);
 
+    console.log("router:", router);
+    console.log("phrase:", phrase);
+    console.log("currentPage:", currentPage);
 
 
     return (
@@ -77,7 +80,6 @@ export async function getServerSideProps(context) {
         await mongooseConnect();
         const { name, sort, page, ...filters } = context.query;
         let [sortField, sortOrder] = (sort || '_id-desc').split('-');
-
         const toursQuery = {};
         if (name) {
             toursQuery['$or'] = [
@@ -105,6 +107,33 @@ export async function getServerSideProps(context) {
         const totalCount = await Tour.countDocuments(toursQuery);
 
         const totalPages = Math.ceil(totalCount / limit); // Calcular el número total de páginas.
+
+        console.log("### INICIO DE VALORES ###");
+        console.log("name:", name);
+        console.log("sort:", sort);
+        console.log("page:", page);
+        console.log("filters:", filters);
+        console.log("sortField:", sortField);
+        console.log("sortOrder:", sortOrder);
+        console.log("### FIN DE VALORES ###");
+
+        console.log("### INICIO DE CONSULTA ###");
+        console.log("toursQuery:", toursQuery);
+        console.log("### FIN DE CONSULTA ###");
+
+        console.log("### INICIO DE PAGINACIÓN ###");
+        console.log("limit:", limit);
+        console.log("skip:", skip);
+        console.log("### FIN DE PAGINACIÓN ###");
+
+        console.log("### INICIO DE RESULTADOS ###");
+        console.log("results:", results);
+        console.log("### FIN DE RESULTADOS ###");
+
+        console.log("### INICIO DE TOTAL ###");
+        console.log("totalCount:", totalCount);
+        console.log("totalPages:", totalPages);
+        console.log("### FIN DE TOTAL ###");
 
         return {
             props: {
