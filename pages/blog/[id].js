@@ -169,7 +169,7 @@ const InfoSetionn = styled.aside`
   
 
   @media screen and (min-width: 1023px) {
-    padding: 30px 20px 0 20px;
+    padding: 30px 0px 0 20px;
   }
 `;
 
