@@ -50,10 +50,10 @@ const Searchbar = (props) => {
       />
       <Link
         href={{
-          pathname: "/search/[[...name]]",
+          pathname: "/search/Xcaret",
           query: { name: props.value },
         }}
-        as={`/search?name=${props.value}`}
+        as={`/search?name=Xcaret`}
       >
         <SubmitButton>{t("Buscar")}</SubmitButton>
       </Link>
