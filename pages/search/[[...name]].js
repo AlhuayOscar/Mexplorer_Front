@@ -1,112 +1,71 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import { useRouter } from "next/router";
-import { mongooseConnect } from "@/lib/mongoose";
-import { Tour } from "@/models/Tour";
-import Center from "@/components/Center";
-import Header from "@/components/Header";
-import Input from "@/components/Input";
-import PaginationControls from "@/components/Pagination";
-import SearchTours from "@/components/SearchTours";
+import React, { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 
-const SearchInput = styled(Input)`
-  padding: 5px 10px;
-  border-radius: 5px;
-  margin: 30px 0 30px;
-  font-size: 1.3rem;
+const SearchbarContainer = styled.div`
+  display: flex;
+  align-items: center;
+  transition: 0.4s ease;
+  @media (max-width: 500px) {
+    transform: scale(0.84);
+  }
+  @media (max-width: 270px) {
+    transform: scale(0.54);
+  }
 `;
 
-const ResultSearch = ({ tours, totalPages }) => {
-  const router = useRouter();
-  const [phrase, setPhrase] = useState("Xcaret"); // Valor harcodeado en "Xcaret"
-  const [currentPage, setCurrentPage] = useState(1);
+const Input = styled.input`
+  flex: 1;
+  border-radius: 5px 0 0 5px;
+  padding: 12px 40px;
+  border-width: 2px 0 2px 2px; /* Grosor del borde en los lados superior, inferior e izquierdo */
+  border-style: solid;
+  border-color: #ccc;
+  outline: none;
+`;
 
-  const handlePreviousPage = () => {
-    setCurrentPage((prevPage) => prevPage - 1);
-  };
+const SubmitButton = styled.button`
+  background-color: #ee2743;
+  color: white;
+  border-radius: 0px 5px 5px 0px;
+  padding: 14px 16px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+`;
 
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
-
+const Searchbar = (props) => {
+  const { t } = useTranslation();
+  console.log(props);
   useEffect(() => {
-    router.push({
-      pathname: "/search/",
-      query: { name: phrase, page: currentPage },
-    });
-  }, [phrase, currentPage]);
+    const interval = setInterval(() => {
+      console.log(props); // Console log of props every 5 seconds
+    }, 5000);
 
-  useEffect(() => {
-    setCurrentPage(1); // página 1 al cambiar el nombre de búsqueda
-  }, [phrase]);
-
+    return () => clearInterval(interval);
+  }, []);
   return (
-    <>
-      <Header />
-      <Center>
-        <SearchInput
-          autoFocus
-          value={phrase}
-          onChange={(ev) => setPhrase(ev.target.value)}
-          type="text"
-          placeholder="Busca una actividad..."
-        />
-        <SearchTours tours={tours} />
-        <PaginationControls
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPreviousPage={handlePreviousPage}
-          onNextPage={handleNextPage}
-          disablePreviousPage={currentPage === 1}
-          disableNextPage={currentPage === totalPages || totalPages === 0}
-        />
-      </Center>
-    </>
+    <SearchbarContainer>
+      <Input
+        autoFocus
+        value={props.value}
+        onChange={(ev) => props.setPhrase(ev.target.value)}
+        type="text"
+        placeholder="Busca tu próxima aventura"
+      />
+      <Link
+        href={{
+          pathname: "/search/[[...name]]",
+          query: { name: props.value },
+        }}
+        as={`/search?name=${props.value}`}
+      >
+        <SubmitButton>{t("Buscar")}</SubmitButton>
+      </Link>
+    </SearchbarContainer>
   );
 };
 
-export async function getServerSideProps(context) {
-  await mongooseConnect();
-  const { name, categories, sort, page, pageSize, ...filters } = context.query;
-  let [sortField, sortOrder] = (sort || "_id-desc").split("-");
-
-  const toursQuery = {};
-  if (categories) {
-    toursQuery.category = categories.split(",");
-  }
-  if (name) {
-    toursQuery["$or"] = [
-      { name: { $regex: name, $options: "i" } },
-      { description: { $regex: name, $options: "i" } },
-    ];
-  }
-  if (Object.keys(filters).length > 0) {
-    Object.keys(filters).forEach((filterName) => {
-      toursQuery["properties." + filterName] = filters[filterName];
-    });
-  }
-  const limit = 3; // Establece el límite a 3 productos por página
-  const skip = (Number(page) - 1) * limit;
-  const resultsQuery = Tour.find(toursQuery, null, {
-    sort: { [sortField]: sortOrder === "asc" ? 1 : -1 },
-    skip,
-    limit,
-  });
-
-  const results = await resultsQuery.exec();
-
-  // Obtener el recuento total de paginas
-  const totalCount = await Tour.countDocuments(toursQuery);
-
-  const totalPages = Math.ceil(totalCount / limit); // Calcular el número total de páginas.
-
-  return {
-    props: {
-      tours: JSON.parse(JSON.stringify(results)),
-      name: name,
-      totalPages: totalPages, // Pasa el valor totalPages al componente
-    },
-  };
-}
-
-export default ResultSearch;
+export default Searchbar;
