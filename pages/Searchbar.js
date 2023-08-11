@@ -38,14 +38,7 @@ const SubmitButton = styled.button`
 
 const Searchbar = (props) => {
   const { t } = useTranslation();
-  console.log(props);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      console.log(props); // Console log of props every 5 seconds
-    }, 5000);
 
-    return () => clearInterval(interval);
-  }, []);
   return (
     <SearchbarContainer>
       <Input
