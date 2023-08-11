@@ -37,7 +37,7 @@ const ResultSearch = ({ tours, name, totalPages }) => {
       } else {
         setCurrentPage(1);
       }
-    }, 500); // Cambia el tiempo de espera según tus necesidades
+    }, 150); // Cambia el tiempo de espera según tus necesidades
 
     return () => clearTimeout(timeout);
   }, [searchInput, currentPage]);
