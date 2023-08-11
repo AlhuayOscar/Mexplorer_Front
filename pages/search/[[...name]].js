@@ -86,10 +86,6 @@ const ResultSearch = ({ tours, name, totalPages }) => {
 };
 
 export async function getServerSideProps(context) {
-  console.log(
-    "Esto es el context-query antes de la peticion a DB",
-    context.query
-  );
   try {
     await mongooseConnect();
     const {
