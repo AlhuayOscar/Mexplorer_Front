@@ -10,14 +10,16 @@ import Input from "@/components/Input";
 import Image from "next/image";
 import Link from "next/link";
 import Footer from "@/components/Footer";
+import { useTranslation } from "react-i18next";
+
 const ColumnsWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr;
+  gap: 40px;
+  margin-top: 40px;
   @media screen and (min-width: 768px) {
     grid-template-columns: 1.2fr 0.8fr;
   }
-  gap: 40px;
-  margin-top: 40px;
 `;
 
 const Box = styled.div`
@@ -27,9 +29,14 @@ const Box = styled.div`
 `;
 
 const TourInfoCell = styled.td`
-  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  padding: 5px 0;
   font-size: 1.2rem;
   color: #84c441;
+  text-align: center;
+  margin: auto auto;
 `;
 
 const TourImageBox = styled(Link)`
@@ -72,6 +79,7 @@ const CityHolder = styled.div`
 `;
 
 export default function CartPage() {
+  const { t } = useTranslation();
   const { cartTours, addTour, removeTour, clearCart } = useContext(CartContext);
   const [tours, setTours] = useState([]);
   const [name, setName] = useState("");
@@ -115,7 +123,7 @@ export default function CartPage() {
       cartTours,
       currency: cartTours.currency,
     });
-      console.log(response);
+    console.log(response);
     if (response.data.url) {
       window.location = response.data.url;
     }
@@ -133,8 +141,8 @@ export default function CartPage() {
         <Center>
           <ColumnsWrapper>
             <Box>
-              <h1>Gracias por la orden!</h1>
-              <p>Se enviará un correo con la confirmación de su compra.</p>
+              <h1>{t("Gracias por la orden")}!</h1>
+              <p>{t("Se enviará un correo con la confirmación de su compra")}.</p>
             </Box>
           </ColumnsWrapper>
         </Center>
@@ -147,19 +155,19 @@ export default function CartPage() {
       <Center>
         <ColumnsWrapper>
           <Box>
-            <h2>Carrito</h2>
+            <h2>{t("Carrito")}</h2>
             {!cartTours?.length && (
               <div>
-                Tu carrito actualmente está vacio, probá agregando tours!
+                {t("Tu carrito actualmente está vacio, probá agregando tours")}!
               </div>
             )}
             {tours?.length > 0 && (
               <Table>
                 <thead>
                   <tr>
-                    <th>Item</th>
-                    <th>Info</th>
-                    <th>Precio</th>
+                    <th>{t("Item")}</th>
+                    <th>{t("Detalle")}</th>
+                    <th>{t("Precio")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -178,23 +186,23 @@ export default function CartPage() {
                       </TourInfoCell>
                       {
                         <td>
-                          <p>{tour.name}</p>
+                          {/* <p>{tour.name}</p> */}
                           <p>
-                            Adultos:{" "}
+                            {t("Adultos")}:{" "}
                             {
                               cartTours.find((item) => item.id === tour._id)
                                 ?.adults
                             }
                           </p>
                           <p>
-                            Niños:{" "}
+                            {t("Niños")}:{" "}
                             {
                               cartTours.find((item) => item.id === tour._id)
                                 ?.children
                             }
                           </p>
                           <p>
-                            Fecha:{" "}
+                            {t("Fecha")}:{" "}
                             {
                               cartTours.find((item) => item.id === tour._id)
                                 ?.date
@@ -207,14 +215,14 @@ export default function CartPage() {
                             )
                           </p>
                           <p>
-                            Tipo:{" "}
+                            {t("Tipo")}:{" "}
                             {
                               cartTours.find((item) => item.id === tour._id)
                                 ?.type
                             }
                           </p>
                           <p>
-                            Moneda:{" "}
+                            {t("Moned")}:{" "}
                             {
                               cartTours.find((item) => item.id === tour._id)
                                 ?.currency
@@ -237,13 +245,13 @@ export default function CartPage() {
             )}
             {hasProducts && (
               <Button green onClick={clearCart}>
-                Vaciar Carrito
+                {t("Vaciar Carrito")}
               </Button>
             )}
           </Box>
           {!!cartTours?.length && (
             <Box>
-              <h2>Información de la orden</h2>
+              <h2>{t("Información de la orden")}</h2>
               <Input
                 type="text"
                 placeholder="Nombre"
@@ -269,7 +277,7 @@ export default function CartPage() {
                 margin
               />
               <Button block green onClick={goToPayment}>
-                Realizar el pago
+                {t("Finalizar compra")}
               </Button>
             </Box>
           )}

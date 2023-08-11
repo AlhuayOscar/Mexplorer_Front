@@ -1,13 +1,15 @@
 import styled from "styled-components";
 import Button from "@/components/Button";
-import React, { useContext } from 'react'
-import { CartContext } from './CartContext'
+import React, { useEffect } from 'react'
+//import { CartContext } from './CartContext'
 import Link from "next/link";
 import Image from "next/image";
-import TimeIcon from '@mui/icons-material/AccessTime';
+//import TimeIcon from '@mui/icons-material/AccessTime';
 import { useRouter } from 'next/router';
 import TimeBox from "./TimeBox";
 import ReviewBox from "./ReviewBox";
+import { useTranslation } from "react-i18next";
+import i18n from "@/i18n";
 
 const TourWrapper = styled.div`
 /* Por ahora no hay nada acá */
@@ -130,34 +132,48 @@ const ButtonG = styled(Button)`
 `;
 
 
-function TourBoxH({ _id, name, subtitle, duration, promo, review, price, images }) {
+function TourBoxH({ _id, name, nameEng, subtitleEng, subtitle, duration, promo, review, price, images }) {
   const url = `/tour/${_id}`
   const router = useRouter();
   const handleButtonClick = () => {
     router.push(url);
   };
+
+  // Cambia el idioma con i18n
+  const { t } = useTranslation();
+  const currentLanguage = i18n.language;
+
+  useEffect(() => {
+  }, [currentLanguage]);
+
+  // Se Obtiene los valores en español e inglés basados en el idioma actual
+  const displayName = currentLanguage === 'es' ? name : nameEng;
+  const displaySubtitle = currentLanguage === 'es' ? subtitle : subtitleEng;
+  const displayPrince = currentLanguage === 'es' ? price.mxn?.adultsPrice : price.usd?.adultsPrice;
+  const displayPromo = currentLanguage === 'es' ? price.mxn?.withoutPromoAdultsPrice : price.usd?.withoutPromoAdultsPrice;
+
   return (
     <TourWrapper>
       <WhiteBox href={url}>
-      <Image src={images?.[0]} 
-               alt={`imagen del tour ${name}`} 
-               width={350}
-               height={310}
-                />
-        {promo && <PromoTitle>¡Promo Exclusiva!</PromoTitle>}
+        <Image src={images?.[0]}
+          alt={`imagen del tour ${name}`}
+          width={350}
+          height={310}
+        />
+        {promo && <PromoTitle>{t("Promo Exclusiva")}</PromoTitle>}
       </WhiteBox>
       <TourInfoBox>
-        <Title href={url}>{name}</Title>
+        <Title href={url}>{displayName}</Title>
         <ReviewBox review={review} opinions={true} />
-        <Description>{subtitle?.length <= 100 ? subtitle : subtitle?.substring(0, 100) + "..."}</Description>
+        <Description>{displaySubtitle}</Description>
         {/* <TypeT>Todo en uno</TypeT> */}
-        <TimeBox duration={duration}/>
+        <TimeBox duration={duration} />
         <Prices>
-          {price.usd?.withoutPromoAdultsPrice && <Promo>${price.usd?.withoutPromoAdultsPrice}</Promo>}
-          <Price>${price.usd?.adultsPrice}USD</Price>
+          {displayPromo && <Promo>${displayPromo}{t("Moneda")}</Promo>}
+          <Price>${displayPrince}{t("Moneda")}</Price>
         </Prices>
         <ButtonG onClick={handleButtonClick} green>
-          Reserva ahora!!
+          {t("Reserva ahora")}
         </ButtonG>
       </TourInfoBox>
     </TourWrapper>

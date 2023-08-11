@@ -10,7 +10,7 @@ import InfoIcon from "@mui/icons-material/Info";
 const TourWrapper = styled(Link)`
 /* Por ahora no hay nada acá */
   height: fit-content;
-  min-width: 17rem;
+  min-width: 20rem;
   max-width: 20rem;
   background-color: #84c441;
   /* border: 2px solid #47556955; */
@@ -122,17 +122,17 @@ export default function TourBoxBlog({ _id, name, promo, price, images }) {
   return (
     <TourWrapper href={url}>
       <WhiteBox>
-        <Image src={images?.[0]} 
-               alt={`imagen del tour ${name}`} 
-               width={450}
-               height={310}
-                />
+        <Image src={images?.[0]}
+          alt={`imagen del tour ${name}`}
+          width={450}
+          height={310}
+        />
         <Title>{name}</Title>
-        { promo && <PromoTitle>¡Promo Exclusiva!</PromoTitle> }
+        {promo && <PromoTitle>¡Promo Exclusiva!</PromoTitle>}
       </WhiteBox>
       <TourInfoBox>
         {/* <TypeT>Todo en uno</TypeT> */}
-        <Info/>
+        <Info />
         <Prices>
           {price.usd?.withoutPromoAdultsPrice && <Promo>${price.usd?.withoutPromoAdultsPrice}</Promo>}
           <Price>${price.usd?.adultsPrice}USD</Price>
