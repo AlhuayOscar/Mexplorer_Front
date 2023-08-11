@@ -142,10 +142,13 @@ export default function CartPage() {
           <ColumnsWrapper>
             <Box>
               <h1>{t("Gracias por la orden")}!</h1>
-              <p>{t("Se enviará un correo con la confirmación de su compra")}.</p>
+              <p>
+                {t("Se enviará un correo con la confirmación de su compra")}.
+              </p>
             </Box>
           </ColumnsWrapper>
         </Center>
+        <Footer />
       </>
     );
   }

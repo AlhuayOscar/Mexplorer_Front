@@ -178,10 +178,10 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
   const [orderData, setOrderData] = useState(initialOrderData);
   const priceInMXN =
     tour.price?.mxn?.adultsPrice * orderData.adults +
-    tour.price?.mxn?.childrenPrice * orderData.children || 0;
+      tour.price?.mxn?.childrenPrice * orderData.children || 0;
   const priceInUSD =
     tour.price?.usd?.adultsPrice * orderData.adults +
-    tour.price?.usd?.childrenPrice * orderData.children || 0;
+      tour.price?.usd?.childrenPrice * orderData.children || 0;
 
   useEffect(() => {
     const calculateTotalPrice = () => {
@@ -189,11 +189,11 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
       if (orderData.type === "reserva" && tour.reservation) {
         totalPrice =
           tour.price?.mxn?.adultsReservationPrice * orderData.adults +
-          tour.price?.mxn?.childrenReservationPrice * orderData.children || 0;
+            tour.price?.mxn?.childrenReservationPrice * orderData.children || 0;
       } else {
         totalPrice =
           tour.price?.usd?.adultsPrice * orderData.adults +
-          tour.price?.usd?.childrenPrice * orderData.children || 0;
+            tour.price?.usd?.childrenPrice * orderData.children || 0;
       }
       setOrderData({ ...orderData, price: totalPrice });
     };
@@ -212,7 +212,6 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
     setDate("");
   }, [tour]);
 
-
   const isAvailable = (date) => {
     const day = date.day();
     return tour.unavailableDays.includes(day);
@@ -225,6 +224,69 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
   const handleSelect = (e) => {
     const schedule = e.target.value;
     setOrderData({ ...orderData, hour: schedule });
+  };
+  const handleAddToCartC = () => {
+    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const tourId = orderData.id;
+
+    // Verifica si el ID del tour ya existe en el carrito
+    const isTourInCart = existingCart.some((item) => item.id === tourId);
+
+    if (isTourInCart) {
+      // Si el tour ya está en el carrito, muestra el warning
+      Swal.fire({
+        icon: "warning",
+        title: "¡Ya tienes este producto en el carrito!",
+        timer: 1500,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+      return; // No agregues el tour al carrito nuevamente
+    }
+
+    // Si el tour no está en el carrito, agrégalo
+    addTour(orderData);
+
+    // Agrega el Sweet Alert de éxito aquí
+    Swal.fire({
+      icon: "success",
+      title: "¡Añadido al carrito exitosamente!",
+      timer: 1600,
+      timerProgressBar: true,
+      showConfirmButton: false,
+    });
+  };
+
+  const handleAddToCartR = () => {
+    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const tourId = orderData.id;
+
+    // Verifica si el ID del tour ya existe en el carrito
+    const isTourInCart = existingCart.some((item) => item.id === tourId);
+
+    if (isTourInCart) {
+      // Si el tour ya está en el carrito, muestra el warning
+      Swal.fire({
+        icon: "warning",
+        title: "¡Ya tienes este producto en el carrito!",
+        timer: 1500,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+      return; // No agregues el tour al carrito nuevamente
+    }
+
+    // Si el tour no está en el carrito, agrégalo
+    addTour(orderData);
+
+    // Agrega el Sweet Alert de éxito aquí
+    Swal.fire({
+      icon: "success",
+      title: "¡Añadido al carrito exitosamente!",
+      timer: 1600,
+      timerProgressBar: true,
+      showConfirmButton: false,
+    });
   };
 
   return (
@@ -302,12 +364,12 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
           {t("Mostrar en")} {showPriceInMXN ? "USD" : "MXN"}
         </ButtonC>
         {orderData.type === "reserva" ? (
-          <ButtonC type="submit" green onClick={() => addTour(orderData)}>
+          <ButtonC type="submit" green onClick={handleAddToCartC}>
             <CartIcon />
             {t("Añadir a mi carrito de compras")}!!
           </ButtonC>
         ) : (
-          <ButtonR type="submit" green onClick={() => addTour(orderData)}>
+          <ButtonR type="submit" green onClick={handleAddToCartR}>
             <CartIcon />
             {t("Añadir a mi carrito de compras")}
           </ButtonR>
