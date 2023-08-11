@@ -31,10 +31,14 @@ const ResultSearch = ({ tours, name, totalPages }) => {
   };
 
   useEffect(() => {
-    router.push({
-      pathname: "/search/",
-      query: { name: searchInput, page: currentPage },
-    });
+    const timeout = setTimeout(() => {
+      router.push({
+        pathname: "/search/",
+        query: { name: searchInput, page: currentPage },
+      });
+    }, 200);
+
+    return () => clearTimeout(timeout); // Limpiar el timeout al desmontar el componente
   }, [searchInput, currentPage]);
 
   useEffect(() => {
