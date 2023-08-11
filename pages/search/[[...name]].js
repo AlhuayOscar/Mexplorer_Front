@@ -89,19 +89,20 @@ export async function getServerSideProps({ query }) {
   try {
     await mongooseConnect();
 
-    const searchInput = query.name || "";
+    const searchInput = query.name || "Tour";
     const regex = new RegExp(searchInput, "i");
 
     const tours = await Tour.find({ name: regex });
+
     const serializedTours = tours.map((tour) => {
       const serializedTour = tour.toObject();
       serializedTour._id = serializedTour._id.toString();
-      serializedTour.createdAt = serializedTour.createdAt.toISOString(); // Convertir createdAt a cadena
+      serializedTour.createdAt = serializedTour.createdAt.toISOString();
       return serializedTour;
     });
 
-    console.log("Tours encontrados:", serializedTours);
-
+    console.log("Nombre del tour:", serializedTours.slice(0, 2)[0].name); // Limitar a los primeros 2 tours
+    console.log("Estó Buscaste:", searchInput);
     return {
       props: {
         tours: serializedTours,
@@ -113,8 +114,8 @@ export async function getServerSideProps({ query }) {
     console.error("Error:", error);
     return {
       props: {
-        tours: [],
-        name: "",
+        tours: ["No hay tour"],
+        name: "El servidor no tiene ese Tour o no lo encuentra",
         totalPages: 0,
       },
     };
