@@ -31,24 +31,23 @@ const ResultSearch = ({ tours, name, totalPages }) => {
   };
 
   useEffect(() => {
-    if (currentPage > 1 || searchInput !== name) {
-      const timeout = setTimeout(() => {
-        router.push({
-          pathname: "/search",
-          query: { name: searchInput, page: currentPage },
-        });
-      }, 500);
+    const timeout = setTimeout(() => {
+      if (currentPage === 1) {
+        router.push(`/search/${searchInput}`);
+      } else {
+        setCurrentPage(1);
+      }
+    }, 150); // Cambia el tiempo de espera según tus necesidades
 
-      return () => clearTimeout(timeout);
-    }
-  }, [searchInput, currentPage, name]);
+    return () => clearTimeout(timeout);
+  }, [searchInput, currentPage]);
 
   useEffect(() => {
     setCurrentPage(1);
   }, [searchInput]);
 
   useEffect(() => {
-    const storedSearchInput = localStorage.getItem("searchInput");
+    const storedSearchInput = searchInput;
     if (storedSearchInput) {
       setSearchInput(storedSearchInput);
     }
@@ -68,9 +67,15 @@ const ResultSearch = ({ tours, name, totalPages }) => {
           autoFocus
           value={searchInput}
           onChange={handleSearchInputChange}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              router.push(`/search/${searchInput}`);
+            }
+          }}
           type="text"
           placeholder="Busca una actividad..."
         />
+
         <SearchTours tours={tours} />
         <PaginationControls
           currentPage={currentPage}
