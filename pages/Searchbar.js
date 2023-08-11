@@ -35,27 +35,32 @@ const SubmitButton = styled.button`
   outline: none;
   cursor: pointer;
 `;
-
 const Searchbar = (props) => {
+  const router = useRouter(); 
   const { t } = useTranslation();
-  console.log("props.value:", props.value);
+  const [searchInput, setSearchInput] = useState(props.value);
 
   useEffect(() => {
-    localStorage.setItem("searchInput", props.value);
+    setSearchInput(props.value);
   }, [props.value]);
+
+  const handleSearch = () => {
+    router.push({
+      pathname: "/search/",
+      query: { name: searchInput },
+    });
+  };
 
   return (
     <SearchbarContainer>
       <Input
         autoFocus
-        value={props.value}
-        onChange={(ev) => props.setPhrase(ev.target.value)}
+        value={searchInput}
+        onChange={(ev) => setSearchInput(ev.target.value)}
         type="text"
         placeholder="Busca tu próxima aventura"
       />
-      <Link href={`/search/${encodeURIComponent(props.value)}`}>
-        <SubmitButton>{t("Buscar")}</SubmitButton>
-      </Link>
+      <SubmitButton onClick={handleSearch}>{t("Buscar")}</SubmitButton>
     </SearchbarContainer>
   );
 };

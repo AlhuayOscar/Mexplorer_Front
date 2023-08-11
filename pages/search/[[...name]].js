@@ -19,7 +19,7 @@ const SearchInput = styled(Input)`
 
 const ResultSearch = ({ tours, name, totalPages }) => {
   const router = useRouter();
-  const [searchInput, setSearchInput] = useState("Prueba"); // Cambié el nombre de la variable a "searchInput"
+  const [searchInput, setSearchInput] = useState(name); // Cambié el nombre de la variable a "searchInput"
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePreviousPage = () => {
@@ -86,6 +86,7 @@ const ResultSearch = ({ tours, name, totalPages }) => {
 };
 
 export async function getServerSideProps({ query }) {
+  console.log("Valor de query.name:", query.name);
   try {
     await mongooseConnect();
 
