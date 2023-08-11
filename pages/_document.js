@@ -3,7 +3,7 @@ import Document, { Html, Head, Main, NextScript } from "next/document";
 export default class MyDocument extends Document {
   render() {
     return (
-      <Html lang="en">
+      <Html lang="en" style={{ backgroundColor: "black" }}>
         <Head>
           <style
             dangerouslySetInnerHTML={{
@@ -25,7 +25,7 @@ export default class MyDocument extends Document {
                 }
                 body {
                   opacity: 0;
-                  animation: fadeIn 200ms ease-in 200ms forwards;
+                  animation: fadeIn 100ms ease-in 200ms forwards;
                 }
               `,
             }}
