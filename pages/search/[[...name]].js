@@ -20,14 +20,6 @@ const ResultSearch = ({ tours, name, totalPages }) => {
   const router = useRouter();
   const [phrase, setPhrase] = useState("Xcaret");
   const [currentPage, setCurrentPage] = useState(1);
-  console.log(
-    "Esto es son varios valores",
-    tours,
-    "name:",
-    name,
-    "Pages:",
-    totalPages
-  );
 
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => prevPage - 1);
@@ -48,10 +40,8 @@ const ResultSearch = ({ tours, name, totalPages }) => {
   useEffect(() => {
     setCurrentPage(1); // página 1 al cambiar el nombre de búsqueda
   }, [name]);
-  console.log("Esto es name", name);
-  console.log("Esto es phrase", name);
+  console.log("Esto es name en pagina 1", name);
   console.log("Esto es la pagina", currentPage);
-  console.log("Esto es query");
   return (
     <>
       <Header />
@@ -80,12 +70,10 @@ const ResultSearch = ({ tours, name, totalPages }) => {
 export async function getServerSideProps(context) {
   try {
     console.log(context);
-    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     await mongooseConnect();
     const { name, categories, sort, page, pageSize, ...filters } =
       context.query;
     let [sortField, sortOrder] = (sort || "_id-desc").split("-");
-    console.log("Esto es name", name);
 
     const toursQuery = {};
     if (categories) {
@@ -96,7 +84,6 @@ export async function getServerSideProps(context) {
         { name: { $regex: name, $options: "i" } },
         { description: { $regex: name, $options: "i" } },
       ];
-      console.log("Esto es name", name, toursQuery[0]);
     }
     if (Object.keys(filters).length > 0) {
       Object.keys(filters).forEach((filterName) => {
@@ -110,18 +97,8 @@ export async function getServerSideProps(context) {
       skip,
       limit,
     });
-    console.log(
-      "Esto es la info del GetServersideProps",
-      name,
-      categories,
-      sort,
-      page,
-      pageSize,
-      filters
-    );
 
     const results = await resultsQuery.exec();
-    console.log(results[0]);
 
     const totalCount = await Tour.countDocuments(toursQuery);
     const totalPages = Math.ceil(totalCount / limit);
