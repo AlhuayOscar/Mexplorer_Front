@@ -31,7 +31,7 @@ const ResultSearch = ({ tours, name, totalPages }) => {
   };
 
   useEffect(() => {
-    if (currentPage > 1) {
+    if (currentPage > 1 || searchInput !== name) {
       const timeout = setTimeout(() => {
         router.push({
           pathname: "/search",
@@ -41,7 +41,7 @@ const ResultSearch = ({ tours, name, totalPages }) => {
 
       return () => clearTimeout(timeout);
     }
-  }, [searchInput, currentPage]);
+  }, [searchInput, currentPage, name]);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -89,7 +89,8 @@ export async function getServerSideProps({ query }) {
   try {
     await mongooseConnect();
 
-    let searchInput = query.name || "Tour";
+    let searchInput =
+      query.name || "Vacio, Sin Tour, No se encontró query.name";
     const regex = new RegExp(searchInput, "i");
 
     const tours = await Tour.find({ name: regex });

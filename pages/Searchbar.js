@@ -47,10 +47,14 @@ const Searchbar = (props) => {
 
   const handleSearch = () => {
     setRedirecting(true);
-    router.push({
-      pathname: "/search",
-      query: { name: searchInput },
-    });
+    router
+      .push({
+        pathname: "/search/",
+        query: { name: searchInput },
+      })
+      .then(() => {
+        setRedirecting(false);
+      });
   };
 
   return (
