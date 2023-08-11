@@ -33,11 +33,8 @@ const ResultSearch = ({ tours, name, totalPages }) => {
   useEffect(() => {
     if (currentPage > 1 || searchInput !== name) {
       const timeout = setTimeout(() => {
-        router.push({
-          pathname: "/search",
-          query: { name: searchInput, page: currentPage },
-        });
-      }, 500);
+        router.push(`/search/${searchInput}`);
+      }, 120);
 
       return () => clearTimeout(timeout);
     }
