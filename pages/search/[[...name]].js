@@ -85,12 +85,12 @@ const ResultSearch = ({ tours, name, totalPages }) => {
   );
 };
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ params }) {
   try {
     await mongooseConnect();
 
     let searchInput =
-      query.name || "Vacio, Sin Tour, No se encontró query.name";
+      params.name || "Vacio, Sin Tour, No se encontró query.name";
     const regex = new RegExp(searchInput, "i");
 
     const tours = await Tour.find({ name: regex });

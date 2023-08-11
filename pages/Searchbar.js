@@ -39,7 +39,7 @@ const Searchbar = (props) => {
   const router = useRouter();
   const { t } = useTranslation();
   const [searchInput, setSearchInput] = useState(props.value);
-  const [redirecting, setRedirecting] = useState(false); // Nuevo estado
+  const [redirecting, setRedirecting] = useState(false);
 
   useEffect(() => {
     setSearchInput(props.value);
@@ -47,14 +47,9 @@ const Searchbar = (props) => {
 
   const handleSearch = () => {
     setRedirecting(true);
-    router
-      .push({
-        pathname: "/search/",
-        query: { name: searchInput },
-      })
-      .then(() => {
-        setRedirecting(false);
-      });
+    router.push(`/search/${searchInput}`).then(() => {
+      setRedirecting(false);
+    });
   };
 
   return (
