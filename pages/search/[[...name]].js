@@ -19,7 +19,7 @@ const SearchInput = styled(Input)`
 
 const ResultSearch = ({ tours, name, totalPages }) => {
   const router = useRouter();
-  const [searchInput, setSearchInput] = useState("Tour"); // Cambié el nombre de la variable a "searchInput"
+  const [searchInput, setSearchInput] = useState("Prueba"); // Cambié el nombre de la variable a "searchInput"
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePreviousPage = () => {
@@ -91,6 +91,7 @@ export async function getServerSideProps({ query }) {
 
     // Get searchInput from localStorage or set to "Tour"
     let searchInput = query.name || "Tour";
+    console.log(query.name);
     if (!query.name) {
       console.log("No se encontro el query.name :(");
     }

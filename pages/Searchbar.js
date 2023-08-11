@@ -53,13 +53,7 @@ const Searchbar = (props) => {
         type="text"
         placeholder="Busca tu próxima aventura"
       />
-      <Link
-        href={{
-          pathname: "/search/[[...name]]",
-          query: { name: props.value },
-        }}
-        as={`/search?name=${props.value}`}
-      >
+      <Link href={`/search/${encodeURIComponent(props.value)}`}>
         <SubmitButton>{t("Buscar")}</SubmitButton>
       </Link>
     </SearchbarContainer>
