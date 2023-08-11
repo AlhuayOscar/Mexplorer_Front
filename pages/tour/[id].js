@@ -288,8 +288,6 @@ const Overlay = styled.div`
 `;
 
 export default function TourPage({ tour, promoTours }) {
-  console.log(tour);
-
   const { addTour } = useContext(CartContext);
   const [showDescription, setShowDescription] = useState(true);
   const [showIncludes, setShowIncludes] = useState(false);
@@ -360,13 +358,13 @@ export default function TourPage({ tour, promoTours }) {
   const displayRequirements =
     currentLanguage === "es" ? tour.requirements : tour.requirementsEng;
   const displayNotes = currentLanguage === "es" ? tour.notes : tour.notesEng;
-  console.log(tour.images);
+  const StaticImages = tour.images;
   return (
     <>
       <Header />
       <Overlay show={showOverlay} />
       <OverflowProtection>
-        <ToursImageCarousel images={tour.images} />
+        <ToursImageCarousel images={StaticImages} />
       </OverflowProtection>
       <TitleTour>
         <div>
@@ -585,18 +583,16 @@ export async function getServerSideProps(context) {
     await mongooseConnect(); // Esperar a que se establezca la conexión con la base de datos
 
     const { id } = context.query;
-    console.log("ID del tour:", id);
+
 
     const tour = await Tour.findById(id);
     if (!tour) {
       console.log("No se encontró ningún tour con el ID proporcionado.");
     } else {
-      console.log("Información del tour encontrado:", tour);
       tourCache.set(id, tour);
     }
 
     const promoTours = await Tour.find({ promo: true }, null, { limit: 3 });
-    console.log("Información de los tours promocionales:", promoTours);
 
     return {
       props: {
