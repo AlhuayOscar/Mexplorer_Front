@@ -89,7 +89,7 @@ export async function getServerSideProps({ query }) {
   try {
     await mongooseConnect();
 
-    const searchInput = query.name || "";
+    const searchInput = query.name || "Tour";
     const regex = new RegExp(searchInput, "i");
 
     const tours = await Tour.find({ name: regex });
