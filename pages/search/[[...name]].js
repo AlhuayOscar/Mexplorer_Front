@@ -35,12 +35,10 @@ const ResultSearch = ({ tours, name, totalPages }) => {
       query: { name: phrase, page: currentPage },
     });
   }, [phrase, currentPage]);
-
   useEffect(() => {
     setCurrentPage(1); // página 1 al cambiar el nombre de búsqueda
   }, [name]);
   console.log("Esto es name en pagina 1", name);
-
   console.log("Contexto en el cliente:", router.query);
   return (
     <>
