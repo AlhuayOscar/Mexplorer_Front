@@ -101,7 +101,13 @@ export async function getServerSideProps({ query }) {
       return serializedTour;
     });
 
-    console.log("Nombre del tour:", serializedTours.slice(0, 2)[0].name); // Limitar a los primeros 2 tours
+    console.log(
+      "v ################################## v",
+      "\nNombres de los primeros 2 tours:"
+    );
+    serializedTours.slice(0, 5).forEach((tour, index) => {
+      console.log(`Tour ${index + 1}: ${tour.name}`);
+    });
     console.log("Estó Buscaste:", searchInput);
     return {
       props: {
