@@ -35,13 +35,10 @@ const ResultSearch = ({ tours, name, totalPages }) => {
       query: { name: phrase, page: currentPage },
     });
   }, [phrase, currentPage]);
-
-
   useEffect(() => {
     setCurrentPage(1); // página 1 al cambiar el nombre de búsqueda
   }, [name]);
   console.log("Esto es name en pagina 1", name);
-  
   console.log("Contexto en el cliente:", router.query);
   return (
     <>
@@ -69,13 +66,13 @@ const ResultSearch = ({ tours, name, totalPages }) => {
 };
 
 export async function getServerSideProps(context) {
+  console.log("Esto es el context-query antes de la peticion a DB", context.query);
   try {
-    console.log(context);
     await mongooseConnect();
     const { name, categories, sort, page, pageSize, ...filters } =
       context.query;
     let [sortField, sortOrder] = (sort || "_id-desc").split("-");
-
+    console.log("Esto es el context-query", context.query);
     const toursQuery = {};
     if (categories) {
       toursQuery.category = categories.split(",");
@@ -125,8 +122,8 @@ export async function getServerSideProps(context) {
     return {
       props: {
         tours: [],
-        name: "",
-        totalPages: 0,
+        name: "The server didn't get any tour",
+        totalPages: 1,
       },
     };
   }
