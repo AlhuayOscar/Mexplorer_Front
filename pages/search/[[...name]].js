@@ -34,7 +34,7 @@ const ResultSearch = ({ tours, name, totalPages }) => {
     if (currentPage > 1) {
       const timeout = setTimeout(() => {
         router.push({
-          pathname: "/search/",
+          pathname: "/search",
           query: { name: searchInput, page: currentPage },
         });
       }, 500);

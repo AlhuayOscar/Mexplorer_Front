@@ -46,15 +46,11 @@ const Searchbar = (props) => {
   }, [props.value]);
 
   const handleSearch = () => {
-    setRedirecting(true); // Indicar que se está redireccionando
-    // Retrasar la redirección por unos milisegundos para que el estado se actualice
-    setTimeout(() => {
-      router.push({
-        pathname: "/search/",
-        query: { name: searchInput },
-      });
-      setRedirecting(false); // Ya no se está redireccionando
-    }, 200);
+    setRedirecting(true);
+    router.push({
+      pathname: "/search",
+      query: { name: searchInput },
+    });
   };
 
   return (
