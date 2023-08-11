@@ -21,7 +21,6 @@ const ResultSearch = ({ tours, name, totalPages }) => {
   const router = useRouter();
   const [searchInput, setSearchInput] = useState(name);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isSearching, setIsSearching] = useState(false); // Nuevo estado para controlar la búsqueda
 
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => prevPage - 1);
@@ -31,17 +30,22 @@ const ResultSearch = ({ tours, name, totalPages }) => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
 
-  const handleSearch = () => {
-    setIsSearching(true); // Indicar que se está buscando
-    router.push({
-      pathname: "/search/",
-      query: { name: searchInput, page: currentPage },
-    });
-  };
+  useEffect(() => {
+    if (currentPage > 1) {
+      const timeout = setTimeout(() => {
+        router.push({
+          pathname: "/search/",
+          query: { name: searchInput, page: currentPage },
+        });
+      }, 500);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [searchInput, currentPage]);
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [name]);
+  }, [searchInput]);
 
   useEffect(() => {
     const storedSearchInput = localStorage.getItem("searchInput");
@@ -56,7 +60,6 @@ const ResultSearch = ({ tours, name, totalPages }) => {
     localStorage.setItem("searchInput", newValue);
   };
 
-  console.log("Contexto en el cliente:", router.query);
   return (
     <>
       <Header />
@@ -68,9 +71,6 @@ const ResultSearch = ({ tours, name, totalPages }) => {
           type="text"
           placeholder="Busca una actividad..."
         />
-        <button onClick={handleSearch} disabled={isSearching}>
-          Buscar
-        </button>
         <SearchTours tours={tours} />
         <PaginationControls
           currentPage={currentPage}
@@ -86,16 +86,10 @@ const ResultSearch = ({ tours, name, totalPages }) => {
 };
 
 export async function getServerSideProps({ query }) {
-  console.log("Valor de query.name:", query.name);
   try {
     await mongooseConnect();
 
-    // Get searchInput from localStorage or set to "Tour"
     let searchInput = query.name || "Tour";
-    console.log(query.name);
-    if (!query.name) {
-      console.log("No se encontro el query.name :(");
-    }
     const regex = new RegExp(searchInput, "i");
 
     const tours = await Tour.find({ name: regex });
@@ -107,15 +101,6 @@ export async function getServerSideProps({ query }) {
       return serializedTour;
     });
 
-    console.log(
-      "v ################################## v",
-      "\nNombres de los primeros 2 tours:"
-    );
-    serializedTours.slice(0, 5).forEach((tour, index) => {
-      console.log(`Tour ${index + 1}: ${tour.name}`);
-    });
-    console.log("Esto Buscaste:", searchInput);
-
     return {
       props: {
         tours: serializedTours,
@@ -124,7 +109,6 @@ export async function getServerSideProps({ query }) {
       },
     };
   } catch (error) {
-    console.error("Error:", error);
     return {
       props: {
         tours: ["No hay tour"],
