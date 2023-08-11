@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 const HeaderSlider = styled(Slider)`
   display: flex;
@@ -67,36 +67,21 @@ const SlideImage = styled.img`
   object-fit: cover;
   object-position: center;
   transition: 0.8s ease 0.15s;
-
-  &.loading {
-    transition: 0.8s ease 0.15s;
-    opacity: 0; /* Ocultar la imagen mientras se carga */
-  }
-  @media screen and (min-width: 768px) {
-    height: 380px;
-  }
-`;
-
-const SkeletonImage = styled.div`
-  height: 305px;
-  width: 100%;
+  opacity: ${({ loading }) => (loading ? "0" : "1")};
   background: linear-gradient(-45deg, #f6f7f8 25%, #e0e0e0 50%, #f6f7f8 75%);
   background-size: 200% 200%;
-  animation: skeleton-loading 1.5s infinite;
-
-  @keyframes skeleton-loading {
+  transition: 0.8s ease;
+  animation: ${keyframes`
     0% {
+      transition:0.8s ease;
       background-position: 200% 0;
     }
     100% {
       background-position: -200% 0;
     }
-  }
-
-  @media screen and (min-width: 768px) {
-    height: 380px;
-  }
+  `} 1s ease 1s infinite;
 `;
+
 const Carousel = ({ images }) => {
   const [windowWidth, setWindowWidth] = useState(0);
   const [loading, setLoading] = useState(true); // Estado para controlar la carga de imágenes
