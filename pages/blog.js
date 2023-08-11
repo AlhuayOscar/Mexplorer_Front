@@ -177,7 +177,7 @@ const Blog = () => {
         setIsLoading(false); // Set isLoading to false after data is fetched
       }, 400);
     } catch (error) {
-      console.error(error);
+      console.error(error);git
     }
   };
 
@@ -258,8 +258,6 @@ const Blog = () => {
   const totalPagesUnfiltered = Math.ceil(blogs.length / postsPerPage);
   // Total de páginas dependiendo del caso (filtrado o sin filtrar)
   const totalPages = searchTerm !== "" ? totalPagesFiltered : totalPagesUnfiltered;
-
-  // ... (resto del código existente)
 
   useEffect(() => {
     setCurrentPage(1); // página 1 al cambiar el nombre de búsqueda
