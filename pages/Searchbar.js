@@ -20,7 +20,7 @@ const Input = styled.input`
   flex: 1;
   border-radius: 5px 0 0 5px;
   padding: 12px 40px;
-  border-width: 2px 0 2px 2px; /* Grosor del borde en los lados superior, inferior e izquierdo */
+  border-width: 2px 0 2px 2px;
   border-style: solid;
   border-color: #ccc;
   outline: none;
@@ -38,6 +38,11 @@ const SubmitButton = styled.button`
 
 const Searchbar = (props) => {
   const { t } = useTranslation();
+  console.log("props.value:", props.value);
+
+  useEffect(() => {
+    localStorage.setItem("searchInput", props.value);
+  }, [props.value]);
 
   return (
     <SearchbarContainer>
@@ -51,7 +56,6 @@ const Searchbar = (props) => {
       <Link
         href={{
           pathname: "https://mexplorer-front-three.vercel.app/search/Xcaret",
-
           query: { name: props.value },
         }}
         as={`/search?name=Xcaret`}
