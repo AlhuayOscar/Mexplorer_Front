@@ -71,6 +71,7 @@ const ResultSearch = ({ tours, name, totalPages }) => {
 };
 
 export async function getServerSideProps(context) {
+    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
   await mongooseConnect();
   const { name, categories, sort, page, pageSize, ...filters } = context.query;
   let [sortField, sortOrder] = (sort || "_id-desc").split("-");
@@ -84,6 +85,7 @@ export async function getServerSideProps(context) {
       { name: { $regex: name, $options: "i" } },
       { description: { $regex: name, $options: "i" } },
     ];
+    console.log("Esto es name", name, toursQuery[0]);
   }
   if (Object.keys(filters).length > 0) {
     Object.keys(filters).forEach((filterName) => {
@@ -108,12 +110,12 @@ export async function getServerSideProps(context) {
   );
 
   const results = await resultsQuery.exec();
-
+  console.log(results[0]);
   // Obtener el recuento total de paginas
   const totalCount = await Tour.countDocuments(toursQuery);
 
   const totalPages = Math.ceil(totalCount / limit); // Calcular el número total de páginas.
-
+  console.log("###########################");
   return {
     props: {
       tours: JSON.parse(JSON.stringify(results)),
