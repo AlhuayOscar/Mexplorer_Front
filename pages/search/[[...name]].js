@@ -19,8 +19,9 @@ const SearchInput = styled(Input)`
 
 const ResultSearch = ({ tours, name, totalPages }) => {
   const router = useRouter();
-  const [searchInput, setSearchInput] = useState(name); // Cambié el nombre de la variable a "searchInput"
+  const [searchInput, setSearchInput] = useState(name);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isSearching, setIsSearching] = useState(false); // Nuevo estado para controlar la búsqueda
 
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => prevPage - 1);
@@ -30,21 +31,17 @@ const ResultSearch = ({ tours, name, totalPages }) => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      router.push({
-        pathname: "/search/",
-        query: { name: searchInput, page: currentPage },
-      });
-    }, 200);
-
-    return () => clearTimeout(timeout); // Limpiar el timeout al desmontar el componente
-  }, [searchInput, currentPage]);
+  const handleSearch = () => {
+    setIsSearching(true); // Indicar que se está buscando
+    router.push({
+      pathname: "/search/",
+      query: { name: searchInput, page: currentPage },
+    });
+  };
 
   useEffect(() => {
     setCurrentPage(1);
   }, [name]);
-  console.log("Esto es name en pagina 1", name);
 
   useEffect(() => {
     const storedSearchInput = localStorage.getItem("searchInput");
@@ -67,10 +64,13 @@ const ResultSearch = ({ tours, name, totalPages }) => {
         <SearchInput
           autoFocus
           value={searchInput}
-          onChange={handleSearchInputChange} // Actualizado el manejador de cambios
+          onChange={handleSearchInputChange}
           type="text"
           placeholder="Busca una actividad..."
         />
+        <button onClick={handleSearch} disabled={isSearching}>
+          Buscar
+        </button>
         <SearchTours tours={tours} />
         <PaginationControls
           currentPage={currentPage}

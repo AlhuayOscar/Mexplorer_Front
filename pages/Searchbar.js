@@ -36,19 +36,25 @@ const SubmitButton = styled.button`
   cursor: pointer;
 `;
 const Searchbar = (props) => {
-  const router = useRouter(); 
+  const router = useRouter();
   const { t } = useTranslation();
   const [searchInput, setSearchInput] = useState(props.value);
+  const [redirecting, setRedirecting] = useState(false); // Nuevo estado
 
   useEffect(() => {
     setSearchInput(props.value);
   }, [props.value]);
 
   const handleSearch = () => {
-    router.push({
-      pathname: "/search/",
-      query: { name: searchInput },
-    });
+    setRedirecting(true); // Indicar que se está redireccionando
+    // Retrasar la redirección por unos milisegundos para que el estado se actualice
+    setTimeout(() => {
+      router.push({
+        pathname: "/search/",
+        query: { name: searchInput },
+      });
+      setRedirecting(false); // Ya no se está redireccionando
+    }, 200);
   };
 
   return (
@@ -60,7 +66,9 @@ const Searchbar = (props) => {
         type="text"
         placeholder="Busca tu próxima aventura"
       />
-      <SubmitButton onClick={handleSearch}>{t("Buscar")}</SubmitButton>
+      <SubmitButton onClick={handleSearch} disabled={redirecting}>
+        {t("Buscar")}
+      </SubmitButton>
     </SearchbarContainer>
   );
 };
