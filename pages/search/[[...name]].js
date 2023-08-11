@@ -31,10 +31,14 @@ const ResultSearch = ({ tours, name, totalPages }) => {
   };
 
   useEffect(() => {
-    router.push({
-      pathname: "/search/",
-      query: { name: searchInput, page: currentPage },
-    });
+    const timeout = setTimeout(() => {
+      router.push({
+        pathname: "/search/",
+        query: { name: searchInput, page: currentPage },
+      });
+    }, 200);
+
+    return () => clearTimeout(timeout); // Limpiar el timeout al desmontar el componente
   }, [searchInput, currentPage]);
 
   useEffect(() => {
@@ -82,24 +86,26 @@ const ResultSearch = ({ tours, name, totalPages }) => {
 };
 
 export async function getServerSideProps(context) {
-  console.log(
-    "Esto es el context-query antes de la peticion a DB",
-    context.query
-  );
   try {
     await mongooseConnect();
-    const { name, categories, sort, page, pageSize, ...filters } =
-      context.query;
+    const {
+      searchInput = "Tour",
+      categories,
+      sort,
+      page,
+      pageSize,
+      ...filters
+    } = context.query; // Cambio de 'name' a 'searchInput'
     let [sortField, sortOrder] = (sort || "_id-desc").split("-");
     console.log("Esto es el context-query", context.query);
     const toursQuery = {};
     if (categories) {
       toursQuery.category = categories.split(",");
     }
-    if (name) {
+    if (searchInput) {
       toursQuery["$or"] = [
-        { name: { $regex: name, $options: "i" } },
-        { description: { $regex: name, $options: "i" } },
+        { name: { $regex: searchInput, $options: "i" } },
+        { description: { $regex: searchInput, $options: "i" } },
       ];
     }
     if (Object.keys(filters).length > 0) {
@@ -119,13 +125,21 @@ export async function getServerSideProps(context) {
 
     const totalCount = await Tour.countDocuments(toursQuery);
     const totalPages = Math.ceil(totalCount / limit);
-
+    console.log(
+      "Estos son los valores finales:",
+      searchInput,
+      categories,
+      sort,
+      page,
+      pageSize,
+      filters
+    );
     console.log("###########################");
 
     return {
       props: {
         tours: JSON.parse(JSON.stringify(results)),
-        name: name,
+        name: searchInput, // Cambio de 'name' a 'searchInput'
         totalPages: totalPages,
       },
     };
