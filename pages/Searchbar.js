@@ -37,6 +37,7 @@ const SubmitButton = styled.button`
 `;
 
 const Searchbar = (props) => {
+  const { t } = useTranslation();
   console.log(props);
   useEffect(() => {
     const interval = setInterval(() => {
