@@ -1,3 +1,7 @@
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import { useRouter } from "next/router";
+import Swal from "sweetalert2";
 import Center from "@/components/Center";
 import Header from "@/components/Header";
 import Input from "@/components/Input";
@@ -5,10 +9,7 @@ import PaginationControls from "@/components/Pagination";
 import SearchTours from "@/components/SearchTours";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Tour } from "@/models/Tour";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import Swal from "sweetalert2"; // Import SweetAlert
+
 const SearchInput = styled(Input)`
   padding: 5px 10px;
   border-radius: 5px;
@@ -18,7 +19,7 @@ const SearchInput = styled(Input)`
 
 const ResultSearch = ({ tours, name, totalPages }) => {
   const router = useRouter();
-  const [phrase, setPhrase] = useState("Xcaret");
+  const [searchInput, setSearchInput] = useState("Tour"); // Cambié el nombre de la variable a "searchInput"
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePreviousPage = () => {
@@ -31,15 +32,28 @@ const ResultSearch = ({ tours, name, totalPages }) => {
 
   useEffect(() => {
     router.push({
-      pathname: "https://mexplorer-front-three.vercel.app/search/",
-      query: { name: phrase, page: currentPage },
+      pathname: "/search/",
+      query: { name: searchInput, page: currentPage },
     });
-  }, [phrase, currentPage]);
+  }, [searchInput, currentPage]);
 
   useEffect(() => {
-    setCurrentPage(1); // página 1 al cambiar el nombre de búsqueda
+    setCurrentPage(1);
   }, [name]);
   console.log("Esto es name en pagina 1", name);
+
+  useEffect(() => {
+    const storedSearchInput = localStorage.getItem("searchInput");
+    if (storedSearchInput) {
+      setSearchInput(storedSearchInput);
+    }
+  }, []);
+
+  const handleSearchInputChange = (ev) => {
+    const newValue = ev.target.value;
+    setSearchInput(newValue);
+    localStorage.setItem("searchInput", newValue);
+  };
 
   console.log("Contexto en el cliente:", router.query);
   return (
@@ -48,8 +62,8 @@ const ResultSearch = ({ tours, name, totalPages }) => {
       <Center>
         <SearchInput
           autoFocus
-          value={phrase}
-          onChange={(ev) => setPhrase(ev.target.value)}
+          value={searchInput}
+          onChange={handleSearchInputChange} // Actualizado el manejador de cambios
           type="text"
           placeholder="Busca una actividad..."
         />
@@ -59,8 +73,8 @@ const ResultSearch = ({ tours, name, totalPages }) => {
           totalPages={totalPages}
           onPreviousPage={handlePreviousPage}
           onNextPage={handleNextPage}
-          disablePreviousPage={currentPage === 1} // Desactiva el botón de página anterior cuando currentPage sea 1
-          disableNextPage={currentPage === totalPages || totalPages === 0} // Desactivar el botón de página siguiente cuando currentPage sea igual a totalPages o totalPages sea 0
+          disablePreviousPage={currentPage === 1}
+          disableNextPage={currentPage === totalPages || totalPages === 0}
         />
       </Center>
     </>
@@ -68,7 +82,10 @@ const ResultSearch = ({ tours, name, totalPages }) => {
 };
 
 export async function getServerSideProps(context) {
-  console.log("Esto es el context-query antes de la peticion a DB", context.query);
+  console.log(
+    "Esto es el context-query antes de la peticion a DB",
+    context.query
+  );
   try {
     await mongooseConnect();
     const { name, categories, sort, page, pageSize, ...filters } =
