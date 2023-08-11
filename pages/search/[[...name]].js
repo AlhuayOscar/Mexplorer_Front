@@ -20,6 +20,7 @@ const SearchInput = styled(Input)`
 const ResultSearch = ({ tours, name, totalPages }) => {
   const router = useRouter();
   const [searchInput, setSearchInput] = useState(name);
+  const [shouldRedirect, setShouldRedirect] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePreviousPage = () => {
@@ -31,13 +32,24 @@ const ResultSearch = ({ tours, name, totalPages }) => {
   };
 
   useEffect(() => {
+    setShouldRedirect(true); // Cambiamos shouldRedirect a true cuando searchInput cambia
+  }, [searchInput]);
+
+  useEffect(() => {
+    if ((searchInput === "" || !searchInput) && shouldRedirect) {
+      router.push("/search/Tour");
+      setShouldRedirect(false);
+    }
+  }, [searchInput, shouldRedirect]);
+
+  useEffect(() => {
     const timeout = setTimeout(() => {
       if (currentPage === 1) {
         router.push(`/search/${searchInput}`);
       } else {
         setCurrentPage(1);
       }
-    }, 150); // Cambia el tiempo de espera según tus necesidades
+    }, 200); // Cambia el tiempo de espera según tus necesidades
 
     return () => clearTimeout(timeout);
   }, [searchInput, currentPage]);
@@ -56,6 +68,7 @@ const ResultSearch = ({ tours, name, totalPages }) => {
   const handleSearchInputChange = (ev) => {
     const newValue = ev.target.value;
     setSearchInput(newValue);
+
     localStorage.setItem("searchInput", newValue);
   };
 
@@ -94,8 +107,7 @@ export async function getServerSideProps({ params }) {
   try {
     await mongooseConnect();
 
-    let searchInput =
-      params.name || "Vacio, Sin Tour, No se encontró query.name";
+    let searchInput = params.name || "Tour";
     const regex = new RegExp(searchInput, "i");
 
     const tours = await Tour.find({ name: regex });
