@@ -24,85 +24,86 @@ const BlogContainer = styled.div`
   flex-direction: column;
   align-content: center;
   align-items: center;
-  `;
+`;
 
 const BlogTitle = styled.div`
-    background-color: #84c441;
-    color: #fff;
-    font-size: 40px;
-    width: 100%;
-    /* padding: 20px; */
-    h1{
-      margin: 20px 0;
-      font-size: 1.4rem;
-      font-weight: 400;
-      @media screen and (min-width: 768px) {
+  background-color: #84c441;
+  color: #fff;
+  font-size: 40px;
+  width: 100%;
+  /* padding: 20px; */
+  h1 {
+    margin: 20px 0;
+    font-size: 1.4rem;
+    font-weight: 400;
+    @media screen and (min-width: 768px) {
       font-size: 3rem;
-    }
-    }
-  `;
-
-const ImageContainer = styled.div`
-height:500px;    
-overflow:hidden;
-  #container {
-    overflow:hidden;
-    height:500px;
-  }
-    .slick-list {
-      width:1200px;
-      height:500px;
-    }
-    @media screen and (max-width: 1390px) { 
-    height:400px;
-    #container {
-    width:800px;
-    height:400px;
-  }
-    .slick-list {
-      width:800px;
-      height:400px;
-    }
-  }
-  @media screen and (max-width: 1024px) { 
-    height:350px;
-    #container {
-    width:600px; height:350px;
-  }
-    .slick-list {
-      width:600px; height:350px;
-    }
-  }
-  @media screen and (max-width: 600px) {  
-    height:280px;
-    #container {
-    width:280px;
-    height:280px;
-  }
-    .slick-list {
-      width:280px;
-      height:280px;
-    }
-  }
-  @media screen and (max-width: 450px) { 
-    #container {
-    width:350px;
-  }
-    .slick-list {
-      width:350px;
-    }
-  }
-  @media screen and (max-width: 350px) { 
-    width:280px;
-    #container {
-      width:280px;
-  }
-    .slick-list {
-      width:280px;
     }
   }
 `;
 
+const ImageContainer = styled.div`
+  height: 500px;
+  overflow: hidden;
+  #container {
+    overflow: hidden;
+    height: 500px;
+  }
+  .slick-list {
+    width: 1200px;
+    height: 500px;
+  }
+  @media screen and (max-width: 1390px) {
+    height: 400px;
+    #container {
+      width: 800px;
+      height: 400px;
+    }
+    .slick-list {
+      width: 800px;
+      height: 400px;
+    }
+  }
+  @media screen and (max-width: 1024px) {
+    height: 350px;
+    #container {
+      width: 600px;
+      height: 350px;
+    }
+    .slick-list {
+      width: 600px;
+      height: 350px;
+    }
+  }
+  @media screen and (max-width: 600px) {
+    height: 280px;
+    #container {
+      width: 280px;
+      height: 280px;
+    }
+    .slick-list {
+      width: 280px;
+      height: 280px;
+    }
+  }
+  @media screen and (max-width: 450px) {
+    #container {
+      width: 350px;
+    }
+    .slick-list {
+      width: 350px;
+    }
+  }
+  @media screen and (max-width: 350px) {
+    width: 280px;
+    #container {
+      width: 280px;
+    }
+    .slick-list {
+      width: 280px;
+    }
+  }
+`;
 
 const BlogSection = styled.section`
   display: grid;
@@ -112,7 +113,6 @@ const BlogSection = styled.section`
   }
 `;
 
-
 const BlogDescription = styled.div`
   /* max-width: 750px; */
   line-height: 1.5;
@@ -121,7 +121,7 @@ const BlogDescription = styled.div`
   font-size: 1rem;
   @media screen and (min-width: 768px) {
     font-size: 1.2rem;
-    p{
+    p {
       padding-bottom: 5px;
       line-height: 1.9;
     }
@@ -166,7 +166,6 @@ const InfoSetionn = styled.aside`
     font-weight: bold;
     color: #84c441;
   }
-  
 
   @media screen and (min-width: 1023px) {
     padding: 30px 0px 0 20px;
@@ -192,7 +191,6 @@ const BlogLink = styled(Link)`
 `;
 
 const BlogPage = ({ blog, tours, urls }) => {
-
   const [showModal, setShowModal] = useState(false);
 
   const handleImageClick = () => {
@@ -207,15 +205,15 @@ const BlogPage = ({ blog, tours, urls }) => {
   const { t } = useTranslation();
   const currentLanguage = i18n.language;
 
-  useEffect(() => {
-  }, [currentLanguage]);
+  useEffect(() => {}, [currentLanguage]);
 
   // Se Obtiene los valores en español e inglés basados en el idioma actual
-  const displayTitle = currentLanguage === 'es' ? blog.title : blog.titleEng;
+  const displayTitle = currentLanguage === "es" ? blog.title : blog.titleEng;
 
-
-
-  const paragraphs = currentLanguage === 'es' ? blog.description.split("\n") : blog.descriptionEng.split("\n");
+  const paragraphs =
+    currentLanguage === "es"
+      ? blog.description.split("\n")
+      : blog.descriptionEng.split("\n");
 
   const formattedParagraphs = paragraphs.map((paragraph, index) => {
     const formattedParagraph =
@@ -225,7 +223,6 @@ const BlogPage = ({ blog, tours, urls }) => {
 
     return currentLanguage === "es" ? formattedParagraph : paragraph;
   });
-
 
   return (
     <>
@@ -260,13 +257,10 @@ const BlogPage = ({ blog, tours, urls }) => {
 
             <InfoSetionn>
               <h2>{t("Revisa nuestros últimos tours")}:</h2>
-              {tours?.map(tour => (
+              {tours?.map((tour) => (
                 <TourBoxBlog key={tour._id} {...tour} />
-              ))
-              }
-              <BlogLink href={"/tours"}>
-                {t("Ver más")}
-              </BlogLink>
+              ))}
+              <BlogLink href={"/tours"}>{t("Ver más")}</BlogLink>
               <FollowUs socialUrls={"social"} />
             </InfoSetionn>
           </BlogSection>
@@ -275,7 +269,13 @@ const BlogPage = ({ blog, tours, urls }) => {
       {showModal && (
         <ModalOverlay onClick={handleCloseModal}>
           <ModalContent>
-            <Image src={blog.images[0]} alt="Blog Image" height={500} width={500} />
+            <Image
+              placeholder="blur" // O puedes usar "empty" para dejar un espacio en blanco
+              src={blog.images[0]}
+              alt="Blog Image"
+              height={500}
+              width={500}
+            />
           </ModalContent>
         </ModalOverlay>
       )}
@@ -301,7 +301,7 @@ export async function getServerSideProps(context) {
       props: {
         blog: JSON.parse(JSON.stringify(blog)),
         tours: JSON.parse(JSON.stringify(tours)),
-        urls: JSON.parse(JSON.stringify(portadaUrls))
+        urls: JSON.parse(JSON.stringify(portadaUrls)),
       },
     };
   } catch (error) {

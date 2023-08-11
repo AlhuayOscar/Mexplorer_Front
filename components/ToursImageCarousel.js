@@ -66,15 +66,41 @@ const SlideImage = styled.img`
   height: 305px;
   object-fit: cover;
   object-position: center;
-  transition: 0.4s ease 0.15s;
+  transition: 0.8s ease 0.15s;
 
+  &.loading {
+    transition: 0.8s ease 0.15s;
+    opacity: 0; /* Ocultar la imagen mientras se carga */
+  }
   @media screen and (min-width: 768px) {
     height: 380px;
   }
 `;
 
+const SkeletonImage = styled.div`
+  height: 305px;
+  width: 100%;
+  background: linear-gradient(-45deg, #f6f7f8 25%, #e0e0e0 50%, #f6f7f8 75%);
+  background-size: 200% 200%;
+  animation: skeleton-loading 1.5s infinite;
+
+  @keyframes skeleton-loading {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    height: 380px;
+  }
+`;
 const Carousel = ({ images }) => {
   const [windowWidth, setWindowWidth] = useState(0);
+  const [loading, setLoading] = useState(true); // Estado para controlar la carga de imágenes
+
   const showCards = images.length;
   console.log(showCards);
   useEffect(() => {
@@ -117,7 +143,13 @@ const Carousel = ({ images }) => {
   return (
     <HeaderSlider {...settings}>
       {images.map((image, index) => (
-        <SlideImage key={index} src={image} alt={`Imagen ${index}`} />
+        <SlideImage
+          key={index}
+          src={image}
+          alt={`Imagen ${index}`}
+          className={loading ? "loading" : ""}
+          onLoad={() => setLoading(false)}
+        />
       ))}
     </HeaderSlider>
   );
