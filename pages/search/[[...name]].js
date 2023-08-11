@@ -85,78 +85,37 @@ const ResultSearch = ({ tours, name, totalPages }) => {
   );
 };
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps({ query }) {
   try {
     await mongooseConnect();
-    const {
-      searchInput = "Tour",
-      categories,
-      sort,
-      page,
-      pageSize,
-      ...filters
-    } = context.query; // Cambio de 'name' a 'searchInput'
-    let [sortField, sortOrder] = (sort || "_id-desc").split("-");
-    console.log("Esto es el context-query", context.query);
-    const toursQuery = {};
-    if (categories) {
-      toursQuery.category = categories.split(",");
-    }
-    if (searchInput) {
-      toursQuery["$or"] = [
-        { name: { $regex: searchInput, $options: "i" } },
-        { description: { $regex: searchInput, $options: "i" } },
-      ];
-    }
-    if (Object.keys(filters).length > 0) {
-      Object.keys(filters).forEach((filterName) => {
-        toursQuery["properties." + filterName] = filters[filterName];
-      });
-    }
-    const limit = 3;
-    const skip = (Number(page) - 1) * limit;
-    const resultsQuery = Tour.find(toursQuery, null, {
-      sort: { [sortField]: sortOrder === "asc" ? 1 : -1 },
-      skip,
-      limit,
+
+    const searchInput = query.name || "";
+    const regex = new RegExp(searchInput, "i");
+
+    const tours = await Tour.find({ name: regex });
+    const serializedTours = tours.map((tour) => {
+      const serializedTour = tour.toObject();
+      serializedTour._id = serializedTour._id.toString();
+      serializedTour.createdAt = serializedTour.createdAt.toISOString(); // Convertir createdAt a cadena
+      return serializedTour;
     });
 
-    const results = await resultsQuery.exec();
-
-    const totalCount = await Tour.countDocuments(toursQuery);
-    const totalPages = Math.ceil(totalCount / limit);
-    console.log(
-      "Estos son los valores finales:",
-      searchInput,
-      categories,
-      sort,
-      page,
-      pageSize,
-      filters
-    );
-    console.log("###########################");
+    console.log("Tours encontrados:", serializedTours);
 
     return {
       props: {
-        tours: JSON.parse(JSON.stringify(results)),
-        name: searchInput, // Cambio de 'name' a 'searchInput'
-        totalPages: totalPages,
+        tours: serializedTours,
+        name: searchInput,
+        totalPages: Math.ceil(tours.length / 10),
       },
     };
   } catch (error) {
-    console.error("An error occurred:", error);
-
-    await Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: "Something went wrong! Please try again later.",
-    });
-
+    console.error("Error:", error);
     return {
       props: {
         tours: [],
-        name: "The server didn't get any tour",
-        totalPages: 1,
+        name: "",
+        totalPages: 0,
       },
     };
   }
