@@ -89,7 +89,11 @@ export async function getServerSideProps({ query }) {
   try {
     await mongooseConnect();
 
-    const searchInput = query.name || "Tour";
+    // Get searchInput from localStorage or set to "Tour"
+    let searchInput = query.name || "Tour";
+    if (!query.name) {
+      console.log("No se encontro el query.name :(");
+    }
     const regex = new RegExp(searchInput, "i");
 
     const tours = await Tour.find({ name: regex });
@@ -108,7 +112,8 @@ export async function getServerSideProps({ query }) {
     serializedTours.slice(0, 5).forEach((tour, index) => {
       console.log(`Tour ${index + 1}: ${tour.name}`);
     });
-    console.log("Estó Buscaste:", searchInput);
+    console.log("Esto Buscaste:", searchInput);
+
     return {
       props: {
         tours: serializedTours,
