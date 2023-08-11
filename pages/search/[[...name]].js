@@ -39,7 +39,7 @@ const ResultSearch = ({ tours, name, totalPages }) => {
 
   useEffect(() => {
     router.push({
-      pathname: "/search/",
+      pathname: "https://mexplorer-front-three.vercel.app/search/",
       query: { name: phrase, page: currentPage },
     });
   }, [phrase, currentPage]);
@@ -79,6 +79,7 @@ const ResultSearch = ({ tours, name, totalPages }) => {
 
 export async function getServerSideProps(context) {
   try {
+    console.log(context);
     console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     await mongooseConnect();
     const { name, categories, sort, page, pageSize, ...filters } =

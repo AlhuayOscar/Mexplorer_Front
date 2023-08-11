@@ -288,28 +288,32 @@ export default function Header() {
             </LanguageButton>
           </StyledNav>
           <StyledLinks>
-            <NavLink href={socialUrls.tripadvisor} color="#00ABBD">
+            <NavLink
+              href={socialUrls.tripadvisor}
+              target="_blank"
+              color="#00ABBD"
+            >
               <StyledIcon
                 src="/icons/trip.png"
                 alt="Link a TripAdvisor"
                 fill="true"
               />
             </NavLink>
-            <NavLink href={socialUrls.instagram}>
+            <NavLink href={socialUrls.instagram} target="_blank">
               <StyledIcon
                 src="/icons/insta.png"
                 alt="Link a Instagram"
                 fill="true"
               />
             </NavLink>
-            <NavLink href={socialUrls.facebook}>
+            <NavLink href={socialUrls.facebook} target="_blank">
               <StyledIcon
                 src="/icons/face.png"
                 alt="Link a Facebook"
                 fill="true"
               />
             </NavLink>
-            <NavLink href={socialUrls.whatsapp}>
+            <NavLink href={socialUrls.whatsapp} target="_blank">
               <StyledIcon
                 src="/icons/what.png"
                 alt="Link a México"
@@ -317,6 +321,7 @@ export default function Header() {
               />
             </NavLink>
           </StyledLinks>
+
           <NavLink href={"/cart"} color="#fff">
             <ShoppingCartIcon /> ({cartTours.length})
           </NavLink>

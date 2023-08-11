@@ -50,7 +50,8 @@ const Searchbar = (props) => {
       />
       <Link
         href={{
-          pathname: "/search/Xcaret",
+          pathname: "https://mexplorer-front-three.vercel.app/search/Xcaret",
+
           query: { name: props.value },
         }}
         as={`/search?name=Xcaret`}
