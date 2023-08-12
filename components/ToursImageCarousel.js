@@ -26,7 +26,7 @@ const HeaderSlider = styled(Slider)`
     }
     .slick-list {
       width: 100vw;
-      height: 400px;
+      height: 350px;
     }
   }
   @media screen and (max-width: 1024px) {
@@ -63,7 +63,7 @@ const HeaderSlider = styled(Slider)`
 `;
 
 const SlideImage = styled.img`
-  height: 305px;
+  height: 350px;
   object-fit: cover;
   object-position: center;
   transition: 0.8s ease 0.15s;

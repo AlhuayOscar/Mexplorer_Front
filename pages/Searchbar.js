@@ -51,13 +51,18 @@ const Searchbar = (props) => {
       setRedirecting(false);
     });
   };
-
+  const handleKeyDown = (ev) => {
+    if (ev.key === "Enter") {
+      handleSearch();
+    }
+  };
   return (
     <SearchbarContainer>
       <Input
         autoFocus
         value={searchInput}
         onChange={(ev) => setSearchInput(ev.target.value)}
+        onKeyDown={handleKeyDown}
         type="text"
         placeholder="Busca tu próxima aventura"
       />
