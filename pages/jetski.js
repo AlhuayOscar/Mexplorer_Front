@@ -2,10 +2,6 @@ import React, { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import styled from "styled-components";
 import ImageCarousel from "@/components/ImageCarousel";
-import Center from "@/components/Center";
-import { mongooseConnect } from "@/lib/mongoose";
-import { Tour } from "@/models/Tour";
-import ToursGrid from "@/components/ToursGrid";
 import Title from "@/components/Title";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { useTranslation } from "react-i18next";
@@ -139,12 +135,3 @@ export default function ToursPage({ tours }) {
   );
 }
 
-export async function getServerSideProps() {
-  await mongooseConnect();
-  const tours = await Tour.find({}, null, { sort: { _id: -1 } });
-  return {
-    props: {
-      tours: JSON.parse(JSON.stringify(tours)),
-    },
-  };
-}

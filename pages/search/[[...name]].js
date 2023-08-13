@@ -46,8 +46,6 @@ const ResultSearch = ({ tours, name, totalPages }) => {
     const timeout = setTimeout(() => {
       if (currentPage === 1) {
         router.push(`/search/${searchInput}`);
-      } else {
-        setCurrentPage(1);
       }
     }, 200); // Cambia el tiempo de espera según tus necesidades
 
@@ -88,7 +86,6 @@ const ResultSearch = ({ tours, name, totalPages }) => {
           type="text"
           placeholder="Busca una actividad..."
         />
-
         <SearchTours tours={tours} />
         <PaginationControls
           currentPage={currentPage}
