@@ -107,7 +107,14 @@ export async function getServerSideProps({ params }) {
     let searchInput = params.name || "Tour";
     const regex = new RegExp(searchInput, "i");
 
-    const tours = await Tour.find({ name: regex });
+    const limit = 6; // Número de tours por página
+    const page = params.page || 1; // Página actual, puedes obtenerla de los parámetros si es necesario
+    const skip = (page - 1) * limit; // Cantidad de documentos a omitir
+
+    const tours = await Tour.find({ name: regex }).skip(skip).limit(limit); // Limitando los resultados por página
+
+    const totalTours = await Tour.countDocuments({ name: regex }); // Contar total de documentos que coinciden
+    const totalPages = Math.ceil(totalTours / limit); // Calcular el número total de páginas
 
     const serializedTours = tours.map((tour) => {
       const serializedTour = tour.toObject();
@@ -120,7 +127,7 @@ export async function getServerSideProps({ params }) {
       props: {
         tours: serializedTours,
         name: searchInput,
-        totalPages: Math.ceil(tours.length / 10),
+        totalPages: totalPages, // Pasa el valor de totalPages al componente
       },
     };
   } catch (error) {
