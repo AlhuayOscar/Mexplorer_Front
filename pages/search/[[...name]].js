@@ -24,11 +24,19 @@ const ResultSearch = ({ tours, name, totalPages }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePreviousPage = () => {
-    setCurrentPage((prevPage) => prevPage - 1);
+    if (currentPage > 1) {
+      const newPage = currentPage - 1;
+      setCurrentPage(newPage);
+      router.push(`/search/${searchInput}/${newPage}`);
+    }
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
+    if (currentPage < totalPages) {
+      const newPage = currentPage + 1;
+      setCurrentPage(newPage);
+      router.push(`/search/${searchInput}/${newPage}`);
+    }
   };
 
   useEffect(() => {
@@ -108,11 +116,10 @@ export async function getServerSideProps({ params }) {
     const regex = new RegExp(searchInput, "i");
 
     const limit = 6; // Número de tours por página
-    const page = params.page || 1; // Página actual, puedes obtenerla de los parámetros si es necesario
+    const page = params.page || 1; // Obtener la página desde los parámetros
     const skip = (page - 1) * limit; // Cantidad de documentos a omitir
 
     const tours = await Tour.find({ name: regex }).skip(skip).limit(limit); // Limitando los resultados por página
-
     const totalTours = await Tour.countDocuments({ name: regex }); // Contar total de documentos que coinciden
     const totalPages = Math.ceil(totalTours / limit); // Calcular el número total de páginas
 
