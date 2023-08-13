@@ -6,33 +6,6 @@ import Title from "@/components/Title";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { useTranslation } from "react-i18next";
 
-const AsyncImageCarousel = ({ images }) => {
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    const loadImage = async (src) => {
-      const image = new Image();
-      image.src = src;
-      await image.decode();
-      setLoaded(true);
-    };
-
-    const loadImages = async () => {
-      const imagePromises = images.map((src) => loadImage(src));
-      await Promise.all(imagePromises);
-      setLoaded(true);
-    };
-
-    loadImages();
-  }, [images]);
-
-  return loaded ? (
-    <ImageCarousel images={images} loading="lazy" />
-  ) : (
-    <div></div>
-  );
-};
-
 const BackgroundImage = styled.div`
   background: url("./jetskijs.webp") no-repeat center;
   background-size: cover;
@@ -120,7 +93,7 @@ export default function ToursPage({ tours }) {
   return (
     <>
       <BackgroundImage>
-        <AsyncImageCarousel images={images} />
+        <ImageCarousel images={images} loading="lazy" />
         <TitleOverlay>
           {t("Jetski de todos los modelos")}
           <Subtitle>
