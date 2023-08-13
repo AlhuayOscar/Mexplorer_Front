@@ -26,12 +26,15 @@ const AsyncImageCarousel = ({ images }) => {
     loadImages();
   }, [images]);
 
-  return loaded ? <ImageCarousel images={images} loading="lazy" /> : <div></div>;
+  return loaded ? (
+    <ImageCarousel images={images} loading="lazy" />
+  ) : (
+    <div></div>
+  );
 };
 
 const BackgroundImage = styled.div`
-  background: url("https://larnakaonline.com.cy/wp-content/uploads/2023/07/Jet-ski.jpg")
-    no-repeat center;
+  background: url("./jetskijs.jpg") no-repeat center;
   background-size: cover;
   background-position: center;
   overflow: hidden;
@@ -134,4 +137,3 @@ export default function ToursPage({ tours }) {
     </>
   );
 }
-

@@ -34,8 +34,7 @@ const AsyncImageCarousel = ({ images }) => {
 };
 
 const BackgroundImage = styled.div`
-  background: url("https://1.bp.blogspot.com/-S1OoFg8xYM0/XRtWj4QBrPI/AAAAAAADNgk/t47SIvSsohQwQpYmfPaKEACOms9UqXargCLcBGAs/s1600/car-3904788_1920.jpg")
-    no-repeat center;
+  background: url("./carjs.jpg") no-repeat center;
   background-size: cover;
   background-position: center;
   overflow: hidden;
