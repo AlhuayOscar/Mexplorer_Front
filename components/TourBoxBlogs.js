@@ -18,11 +18,12 @@ const TourWrapper = styled(Link)`
   color: #000;
   border-radius: 7px;
   overflow: hidden;
-  margin: 0 10px;
+  margin: 0;
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     height: fit-content;
     width: 70%;
     box-shadow: 2px 2px 4px #47556966;
+    margin: 0;
   }
   @media screen and (min-width: 768px) {
     &:hover {
