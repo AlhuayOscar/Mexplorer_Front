@@ -150,7 +150,6 @@ const Blog = () => {
   const [blogs, setBlogs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredBlogs, setFilteredBlogs] = useState([]);
-  const [recentSearches, setRecentSearches] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Nuevo estado para controlar la animación de carga
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 6;
@@ -160,9 +159,8 @@ const Blog = () => {
   const currentBlogs = isLoading
     ? []
     : searchTerm !== ""
-      ? filteredBlogs.slice(indexOfFirstBlog, indexOfLastBlog)
-      : blogs.slice(indexOfFirstBlog, indexOfLastBlog);
-
+    ? filteredBlogs.slice(indexOfFirstBlog, indexOfLastBlog)
+    : blogs.slice(indexOfFirstBlog, indexOfLastBlog);
 
   useEffect(() => {
     fetchBlogs();
@@ -177,7 +175,8 @@ const Blog = () => {
         setIsLoading(false); // Set isLoading to false after data is fetched
       }, 400);
     } catch (error) {
-      console.error(error);git
+      console.error(error);
+      git;
     }
   };
 
@@ -200,7 +199,6 @@ const Blog = () => {
   const handleEnterKeyPress = (event) => {
     if (event.key === "Enter") {
       filterBlogs(searchTerm);
-      updateRecentSearches(searchTerm);
     }
   };
 
@@ -210,8 +208,6 @@ const Blog = () => {
   };
 
   const handleRemoveRecentSearch = (term) => {
-    const updatedSearches = recentSearches.filter((search) => search !== term);
-    setRecentSearches(updatedSearches);
     saveRecentSearches();
   };
 
@@ -223,18 +219,8 @@ const Blog = () => {
     setFilteredBlogs(filtered);
   };
 
-  const updateRecentSearches = (term) => {
-    if (term && !recentSearches.includes(term)) {
-      const updatedSearches = [...recentSearches, term];
-      setRecentSearches(updatedSearches.slice(-5)); // Keep the last 5 searches
-      saveRecentSearches();
-    }
-  };
-
   const clearRecentSearches = () => {
-    setRecentSearches([]);
     setSearchTerm("");
-    localStorage.removeItem("recentSearches");
     fetchBlogs();
   };
 
@@ -245,7 +231,9 @@ const Blog = () => {
   };
   const handleNextPage = () => {
     const totalPages = Math.ceil(
-      searchTerm !== "" ? filteredBlogs.length / postsPerPage : blogs.length / postsPerPage
+      searchTerm !== ""
+        ? filteredBlogs.length / postsPerPage
+        : blogs.length / postsPerPage
     );
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
@@ -257,7 +245,8 @@ const Blog = () => {
   // Calcular totalPages para los blogs sin filtrar
   const totalPagesUnfiltered = Math.ceil(blogs.length / postsPerPage);
   // Total de páginas dependiendo del caso (filtrado o sin filtrar)
-  const totalPages = searchTerm !== "" ? totalPagesFiltered : totalPagesUnfiltered;
+  const totalPages =
+    searchTerm !== "" ? totalPagesFiltered : totalPagesUnfiltered;
 
   useEffect(() => {
     setCurrentPage(1); // página 1 al cambiar el nombre de búsqueda
@@ -269,20 +258,6 @@ const Blog = () => {
       <Center>
         <BlogContainer>
           <SearchContainer>
-            {recentSearches.map((search, index) => (
-              <RecentSearchItem
-                key={index}
-                onClick={() => handleRecentSearchClick(search)}
-              >
-                <RemoveSearchItem
-                  onClick={() => handleRemoveRecentSearch(search)}
-                >
-                  <CancelIcon />
-                </RemoveSearchItem>
-                {search.split(" ")[0]}
-              </RecentSearchItem>
-            ))}
-            <CleanSearch onClick={clearRecentSearches}>{t("Limpiar")}</CleanSearch>
             <SearchInput
               type="text"
               placeholder="Buscar..."
