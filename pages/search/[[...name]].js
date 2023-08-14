@@ -5,10 +5,10 @@ import Swal from "sweetalert2";
 import Center from "@/components/Center";
 import Header from "@/components/Header";
 import Input from "@/components/Input";
-import PaginationControls from "@/components/Pagination";
 import SearchTours from "@/components/SearchTours";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Tour } from "@/models/Tour";
+import PaginatedTourList from "@/components/PaginatedTourList";
 
 const SearchInput = styled(Input)`
   padding: 5px 10px;
@@ -17,30 +17,14 @@ const SearchInput = styled(Input)`
   font-size: 1.3rem;
 `;
 
-const ResultSearch = ({ tours, name, totalPages }) => {
+const ResultSearch = ({ tours, name }) => {
   const router = useRouter();
   const [searchInput, setSearchInput] = useState(name);
   const [shouldRedirect, setShouldRedirect] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      const newPage = currentPage - 1;
-      setCurrentPage(newPage);
-      router.push(`/search/${searchInput}/${newPage}`);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      const newPage = currentPage + 1;
-      setCurrentPage(newPage);
-      router.push(`/search/${searchInput}/${newPage}`);
-    }
-  };
-
   useEffect(() => {
-    setShouldRedirect(true); // Cambiamos shouldRedirect a true cuando searchInput cambia
+    setShouldRedirect(true);
   }, [searchInput]);
 
   useEffect(() => {
@@ -52,28 +36,16 @@ const ResultSearch = ({ tours, name, totalPages }) => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (currentPage === 1) {
-        router.push(`/search/${searchInput}`);
-      }
-    }, 200); // Cambia el tiempo de espera según tus necesidades
+      router.push(`/search/${searchInput}`);
+    }, 200);
 
     return () => clearTimeout(timeout);
-  }, [searchInput, currentPage]);
-
-  useEffect(() => {
-    setCurrentPage(1);
   }, [searchInput]);
-
-  useEffect(() => {
-    const storedSearchInput = searchInput;
-    if (storedSearchInput) {
-      setSearchInput(storedSearchInput);
-    }
-  }, []);
 
   const handleSearchInputChange = (ev) => {
     const newValue = ev.target.value;
     setSearchInput(newValue);
+    setCurrentPage(1);
 
     localStorage.setItem("searchInput", newValue);
   };
@@ -94,14 +66,11 @@ const ResultSearch = ({ tours, name, totalPages }) => {
           type="text"
           placeholder="Busca una actividad..."
         />
-        <SearchTours tours={tours} />
-        <PaginationControls
+
+        <PaginatedTourList
+          tours={tours}
+          setCurrentPage={setCurrentPage}
           currentPage={currentPage}
-          totalPages={totalPages}
-          onPreviousPage={handlePreviousPage}
-          onNextPage={handleNextPage}
-          disablePreviousPage={currentPage === 1}
-          disableNextPage={currentPage === totalPages || totalPages === 0}
         />
       </Center>
     </>
@@ -112,17 +81,10 @@ export async function getServerSideProps({ params }) {
   try {
     await mongooseConnect();
 
-    let searchInput = params.name || "Tour";
+    let searchInput = params.name || "";
     const regex = new RegExp(searchInput, "i");
 
-    const limit = 6; // Número de tours por página
-    const page = params.page || 1; // Obtener la página desde los parámetros
-    const skip = (page - 1) * limit; // Cantidad de documentos a omitir
-
-    const tours = await Tour.find({ name: regex }).skip(skip).limit(limit); // Limitando los resultados por página
-    const totalTours = await Tour.countDocuments({ name: regex }); // Contar total de documentos que coinciden
-    const totalPages = Math.ceil(totalTours / limit); // Calcular el número total de páginas
-
+    const tours = await Tour.find({ name: regex });
     const serializedTours = tours.map((tour) => {
       const serializedTour = tour.toObject();
       serializedTour._id = serializedTour._id.toString();
@@ -134,7 +96,6 @@ export async function getServerSideProps({ params }) {
       props: {
         tours: serializedTours,
         name: searchInput,
-        totalPages: totalPages, // Pasa el valor de totalPages al componente
       },
     };
   } catch (error) {
@@ -142,7 +103,6 @@ export async function getServerSideProps({ params }) {
       props: {
         tours: ["No hay tour"],
         name: "El servidor no tiene ese Tour o no lo encuentra",
-        totalPages: 0,
       },
     };
   }
