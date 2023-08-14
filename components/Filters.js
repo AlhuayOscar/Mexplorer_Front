@@ -10,12 +10,13 @@ const BoxContainer = styled.div`
   height: 40rem;
   display: flex;
   flex-direction: column;
-  padding: 12px;
+  padding: 20px;
   background-color: #fff;
   box-shadow: 2px 2px 4px #47556955;
   border-radius: 7px;
   margin: 0;
   margin-bottom: 2rem;
+  align-items: center;
   @media screen and (min-width: 768px) {
     width: 25%;
     position: sticky;
@@ -27,7 +28,8 @@ const TitleLabel = styled.label`
   border-radius: 3px;
   font-size: 1rem;
   padding: 8px;
-  margin: 2rem 0;
+  margin: 1rem 0;
+  width: 95%;
   @media screen and (min-width: 768px) {
     font-size: 1rem;
   }
@@ -48,10 +50,33 @@ const ClearButton = styled.button`
   cursor: pointer;
 `;
 
+const Select =  styled.select`
+    width: 95%;
+  padding: 10px;
+  border-radius: 7px;
+  margin: 10px;
+  font-size: 0.9rem;
+  border: 1px solid #0006;
+  &:hover {
+    border: 1px solid #000;
+    outline: none;
+  }
+  &:focus {
+    border: 2px solid #84C441;
+    outline: none;
+  }
+  ${props => props.margin && css`
+    margin: 5px 0px;
+    width: 96%;
+  `}
+`;
+
+
 const PriceSlider = muiStyled(Slider)(() => ({
-  margin: "20px auto",
+  margin: "30px auto",
   color: '#84C441',
-  width: 230,
+  width: '75%',
+  /* minWidth: 190, */
   height: 3,
   padding: '13px',
   '& .MuiSlider-thumb': {
@@ -80,9 +105,9 @@ const PriceSlider = muiStyled(Slider)(() => ({
 }));
 
 const DurationSlider = muiStyled(Slider)(() => ({
-  margin: "20px auto",
+  margin: "30px auto",
   color: '#ed2286',
-  width: 230,
+  width: '75%',
   height: 3,
   padding: '13px',
   '& .MuiSlider-thumb': {
@@ -220,17 +245,17 @@ export default function Filters({ tours, onFiltersChange, setCurrentPage }) {
       <TitleLabel>
         {t("Reservas")}
       </TitleLabel>
-      <select onChange={handleReservaChange} value={selectedReserva}>
+      <Select onChange={handleReservaChange} value={selectedReserva}>
         <option value="false">{t("Sin reservas")}</option>
         <option value="true">{t("Con reservas")}</option>
-      </select>
+      </Select>
       <TitleLabel>
         {t("Promociones")}
       </TitleLabel>
-      <select onChange={handlePromoChange} value={selectedPromo}>
+      <Select onChange={handlePromoChange} value={selectedPromo}>
         <option value="false">{t("Sin promociones")}</option>
         <option value="true">{t("Con promociones")}</option>
-      </select>
+      </Select>
       <TitleLabel>
         {t("Duración")}
       </TitleLabel>
