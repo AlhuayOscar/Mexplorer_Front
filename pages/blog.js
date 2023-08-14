@@ -86,34 +86,6 @@ const CleanSearch = styled.button`
   }
 `;
 
-const RecentSearchItem = styled.span`
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 5px;
-  background-color: #fff;
-  padding: 8px;
-  border-radius: 5px;
-  box-shadow: 0 0 5px #888;
-  transition: 0.5s ease;
-  text-align: center;
-  cursor: pointer;
-  white-space: nowrap; /* Prevent line breaks */
-  overflow: hidden; /* Hide overflow */
-  text-overflow: ellipsis; /* Display ellipsis (...) for overflowed text */
-  max-width: 17ch; /* Limit the maximum width to 10 characters */
-  max-height: 24px;
-  &:focus {
-    transition: 0.1s ease;
-    border-color: #888;
-    box-shadow: 0 0 5px #888;
-  }
-
-  &:hover {
-    transform: scale(1.1);
-    transition: 0.2s ease;
-  }
-`;
-
 const RemoveSearchItem = styled.span`
   display: inline-block;
   vertical-align: middle;
@@ -164,7 +136,6 @@ const Blog = () => {
 
   useEffect(() => {
     fetchBlogs();
-    loadRecentSearches();
   }, []);
 
   const fetchBlogs = async () => {
@@ -180,17 +151,6 @@ const Blog = () => {
     }
   };
 
-  const loadRecentSearches = () => {
-    const searches = localStorage.getItem("recentSearches");
-    if (searches) {
-      setRecentSearches(JSON.parse(searches));
-    }
-  };
-
-  const saveRecentSearches = () => {
-    localStorage.setItem("recentSearches", JSON.stringify(recentSearches));
-  };
-
   const handleSearch = (event) => {
     const term = event.target.value;
     setSearchTerm(term);
@@ -202,15 +162,6 @@ const Blog = () => {
     }
   };
 
-  const handleRecentSearchClick = (term) => {
-    setSearchTerm(term);
-    filterBlogs(term);
-  };
-
-  const handleRemoveRecentSearch = (term) => {
-    saveRecentSearches();
-  };
-
   const filterBlogs = (term) => {
     const filtered = blogs.filter((blog) => {
       const blogTitle = blog.title.toLowerCase();
@@ -219,10 +170,6 @@ const Blog = () => {
     setFilteredBlogs(filtered);
   };
 
-  const clearRecentSearches = () => {
-    setSearchTerm("");
-    fetchBlogs();
-  };
 
   const handlePreviousPage = () => {
     if (currentPage > 0) {
