@@ -33,6 +33,7 @@ const TourInfoCell = styled.td`
   flex-direction: column;
   place-items: center;
   padding: 5px 0;
+  width: 10rem;
   font-size: 1.2rem;
   color: #84c441;
   text-align: center;
