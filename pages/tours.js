@@ -12,6 +12,7 @@ const ImageBox = styled.div`
   background: url("https://res.cloudinary.com/dipn8zmq3/image/upload/v1690990359/Tours_Background_Optimized_fovkvm.webp")
     no-repeat center;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -19,11 +20,18 @@ const ImageBox = styled.div`
   text-align: center;
   margin: auto;
   text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Agregado efecto de sombra de texto */
-
+  padding: 0 40px;
+  margin-bottom: 40px;
   /* position: relative; */
   img {
     width: 100%;
     height: 140%;
+  }
+
+  h2 {
+    color: #fff;
+    align-self: start;
+    justify-self: flex-end;
   }
 `;
 
@@ -63,9 +71,9 @@ export default function ToursPage({ tours }) {
       <Header />
       <ImageBox loading="lazy">
         <Title>Cancún</Title>
+        <h2>{t("Todos los tours")} {tours.length}</h2>
       </ImageBox>
       <Center>
-        <h2>{t("Todos los tours")}</h2>
         <Main>
           <Filters
             tours={tours}

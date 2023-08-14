@@ -22,11 +22,13 @@ const SearchContainer = styled.div`
   padding-block: 20px;
   padding-inline: 10px;
   justify-content: end;
-  gap: 10px;
   overflow: hidden;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 `;
 
-const SearchInput = styled.input`
+/* const SearchInput = styled.input`
   padding: 8px;
   padding-inline: 15px;
   border: 1px solid #ccc;
@@ -44,6 +46,28 @@ const SearchInput = styled.input`
     transform: scale(1.05);
     transition: 0.1s ease;
   }
+`; */
+
+const Input = styled.input`
+  flex: 1;
+  border-radius: 5px 0 0 5px;
+  padding: 12px 20px;
+  border-width: 2px 0 2px 2px;
+  border-style: solid;
+  border-color: #ccc;
+  outline: none;
+  max-width: 20rem;
+  min-width: 8rem;
+`;
+
+const SubmitButton = styled.button`
+  background-color: #00abbd;
+  color: white;
+  border-radius: 0px 5px 5px 0px;
+  padding: 14px 16px;
+  border: none;
+  outline: none;
+  cursor: pointer;
 `;
 
 const bounceAnimation = keyframes`
@@ -86,18 +110,34 @@ const CleanSearch = styled.button`
   }
 `;
 
-const RemoveSearchItem = styled.span`
+const RecentSearchItem = styled.span`
   display: inline-block;
   vertical-align: middle;
   margin-right: 5px;
-  cursor: pointer;
-  transition: 0.2s ease;
+  background-color: #fff;
+  padding: 8px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #888;
+  transition: 0.5s ease;
   text-align: center;
-  svg:hover {
-    transform: scale(1.2);
+  cursor: pointer;
+  white-space: nowrap; /* Prevent line breaks */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Display ellipsis (...) for overflowed text */
+  max-width: 17ch; /* Limit the maximum width to 10 characters */
+  max-height: 24px;
+  &:focus {
+    transition: 0.1s ease;
+    border-color: #888;
+    box-shadow: 0 0 5px #888;
+  }
+
+  &:hover {
+    transform: scale(1.1);
     transition: 0.2s ease;
   }
 `;
+
 
 const spinAnimation = keyframes`
   from {
@@ -162,6 +202,19 @@ const Blog = () => {
     }
   };
 
+  const handleClick = () => {
+      filterBlogs(searchTerm);
+  };
+
+  const handleRecentSearchClick = (term) => {
+    setSearchTerm(term);
+    filterBlogs(term);
+  };
+
+  const handleRemoveRecentSearch = (term) => {
+    saveRecentSearches();
+  };
+
   const filterBlogs = (term) => {
     const filtered = blogs.filter((blog) => {
       const blogTitle = blog.title.toLowerCase();
@@ -170,6 +223,10 @@ const Blog = () => {
     setFilteredBlogs(filtered);
   };
 
+  const clearRecentSearches = () => {
+    setSearchTerm("");
+    fetchBlogs();
+  };
 
   const handlePreviousPage = () => {
     if (currentPage > 0) {
@@ -205,13 +262,14 @@ const Blog = () => {
       <Center>
         <BlogContainer>
           <SearchContainer>
-            <SearchInput
+            <Input
               type="text"
               placeholder="Buscar..."
               value={searchTerm}
               onChange={handleSearch}
               onKeyPress={handleEnterKeyPress}
             />
+             <SubmitButton type="submit" onClick={handleClick}>Buscar</SubmitButton>
           </SearchContainer>
           {isLoading ? (
             <LoadingSpinner />
