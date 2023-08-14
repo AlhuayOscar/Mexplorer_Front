@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import styled from "styled-components";
 import ImageCarousel from "@/components/ImageCarousel";
-import { mongooseConnect } from "@/lib/mongoose";
-import { Tour } from "@/models/Tour";
 import Title from "@/components/Title";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { useTranslation } from "react-i18next";
@@ -36,8 +34,7 @@ const AsyncImageCarousel = ({ images }) => {
 };
 
 const BackgroundImage = styled.div`
-  background: url("https://1.bp.blogspot.com/-S1OoFg8xYM0/XRtWj4QBrPI/AAAAAAADNgk/t47SIvSsohQwQpYmfPaKEACOms9UqXargCLcBGAs/s1600/car-3904788_1920.jpg")
-    no-repeat center;
+  background: url("./carjs.jpg") no-repeat center;
   background-size: cover;
   background-position: center;
   overflow: hidden;
@@ -137,14 +134,4 @@ export default function ToursPage({ tours }) {
       <Header />
     </>
   );
-}
-
-export async function getServerSideProps() {
-  await mongooseConnect();
-  const tours = await Tour.find({}, null, { sort: { _id: -1 } });
-  return {
-    props: {
-      tours: JSON.parse(JSON.stringify(tours)),
-    },
-  };
 }

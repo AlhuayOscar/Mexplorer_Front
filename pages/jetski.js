@@ -2,40 +2,12 @@ import React, { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import styled from "styled-components";
 import ImageCarousel from "@/components/ImageCarousel";
-import Center from "@/components/Center";
-import { mongooseConnect } from "@/lib/mongoose";
-import { Tour } from "@/models/Tour";
-import ToursGrid from "@/components/ToursGrid";
 import Title from "@/components/Title";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { useTranslation } from "react-i18next";
 
-const AsyncImageCarousel = ({ images }) => {
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    const loadImage = async (src) => {
-      const image = new Image();
-      image.src = src;
-      await image.decode();
-      setLoaded(true);
-    };
-
-    const loadImages = async () => {
-      const imagePromises = images.map((src) => loadImage(src));
-      await Promise.all(imagePromises);
-      setLoaded(true);
-    };
-
-    loadImages();
-  }, [images]);
-
-  return loaded ? <ImageCarousel images={images} loading="lazy" /> : <div></div>;
-};
-
 const BackgroundImage = styled.div`
-  background: url("https://larnakaonline.com.cy/wp-content/uploads/2023/07/Jet-ski.jpg")
-    no-repeat center;
+  background: url("./jetskijs.webp") no-repeat center;
   background-size: cover;
   background-position: center;
   overflow: hidden;
@@ -110,24 +82,22 @@ const TitleOverlay = styled(Title)`
 export default function ToursPage({ tours }) {
   const { t } = useTranslation();
   const images = [
-    "https://danisailing.com/wp-content/uploads/2020/08/jetski-web.jpg",
-    "https://www.njuskalo.hr/image-w920x690/jet-ski/sea-doo-gti-slika-100426693.jpg",
-    "https://www.njuskalo.hr/image-w920x690/charter/najam-jet-ski-dugorocni-kratkorocni-najam-seadoo-90-ks-trosjed-slika-117224780.jpg",
-    "https://www.sport-decouverte.com/magazine/wp-content/uploads/2022/02/Premier-jet-ski.jpg",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEt0UiAFykYbmlPCCaVAmOxc8D68rFGV4BtyMIP85BzTnl3jOej1ni1ervyROb6uo76t0&usqp=CAU",
-    "https://www.sport-decouverte.com/magazine/wp-content/uploads/2022/02/Premier-jet-ski.jpg",
-    "https://merahputih.com/media/e3/2e/52/e32e52e96106d771943dbfead2f383a4.jpg",
-    "https://megaricos.com/wp-content/uploads/2019/01/jet-ski-black-marlin-5.jpg",
+    "./jetski (1).jpg",
+    "./jetski (6).jpg",
+    "./jetski (3).jpg",
+    "./jetski (4).jpg",
+    "./jetski (5).jpg",
+    "./jetski (2).jpg",
   ];
 
   return (
     <>
       <BackgroundImage>
-        <AsyncImageCarousel images={images} />
+        <ImageCarousel images={images} loading="lazy" />
         <TitleOverlay>
           {t("Jetski de todos los modelos")}
           <Subtitle>
-            <WhatsAppButton href="https://wa.me/+5493794663468?text=Muy%20buenas!%20Te%20contacto%20desde%20MexplorerTours%20Para%20conocer%20la%20disponibilidad%20de%20los%20vehiculos%20acúaticos%20%3A%29.">
+            <WhatsAppButton href="https://wa.me/+5493794663468?text=Muy%20buenas!%20Te%20contacto%20desde%20MexplorerTours%20Para%20conocer%20la%20disponibilidad%20de%20los%20vehiculos%20acúaticos%20%3A%29">
               {t("Necesita un vehículo? Contáctenos personalmente")}ㅤ
               <WhatsAppIcon />
             </WhatsAppButton>
@@ -137,14 +107,4 @@ export default function ToursPage({ tours }) {
       <Header />
     </>
   );
-}
-
-export async function getServerSideProps() {
-  await mongooseConnect();
-  const tours = await Tour.find({}, null, { sort: { _id: -1 } });
-  return {
-    props: {
-      tours: JSON.parse(JSON.stringify(tours)),
-    },
-  };
 }

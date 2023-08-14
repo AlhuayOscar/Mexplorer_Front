@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 const HeaderSlider = styled(Slider)`
   display: flex;
@@ -10,28 +10,89 @@ const HeaderSlider = styled(Slider)`
   align-items: center;
   overflow: hidden;
   transition: 0.4s ease;
+  #container {
+    overflow: hidden;
+    height: 300px;
+  }
+  .slick-list {
+    width: 100vw;
+    height: 300px;
+  }
+  @media screen and (max-width: 1390px) {
+    height: 300px;
+    #container {
+      width: 800px;
+      height: 300px;
+    }
+    .slick-list {
+      width: 100vw;
+      height: 350px;
+    }
+  }
+  @media screen and (max-width: 1024px) {
+    height: 350px;
+    #container {
+      width: 600px;
+      height: 350px;
+    }
+    .slick-list {
+      height: 350px;
+    }
+  }
+  @media screen and (max-width: 600px) {
+    height: 280px;
+    #container {
+      width: 280px;
+      height: 280px;
+    }
+    .slick-list {
+      height: 280px;
+    }
+  }
+  @media screen and (max-width: 450px) {
+    #container {
+      width: 350px;
+    }
+  }
+  @media screen and (max-width: 350px) {
+    width: 280px;
+    #container {
+      width: 280px;
+    }
+  }
 `;
 
 const SlideImage = styled.img`
-  height: 305px;
-  object-fit: cover; /* Aplica el recorte */
-  object-position: center; /* Centra la imagen en el recorte */
-  transition: 0.4s ease 0.15s;
-
-  @media screen and (min-width: 768px) {
-    height: 380px;
-  }
+  height: 350px;
+  object-fit: cover;
+  object-position: center;
+  transition: 0.8s ease 0.15s;
+  opacity: ${({ loading }) => (loading ? "0" : "1")};
+  background: linear-gradient(-45deg, #f6f7f8 25%, #e0e0e0 50%, #f6f7f8 75%);
+  background-size: 200% 200%;
+  transition: 0.8s ease;
+  animation: ${keyframes`
+    0% {
+      transition:0.8s ease;
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  `} 1s ease 1s infinite;
 `;
 
 const Carousel = ({ images }) => {
   const [windowWidth, setWindowWidth] = useState(0);
+  const [loading, setLoading] = useState(true); // Estado para controlar la carga de imágenes
 
+  const showCards = images.length;
+  console.log(showCards);
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
 
-    // Verificar si window está definido antes de suscribirse al evento resize
     if (typeof window !== "undefined") {
       setWindowWidth(window.innerWidth);
       window.addEventListener("resize", handleResize);
@@ -54,23 +115,26 @@ const Carousel = ({ images }) => {
     }
   };
 
-  const showCards = getNumberOfItemsToShow();
-
   const settings = {
     dots: false,
     speed: 550,
-    slidesToShow: showCards,
+    slidesToShow: !windowWidth ? showCards : getNumberOfItemsToShow(),
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
     cssEase: "linear",
-    /* arrows: true, */
   };
 
   return (
     <HeaderSlider {...settings}>
       {images.map((image, index) => (
-        <SlideImage key={index} src={image} alt={`Imagen ${index}`} />
+        <SlideImage
+          key={index}
+          src={image}
+          alt={`Imagen ${index}`}
+          className={loading ? "loading" : ""}
+          onLoad={() => setLoading(false)}
+        />
       ))}
     </HeaderSlider>
   );

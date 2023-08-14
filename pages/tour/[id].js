@@ -92,8 +92,8 @@ const SubtitleStyle = css`
     width: 12rem;
     font-size: 1.5rem;
     ${(props) =>
-    props.title &&
-    css`
+      props.title &&
+      css`
         width: auto;
       `}
   }
@@ -196,7 +196,7 @@ const Description = styled.div`
   line-height: 1.5;
   padding: 20px;
   text-align: justify;
- 
+
   @media screen and (min-width: 768px) {
     padding: 0;
   }
@@ -212,13 +212,13 @@ const Points = styled.div`
       font-weight: 500;
     }
     ${(props) =>
-    props.long &&
-    css`
+      props.long &&
+      css`
         width: 80%;
       `}
     ${(props) =>
-    props.short &&
-    css`
+      props.short &&
+      css`
         width: 40%;
       `}
   }
@@ -272,7 +272,6 @@ const ReservationBtn = styled.button`
   }
 `;
 
-
 const Overlay = styled.div`
   position: absolute;
   top: 0;
@@ -288,10 +287,7 @@ const Overlay = styled.div`
       : "none"}; /* Mostramos u ocultamos el overlay según el valor de "show" */
 `;
 
-
 export default function TourPage({ tour, promoTours }) {
-  console.log(tour);
-
   const { addTour } = useContext(CartContext);
   const [showDescription, setShowDescription] = useState(true);
   const [showIncludes, setShowIncludes] = useState(false);
@@ -349,23 +345,26 @@ export default function TourPage({ tour, promoTours }) {
   const { t } = useTranslation();
   const currentLanguage = i18n.language;
 
-  useEffect(() => {
-  }, [currentLanguage]);
+  useEffect(() => {}, [currentLanguage]);
 
   // Se Obtiene los valores en español e inglés basados en el idioma actual
-  const displayName = currentLanguage === 'es' ? tour.name : tour.nameEng;
-  const displayDescription = currentLanguage === 'es' ? tour.description : tour.descriptionEng;
-  const displayIncludes = currentLanguage === 'es' ? tour.includes : tour.includesEng;
-  const displayDoesntIncludes = currentLanguage === 'es' ? tour.doesntIncludes : tour.doesntIncludesEng;
-  const displayRequirements = currentLanguage === 'es' ? tour.requirements : tour.requirementsEng;
-  const displayNotes = currentLanguage === 'es' ? tour.notes : tour.notesEng;
-
+  const displayName = currentLanguage === "es" ? tour.name : tour.nameEng;
+  const displayDescription =
+    currentLanguage === "es" ? tour.description : tour.descriptionEng;
+  const displayIncludes =
+    currentLanguage === "es" ? tour.includes : tour.includesEng;
+  const displayDoesntIncludes =
+    currentLanguage === "es" ? tour.doesntIncludes : tour.doesntIncludesEng;
+  const displayRequirements =
+    currentLanguage === "es" ? tour.requirements : tour.requirementsEng;
+  const displayNotes = currentLanguage === "es" ? tour.notes : tour.notesEng;
+  const StaticImages = tour.images;
   return (
     <>
       <Header />
       <Overlay show={showOverlay} />
       <OverflowProtection>
-        <ToursImageCarousel images={tour.images} />
+        <ToursImageCarousel images={StaticImages} />
       </OverflowProtection>
       <TitleTour>
         <div>
@@ -394,7 +393,7 @@ export default function TourPage({ tour, promoTours }) {
             {showDescription ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </div>
         </HeaderInfo>
-        {showDescription &&
+        {showDescription && (
           <Description>
             <ToursLink href={"/tours"}>
               <div>
@@ -403,7 +402,8 @@ export default function TourPage({ tour, promoTours }) {
               </div>
             </ToursLink>
             {displayDescription}
-          </Description>}
+          </Description>
+        )}
         <HeaderInfo yellow>
           {t("Que incluye")}
           <div onClick={handleShowIncludes}>
@@ -583,18 +583,16 @@ export async function getServerSideProps(context) {
     await mongooseConnect(); // Esperar a que se establezca la conexión con la base de datos
 
     const { id } = context.query;
-    console.log("ID del tour:", id);
+
 
     const tour = await Tour.findById(id);
     if (!tour) {
       console.log("No se encontró ningún tour con el ID proporcionado.");
     } else {
-      console.log("Información del tour encontrado:", tour);
       tourCache.set(id, tour);
     }
 
     const promoTours = await Tour.find({ promo: true }, null, { limit: 3 });
-    console.log("Información de los tours promocionales:", promoTours);
 
     return {
       props: {

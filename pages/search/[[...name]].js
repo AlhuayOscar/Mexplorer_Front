@@ -1,3 +1,7 @@
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import { useRouter } from "next/router";
+import Swal from "sweetalert2";
 import Center from "@/components/Center";
 import Header from "@/components/Header";
 import Input from "@/components/Input";
@@ -5,10 +9,6 @@ import PaginationControls from "@/components/Pagination";
 import SearchTours from "@/components/SearchTours";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Tour } from "@/models/Tour";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-
 
 const SearchInput = styled(Input)`
   padding: 5px 10px;
@@ -17,109 +17,135 @@ const SearchInput = styled(Input)`
   font-size: 1.3rem;
 `;
 
-
 const ResultSearch = ({ tours, name, totalPages }) => {
-    const router = useRouter();
-    const [phrase, setPhrase] = useState(name);
-    const [currentPage, setCurrentPage] = useState(1);
+  const router = useRouter();
+  const [searchInput, setSearchInput] = useState(name);
+  const [shouldRedirect, setShouldRedirect] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      const newPage = currentPage - 1;
+      setCurrentPage(newPage);
+      router.push(`/search/${searchInput}/${newPage}`);
+    }
+  };
 
-    const handlePreviousPage = () => {
-        setCurrentPage((prevPage) => prevPage - 1);
-    };
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      const newPage = currentPage + 1;
+      setCurrentPage(newPage);
+      router.push(`/search/${searchInput}/${newPage}`);
+    }
+  };
 
-    const handleNextPage = () => {
-        setCurrentPage((prevPage) => prevPage + 1);
-    };
+  useEffect(() => {
+    setShouldRedirect(true); // Cambiamos shouldRedirect a true cuando searchInput cambia
+  }, [searchInput]);
 
-    useEffect(() => {
-        router.push({
-            pathname: "/search/",
-            query: { name: phrase, page: currentPage },
-        });
-    }, [phrase, currentPage]);
+  useEffect(() => {
+    if ((searchInput === "" || !searchInput) && shouldRedirect) {
+      router.push("/search/Tour");
+      setShouldRedirect(false);
+    }
+  }, [searchInput, shouldRedirect]);
 
-    useEffect(() => {
-        setCurrentPage(1); // página 1 al cambiar el nombre de búsqueda
-    }, [name]);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (currentPage === 1) {
+        router.push(`/search/${searchInput}`);
+      }
+    }, 200); // Cambia el tiempo de espera según tus necesidades
 
+    return () => clearTimeout(timeout);
+  }, [searchInput, currentPage]);
 
-    return (
-        <>
-            <Header />
-            <Center>
-                <SearchInput
-                    autoFocus
-                    value={phrase}
-                    onChange={ev => setPhrase(ev.target.value)}
-                    type="text"
-                    placeholder="Busca una actividad..." />
-                <SearchTours tours={tours} />
-                <PaginationControls
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPreviousPage={handlePreviousPage}
-                    onNextPage={handleNextPage}
-                    disablePreviousPage={currentPage === 1} // Desactiva el botón de página anterior cuando currentPage sea 1
-                    disableNextPage={currentPage === totalPages || totalPages === 0} // Desactivar el botón de página siguiente cuando currentPage sea igual a totalPages o totalPages sea 0
-                />
-            </Center>
-        </>
-    );
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchInput]);
+
+  useEffect(() => {
+    const storedSearchInput = searchInput;
+    if (storedSearchInput) {
+      setSearchInput(storedSearchInput);
+    }
+  }, []);
+
+  const handleSearchInputChange = (ev) => {
+    const newValue = ev.target.value;
+    setSearchInput(newValue);
+
+    localStorage.setItem("searchInput", newValue);
+  };
+
+  return (
+    <>
+      <Header />
+      <Center>
+        <SearchInput
+          autoFocus
+          value={searchInput}
+          onChange={handleSearchInputChange}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              router.push(`/search/${searchInput}`);
+            }
+          }}
+          type="text"
+          placeholder="Busca una actividad..."
+        />
+        <SearchTours tours={tours} />
+        <PaginationControls
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPreviousPage={handlePreviousPage}
+          onNextPage={handleNextPage}
+          disablePreviousPage={currentPage === 1}
+          disableNextPage={currentPage === totalPages || totalPages === 0}
+        />
+      </Center>
+    </>
+  );
 };
 
+export async function getServerSideProps({ params }) {
+  try {
+    await mongooseConnect();
 
-export async function getServerSideProps(context) {
-    try {
-        await mongooseConnect();
-        const { name, sort, page, ...filters } = context.query;
-        let [sortField, sortOrder] = (sort || '_id-desc').split('-');
+    let searchInput = params.name || "Tour";
+    const regex = new RegExp(searchInput, "i");
 
-        const toursQuery = {};
-        if (name) {
-            toursQuery['$or'] = [
-                { name: { $regex: name, $options: 'i' } },
-                { nameEng: { $regex: name, $options: 'i' } },
-                { description: { $regex: name, $options: 'i' } },
-            ];
-        }
-        if (Object.keys(filters).length > 0) {
-            Object.keys(filters).forEach(filterName => {
-                toursQuery['properties.' + filterName] = filters[filterName];
-            });
-        }
-        const limit = 9; // Establece el límite a 9 productos por página
-        const skip = (Number(page) - 1) * limit;
-        const resultsQuery = Tour.find(toursQuery, null, {
-            sort: { [sortField]: sortOrder === "asc" ? 1 : -1 },
-            skip,
-            limit,
-        });
+    const limit = 6; // Número de tours por página
+    const page = params.page || 1; // Obtener la página desde los parámetros
+    const skip = (page - 1) * limit; // Cantidad de documentos a omitir
 
-        const results = await resultsQuery.exec();
+    const tours = await Tour.find({ name: regex }).skip(skip).limit(limit); // Limitando los resultados por página
+    const totalTours = await Tour.countDocuments({ name: regex }); // Contar total de documentos que coinciden
+    const totalPages = Math.ceil(totalTours / limit); // Calcular el número total de páginas
 
-        // Obtener el recuento total de paginas
-        const totalCount = await Tour.countDocuments(toursQuery);
+    const serializedTours = tours.map((tour) => {
+      const serializedTour = tour.toObject();
+      serializedTour._id = serializedTour._id.toString();
+      serializedTour.createdAt = serializedTour.createdAt.toISOString();
+      return serializedTour;
+    });
 
-        const totalPages = Math.ceil(totalCount / limit); // Calcular el número total de páginas.
-
-        return {
-            props: {
-                tours: JSON.parse(JSON.stringify(results)),
-                name: name,
-                totalPages: totalPages, // Pasa el valor totalPages al componente
-            },
-        };
-    } catch (error) {
-        console.error("Error al obtener los datos del tour:", error);
-        return {
-            props: {
-                tour: null,
-                name: null,
-                totalPages: null,
-            },
-        };
-    }
+    return {
+      props: {
+        tours: serializedTours,
+        name: searchInput,
+        totalPages: totalPages, // Pasa el valor de totalPages al componente
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        tours: ["No hay tour"],
+        name: "El servidor no tiene ese Tour o no lo encuentra",
+        totalPages: 0,
+      },
+    };
+  }
 }
 
 export default ResultSearch;

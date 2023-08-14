@@ -20,7 +20,7 @@ const Input = styled.input`
   flex: 1;
   border-radius: 5px 0 0 5px;
   padding: 12px 40px;
-  border-width: 2px 0 2px 2px; /* Grosor del borde en los lados superior, inferior e izquierdo */
+  border-width: 2px 0 2px 2px;
   border-style: solid;
   border-color: #ccc;
   outline: none;
@@ -35,28 +35,40 @@ const SubmitButton = styled.button`
   outline: none;
   cursor: pointer;
 `;
-
 const Searchbar = (props) => {
+  const router = useRouter();
   const { t } = useTranslation();
+  const [searchInput, setSearchInput] = useState(props.value);
+  const [redirecting, setRedirecting] = useState(false);
 
+  useEffect(() => {
+    setSearchInput(props.value);
+  }, [props.value]);
+
+  const handleSearch = () => {
+    setRedirecting(true);
+    router.push(`/search/${searchInput}`).then(() => {
+      setRedirecting(false);
+    });
+  };
+  const handleKeyDown = (ev) => {
+    if (ev.key === "Enter") {
+      handleSearch();
+    }
+  };
   return (
     <SearchbarContainer>
       <Input
         autoFocus
-        value={props.value}
-        onChange={(ev) => props.setPhrase(ev.target.value)}
+        value={searchInput}
+        onChange={(ev) => setSearchInput(ev.target.value)}
+        onKeyDown={handleKeyDown}
         type="text"
         placeholder="Busca tu próxima aventura"
       />
-      <Link
-        href={{
-          pathname: "/search/[[...name]]",
-          query: { name: props.value },
-        }}
-        as={`/search?name=${props.value}`}
-      >
-        <SubmitButton>{t("Buscar")}</SubmitButton>
-      </Link>
+      <SubmitButton onClick={handleSearch} disabled={redirecting}>
+        {t("Buscar")}
+      </SubmitButton>
     </SearchbarContainer>
   );
 };

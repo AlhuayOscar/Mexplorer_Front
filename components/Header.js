@@ -1,13 +1,13 @@
+import React, { useState, useEffect, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import i18n from "@/i18n";
 import Link from "next/link";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import Center from "@/components/Center";
-import { useContext, useState, useEffect } from "react";
 import { CartContext } from "@/components/CartContext";
 import BarsIcon from "@/components/icons/Bars";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-
+import { useRouter } from "next/router";
 const StyledHeader = styled.header`
   background-color: #1a1a1a;
   position: relative;
@@ -164,6 +164,37 @@ const StyledLinks = styled.div`
     display: none;
   }
 `;
+const spinAnimation = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+const SpinnerOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 40;
+`;
+const LoadingSpinner = styled.div`
+  border: 15px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #007bff;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  animation: ${spinAnimation} 1s linear infinite;
+  margin: 0 auto;
+  z-index: 50;
+`;
+
 export default function Header() {
   const { t } = useTranslation();
   const { cartTours } = useContext(CartContext);
@@ -178,7 +209,8 @@ export default function Header() {
     tripadvisor: "",
   });
   const [selectedLanguage, setSelectedLanguage] = useState("es");
-
+  const [showSpinner, setShowSpinner] = useState(false);
+  const router = useRouter();
   const handleLanguageChange = (language) => {
     i18n.changeLanguage(language);
     setSelectedLanguage(language);
@@ -187,7 +219,13 @@ export default function Header() {
   const handleNavButtonClick = () => {
     setMobileNavActive((prev) => !prev);
     setIsNavButtonFixed((prev) => !prev); // Toggle the state
-    setShowLinks(false); 
+    setShowLinks(false);
+
+    if (router.pathname !== targetPath) {
+      setShowSpinner(true);
+    } else {
+      setShowSpinner(false);
+    }
   };
 
   const handleNavMenuClose = () => {
@@ -251,19 +289,64 @@ export default function Header() {
             <StyledImage src="/mex_logo.png" alt="Logo de México" fill="true" />
           </Logo>
           <StyledNav mobileNavActive={mobileNavActive} showLinks={showLinks}>
-            <NavLink href={"/blog"} color="#00ABBD">
+            <NavLink
+              href={"/blog"}
+              color="#00ABBD"
+              onClick={() => {
+                setShowSpinner(true);
+                setTimeout(() => {
+                  setShowSpinner(false);
+                }, 1500);
+              }}
+            >
               Blog
             </NavLink>
-            <NavLink href={"/tours"} color="#ED2286">
+            <NavLink
+              href={"/tours"}
+              color="#ED2286"
+              onClick={() => {
+                setShowSpinner(true);
+                setTimeout(() => {
+                  setShowSpinner(false);
+                }, 1500);
+              }}
+            >
               {t("Tours")}
             </NavLink>
-            <NavLink href={"/car"} color="#EEB547">
+            <NavLink
+              href={"/car"}
+              color="#EEB547"
+              onClick={() => {
+                setShowSpinner(true);
+                setTimeout(() => {
+                  setShowSpinner(false);
+                }, 1500);
+              }}
+            >
               {t("Renta de Autos")}
             </NavLink>
-            <NavLink href={"/jetski"} color="#AC2484">
+            <NavLink
+              href={"/jetski"}
+              color="#AC2484"
+              onClick={() => {
+                setShowSpinner(true);
+                setTimeout(() => {
+                  setShowSpinner(false);
+                }, 1500);
+              }}
+            >
               {t("Renta de Jetski")}
             </NavLink>
-            <NavLink href={"/about"} color="#00ABBD">
+            <NavLink
+              href={"/about"}
+              color="#00ABBD"
+              onClick={() => {
+                setShowSpinner(true);
+                setTimeout(() => {
+                  setShowSpinner(false);
+                }, 1500);
+              }}
+            >
               {t("Sobre nosotros")}
             </NavLink>
             <LanguageButton
@@ -288,28 +371,32 @@ export default function Header() {
             </LanguageButton>
           </StyledNav>
           <StyledLinks>
-            <NavLink href={socialUrls.tripadvisor} color="#00ABBD">
+            <NavLink
+              href={socialUrls.tripadvisor}
+              target="_blank"
+              color="#00ABBD"
+            >
               <StyledIcon
                 src="/icons/trip.png"
                 alt="Link a TripAdvisor"
                 fill="true"
               />
             </NavLink>
-            <NavLink href={socialUrls.instagram}>
+            <NavLink href={socialUrls.instagram} target="_blank">
               <StyledIcon
                 src="/icons/insta.png"
                 alt="Link a Instagram"
                 fill="true"
               />
             </NavLink>
-            <NavLink href={socialUrls.facebook}>
+            <NavLink href={socialUrls.facebook} target="_blank">
               <StyledIcon
                 src="/icons/face.png"
                 alt="Link a Facebook"
                 fill="true"
               />
             </NavLink>
-            <NavLink href={socialUrls.whatsapp}>
+            <NavLink href={socialUrls.whatsapp} target="_blank">
               <StyledIcon
                 src="/icons/what.png"
                 alt="Link a México"
@@ -326,6 +413,11 @@ export default function Header() {
         </Wrapper>
       </Center>
       {mobileNavActive && <div onClick={handleNavMenuClose}></div>}
+      {showSpinner && (
+        <SpinnerOverlay>
+          <LoadingSpinner />
+        </SpinnerOverlay>
+      )}
     </StyledHeader>
   );
 }
