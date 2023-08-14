@@ -10,8 +10,7 @@ import InfoIcon from "@mui/icons-material/Info";
 const TourWrapper = styled(Link)`
 /* Por ahora no hay nada acá */
   height: fit-content;
-  min-width: 20rem;
-  max-width: 20rem;
+  width: 20rem;
   background-color: #84c441;
   /* border: 2px solid #47556955; */
   box-shadow: 2px 2px 4px #47556955;
