@@ -15,7 +15,6 @@ const ImageBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
   height: 18rem;
   text-align: center;
   margin: auto;
@@ -32,10 +31,12 @@ const ImageBox = styled.div`
     color: #fff;
     align-self: start;
     justify-self: flex-end;
+    margin-top: 40px;
   }
 `;
 
 const Title = styled.div`
+  margin-top: 80px;
   font-size: 6rem;
   color: #fff;
   vertical-align: middle;
