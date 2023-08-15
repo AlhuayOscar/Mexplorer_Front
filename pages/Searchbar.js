@@ -64,7 +64,7 @@ const Searchbar = (props) => {
         onChange={(ev) => setSearchInput(ev.target.value)}
         onKeyDown={handleKeyDown}
         type="text"
-        placeholder="Busca tu próxima aventura"
+        placeholder={t("Busca tu próxima aventura")}
       />
       <SubmitButton onClick={handleSearch} disabled={redirecting}>
         {t("Buscar")}
