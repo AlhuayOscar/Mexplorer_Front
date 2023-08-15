@@ -9,6 +9,7 @@ import SearchTours from "@/components/SearchTours";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Tour } from "@/models/Tour";
 import PaginatedTourList from "@/components/PaginatedTourList";
+import { useTranslation } from "react-i18next";
 
 const SearchInput = styled(Input)`
   padding: 5px 10px;
@@ -18,6 +19,7 @@ const SearchInput = styled(Input)`
 `;
 
 const ResultSearch = ({ tours, name }) => {
+  const { t } = useTranslation();
   const router = useRouter();
   const [searchInput, setSearchInput] = useState(name);
   const [shouldRedirect, setShouldRedirect] = useState(true);
@@ -64,7 +66,7 @@ const ResultSearch = ({ tours, name }) => {
             }
           }}
           type="text"
-          placeholder="Busca una actividad..."
+          placeholder={t("Busca una actividad...")}
         />
 
         <PaginatedTourList

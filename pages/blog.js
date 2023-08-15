@@ -49,7 +49,6 @@ const ImageBox = styled.div`
 const SearchContainer = styled.div`
   display: flex;
   padding-block: 20px;
-  padding-inline: 10px;
   justify-content: end;
   margin-bottom: 40px;
   overflow: hidden;
@@ -146,8 +145,8 @@ const Blog = () => {
   const currentBlogs = isLoading
     ? []
     : searchTerm !== ""
-    ? filteredBlogs.slice(indexOfFirstBlog, indexOfLastBlog)
-    : blogs.slice(indexOfFirstBlog, indexOfLastBlog);
+      ? filteredBlogs.slice(indexOfFirstBlog, indexOfLastBlog)
+      : blogs.slice(indexOfFirstBlog, indexOfLastBlog);
 
   useEffect(() => {
     fetchBlogs();
@@ -238,19 +237,17 @@ const Blog = () => {
         <h2>Blogs</h2>
       </ImageBox>
       <Center>
-        <SearchContainer>
-          <Input
-            type="text"
-            placeholder="Buscar..."
-            value={searchTerm}
-            onChange={handleSearch}
-            onKeyPress={handleEnterKeyPress}
-          />
-          <SubmitButton type="submit" onClick={handleClick}>
-            Buscar
-          </SubmitButton>
-        </SearchContainer>
         <BlogContainer>
+          <SearchContainer>
+            <Input
+              type="text"
+              placeholder={t("Buscar")}
+              value={searchTerm}
+              onChange={handleSearch}
+              onKeyPress={handleEnterKeyPress}
+            />
+            <SubmitButton type="submit" onClick={handleClick}>{t("Buscar")}</SubmitButton>
+          </SearchContainer>
           {isLoading ? (
             <LoadingSpinner />
           ) : searchTerm !== "" ? (
