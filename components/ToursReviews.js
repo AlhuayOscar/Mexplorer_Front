@@ -7,6 +7,7 @@ import Button from "./Button";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
+import Swal from "sweetalert2";
 
 
 const Subtitle = styled.h3`
@@ -156,10 +157,24 @@ export default function ToursReviews({ tour }) {
   function submitReview() {
     const data = { title, description, stars, tour: tour._id }
     axios.post('/api/reviews', data)
-    setTitle('');
-    setDescription('');
-    setStars(0);
-    loadReviews();
+      .then(() => {
+        setTitle('');
+        setDescription('');
+        setStars(0);
+        loadReviews();
+
+        // Alert
+        Swal.fire({
+          icon: "success",
+          title: t("¡Reseña añadida exitosamente!"),
+          timer: 1600,
+          timerProgressBar: true,
+          showConfirmButton: false,
+        });
+      })
+      .catch(error => {
+        console.error("Error submitting review:", error);
+      });
 
   }
 
@@ -206,11 +221,11 @@ export default function ToursReviews({ tour }) {
             margin
             value={title}
             onChange={ev => setTitle(ev.target.value)}
-            placeholder="Titulo" />
+            placeholder={t("Titulo")} />
           <Textarea
             value={description}
             onChange={ev => setDescription(ev.target.value)}
-            placeholder="Deja tu opinión" />
+            placeholder={t("Deja tu opinión")} />
 
           <ButtonRev green block onClick={submitReview} >{t("Enviar")}</ButtonRev>
 
@@ -239,7 +254,7 @@ export default function ToursReviews({ tour }) {
                         : <p>{review.description.substring(0, 160)}</p>}
                     {review.description.length > 160 && (
                       <ButtonC onClick={() => handleToggleDescription(review._id)}>
-                        {expandedComments.includes(review._id) ? 'Mostrar menos' : 'Mostrar más'}
+                        {expandedComments.includes(review._id) ? t("Mostrar menos") : t("Mostrar más")}
                       </ButtonC>
                     )}
                   </div>
@@ -263,7 +278,7 @@ export default function ToursReviews({ tour }) {
                           : <p>{review.description.substring(0, 160)}</p>}
                       {review.description.length > 160 && (
                         <ButtonC onClick={() => handleToggleDescription(review.id)}>
-                          {expandedComments.includes(review.id) ? 'Mostrar menos' : 'Mostrar más'}
+                          {expandedComments.includes(review.id) ? t("Mostrar menos") : t("Mostrar más")}
                         </ButtonC>
                       )}
                     </div>
@@ -275,7 +290,7 @@ export default function ToursReviews({ tour }) {
 
         </WhiteBoxC>
         {reviews.length > 3 && (
-          <ButtonC onClick={handleShowAllReviews}>{!showAllReviews ? 'Más comentarios' : 'Menos comentarios'}</ButtonC>
+          <ButtonC onClick={handleShowAllReviews}>{!showAllReviews ? t("Más comentarios") : t("Menos comentarios")}</ButtonC>
         )}
       </White>
 

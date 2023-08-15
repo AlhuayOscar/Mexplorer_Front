@@ -171,8 +171,8 @@ const Blog = () => {
   const currentBlogs = isLoading
     ? []
     : searchTerm !== ""
-    ? filteredBlogs.slice(indexOfFirstBlog, indexOfLastBlog)
-    : blogs.slice(indexOfFirstBlog, indexOfLastBlog);
+      ? filteredBlogs.slice(indexOfFirstBlog, indexOfLastBlog)
+      : blogs.slice(indexOfFirstBlog, indexOfLastBlog);
 
   useEffect(() => {
     fetchBlogs();
@@ -203,7 +203,7 @@ const Blog = () => {
   };
 
   const handleClick = () => {
-      filterBlogs(searchTerm);
+    filterBlogs(searchTerm);
   };
 
   const handleRecentSearchClick = (term) => {
@@ -264,12 +264,12 @@ const Blog = () => {
           <SearchContainer>
             <Input
               type="text"
-              placeholder="Buscar..."
+              placeholder={t("Buscar")}
               value={searchTerm}
               onChange={handleSearch}
               onKeyPress={handleEnterKeyPress}
             />
-             <SubmitButton type="submit" onClick={handleClick}>Buscar</SubmitButton>
+            <SubmitButton type="submit" onClick={handleClick}>{t("Buscar")}</SubmitButton>
           </SearchContainer>
           {isLoading ? (
             <LoadingSpinner />
