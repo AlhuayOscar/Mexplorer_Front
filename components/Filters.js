@@ -50,7 +50,7 @@ const ClearButton = styled.button`
   cursor: pointer;
 `;
 
-const Select =  styled.select`
+const Select = styled.select`
     width: 95%;
   padding: 10px;
   border-radius: 7px;
@@ -242,13 +242,13 @@ export default function Filters({ tours, onFiltersChange, setCurrentPage }) {
 
   return (
     <BoxContainer>
-      <TitleLabel>
+      {/* <TitleLabel>
         {t("Reservas")}
       </TitleLabel>
       <Select onChange={handleReservaChange} value={selectedReserva}>
         <option value="false">{t("Sin reservas")}</option>
         <option value="true">{t("Con reservas")}</option>
-      </Select>
+      </Select> */}
       <TitleLabel>
         {t("Promociones")}
       </TitleLabel>
