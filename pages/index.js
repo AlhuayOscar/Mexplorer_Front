@@ -53,9 +53,9 @@ const slideDownAndBackAutoAnimation = keyframes`
     transform: translateY(15%); 
   }
 `;
-//NO COLOCAR SLIDEDOWN ADELANTE DE BUTTONABOVEFEATURED.
+
 const ButtonAboveFeatured = styled.button`
-  position: absolute; //Encontrar la forma de volverlo stickya todo el header y el boton
+  position: absolute; 
   top: 5px;
   left: 45%;
   padding: 6px 20px;
@@ -66,36 +66,28 @@ const ButtonAboveFeatured = styled.button`
   cursor: pointer;
   font-size: 24px;
   z-index: 17;
-  transition: opacity 0.3s ease-out 1.3s; /* Agregamos la transición de opacidad */
+  transition: opacity 0.3s ease-out 1.3s;
   transition: 0.4s ease;
-  opacity: 0.1; /* Establecemos la opacidad inicial */
+  opacity: 0.1;
   outline: none;
-  animation: ${slideDownAndBackAutoAnimation} 8s ease-in-out infinite; /* Agregamos la nueva animación y establecemos la duración de 8 segundos */
+  animation: ${slideDownAndBackAutoAnimation} 8s ease-in-out infinite; 
   @media (max-width: 768px) {
-    /* Aplicamos el cambio de tamaño para pantallas menores o iguales a 768px */
     font-size: 40px;
     padding: 1px 20px;
   }
   @media (max-width: 600px) {
-    /* Aplicamos el cambio de tamaño para pantallas menores o iguales a 768px */
     padding: 1px 20px;
     left: 37%;
   }
   @media (max-width: 400px) {
-    /* Aplicamos el cambio de tamaño para pantallas menores o iguales a 768px */
     left: 41%;
   }
   &:hover {
     transform: scale(1.15);
     transition: 0.4s ease;
     background-color: #fdffff05;
-    opacity: 0.8; /* Cambiamos la opacidad cuando el cursor esté cerca */
+    opacity: 0.8;
   }
-
-  /* Esta parte es opcional, si deseas que el botón esté siempre semi-transparente */
-  /* &:not(:hover) {
-    opacity: 0.5;
-  } */
 `;
 const AnimatedHeaderWrapper = styled.div`
   position: relative;
@@ -139,15 +131,10 @@ export default function HomePage({ featuredTour, newTours, promoTours }) {
   const [headerVisible, setHeaderVisible] = useState(false);
   const [buttonText, setButtonText] = useState("^");
   useEffect(() => {
-    // Función para cambiar el estilo del elemento "body"
     const updateBodyOverflow = () => {
       document.body.style.overflow = loading ? "hidden" : "visible";
     };
-
-    // Llamamos a la función al montar el componente
     updateBodyOverflow();
-
-    // Llamamos a la función cada vez que el estado "loading" cambie
     return () => {
       updateBodyOverflow();
     };
