@@ -209,12 +209,10 @@ const BlogPage = ({ blog, tours, urls }) => {
 
   // Se Obtiene los valores en español e inglés basados en el idioma actual
   const displayTitle = currentLanguage === "es" ? blog.title : blog.titleEng;
-
   const paragraphs =
     currentLanguage === "es"
       ? blog.description.split("\n")
       : blog.descriptionEng.split("\n");
-
   const formattedParagraphs = paragraphs.map((paragraph, index) => {
     const formattedParagraph =
       index === 0
@@ -223,7 +221,6 @@ const BlogPage = ({ blog, tours, urls }) => {
 
     return currentLanguage === "es" ? formattedParagraph : paragraph;
   });
-
   return (
     <>
       <Header />
@@ -254,7 +251,6 @@ const BlogPage = ({ blog, tours, urls }) => {
               ))}
               <BlogDate date={blog.date} />
             </BlogDescription>
-
             <InfoSetionn>
               <h2>{t("Revisa nuestros últimos tours")}:</h2>
               {tours?.map((tour) => (
