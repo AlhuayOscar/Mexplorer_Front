@@ -44,15 +44,8 @@ export default function NotFound() {
       <Header />
       <CenterNoFound>
         <ImageContainer>
-          <Image
-            src={"/404.png"}
-            alt="image no found"
-            width={700}
-            height={450}
-          />
+          <Image src={'https://res.cloudinary.com/dipn8zmq3/image/upload/v1691283958/png-error_alt_mexplorer_2_base_xf8h2c.png'} alt='image no found' width={700} height={450}/>
         </ImageContainer>
-        {/* <h2>Not Found</h2>
-        <p>Could not find requested resource</p> */}
         <BackHome href="/">Return to Home</BackHome>
       </CenterNoFound>
       <Footer />

@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 
 const BoxContainer = styled.div`
   top: 20px;
-  height: 40rem;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -47,10 +47,11 @@ const ClearButton = styled.button`
   padding: 8px 16px;
   border: none;
   border-radius: 5px;
+  margin: 10px;
   cursor: pointer;
 `;
 
-const Select =  styled.select`
+const Select = styled.select`
     width: 95%;
   padding: 10px;
   border-radius: 7px;
@@ -242,13 +243,13 @@ export default function Filters({ tours, onFiltersChange, setCurrentPage }) {
 
   return (
     <BoxContainer>
-      <TitleLabel>
+      {/* <TitleLabel>
         {t("Reservas")}
       </TitleLabel>
       <Select onChange={handleReservaChange} value={selectedReserva}>
         <option value="false">{t("Sin reservas")}</option>
         <option value="true">{t("Con reservas")}</option>
-      </Select>
+      </Select> */}
       <TitleLabel>
         {t("Promociones")}
       </TitleLabel>

@@ -17,15 +17,43 @@ const BlogContainer = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
+const ImageBox = styled.div`
+  background: url("https://res.cloudinary.com/dipn8zmq3/image/upload/v1690990359/Tours_Background_Optimized_fovkvm.webp")
+    no-repeat center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 18rem;
+  text-align: center;
+  margin: auto;
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Agregado efecto de sombra de texto */
+  padding: 0 40px;
+  margin-bottom: 20px;
+  /* position: relative; */
+  img {
+    width: 100%;
+    height: 140%;
+  }
+
+  h2 {
+    font-size: 6rem;
+    color: #fff;
+    vertical-align: middle;
+    font-weight: 400;
+    margin: 10px;
+  }
+`;
+
 const SearchContainer = styled.div`
   display: flex;
   padding-block: 20px;
-  padding-inline: 10px;
   justify-content: end;
+  margin-bottom: 40px;
   overflow: hidden;
   width: 100%;
   align-items: center;
-  justify-content: center;
 `;
 
 /* const SearchInput = styled.input`
@@ -85,60 +113,6 @@ const bounceAnimation = keyframes`
   }
 `;
 
-const CleanSearch = styled.button`
-  background-color: #fff;
-  color: #1a1a1a;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  outline: none;
-  transition: 0.2s ease;
-  &:hover {
-    transition: 0.2s ease;
-    border-color: #888;
-    box-shadow: 0 0 5px #888;
-  }
-
-  &:hover {
-    cursor: pointer;
-    transform: scale(1.1);
-    transition: 0.1s ease;
-  }
-
-  &:active {
-    animation: ${bounceAnimation} 0.6s;
-  }
-`;
-
-const RecentSearchItem = styled.span`
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 5px;
-  background-color: #fff;
-  padding: 8px;
-  border-radius: 5px;
-  box-shadow: 0 0 5px #888;
-  transition: 0.5s ease;
-  text-align: center;
-  cursor: pointer;
-  white-space: nowrap; /* Prevent line breaks */
-  overflow: hidden; /* Hide overflow */
-  text-overflow: ellipsis; /* Display ellipsis (...) for overflowed text */
-  max-width: 17ch; /* Limit the maximum width to 10 characters */
-  max-height: 24px;
-  &:focus {
-    transition: 0.1s ease;
-    border-color: #888;
-    box-shadow: 0 0 5px #888;
-  }
-
-  &:hover {
-    transform: scale(1.1);
-    transition: 0.2s ease;
-  }
-`;
-
-
 const spinAnimation = keyframes`
   from {
     transform: rotate(0deg);
@@ -171,8 +145,8 @@ const Blog = () => {
   const currentBlogs = isLoading
     ? []
     : searchTerm !== ""
-    ? filteredBlogs.slice(indexOfFirstBlog, indexOfLastBlog)
-    : blogs.slice(indexOfFirstBlog, indexOfLastBlog);
+      ? filteredBlogs.slice(indexOfFirstBlog, indexOfLastBlog)
+      : blogs.slice(indexOfFirstBlog, indexOfLastBlog);
 
   useEffect(() => {
     fetchBlogs();
@@ -203,7 +177,7 @@ const Blog = () => {
   };
 
   const handleClick = () => {
-      filterBlogs(searchTerm);
+    filterBlogs(searchTerm);
   };
 
   const handleRecentSearchClick = (term) => {
@@ -259,17 +233,20 @@ const Blog = () => {
   return (
     <>
       <Header />
+      <ImageBox loading="lazy">
+        <h2>Blogs</h2>
+      </ImageBox>
       <Center>
         <BlogContainer>
           <SearchContainer>
             <Input
               type="text"
-              placeholder="Buscar..."
+              placeholder={t("Buscar")}
               value={searchTerm}
               onChange={handleSearch}
               onKeyPress={handleEnterKeyPress}
             />
-             <SubmitButton type="submit" onClick={handleClick}>Buscar</SubmitButton>
+            <SubmitButton type="submit" onClick={handleClick}>{t("Buscar")}</SubmitButton>
           </SearchContainer>
           {isLoading ? (
             <LoadingSpinner />

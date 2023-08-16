@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import { CartContext } from "@/components/CartContext";
 import { Carousel } from "react-responsive-carousel";
-import Searchbar from "../pages/Searchbar";
+import Searchbar from "@/pages/api/Searchbar";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useTranslation } from "react-i18next";
 

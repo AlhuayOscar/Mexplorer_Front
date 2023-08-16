@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Waves from "react-wavify";
 import Link from "next/link";
+import Image from "next/image";
 
 const StyledFooter = styled.footer`
   background-color: #0b0000;
@@ -73,7 +74,8 @@ const WavesContainer7 = styled.div`
 const FooterContent = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
+  margin: 25px 0;
   @media (max-width: 968px) {
     flex-direction: column;
   }
@@ -82,16 +84,18 @@ const FooterContent = styled.div`
 const FooterDescription = styled.div`
   text-align: center;
   max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  
 `;
 
 const Logo = styled.a`
   text-decoration: none;
   margin-right: 20px;
-`;
-
-const StyledImage = styled.img`
-  width: auto;
-  max-height: 350px;
+  height: auto;
+  max-height: 20rem;
   max-width: 100%;
   @media (max-width: 968px) {
     max-height: 450px;
@@ -99,7 +103,23 @@ const StyledImage = styled.img`
   @media (max-width: 468px) {
     max-height: 20%;
   }
+  img {
+   width: 100%;
+   height: 100%;
+  }
 `;
+
+/* const StyledImage = styled(Image)`
+  width: auto;
+  max-height: 20rem;
+  max-width: 100%;
+  @media (max-width: 968px) {
+    max-height: 450px;
+  }
+  @media (max-width: 468px) {
+    max-height: 20%;
+  }
+`; */
 
 const FooterText = styled.div`
   display: flex;
@@ -267,7 +287,7 @@ const Footer = () => {
         </WavesContainer7>
         <FooterContent>
           <FooterDescription>
-            <p>(© Mexplorer 2023)</p>
+            <h3>(© Mexplorer 2023)</h3>
             <CenteredContainer>
               <p>Síguenos</p>
               <Link href={socialUrls.facebook}>
@@ -289,10 +309,10 @@ const Footer = () => {
                 />
               </Link>
             </CenteredContainer>
-            <p>
+            {/* <p>
               Av. Bonampak 73, SM.3, M.10, Edificio Global Cancún Torre “B”. CP.
               77500, Cancún, México.
-            </p>
+            </p> */}
             <p>
               En Mexplorer siempre estamos trabajando para mejorar nuestros
               precios y ofrecerle los mejores precios en los tours y actividades
@@ -301,9 +321,11 @@ const Footer = () => {
           </FooterDescription>
 
           <Logo href="/">
-            <StyledImage
-              src="/mexploreroffice.png"
-              alt="Oficinas de la empresa"
+            <Image
+              src="/mex_logo.png"
+              alt="Logo de Mexplorer"
+              width={200}
+              height={150}
             />
           </Logo>
         </FooterContent>
