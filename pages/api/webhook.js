@@ -65,21 +65,35 @@ export default async function handler(req, res) {
             <title>Confirmación de compra</title>
             </head>
             <body>
-
-            <p>Estimado ${order.name},</p>
+            
+            <p>Estimado(a) ${order.name},</p>
         
-            <p>¡Gracias por tu compra en Mexplorer! A continuación, te proporcionamos los detalles de tus tours:</p>
+            <p>¡Saludos desde Mexplorer Tours Cancún! Estamos emocionados de confirmar tu reserva y participación en una experiencia inolvidable llena de descubrimiento y diversión. ¡Prepárate para sumergirte en la belleza única de Cancún y crear recuerdos que durarán toda la vida! </p>
+
+            <p>A continuación, te proporcionamos los detalles de tus tours:</p>
         
             <ol>
             ${cartToursHTML}
             </ol>
             
-            
-                <p>¡Gracias por tu atención y continuo apoyo!</p>
-            
-                <p>Atentamente,</p>
-                <p>Mexplorer</p>
-                <p>Equipo de Soporte Técnico</p>
+            <p>Nuestro equipo está comprometido en brindarte un servicio excepcional y una atención personalizada en cada paso del camino.</p>
+
+            <p>No dudes en contactarnos si tienes alguna pregunta adicional o requisitos especiales antes de tu aventura. Puedes comunicarte directamente con nuestro equipo de atención al cliente al WhatsApp +52 1 998 759 9673 </p>
+
+            <p>Te recomendamos que llegues al punto de encuentro con al menos 15 minutos de anticipación para que podamos comenzar puntualmente y aprovechar al máximo esta emocionante jornada.</p>
+
+            <p>¡Desde ahora, considera a Mexplorer Tours Cancún como tu compañero en la exploración de maravillas locales!</p>
+
+            <p>Esperamos verte pronto y compartir contigo momentos inolvidables.</p>
+
+            <p>¡Hasta pronto y que comience la aventura!</p>
+
+            <p>¡Gracias por tu atención y continuo apoyo!,</p>
+            <p>Mexplorer Tours Cancún,</p>
+            <p>Equipo de Soporte Técnico</p>
+            <p>Número de contacto: +52 1 998 759 9673</p>
+            <p>Email de contacto: mexplorer.ok@gmail.com</p>
+                
             </body>`,
         };
         const transport = nodemailer.createTransport(config);
