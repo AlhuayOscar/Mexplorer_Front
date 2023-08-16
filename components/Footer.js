@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 import Waves from "react-wavify";
 import Link from "next/link";
 import Image from "next/image";
@@ -109,28 +109,22 @@ const Logo = styled.a`
   }
 `;
 
-/* const StyledImage = styled(Image)`
-  width: auto;
-  max-height: 20rem;
-  max-width: 100%;
-  @media (max-width: 968px) {
-    max-height: 450px;
-  }
-  @media (max-width: 468px) {
-    max-height: 20%;
-  }
-`; */
-
 const FooterText = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-const FooterLink = styled.a`
+const FooterLink = styled(Link)`
   margin-right: 10px;
   text-decoration: none;
   color: #fffffff0;
+  ${props => props.ctop && css`
+    &:hover{
+      text-decoration: underline;
+      color: #eeb547;
+    }
+  `}
 `;
 const Icon = styled.img`
   width: 25px;
@@ -340,7 +334,7 @@ const Footer = () => {
         </FooterText>
         <hr />
         <FooterText>
-          Copyright© 2023 All Rights Reserved. Desarrollado por CtoP.
+            <p>Copyright© 2023 All Rights Reserved. Desarrollado por <FooterLink href="https://www.linkedin.com/company/ctop-connect-to-people/" target="_blank" ctop>CtoP.</FooterLink></p>
         </FooterText>
       </StyledFooter>
     </>
