@@ -38,12 +38,12 @@ export default async function handler(req, res) {
           paid: true,
         });
         const order = await Order.findById(orderId);
+        console.log(order, "---------------------ORDER---------------------")
 
         let cartToursHTML = "";
         cartTours.forEach((tour) => {
-          cartToursHTML += `<li>Nombre: ${tour.name}, Tipo: ${tour.type}, Adultos: ${tour.adults}, Niños: ${tour.children}, Fecha: ${order.date}, Hora: ${tour.hour}, Precio: ${tour.price}</li>`;
+          cartToursHTML += `<li>Tour: ${tour.name}, Adultos: ${tour.adults}, Niños: ${tour.children}, Fecha: ${order.date}, Hora: ${tour.hour}, Precio: ${tour.price}</li>`;
         });
-        console.log(cartToursHTML)
 
         const config = {
           host: "smtp.gmail.com",
