@@ -87,7 +87,7 @@ const Carousel = ({ images }) => {
   const [loading, setLoading] = useState(true); // Estado para controlar la carga de imágenes
 
   const showCards = images.length;
-  console.log(showCards);
+  
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);

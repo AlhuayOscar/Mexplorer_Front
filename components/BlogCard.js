@@ -98,7 +98,6 @@ const BlogCard = ({ blog }) => {
 
   useEffect(() => {
     const today = new Date();
-    //console.log(today)
     const dateBlog = new Date(dayjs(blog.date).format("DD-MM-YYYY"));
     const dateDiff = (today - dateBlog) / (1000 * 60 * 60 * 24);
     if (dateDiff < 8) setIsNew(true)

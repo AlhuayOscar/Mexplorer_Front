@@ -6,16 +6,15 @@ const stripe = require("stripe")(
 );
 
 export default async function handler(req, res) {
-  console.log("Estoy en checkout.js", req, res);
+  
   if (req.method !== "POST") {
-    console.log("ESTO NO ES UN POST AAAAAAAAAAAAAAAAA");
+    
     res.json("should be a POST request");
     res.status(405).send("Esto no es!!!"); // This line sends the 405 status with your custom message
     return;
   }
 
   const { kind, name, lastname, email, cartTours } = req.body;
-  console.log(req.body);
   await mongooseConnect();
   const toursIds = cartTours.map((tour) => tour.id);
   const uniqueIds = [...new Set(toursIds)];
@@ -53,7 +52,6 @@ export default async function handler(req, res) {
     line_items,
     paid: false,
   });
-  console.log(orderDoc);
   const session = await stripe.checkout.sessions.create({
     line_items,
     mode: "payment",

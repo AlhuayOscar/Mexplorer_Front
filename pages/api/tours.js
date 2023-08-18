@@ -21,7 +21,7 @@ export default async function handle(req, res) {
             toursQuery['properties.' + filterName] = filters[filterName];
         });
     }
-    console.log(toursQuery);
+    
     res.json(await Tour.find(
         toursQuery,
         null,

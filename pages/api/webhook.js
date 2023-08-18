@@ -38,7 +38,6 @@ export default async function handler(req, res) {
           paid: true,
         });
         const order = await Order.findById(orderId);
-        console.log(order, "---------------------ORDER---------------------")
 
         let cartToursHTML = "";
         cartTours.forEach((tour) => {

@@ -11,6 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import { useTranslation } from "react-i18next";
+import { useForm } from "react-hook-form";
 
 const ColumnsWrapper = styled.div`
   display: grid;
@@ -89,6 +90,8 @@ export default function CartPage() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [hasProducts, setHasProducts] = useState(false);
 
+  const { register, handleSubmit } = useForm();
+
   useEffect(() => {
     if (cartTours.length > 0) {
       axios
@@ -114,9 +117,9 @@ export default function CartPage() {
       clearCart();
     }
   }, []);
-  console.log(cartTours);
+  
   async function goToPayment() {
-    const response = await axios.post("/api/checkout", {
+    const response = await axios.post("api/checkout", {
       kind: cartTours.type,
       name,
       lastname,
@@ -124,7 +127,7 @@ export default function CartPage() {
       cartTours,
       currency: cartTours.currency,
     });
-    console.log(response);
+    
     if (response.data.url) {
       window.location = response.data.url;
     }
@@ -255,34 +258,40 @@ export default function CartPage() {
           </Box>
           {!!cartTours?.length && (
             <Box>
-              <h2>{t("Información de la orden")}</h2>
-              <Input
-                type="text"
-                placeholder="Nombre"
-                value={name}
-                name="name"
-                onChange={(ev) => setName(ev.target.value)}
-                margin
-              />
-              <Input
-                type="text"
-                placeholder="Apellido"
-                value={lastname}
-                name="lastname"
-                onChange={(ev) => setLastname(ev.target.value)}
-                margin
-              />
-              <Input
-                type="text"
-                placeholder="Email"
-                value={email}
-                name="email"
-                onChange={(ev) => setEmail(ev.target.value)}
-                margin
-              />
-              <Button block green onClick={goToPayment}>
-                {t("Finalizar compra")}
-              </Button>
+              <form onSubmit={handleSubmit((data) => 
+                console.log(data))}>
+                <h2>{t("Información de la orden")}</h2>
+                <Input
+                  type="text"
+                  placeholder="Nombre"
+                  {...register("name")}
+                  value={name}
+                  name="name"
+                  onChange={(ev) => setName(ev.target.value)}
+                  margin
+                />
+                <Input
+                  type="text"
+                  placeholder="Apellido"
+                  {...register("lastname")}
+                  value={lastname}
+                  name="lastname"
+                  onChange={(ev) => setLastname(ev.target.value)}
+                  margin
+                />
+                <Input
+                  type="text"
+                  placeholder="Email"
+                  {...register("email")}
+                  value={email}
+                  name="email"
+                  onChange={(ev) => setEmail(ev.target.value)}
+                  margin
+                />
+                <Button block green type="submit">
+                  {t("Finalizar compra")}
+                </Button>
+              </form>
             </Box>
           )}
         </ColumnsWrapper>

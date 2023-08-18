@@ -66,7 +66,6 @@ const Carousel = ({ images }) => {
     cssEase: "linear",
     centerMode: true,
   };
-  console.log(images)
   return (
     <div id="container">
       <HeaderSlider {...settings}>
