@@ -296,12 +296,6 @@ const Footer = () => {
                   alt="Instagram"
                 />
               </Link>
-              <Link href={socialUrls.tripadvisor}>
-                <Icon
-                  src="https://res.cloudinary.com/dipn8zmq3/image/upload/v1689651875/trippy_gpvp7q.png"
-                  alt="TripAdvisor"
-                />
-              </Link>
             </CenteredContainer>
             {/* <p>
               Av. Bonampak 73, SM.3, M.10, Edificio Global Cancún Torre “B”. CP.
