@@ -10,8 +10,8 @@ i18n
             es: { translation: esTranslation },
             en: { translation: enTranslation }
         },
-        lng: 'es', // Idioma predeterminado
-        fallbackLng: 'es', // Idioma de respaldo si la traducción no está disponible
+        lng: 'en', // Idioma predeterminado
+        fallbackLng: 'en', // Idioma de respaldo si la traducción no está disponible
         interpolation: {
             escapeValue: false
         }
