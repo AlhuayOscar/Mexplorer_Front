@@ -155,7 +155,7 @@ export default function ToursReviews({ tour }) {
   const limitedReviews = reviews.slice(0, 3);
 
   function submitReview() {
-    const data = { title, description, stars, tour: tour._id }
+    const data = { title, description, stars, tour: tour?._id }
     axios.post('/api/reviews', data)
       .then(() => {
         setTitle('');
@@ -183,7 +183,7 @@ export default function ToursReviews({ tour }) {
   }, []);
 
   function loadReviews() {
-    axios.get('/api/reviews?tour=' + tour._id).then(res => {
+    axios.get('/api/reviews?tour=' + tour?._id).then(res => {
       setReviews(res.data);
     });
   }
@@ -205,11 +205,11 @@ export default function ToursReviews({ tour }) {
       <InfoBox>
         <ReviewBox>
           <div>
-            <Subtitle>{tour.name}</Subtitle>
-            <StarsRanting size={'sm'} disabled={true} defaulHowMany={tour.review.total} />
+            <Subtitle>{tour?.name}</Subtitle>
+            <StarsRanting size={'sm'} disabled={true} defaulHowMany={tour?.review.total} />
           </div>
-          <h2>{tour.review.total} / 5</h2>
-          <span>{tour.review.quantity} {t("Reseñas")}</span>
+          <h2>{tour?.review.total} / 5</h2>
+          <span>{tour?.review.quantity} {t("Reseñas")}</span>
         </ReviewBox>
 
         <Box>
