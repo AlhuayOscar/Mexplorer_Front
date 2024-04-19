@@ -13,8 +13,8 @@ const ReviewContainer = styled.div`
 const ReviewBox = ({ review, opinions }) => {
   return (
     <ReviewContainer>
-      <StarsRanting size={'sm'} disabled={true} defaulHowMany={review.total}/>
-          <span>{review.total} {opinions && `(${review.quantity}) opiniones`}</span>
+      <StarsRanting size={'sm'} disabled={true} defaulHowMany={review?.total}/>
+          <span>{review?.total} {opinions && `(${review?.quantity}) opiniones`}</span>
     </ReviewContainer>
   );
 };
