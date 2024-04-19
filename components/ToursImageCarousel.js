@@ -86,7 +86,7 @@ const Carousel = ({ images }) => {
   const [windowWidth, setWindowWidth] = useState(0);
   const [loading, setLoading] = useState(true); // Estado para controlar la carga de imágenes
 
-  const showCards = images.length;
+  const showCards = images?.length;
   console.log(showCards);
   useEffect(() => {
     const handleResize = () => {
@@ -127,7 +127,7 @@ const Carousel = ({ images }) => {
 
   return (
     <HeaderSlider {...settings}>
-      {images.map((image, index) => (
+      {images?.map((image, index) => (
         <SlideImage
           key={index}
           src={image}
