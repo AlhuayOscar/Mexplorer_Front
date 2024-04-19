@@ -3,6 +3,7 @@ import styled, {css} from "styled-components";
 import Waves from "react-wavify";
 import Link from "next/link";
 import Image from "next/image";
+import { useTranslation } from "react-i18next";
 
 const StyledFooter = styled.footer`
   background-color: #0b0000;
@@ -144,8 +145,9 @@ const Footer = () => {
     instagram: "",
     tripadvisor: "",
   });
-
-  useEffect(() => {
+const { t } = useTranslation();
+  
+useEffect(() => {
     fetch("/api/urls")
       .then((response) => response.json())
       .then((data) => {
@@ -281,9 +283,9 @@ const Footer = () => {
         </WavesContainer7>
         <FooterContent>
           <FooterDescription>
-            <h3>(© Mexplorer 2023)</h3>
+            <h3>{t("Mexplorer Copyright")}</h3>
             <CenteredContainer>
-              <p>Síguenos</p>
+              <p> {t("Siguenos")}</p>
               <Link href={socialUrls.facebook}>
                 <Icon
                   src="https://res.cloudinary.com/dipn8zmq3/image/upload/v1689651875/facy_toglrc.png"
@@ -301,13 +303,8 @@ const Footer = () => {
               Av. Bonampak 73, SM.3, M.10, Edificio Global Cancún Torre “B”. CP.
               77500, Cancún, México.
             </p> */}
-            <p>
-              En Mexplorer siempre estamos trabajando para mejorar nuestros
-              precios y ofrecerle los mejores precios en los tours y actividades
-              que ofrecemos.
-            </p>
+            <p>{t("En Mexplorer")}</p>
           </FooterDescription>
-
           <Logo href="/">
             <Image
               src="/mex_logo.png"
@@ -319,16 +316,25 @@ const Footer = () => {
         </FooterContent>
         <FooterText>
           <FooterLink href="/politica_privacidad">
-            Política de Privacidad
+            {t("Política de Privacidad")}
           </FooterLink>
-          /
+         /
           <FooterLink href="/politica_cancelacion">
-            Política de Cancelación
+            {t("Política de Cancelacion")}
           </FooterLink>
         </FooterText>
         <hr />
         <FooterText>
-            <p>Copyright© 2023 All Rights Reserved. Desarrollado por <FooterLink href="https://www.linkedin.com/company/ctop-connect-to-people/" target="_blank" ctop>CtoP.</FooterLink></p>
+          <p>
+           {t("Copy")}
+            <FooterLink
+              href="https://www.linkedin.com/company/ctop-connect-to-people/"
+              target="_blank"
+              ctop
+            >
+              CtoP.
+            </FooterLink>
+          </p>
         </FooterText>
       </StyledFooter>
     </>
