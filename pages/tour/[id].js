@@ -348,17 +348,17 @@ export default function TourPage({ tour, promoTours }) {
   useEffect(() => {}, [currentLanguage]);
 
   // Se Obtiene los valores en español e inglés basados en el idioma actual
-  const displayName = currentLanguage === "es" ? tour.name : tour.nameEng;
+  const displayName = currentLanguage === "es" ? tour?.name : tour?.nameEng;
   const displayDescription =
-    currentLanguage === "es" ? tour.description : tour.descriptionEng;
+    currentLanguage === "es" ? tour?.description : tour?.descriptionEng;
   const displayIncludes =
-    currentLanguage === "es" ? tour.includes : tour.includesEng;
+    currentLanguage === "es" ? tour?.includes : tour?.includesEng;
   const displayDoesntIncludes =
-    currentLanguage === "es" ? tour.doesntIncludes : tour.doesntIncludesEng;
+    currentLanguage === "es" ? tour?.doesntIncludes : tour?.doesntIncludesEng;
   const displayRequirements =
-    currentLanguage === "es" ? tour.requirements : tour.requirementsEng;
-  const displayNotes = currentLanguage === "es" ? tour.notes : tour.notesEng;
-  const StaticImages = tour.images;
+    currentLanguage === "es" ? tour?.requirements : tour?.requirementsEng;
+  const displayNotes = currentLanguage === "es" ? tour?.notes : tour?.notesEng;
+  const StaticImages = tour?.images;
   return (
     <>
       <Header />
@@ -369,10 +369,10 @@ export default function TourPage({ tour, promoTours }) {
       <TitleTour>
         <div>
           <Title>{displayName}</Title>
-          <TimeBox duration={tour.duration} /* white */ />
+          <TimeBox duration={tour?.duration} /* white */ />
         </div>
         <div>
-          <ReviewBox review={tour.review} />
+          <ReviewBox review={tour?.review} />
           <Links currentUrl={currentUrl} />
         </div>
       </TitleTour>
@@ -414,14 +414,14 @@ export default function TourPage({ tour, promoTours }) {
           <InfoBox>
             <Subtitle yellow>{t("Este tour incluye")}:</Subtitle>
             <Points>
-              {tour.includes?.map((include) => (
+              {tour?.includes?.map((include) => (
                 <Point key={include}>
                   <Check />
                   {displayIncludes}
                 </Point>
               ))}
               <Subtitle yellow>{t("Este tour no incluye")}:</Subtitle>
-              {tour.doesntIncludes?.map((doesntInclude) => (
+              {tour?.doesntIncludes?.map((doesntInclude) => (
                 <Point key={doesntInclude}>
                   <Cancel />
                   {displayDoesntIncludes}
@@ -440,7 +440,7 @@ export default function TourPage({ tour, promoTours }) {
           <InfoBox>
             <Subtitle purple>{t("A este tour recomendamos llevar")}:</Subtitle>
             <Points>
-              {tour.requirements?.map((requirement) => (
+              {tour?.requirements?.map((requirement) => (
                 <Point key={requirement}>
                   <Check />
                   {displayRequirements}
@@ -459,7 +459,7 @@ export default function TourPage({ tour, promoTours }) {
           <InfoBox>
             <Subtitle green>{t("Notas y recomendaciones")}:</Subtitle>
             <Points>
-              {tour.notes?.map((note) => (
+              {tour?.notes?.map((note) => (
                 <Point key={note}>
                   <Check />
                   {displayNotes}
@@ -484,23 +484,23 @@ export default function TourPage({ tour, promoTours }) {
             </ToursLink>
             <Description>{displayDescription}</Description>
 
-            {tour.includes && (
+            {tour?.includes && (
               <InfoBox ref={includesRef}>
                 <Subtitle yellow>{t("Que incluye")}</Subtitle>
                 <Points short>
                   <h4>{t("Este tour incluye")}:</h4>
-                  {tour.includes?.map((include) => (
+                  {tour?.includes?.map((include) => (
                     <Point key={include}>
                       <Check />
                       {displayIncludes}
                     </Point>
                   ))}
                 </Points>
-                {tour.doesntIncludes && (
+                {tour?.doesntIncludes && (
                   <>
                     <Points short>
                       <h4>{t("Este tour no incluye")}:</h4>
-                      {tour.doesntIncludes?.map((doesntInclude) => (
+                      {tour?.doesntIncludes?.map((doesntInclude) => (
                         <Point key={doesntInclude}>
                           <Cancel />
                           {displayDoesntIncludes}
@@ -511,11 +511,11 @@ export default function TourPage({ tour, promoTours }) {
                 )}
               </InfoBox>
             )}
-            {tour.requirements && (
+            {tour?.requirements && (
               <InfoBox ref={requirementsRef}>
                 <Subtitle purple>{t("Que llevar")}</Subtitle>
                 <Points long>
-                  {tour.requirements?.map((requirement) => (
+                  {tour?.requirements?.map((requirement) => (
                     <Point key={requirement}>
                       <Check />
                       {displayRequirements}
@@ -525,11 +525,11 @@ export default function TourPage({ tour, promoTours }) {
               </InfoBox>
             )}
 
-            {tour.notes && (
+            {tour?.notes && (
               <InfoBox ref={notesRef}>
                 <Subtitle green>{t("Notas")}</Subtitle>
                 <Points long>
-                  {tour.notes?.map((note) => (
+                  {tour?.notes?.map((note) => (
                     <Point key={note}>
                       <Check />
                       {displayNotes}
@@ -539,7 +539,7 @@ export default function TourPage({ tour, promoTours }) {
               </InfoBox>
             )}
             {/* <div>
-                <button onClick={() => addTour(tour._id)}>
+                <button onClick={() => addTour(tour?._id)}>
                   Añadir al carrito
                 </button>
             </div> */}
@@ -571,7 +571,7 @@ export default function TourPage({ tour, promoTours }) {
 
   return {
     props: {
-      tour: tour.data,
+      tour: tour?.data,
       promoTours: promoTours.data,
     },
   };
