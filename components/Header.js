@@ -208,7 +208,7 @@ export default function Header() {
     instagram: "",
     tripadvisor: "",
   });
-  const [selectedLanguage, setSelectedLanguage] = useState("es");
+  const [selectedLanguage, setSelectedLanguage] = useState("en");
   const [showSpinner, setShowSpinner] = useState(false);
   const router = useRouter();
   const handleLanguageChange = (language) => {
@@ -350,8 +350,8 @@ export default function Header() {
               {t("Sobre nosotros")}
             </NavLink>
             <LanguageButton
-              selected={selectedLanguage === "es"}
-              onClick={() => handleLanguageChange("es")}
+              selected={selectedLanguage === "en"}
+              onClick={() => handleLanguageChange("en")}
             >
               <StyledIcon
                 src="/icons/spain.png"
@@ -360,8 +360,8 @@ export default function Header() {
               />
             </LanguageButton>
             <LanguageButton
-              selected={selectedLanguage === "en"}
-              onClick={() => handleLanguageChange("en")}
+              selected={selectedLanguage === "es"}
+              onClick={() => handleLanguageChange("es")}
             >
               <StyledIcon
                 src="/icons/united-states.png"
