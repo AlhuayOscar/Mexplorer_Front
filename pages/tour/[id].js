@@ -359,6 +359,7 @@ export default function TourPage({ tour, promoTours }) {
     currentLanguage === "es" ? tour?.requirements : tour?.requirementsEng;
   const displayNotes = currentLanguage === "es" ? tour?.notes : tour?.notesEng;
   const StaticImages = tour?.images;
+  console.log(displayRequirements, tour?.requirements);
   return (
     <>
       <Header />
@@ -414,17 +415,17 @@ export default function TourPage({ tour, promoTours }) {
           <InfoBox>
             <Subtitle yellow>{t("Este tour incluye")}:</Subtitle>
             <Points>
-              {tour?.includes?.map((include) => (
-                <Point key={include}>
+              {tour?.includes?.map((include, index) => (
+                <Point key={index}>
                   <Check />
-                  {displayIncludes}
+                  {displayIncludes[index]}{" "}
                 </Point>
               ))}
               <Subtitle yellow>{t("Este tour no incluye")}:</Subtitle>
-              {tour?.doesntIncludes?.map((doesntInclude) => (
-                <Point key={doesntInclude}>
+              {tour?.doesntIncludes?.map((doesntInclude, index) => (
+                <Point key={index}>
                   <Cancel />
-                  {displayDoesntIncludes}
+                  {displayDoesntIncludes[index]}
                 </Point>
               ))}
             </Points>
@@ -440,10 +441,10 @@ export default function TourPage({ tour, promoTours }) {
           <InfoBox>
             <Subtitle purple>{t("A este tour recomendamos llevar")}:</Subtitle>
             <Points>
-              {tour?.requirements?.map((requirement) => (
-                <Point key={requirement}>
+              {tour?.requirements?.map((requirement, index) => (
+                <Point key={index}>
                   <Check />
-                  {displayRequirements}
+                  {displayRequirements[index]}
                 </Point>
               ))}
             </Points>
@@ -459,10 +460,10 @@ export default function TourPage({ tour, promoTours }) {
           <InfoBox>
             <Subtitle green>{t("Notas y recomendaciones")}:</Subtitle>
             <Points>
-              {tour?.notes?.map((note) => (
-                <Point key={note}>
+              {tour?.notes?.map((note, index) => (
+                <Point key={index}>
                   <Check />
-                  {displayNotes}
+                  {displayNotes[index]}
                 </Point>
               ))}
             </Points>
@@ -489,10 +490,10 @@ export default function TourPage({ tour, promoTours }) {
                 <Subtitle yellow>{t("Que incluye")}</Subtitle>
                 <Points short>
                   <h4>{t("Este tour incluye")}:</h4>
-                  {tour?.includes?.map((include) => (
-                    <Point key={include}>
+                  {tour?.includes?.map((include, index) => (
+                    <Point key={index}>
                       <Check />
-                      {displayIncludes}
+                      {displayIncludes[index]}
                     </Point>
                   ))}
                 </Points>
@@ -500,10 +501,10 @@ export default function TourPage({ tour, promoTours }) {
                   <>
                     <Points short>
                       <h4>{t("Este tour no incluye")}:</h4>
-                      {tour?.doesntIncludes?.map((doesntInclude) => (
-                        <Point key={doesntInclude}>
+                      {tour?.doesntIncludes?.map((doesntInclude, index) => (
+                        <Point key={index}>
                           <Cancel />
-                          {displayDoesntIncludes}
+                          {displayDoesntIncludes[index]}
                         </Point>
                       ))}
                     </Points>
@@ -515,10 +516,10 @@ export default function TourPage({ tour, promoTours }) {
               <InfoBox ref={requirementsRef}>
                 <Subtitle purple>{t("Que llevar")}</Subtitle>
                 <Points long>
-                  {tour?.requirements?.map((requirement) => (
-                    <Point key={requirement}>
+                  {tour?.requirements?.map((requirement, index) => (
+                    <Point key={index}>
                       <Check />
-                      {displayRequirements}
+                      {displayRequirements[index]}
                     </Point>
                   ))}
                 </Points>
@@ -529,10 +530,10 @@ export default function TourPage({ tour, promoTours }) {
               <InfoBox ref={notesRef}>
                 <Subtitle green>{t("Notas")}</Subtitle>
                 <Points long>
-                  {tour?.notes?.map((note) => (
-                    <Point key={note}>
+                  {tour?.notes?.map((note, index) => (
+                    <Point key={index}>
                       <Check />
-                      {displayNotes}
+                      {displayNotes[index]}
                     </Point>
                   ))}
                 </Points>
@@ -583,7 +584,6 @@ export async function getServerSideProps(context) {
     await mongooseConnect(); // Esperar a que se establezca la conexión con la base de datos
 
     const { id } = context.query;
-
 
     const tour = await Tour.findById(id);
     if (!tour) {
