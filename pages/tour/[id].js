@@ -359,7 +359,6 @@ export default function TourPage({ tour, promoTours }) {
     currentLanguage === "es" ? tour?.requirements : tour?.requirementsEng;
   const displayNotes = currentLanguage === "es" ? tour?.notes : tour?.notesEng;
   const StaticImages = tour?.images;
-  console.log(displayRequirements, tour?.requirements);
   return (
     <>
       <Header />
@@ -587,7 +586,7 @@ export async function getServerSideProps(context) {
 
     const tour = await Tour.findById(id);
     if (!tour) {
-      console.log("No se encontró ningún tour con el ID proporcionado.");
+      console.log(null);
     } else {
       tourCache.set(id, tour);
     }

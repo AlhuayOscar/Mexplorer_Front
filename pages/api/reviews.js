@@ -40,12 +40,10 @@ export default async function handler(req, res) {
       }
 
       // Eliminar la revisión con el ID proporcionado
-      console.log('ID de revisión a eliminar:', id);
       const deletedReview = await Review.findByIdAndDelete(id);
 
       // Verificar si se encontró y eliminó la revisión
       if (!deletedReview) {
-        console.log('La revisión no se encontró o no pudo ser eliminada.');
         return res.status(404).json({ error: "La revisión no se encontró o no pudo ser eliminada." });
       }
 
@@ -67,7 +65,6 @@ export default async function handler(req, res) {
 }
 
 async function calculateAverageStars(tourId) {
-  console.log('Entrando a calculateAverageStars con tourId:', tourId);
   try {
     const tourObjectId = new mongoose.Types.ObjectId(tourId);
 
@@ -87,7 +84,6 @@ async function calculateAverageStars(tourId) {
 }
 
 async function updateTourReview(tourId, averageStars, reviewQuantity) {
-  console.log('Actualizando review del tourId', tourId, 'con promedio de estrellas:', averageStars);
   const tour = await Tour.findById(tourId);
   tour.review.total = averageStars;
   tour.review.quantity = reviewQuantity;

@@ -114,7 +114,6 @@ export default function CartPage() {
       clearCart();
     }
   }, []);
-  console.log(cartTours);
   async function goToPayment() {
     const response = await axios.post("/api/checkout", {
       kind: cartTours.type,
@@ -124,7 +123,6 @@ export default function CartPage() {
       cartTours,
       currency: cartTours.currency,
     });
-    console.log(response);
     if (response.data.url) {
       window.location = response.data.url;
     }
