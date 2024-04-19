@@ -164,36 +164,36 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
   const [showPriceInMXN, setShowPriceInMXN] = useState(false);
 
   const initialOrderData = {
-    id: tour._id,
-    name: tour.name,
+    id: tour?._id,
+    name: tour?.name,
     type: "Compra",
     adults: 1,
     children: 0,
     date: dayjs(date).format("DD/MM/YYYY"),
     hour: "",
-    price: tour.price?.usd?.adultsPrice,
+    price: tour?.price?.usd?.adultsPrice,
     currency: "USD",
   };
 
   const [orderData, setOrderData] = useState(initialOrderData);
   const priceInMXN =
-    tour.price?.mxn?.adultsPrice * orderData.adults +
-      tour.price?.mxn?.childrenPrice * orderData.children || 0;
+    tour?.price?.mxn?.adultsPrice * orderData.adults +
+      tour?.price?.mxn?.childrenPrice * orderData.children || 0;
   const priceInUSD =
-    tour.price?.usd?.adultsPrice * orderData.adults +
-      tour.price?.usd?.childrenPrice * orderData.children || 0;
+    tour?.price?.usd?.adultsPrice * orderData.adults +
+      tour?.price?.usd?.childrenPrice * orderData.children || 0;
 
   useEffect(() => {
     const calculateTotalPrice = () => {
       let totalPrice;
-      if (orderData.type === "reserva" && tour.reservation) {
+      if (orderData.type === "reserva" && tour?.reservation) {
         totalPrice =
-          tour.price?.mxn?.adultsReservationPrice * orderData.adults +
-            tour.price?.mxn?.childrenReservationPrice * orderData.children || 0;
+          tour?.price?.mxn?.adultsReservationPrice * orderData.adults +
+            tour?.price?.mxn?.childrenReservationPrice * orderData.children || 0;
       } else {
         totalPrice =
-          tour.price?.usd?.adultsPrice * orderData.adults +
-            tour.price?.usd?.childrenPrice * orderData.children || 0;
+          tour?.price?.usd?.adultsPrice * orderData.adults +
+            tour?.price?.usd?.childrenPrice * orderData.children || 0;
       }
       setOrderData({ ...orderData, price: totalPrice });
     };
@@ -214,7 +214,7 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
 
   const isAvailable = (date) => {
     const day = date.day();
-    return tour.unavailableDays.includes(day);
+    return tour?.unavailableDays.includes(day);
   };
 
   const handleTypeClick = (type) => {
@@ -292,7 +292,7 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
   return (
     <ReservationBox sticky={sticky ? "sticky" : ""} ref={reservationsRef}>
       <ResercaTitle>{t("Reserva ahora!!")}!</ResercaTitle>
-      {tour.reservation ? (
+      {tour?.reservation ? (
         <TypeBox>
           <Types
             active={orderData.type === "Reserva"}
@@ -335,7 +335,7 @@ export default function Reservation({ tour, sticky, reservationsRef }) {
 
         <Titles>{t("Hora")}</Titles>
         <Select onChange={handleSelect}>
-          {tour.schedule?.map((schedule) => (
+          {tour?.schedule?.map((schedule) => (
             <option key={schedule.id} value={schedule}>
               {schedule}
             </option>
